@@ -1,0 +1,13 @@
+syntax = "proto3";
+package protocol;
+
+import "login_struct.proto";
+
+message LoginClientLogin {
+
+}
+
+message LoginServerLogin {
+	bool success = 1;
+	repeated Player players = 2;
+}

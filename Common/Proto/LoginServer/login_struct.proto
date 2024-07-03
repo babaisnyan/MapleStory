@@ -1,0 +1,10 @@
+syntax = "proto3";
+package protocol;
+
+import "login_enum.proto";
+
+message Player {
+	uint64 id = 1;
+	string name = 2;
+	PlayerType type = 3;
+}

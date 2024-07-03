@@ -1,0 +1,11 @@
+#pragma once
+#include "types.h"
+#include "db_bind.h"
+
+#include <Windows.h>
+
+{%- macro gen_procedures() -%} {% include 'Procedure.h.jinja' %} {% endmacro %}
+
+namespace sp {
+	{{gen_procedures() | indent}}
+};

@@ -1,0 +1,273 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="core_pch.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="core_macro.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="core_tls.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="database\db_connection_pool.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="database\db_model.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="database\db_synchronizer.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="database\db_bind.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="database\db_connection.h">
+      <Filter>database</Filter>
+    </ClInclude>
+    <ClInclude Include="job\job.h">
+      <Filter>job</Filter>
+    </ClInclude>
+    <ClInclude Include="job\job_queue.h">
+      <Filter>job</Filter>
+    </ClInclude>
+    <ClInclude Include="job\job_timer.h">
+      <Filter>job</Filter>
+    </ClInclude>
+    <ClInclude Include="job\global_queue.h">
+      <Filter>job</Filter>
+    </ClInclude>
+    <ClInclude Include="log\console_log.h">
+      <Filter>log</Filter>
+    </ClInclude>
+    <ClInclude Include="memory\allocator.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="memory\container.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="memory\memory.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="memory\memory_pool.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="memory\object_pool.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="memory\ref_counting.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="memory\type_cast.h">
+      <Filter>memory</Filter>
+    </ClInclude>
+    <ClInclude Include="network\iocp_core.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\iocp_event.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\listener.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\network_address.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\recv_buffer.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\send_buffer.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\service.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\session.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\socket_utils.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="thread\lock.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="thread\thread_manager.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="thread\dead_lock_profiler.h">
+      <Filter>thread</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\buffer_reader.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\buffer_writer.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\file_utils.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\lock_queue.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\string_utils.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\xml\rapidxml_iterators.hpp">
+      <Filter>utils\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\xml\rapidxml_print.hpp">
+      <Filter>utils\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\xml\rapidxml_utils.hpp">
+      <Filter>utils\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\xml\xml_parser.h">
+      <Filter>utils\xml</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\xml\rapidxml.hpp">
+      <Filter>utils\xml</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="database">
+      <UniqueIdentifier>{70e0b87b-562f-4a69-80d8-fed80d72b926}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="job">
+      <UniqueIdentifier>{9ac405d7-2a74-49dd-85f9-ada6c15c7b40}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="log">
+      <UniqueIdentifier>{44b71fdf-3a56-4a8e-a22f-fa2d8e6c8e89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{24acdbb4-50e8-4277-b9ba-9886cee84747}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="memory">
+      <UniqueIdentifier>{e3cefa40-cf27-416b-b201-830de2a69ff7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{95024b22-a293-40ed-b94c-a575ddfbccf8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="thread">
+      <UniqueIdentifier>{631ee9c3-9ec5-40a2-a5e0-cbedc348324b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{61b6d06d-cc02-4ade-a7b1-96fb132a2b8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils\xml">
+      <UniqueIdentifier>{6e1ed80c-b465-41f5-86b4-ae40a0278436}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="core_pch.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="core_tls.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="database\db_connection_pool.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="database\db_model.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="database\db_synchronizer.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="database\db_bind.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="database\db_connection.cpp">
+      <Filter>database</Filter>
+    </ClCompile>
+    <ClCompile Include="job\job.cpp">
+      <Filter>job</Filter>
+    </ClCompile>
+    <ClCompile Include="job\job_queue.cpp">
+      <Filter>job</Filter>
+    </ClCompile>
+    <ClCompile Include="job\job_timer.cpp">
+      <Filter>job</Filter>
+    </ClCompile>
+    <ClCompile Include="job\global_queue.cpp">
+      <Filter>job</Filter>
+    </ClCompile>
+    <ClCompile Include="log\console_log.cpp">
+      <Filter>log</Filter>
+    </ClCompile>
+    <ClCompile Include="memory\memory.cpp">
+      <Filter>memory</Filter>
+    </ClCompile>
+    <ClCompile Include="memory\memory_pool.cpp">
+      <Filter>memory</Filter>
+    </ClCompile>
+    <ClCompile Include="memory\ref_counting.cpp">
+      <Filter>memory</Filter>
+    </ClCompile>
+    <ClCompile Include="memory\allocator.cpp">
+      <Filter>memory</Filter>
+    </ClCompile>
+    <ClCompile Include="network\iocp_event.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\listener.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\network_address.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\recv_buffer.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\send_buffer.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\service.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\session.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\socket_utils.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\iocp_core.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="thread\lock.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="thread\thread_manager.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="thread\dead_lock_profiler.cpp">
+      <Filter>thread</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\buffer_reader.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\buffer_writer.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\file_utils.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\lock_queue.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\string_utils.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\xml\xml_parser.cpp">
+      <Filter>utils\xml</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

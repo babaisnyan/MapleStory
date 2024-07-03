@@ -1,0 +1,89 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="GameContents">
+      <UniqueIdentifier>{87d734e8-6d40-46d2-8476-3446de322f9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="DB">
+      <UniqueIdentifier>{df13b695-c349-4e1d-a6eb-0bce38f36d19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{718fe4fc-db30-45e9-b03b-b056a9f7f7a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{b8d71ad3-ff22-4452-a26c-18c3cbacc43f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol">
+      <UniqueIdentifier>{fd9d0eff-af1d-416b-a853-31e9495527f5}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="game_server.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="game_session_manager.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="game_session.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="player.cpp">
+      <Filter>GameContents</Filter>
+    </ClCompile>
+    <ClCompile Include="room.cpp">
+      <Filter>GameContents</Filter>
+    </ClCompile>
+    <ClCompile Include="login_client_packet_handler.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\login_protocol.pb.cc">
+      <Filter>protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\login_struct.pb.cc">
+      <Filter>protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol\login_enum.pb.cc">
+      <Filter>protocol</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="game_session.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="game_session_manager.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="player.h">
+      <Filter>GameContents</Filter>
+    </ClInclude>
+    <ClInclude Include="room.h">
+      <Filter>GameContents</Filter>
+    </ClInclude>
+    <ClInclude Include="gen_procedures.h">
+      <Filter>DB</Filter>
+    </ClInclude>
+    <ClInclude Include="login_client_packet_handler.h">
+      <Filter>main</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\login_enum.pb.h">
+      <Filter>protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\login_protocol.pb.h">
+      <Filter>protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol\login_struct.pb.h">
+      <Filter>protocol</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="GameDB.xml">
+      <Filter>DB</Filter>
+    </Xml>
+  </ItemGroup>
+</Project>
