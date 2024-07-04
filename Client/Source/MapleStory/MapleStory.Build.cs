@@ -9,9 +9,17 @@ public class MapleStory : ModuleRules
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 		CppStandard = CppStandardVersion.Cpp20;
 
-		PublicDependencyModuleNames.AddRange(new[] {"Core", "CoreUObject", "Engine", "InputCore", "Paper2D", "GameplayAbilities", "GameplayTags", "GameplayTasks", "Json", "JsonUtilities", "EnhancedInput", "UMG", "Slate", "SlateCore", "PaperZD"});
+		PublicDependencyModuleNames.AddRange(new[]
+		{
+			"Core", "CoreUObject", "Engine", "InputCore", "Paper2D",
+			"GameplayAbilities", "GameplayTags", "GameplayTasks", "Json", "JsonUtilities",
+			"EnhancedInput", "UMG", "Slate", "SlateCore", "PaperZD",
+			"Sockets", "Networking"
+		});
 
-		PrivateDependencyModuleNames.AddRange(new string[] { });
+		PrivateDependencyModuleNames.AddRange(new[] {"ProtobufCore"});
+
+		PrivateIncludePaths.AddRange(new[] {"MapleStory/", "MapleStory/Public/Network/Protocols/"});
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

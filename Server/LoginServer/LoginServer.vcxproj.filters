@@ -18,7 +18,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="game_server.cpp">
+    <ClCompile Include="login_server.cpp">
       <Filter>main</Filter>
     </ClCompile>
     <ClCompile Include="pch.cpp">

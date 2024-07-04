@@ -16,6 +16,11 @@
 			]
 		}
 	],
+	"PreBuildSteps": {
+		"Win64": [
+			"cmd /c \"$(ProjectDir)\\..\\Common\\Proto\\LoginServer\\GenPackets.bat\""
+		]
+	},
 	"Plugins": [
 		{
 			"Name": "ModelingToolsEditorMode",

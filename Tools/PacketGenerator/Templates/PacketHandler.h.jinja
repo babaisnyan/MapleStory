@@ -1,7 +1,7 @@
 // ReSharper disable CppInconsistentNaming
 
 #pragma once
-#include "Generated/Protocol.pb.h"
+#include "protocol/login_protocol.pb.h"
 
 using PacketHandler = std::function<bool(PacketSessionRef&, std::byte*, int32_t)>;
 
@@ -11,7 +11,7 @@ enum : uint16_t {
 {%- endfor %}
 };
 
-bool HandleGameInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
+bool HandleLoginInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
 
 {%- for packet in parser.recv_packet %}
 bool Handle{{packet.name}}(const PacketSessionRef& session, const protocol::{{packet.name}}& packet);
@@ -23,7 +23,7 @@ public:
     _packet_handler_map.reserve(UINT16_MAX);
 
     for (uint16_t i = 0; i < UINT16_MAX; i++) {
-      _packet_handler_map[i] = HandleGameInvalid;
+      _packet_handler_map[i] = HandleLoginInvalid;
     }
 
 {% for packet in parser.recv_packet %}

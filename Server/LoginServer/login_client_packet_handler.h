@@ -6,8 +6,9 @@
 using PacketHandler = std::function<bool(PacketSessionRef&, std::byte*, int32_t)>;
 
 enum : uint16_t {
-  kPktLoginClientLogin = 1000,
-  kPktLoginServerLogin = 1001,
+  PKT_LOGINCLIENTLOGIN = 1000,
+  PKT_LOGINSERVERLOGIN = 1001,
+  PKT_LOGINSERVERCHAT = 1002,
 };
 
 bool HandleLoginInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
@@ -23,7 +24,7 @@ public:
     }
 
 
-    _packet_handler_map[kPktLoginClientLogin] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+    _packet_handler_map[PKT_LOGINCLIENTLOGIN] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
       return HandlePacket<protocol::LoginClientLogin>(HandleLoginClientLogin, session, buffer, len);
     };
   }
@@ -40,7 +41,10 @@ public:
 
 
   static SendBufferRef MakeSendBuffer(const protocol::LoginServerLogin& packet) { 
-    return MakeSendBufferInternal(packet, kPktLoginServerLogin); 
+    return MakeSendBufferInternal(packet, PKT_LOGINSERVERLOGIN); 
+  }
+  static SendBufferRef MakeSendBuffer(const protocol::LoginServerChat& packet) { 
+    return MakeSendBufferInternal(packet, PKT_LOGINSERVERCHAT); 
   }
 
 private:

@@ -11,3 +11,7 @@ message LoginServerLogin {
 	bool success = 1;
 	repeated Player players = 2;
 }
+
+message LoginServerChat {
+	string message = 1;
+}

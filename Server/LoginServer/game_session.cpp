@@ -20,6 +20,8 @@ void GameSession::OnDisconnected() {
 
   _player = nullptr;
   _players.clear();
+
+  std::cout << "GameSession Disconnected\n";
 }
 
 void GameSession::OnRecvPacket(std::byte* buffer, const int32_t len) {

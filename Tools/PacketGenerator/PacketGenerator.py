@@ -28,12 +28,16 @@ def main():
     env = jinja2.Environment(loader=file_loader)
 
     tmeplate = env.get_template("PacketHandler.h.jinja")
+    tmeplate2 = env.get_template("PacketHandler2.h.jinja")
     output = tmeplate.render(parser=parser, output=args.output)
+    output2 = tmeplate2.render(parser=parser, output=args.output)
 
     with open(f"{args.output}.h", "w+") as f:
         f.write(output)
 
-    print(output)
+    with open(f"{args.output}2.h", "w+") as f:
+        f.write(output2)
+
     return
 
 

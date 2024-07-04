@@ -7,7 +7,7 @@ using PacketHandler = std::function<bool(PacketSessionRef&, std::byte*, int32_t)
 
 enum : uint16_t {
 {%- for packet in parser.total_packet %}
-  kPkt{{packet.name}} = {{packet.id}},
+  PKT_{{packet.name_upper}} = {{packet.id}},
 {%- endfor %}
 };
 
@@ -27,7 +27,7 @@ public:
     }
 
 {% for packet in parser.recv_packet %}
-    _packet_handler_map[kPkt{{packet.name}}] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+    _packet_handler_map[PKT_{{packet.name_upper}}] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
       return HandlePacket<protocol::{{packet.name}}>(Handle{{packet.name}}, session, buffer, len);
     };
 {%- endfor %}
@@ -45,7 +45,7 @@ public:
 
 {% for packet in parser.send_packet %}
   static SendBufferRef MakeSendBuffer(const protocol::{{packet.name}}& packet) { 
-    return MakeSendBufferInternal(packet, kPkt{{packet.name}}); 
+    return MakeSendBufferInternal(packet, PKT_{{packet.name_upper}}); 
   }
 {%- endfor %}
 

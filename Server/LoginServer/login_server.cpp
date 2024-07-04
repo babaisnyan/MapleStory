@@ -3,6 +3,7 @@
 #include <functional>
 
 #include "game_session.h"
+#include "game_session_manager.h"
 #include "gen_procedures.h"
 #include "login_client_packet_handler.h"
 #include "database/db_connection_pool.h"
@@ -53,6 +54,15 @@ int main() {
         DoWorkerJob(service);
       }
     });
+  }
+
+  while (true) {
+    protocol::LoginServerChat packet;
+    packet.set_message("Hello");
+    auto send_buffer = LoginClientPacketHandler::MakeSendBuffer(packet);
+
+    GameSessionManager::GetInstance().Broadcast(send_buffer);
+    std::this_thread::sleep_for(1s);
   }
 
   ThreadManager::GetInstance().Join();
