@@ -12,17 +12,15 @@ enum : uint16 {
   PKT_LOGINSERVERCHAT = 1002,
 };
 
-bool HandleGameInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len);
+bool HandleLoginInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len);
 bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::LoginServerLogin& Packet);
 bool HandleLoginServerChat(const FPacketSessionRef& Session, const protocol::LoginServerChat& Packet);
 
 class FLoginServerPacketHandler {
 public:
   static void Init() {
-    PacketHandlers.Reserve(UINT16_MAX);
-
-    for (uint16 i = 0; i < UINT16_MAX; i++) {
-      PacketHandlers[i] = HandleGameInvalid;
+    for (uint16 i = 0; i < UINT16_MAX; ++i) {
+      PacketHandlers[i] = HandleLoginInvalid;
     }
 
     PacketHandlers[PKT_LOGINSERVERLOGIN] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
@@ -36,7 +34,7 @@ public:
   static bool HandlePacket(FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
     const FPacketHeader* Header = reinterpret_cast<FPacketHeader*>(Buffer);
 
-    if (!PacketHandlers.Contains(Header->PacketId)) {
+    if (Header->PacketId >= UINT16_MAX) {
       return false;
     }
 
@@ -76,5 +74,5 @@ private:
   }
 
 private:
-  inline static TMap<uint16, FPacketHandlerFunction> PacketHandlers;
+  inline static FPacketHandlerFunction PacketHandlers[UINT16_MAX] = {};
 };

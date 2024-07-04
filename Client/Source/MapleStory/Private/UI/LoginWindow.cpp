@@ -3,8 +3,8 @@
 
 #include "UI/LoginWindow.h"
 
+#include "MapleGameInstance.h"
 #include "Kismet/GameplayStatics.h"
-#include "MapleStory/MapleGameInstance.h"
 
 void ULoginWindow::TryLogin() {
 	const auto GameInstance = Cast<UMapleGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));

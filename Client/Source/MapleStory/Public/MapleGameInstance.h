@@ -1,12 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "MapleStory.h"
 
+#include "Data/Enum/ELoginState.h"
 #include "Engine/GameInstance.h"
-#include "Public/Data/Enum/ELoginState.h"
 
 #include "MapleGameInstance.generated.h"
 
@@ -28,6 +26,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void HandleRecvPackets() const;
 
+	void Shutdown() override;
+	
 public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeLoginState(ELoginState NewState);

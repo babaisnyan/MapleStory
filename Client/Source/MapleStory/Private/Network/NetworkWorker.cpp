@@ -67,7 +67,7 @@ bool FRecvWorker::ReceivePacket(TArray<uint8>& OutPacket) const {
 
 bool FRecvWorker::ReceiveDesiredBytes(uint8* Buffer, int32 Size) const {
 	uint32 PendingDataSize = 0;
-
+	
 	if (!Socket->HasPendingData(PendingDataSize) || PendingDataSize <= 0) {
 		return false;
 	}

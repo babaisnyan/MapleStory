@@ -28,6 +28,8 @@ public:
 	void EnqueueRecvPacket(const TArray<uint8>& Packet);
 
 	bool DequeueSendPacket(FSendBufferRef& SendBuffer) {
+		if (SendPacketQueue.IsEmpty()) return false;
+		
 		return SendPacketQueue.Dequeue(SendBuffer);
 	}
 

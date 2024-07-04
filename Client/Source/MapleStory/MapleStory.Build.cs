@@ -4,7 +4,7 @@ using UnrealBuildTool;
 
 public class MapleStory : ModuleRules
 {
-	public MapleStory(ReadOnlyTargetRules Target) : base(Target)
+	public MapleStory(ReadOnlyTargetRules target) : base(target)
 	{
 		PCHUsage = PCHUsageMode.UseExplicitOrSharedPCHs;
 		CppStandard = CppStandardVersion.Cpp20;
@@ -19,7 +19,7 @@ public class MapleStory : ModuleRules
 
 		PrivateDependencyModuleNames.AddRange(new[] {"ProtobufCore"});
 
-		PrivateIncludePaths.AddRange(new[] {"MapleStory/", "MapleStory/Public/Network/Protocols/"});
+		PrivateIncludePaths.AddRange(new[] {"MapleStory/Public", "MapleStory/Public/Network/Protocols/"});
 
 		// Uncomment if you are using Slate UI
 		// PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });

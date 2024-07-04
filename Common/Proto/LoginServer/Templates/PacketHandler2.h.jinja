@@ -12,7 +12,7 @@ enum : uint16 {
 {%- endfor %}
 };
 
-bool HandleGameInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len);
+bool HandleLoginInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len);
 
 {%- for packet in parser.recv_packet %}
 bool Handle{{packet.name}}(const FPacketSessionRef& Session, const protocol::{{packet.name}}& Packet);
@@ -21,10 +21,8 @@ bool Handle{{packet.name}}(const FPacketSessionRef& Session, const protocol::{{p
 class F{{output}} {
 public:
   static void Init() {
-    PacketHandlers.Reserve(UINT16_MAX);
-
-    for (uint16 i = 0; i < UINT16_MAX; i++) {
-      PacketHandlers[i] = HandleGameInvalid;
+    for (uint16 i = 0; i < UINT16_MAX; ++i) {
+      PacketHandlers[i] = HandleLoginInvalid;
     }
 {% for packet in parser.recv_packet %}
     PacketHandlers[PKT_{{packet.name_upper}}] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
@@ -36,7 +34,7 @@ public:
   static bool HandlePacket(FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
     const FPacketHeader* Header = reinterpret_cast<FPacketHeader*>(Buffer);
 
-    if (!PacketHandlers.Contains(Header->PacketId)) {
+    if (Header->PacketId >= UINT16_MAX) {
       return false;
     }
 
@@ -77,5 +75,5 @@ private:
   }
 
 private:
-  inline static TMap<uint16, FPacketHandlerFunction> PacketHandlers;
+  inline static FPacketHandlerFunction PacketHandlers[UINT16_MAX] = {};
 };
