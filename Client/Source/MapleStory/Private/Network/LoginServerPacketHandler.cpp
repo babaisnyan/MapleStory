@@ -10,7 +10,7 @@ bool HandleLoginInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 L
 }
 
 bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::LoginServerLogin& Packet) {
-	if (Packet.success()) {
+	if (Packet.result() == protocol::Success) {
 		if(!FLoginServerPacketHandler::GameInstance) {
 			return false;
 		}
@@ -32,6 +32,10 @@ bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::Lo
 
 		LoginController->LoginWindow->RemoveFromParent();
 		FLoginServerPacketHandler::GameInstance->ChangeLoginState(ELoginState::InGame);
+	} else {
+		const int8 ErrorCode = Packet.result();
+
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Login failed with error code: %d"), ErrorCode));
 	}
 
 	return true;

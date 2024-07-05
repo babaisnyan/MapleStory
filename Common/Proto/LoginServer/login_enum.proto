@@ -6,4 +6,5 @@ enum LoginResult {
 	InvalidUsername = 1;
 	InvalidPassword = 2;
 	AlreadyLoggedIn = 3;
+	ServerError = 4;
 }

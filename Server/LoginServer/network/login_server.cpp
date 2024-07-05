@@ -18,10 +18,11 @@ void LoginServer::Init() {
   SocketUtils::Init();
   LoginClientPacketHandler::Init();
 
-  ASSERT_CRASH(DbConnectionPool::GetInstance().Connect(1, L"DRIVER={SQL Server};SERVER=BABA\\SQLEXPRESS;DATABASE=Maplestory;Trusted_Connection=Yes"));
+  ASSERT_CRASH(DbConnectionPool::GetInstance().Connect(10, L"DRIVER={SQL Server};SERVER=BABA\\SQLEXPRESS;DATABASE=Maplestory;Trusted_Connection=Yes"));
   DbConnection*  connection = DbConnectionPool::GetInstance().GetConnection();
   DbSynchronizer synchronizer(*connection);
   synchronizer.Synchronize(L"GameDB.xml");
+  DbConnectionPool::GetInstance().ReleaseConnection(connection);
 
   StartLoginServer();
 }

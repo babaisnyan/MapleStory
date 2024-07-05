@@ -61,12 +61,13 @@ enum LoginResult : int {
   InvalidUsername = 1,
   InvalidPassword = 2,
   AlreadyLoggedIn = 3,
+  ServerError = 4,
   LoginResult_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   LoginResult_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool LoginResult_IsValid(int value);
 constexpr LoginResult LoginResult_MIN = Success;
-constexpr LoginResult LoginResult_MAX = AlreadyLoggedIn;
+constexpr LoginResult LoginResult_MAX = ServerError;
 constexpr int LoginResult_ARRAYSIZE = LoginResult_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LoginResult_descriptor();

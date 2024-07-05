@@ -11,9 +11,10 @@
 void LoginHandler::HandleLogin(PacketSessionRef session, protocol::LoginClientLogin request) {
   const LoginSessionRef      login_session = std::static_pointer_cast<LoginSession>(session);
   protocol::LoginServerLogin response;
+  response.set_result(protocol::ServerError);
 
   if (auto connection = DbConnectionPool::GetInstance().GetConnection()) {
-    DbBind<2, 2> bind(*connection, L"CALL dbo.spLogin(?, ?)");
+    DbBind<2, 2> bind(*connection, L"{CALL dbo.spLogin(?, ?)}");
 
     const String username = ConvertToWide(request.username()).value_or(L"");
     const String password = ConvertToWide(request.password()).value_or(L"");
