@@ -12,10 +12,12 @@ public:
   bool Connect(SQLHENV env, const wchar_t* connection_string);
   void Clear();
 
-  bool    Execute(const wchar_t* query) const;
-  bool    Fetch() const;
-  int32_t GetRowCount() const;
-  void    Unbind() const;
+  bool      Execute(const wchar_t* query) const;
+  bool      Fetch() const;
+  int32_t   GetRowCount() const;
+  void      GetResultColumnCount(SQLSMALLINT* count) const;
+  SQLRETURN GetMoreResult() const;
+  void      Unbind() const;
 
 public:
   bool BindParam(int32_t param_index, bool* value, SQLLEN* index);
@@ -26,7 +28,7 @@ public:
   bool BindParam(int32_t param_index, int32_t* value, SQLLEN* index);
   bool BindParam(int32_t param_index, int64_t* value, SQLLEN* index);
   bool BindParam(int32_t param_index, TIMESTAMP_STRUCT* value, SQLLEN* index);
-  bool BindParam(int32_t param_index, wchar_t* str, SQLLEN* index);
+  bool BindParam(int32_t param_index, const wchar_t* str, SQLLEN* index);
   bool BindParam(int32_t param_index, const std::byte* data, int32_t size, SQLLEN* index);
 
   bool BindCol(int32_t col_index, bool* value, SQLLEN* index);

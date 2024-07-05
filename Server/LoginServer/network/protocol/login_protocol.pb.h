@@ -31,6 +31,7 @@
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/unknown_field_set.h>
+#include "login_enum.pb.h"
 #include "login_struct.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
@@ -335,15 +336,15 @@ class LoginServerLogin final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kSuccessFieldNumber = 1,
+    kResultFieldNumber = 1,
   };
-  // bool success = 1;
-  void clear_success();
-  bool success() const;
-  void set_success(bool value);
+  // .protocol.LoginResult result = 1;
+  void clear_result();
+  ::protocol::LoginResult result() const;
+  void set_result(::protocol::LoginResult value);
   private:
-  bool _internal_success() const;
-  void _internal_set_success(bool value);
+  ::protocol::LoginResult _internal_result() const;
+  void _internal_set_result(::protocol::LoginResult value);
   public:
 
   // @@protoc_insertion_point(class_scope:protocol.LoginServerLogin)
@@ -353,7 +354,7 @@ class LoginServerLogin final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  bool success_;
+  int result_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_login_5fprotocol_2eproto;
 };
@@ -599,24 +600,24 @@ inline void LoginClientLogin::set_allocated_password(std::string* password) {
 
 // LoginServerLogin
 
-// bool success = 1;
-inline void LoginServerLogin::clear_success() {
-  success_ = false;
+// .protocol.LoginResult result = 1;
+inline void LoginServerLogin::clear_result() {
+  result_ = 0;
 }
-inline bool LoginServerLogin::_internal_success() const {
-  return success_;
+inline ::protocol::LoginResult LoginServerLogin::_internal_result() const {
+  return static_cast< ::protocol::LoginResult >(result_);
 }
-inline bool LoginServerLogin::success() const {
-  // @@protoc_insertion_point(field_get:protocol.LoginServerLogin.success)
-  return _internal_success();
+inline ::protocol::LoginResult LoginServerLogin::result() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginServerLogin.result)
+  return _internal_result();
 }
-inline void LoginServerLogin::_internal_set_success(bool value) {
+inline void LoginServerLogin::_internal_set_result(::protocol::LoginResult value) {
   
-  success_ = value;
+  result_ = value;
 }
-inline void LoginServerLogin::set_success(bool value) {
-  _internal_set_success(value);
-  // @@protoc_insertion_point(field_set:protocol.LoginServerLogin.success)
+inline void LoginServerLogin::set_result(::protocol::LoginResult value) {
+  _internal_set_result(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginServerLogin.result)
 }
 
 // -------------------------------------------------------------------

@@ -13,7 +13,7 @@ using CondVar = std::condition_variable;
 using UniqueLock = std::unique_lock<Mutex>;
 using LockGuard = std::lock_guard<Mutex>;
 
-using SessionRef = std::shared_ptr<class Session>;
+using String = std::wstring;
 
 #define DECLARE_SHARED_PTR(name) using name##Ref = std::shared_ptr<class name>;
 #define DECLARE_CONST_SHARED_PTR(name) using Const##name##Ref = std::shared_ptr<const class name>;

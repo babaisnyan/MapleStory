@@ -81,6 +81,14 @@ int32_t DbConnection::GetRowCount() const {
   return -1;
 }
 
+void DbConnection::GetResultColumnCount(SQLSMALLINT* count) const {
+  SQLNumResultCols(_statement, count);
+}
+
+SQLRETURN DbConnection::GetMoreResult() const {
+  return SQLMoreResults(_statement);
+}
+
 void DbConnection::Unbind() const {
   SQLFreeStmt(_statement, SQL_UNBIND);
   SQLFreeStmt(_statement, SQL_RESET_PARAMS);
@@ -119,7 +127,7 @@ bool DbConnection::BindParam(const int32_t param_index, TIMESTAMP_STRUCT* value,
   return BindParam(param_index, SQL_C_TYPE_TIMESTAMP, SQL_TYPE_TIMESTAMP, size32(TIMESTAMP_STRUCT), value, index);
 }
 
-bool DbConnection::BindParam(const int32_t param_index, wchar_t* str, SQLLEN* index) {
+bool DbConnection::BindParam(const int32_t param_index, const wchar_t* str, SQLLEN* index) {
   const SQLULEN size = (wcslen(str) + 1) * sizeof(wchar_t);
   *index = SQL_NTSL;
 

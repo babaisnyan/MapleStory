@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="GameContents">
-      <UniqueIdentifier>{87d734e8-6d40-46d2-8476-3446de322f9e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="DB">
       <UniqueIdentifier>{df13b695-c349-4e1d-a6eb-0bce38f36d19}</UniqueIdentifier>
     </Filter>
@@ -13,66 +10,84 @@
     <Filter Include="main">
       <UniqueIdentifier>{b8d71ad3-ff22-4452-a26c-18c3cbacc43f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="protocol">
+    <Filter Include="network">
+      <UniqueIdentifier>{d9fd383c-3f92-450d-80c9-0300edb8e7c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\protocol">
       <UniqueIdentifier>{fd9d0eff-af1d-416b-a853-31e9495527f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="handler">
+      <UniqueIdentifier>{4238e849-c9f4-438a-8645-6c50f89ac5f0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>utils</Filter>
     </ClCompile>
-    <ClCompile Include="login_session_manager.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="login_session.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="login_client_packet_handler.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="protocol\login_protocol.pb.cc">
-      <Filter>protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="protocol\login_struct.pb.cc">
-      <Filter>protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="protocol\login_enum.pb.cc">
-      <Filter>protocol</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>main</Filter>
     </ClCompile>
-    <ClCompile Include="login_server.cpp">
-      <Filter>main</Filter>
+    <ClCompile Include="network\protocol\login_enum.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\login_protocol.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\login_struct.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\login_client_packet_handler.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\login_server.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\login_session.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\login_session_manager.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="handler\login_handler.cpp">
+      <Filter>handler</Filter>
+    </ClCompile>
+    <ClCompile Include="handler\login_manager.cpp">
+      <Filter>handler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="login_session.h">
-      <Filter>main</Filter>
-    </ClInclude>
-    <ClInclude Include="login_session_manager.h">
-      <Filter>main</Filter>
-    </ClInclude>
     <ClInclude Include="gen_procedures.h">
       <Filter>DB</Filter>
     </ClInclude>
-    <ClInclude Include="login_client_packet_handler.h">
-      <Filter>main</Filter>
+    <ClInclude Include="network\protocol\login_enum.pb.h">
+      <Filter>network\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="protocol\login_enum.pb.h">
-      <Filter>protocol</Filter>
+    <ClInclude Include="network\protocol\login_protocol.pb.h">
+      <Filter>network\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="protocol\login_protocol.pb.h">
-      <Filter>protocol</Filter>
+    <ClInclude Include="network\protocol\login_struct.pb.h">
+      <Filter>network\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="protocol\login_struct.pb.h">
-      <Filter>protocol</Filter>
+    <ClInclude Include="network\login_client_packet_handler.h">
+      <Filter>network</Filter>
     </ClInclude>
-    <ClInclude Include="login_server.h">
-      <Filter>main</Filter>
+    <ClInclude Include="network\login_server.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\login_session.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\login_session_manager.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="handler\login_handler.h">
+      <Filter>handler</Filter>
+    </ClInclude>
+    <ClInclude Include="handler\login_manager.h">
+      <Filter>handler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

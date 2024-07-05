@@ -32,7 +32,8 @@ struct LoginClientLoginDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT LoginClientLoginDefaultTypeInternal _LoginClientLogin_default_instance_;
 constexpr LoginServerLogin::LoginServerLogin(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : success_(false){}
+  : result_(0)
+{}
 struct LoginServerLoginDefaultTypeInternal {
   constexpr LoginServerLoginDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -72,7 +73,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_login_5fprotocol_2eproto::offs
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::protocol::LoginServerLogin, success_),
+  PROTOBUF_FIELD_OFFSET(::protocol::LoginServerLogin, result_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::protocol::LoginServerChat, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -93,19 +94,21 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 };
 
 const char descriptor_table_protodef_login_5fprotocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\024login_protocol.proto\022\010protocol\032\022login_"
-  "struct.proto\"6\n\020LoginClientLogin\022\020\n\010user"
-  "name\030\001 \001(\t\022\020\n\010password\030\002 \001(\t\"#\n\020LoginSer"
-  "verLogin\022\017\n\007success\030\001 \001(\010\"\"\n\017LoginServer"
+  "\n\024login_protocol.proto\022\010protocol\032\020login_"
+  "enum.proto\032\022login_struct.proto\"6\n\020LoginC"
+  "lientLogin\022\020\n\010username\030\001 \001(\t\022\020\n\010password"
+  "\030\002 \001(\t\"9\n\020LoginServerLogin\022%\n\006result\030\001 \001"
+  "(\0162\025.protocol.LoginResult\"\"\n\017LoginServer"
   "Chat\022\017\n\007message\030\001 \001(\tb\006proto3"
   ;
-static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_login_5fprotocol_2eproto_deps[1] = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_login_5fprotocol_2eproto_deps[2] = {
+  &::descriptor_table_login_5fenum_2eproto,
   &::descriptor_table_login_5fstruct_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_login_5fprotocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_login_5fprotocol_2eproto = {
-  false, false, 189, descriptor_table_protodef_login_5fprotocol_2eproto, "login_protocol.proto", 
-  &descriptor_table_login_5fprotocol_2eproto_once, descriptor_table_login_5fprotocol_2eproto_deps, 1, 3,
+  false, false, 229, descriptor_table_protodef_login_5fprotocol_2eproto, "login_protocol.proto", 
+  &descriptor_table_login_5fprotocol_2eproto_once, descriptor_table_login_5fprotocol_2eproto_deps, 2, 3,
   schemas, file_default_instances, TableStruct_login_5fprotocol_2eproto::offsets,
   file_level_metadata_login_5fprotocol_2eproto, file_level_enum_descriptors_login_5fprotocol_2eproto, file_level_service_descriptors_login_5fprotocol_2eproto,
 };
@@ -379,12 +382,12 @@ LoginServerLogin::LoginServerLogin(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 LoginServerLogin::LoginServerLogin(const LoginServerLogin& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  success_ = from.success_;
+  result_ = from.result_;
   // @@protoc_insertion_point(copy_constructor:protocol.LoginServerLogin)
 }
 
 void LoginServerLogin::SharedCtor() {
-success_ = false;
+result_ = 0;
 }
 
 LoginServerLogin::~LoginServerLogin() {
@@ -413,7 +416,7 @@ void LoginServerLogin::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  success_ = false;
+  result_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -423,11 +426,12 @@ const char* LoginServerLogin::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPA
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // bool success = 1;
+      // .protocol.LoginResult result = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+          _internal_set_result(static_cast<::protocol::LoginResult>(val));
         } else goto handle_unusual;
         continue;
       default: {
@@ -459,10 +463,11 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // bool success = 1;
-  if (this->success() != 0) {
+  // .protocol.LoginResult result = 1;
+  if (this->result() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_result(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -481,9 +486,10 @@ size_t LoginServerLogin::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // bool success = 1;
-  if (this->success() != 0) {
-    total_size += 1 + 1;
+  // .protocol.LoginResult result = 1;
+  if (this->result() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_result());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -517,8 +523,8 @@ void LoginServerLogin::MergeFrom(const LoginServerLogin& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.success() != 0) {
-    _internal_set_success(from._internal_success());
+  if (from.result() != 0) {
+    _internal_set_result(from._internal_result());
   }
 }
 
@@ -543,7 +549,7 @@ bool LoginServerLogin::IsInitialized() const {
 void LoginServerLogin::InternalSwap(LoginServerLogin* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(success_, other->success_);
+  swap(result_, other->result_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata LoginServerLogin::GetMetadata() const {

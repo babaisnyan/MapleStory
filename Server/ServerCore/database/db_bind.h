@@ -30,7 +30,10 @@ public:
     return _connection.Execute(_query);
   }
 
-  bool Fetch() { return _connection.Fetch(); }
+  bool Fetch() const { return _connection.Fetch(); }
+
+  void      GetResultColumnCount(SQLSMALLINT* count) const { _connection.GetResultColumnCount(count); }
+  SQLRETURN GetMoreResult() const { return _connection.GetMoreResult(); }
 
 public:
   template <typename T>
@@ -39,7 +42,7 @@ public:
     _param_flag |= (1 << param_index);
   }
 
-  void BindParam(int32_t param_index, wchar_t* str) {
+  void BindParam(int32_t param_index, const wchar_t* str) {
     _connection.BindParam(param_index + 1, str, &_param_index[param_index]);
     _param_flag |= (1 << param_index);
   }

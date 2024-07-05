@@ -39,8 +39,8 @@ using Stack = std::stack<T, Container>;
 template <typename T, typename Container = Vector<T>, typename Pr = std::less<typename Container::value_type>>
 using PriorityQueue = std::priority_queue<T, Container, Pr>;
 
-using String = std::basic_string<wchar_t, std::char_traits<wchar_t>, StlAllocator<wchar_t>>;
-using StringView = std::basic_string_view<wchar_t>;
+// using String = std::basic_string<wchar_t, std::char_traits<wchar_t>, StlAllocator<wchar_t>>;
+// using StringView = std::basic_string_view<wchar_t>;
 
 template <typename K, typename V, typename Hash = std::hash<K>, typename KeyEq = std::equal_to<K>>
 using HashMap = std::unordered_map<K, V, Hash, KeyEq, StlAllocator<std::pair<const K, V>>>;

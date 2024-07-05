@@ -9,12 +9,12 @@ GenPackets.exe --path=./login_protocol.proto --output=LoginServerPacketHandler -
 
 chdir Generated
 
-XCOPY /Y login_enum.pb.h "../../../../Server/LoginServer/protocol"
-XCOPY /Y login_enum.pb.cc "../../../../Server/LoginServer/protocol"
-XCOPY /Y login_struct.pb.h "../../../../Server/LoginServer/protocol"
-XCOPY /Y login_struct.pb.cc "../../../../Server/LoginServer/protocol"
-XCOPY /Y login_protocol.pb.h "../../../../Server/LoginServer/protocol"
-XCOPY /Y login_protocol.pb.cc "../../../../Server/LoginServer/protocol"
+XCOPY /Y login_enum.pb.h "../../../../Server/LoginServer/network/protocol"
+XCOPY /Y login_enum.pb.cc "../../../../Server/LoginServer/network/protocol"
+XCOPY /Y login_struct.pb.h "../../../../Server/LoginServer/network/protocol"
+XCOPY /Y login_struct.pb.cc "../../../../Server/LoginServer/network/protocol"
+XCOPY /Y login_protocol.pb.h "../../../../Server/LoginServer/network/protocol"
+XCOPY /Y login_protocol.pb.cc "../../../../Server/LoginServer/network/protocol"
 
 XCOPY /Y login_enum.pb.h "../../../../Client/Source/MapleStory/Public/Network/Protocols"
 XCOPY /Y login_enum.pb.cc "../../../../Client/Source/MapleStory/Private/Network/Protocols"
@@ -29,7 +29,7 @@ DEL /S /Q /F *.pb.cc
 chdir ..
 MOVE .\LoginClientPacketHandler.h .\login_client_packet_handler.h
 MOVE .\LoginServerPacketHandler2.h .\LoginServerPacketHandler.h
-XCOPY /Y login_client_packet_handler.h "../../../Server/LoginServer"
+XCOPY /Y login_client_packet_handler.h "../../../Server/LoginServer/network"
 XCOPY /Y LoginServerPacketHandler.h "../../../Client/Source/MapleStory/Public/Network"
 DEL /S /Q /F *.h
 

@@ -1,6 +1,7 @@
 syntax = "proto3";
 package protocol;
 
+import "login_enum.proto";
 import "login_struct.proto";
 
 message LoginClientLogin {
