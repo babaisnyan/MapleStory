@@ -9,7 +9,7 @@
 #include "Network/LoginServerPacketHandler.h"
 #include "Network/PacketSession.h"
 
-void UMapleGameInstance::ConnectToLoginServer() {
+bool UMapleGameInstance::ConnectToLoginServer() {
 	Socket = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateSocket(TEXT("Stream"), TEXT("Login Client Socket"));
 	Socket->SetNoDelay(true);
 
@@ -20,20 +20,20 @@ void UMapleGameInstance::ConnectToLoginServer() {
 	Address->SetIp(Ip.Value);
 	Address->SetPort(LoginPort);
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Connecting to %s:%d"), *IpAddress, LoginPort));
-
 	const bool bConnected = Socket->Connect(*Address);
 
 	if (bConnected) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Connected to Login Server"));
 
+		FLoginServerPacketHandler::Init(this);
 		Session = MakeShared<FPacketSession>(Socket);
 		Session->Run();
 	} else {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Failed to connect to Login Server"));
 	}
 
-	FLoginServerPacketHandler::Init();
+	bIsConnected = bConnected;
+	return bConnected;
 }
 
 void UMapleGameInstance::DisconnectFromLoginServer() {
@@ -44,7 +44,12 @@ void UMapleGameInstance::DisconnectFromLoginServer() {
 	}
 }
 
-void UMapleGameInstance::SendPacket(FSendBufferRef SendBuffer) {}
+void UMapleGameInstance::SendPacket(const FSendBufferRef& SendBuffer) const {
+	if (Socket == nullptr || Session == nullptr)
+		return;
+
+	Session->SendPacket(SendBuffer);
+}
 
 void UMapleGameInstance::HandleRecvPackets() const {
 	if (!Socket || !Session) return;
@@ -55,7 +60,7 @@ void UMapleGameInstance::HandleRecvPackets() const {
 void UMapleGameInstance::Shutdown() {
 	Super::Shutdown();
 
-	if(Session) {
+	if (Session) {
 		Session->Disconnect();
 	}
 

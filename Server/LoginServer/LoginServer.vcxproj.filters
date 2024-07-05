@@ -18,23 +18,14 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="login_server.cpp">
-      <Filter>main</Filter>
-    </ClCompile>
     <ClCompile Include="pch.cpp">
       <Filter>utils</Filter>
     </ClCompile>
-    <ClCompile Include="game_session_manager.cpp">
+    <ClCompile Include="login_session_manager.cpp">
       <Filter>main</Filter>
     </ClCompile>
-    <ClCompile Include="game_session.cpp">
+    <ClCompile Include="login_session.cpp">
       <Filter>main</Filter>
-    </ClCompile>
-    <ClCompile Include="player.cpp">
-      <Filter>GameContents</Filter>
-    </ClCompile>
-    <ClCompile Include="room.cpp">
-      <Filter>GameContents</Filter>
     </ClCompile>
     <ClCompile Include="login_client_packet_handler.cpp">
       <Filter>main</Filter>
@@ -48,22 +39,22 @@
     <ClCompile Include="protocol\login_enum.pb.cc">
       <Filter>protocol</Filter>
     </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="login_server.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="game_session.h">
+    <ClInclude Include="login_session.h">
       <Filter>main</Filter>
     </ClInclude>
-    <ClInclude Include="game_session_manager.h">
+    <ClInclude Include="login_session_manager.h">
       <Filter>main</Filter>
-    </ClInclude>
-    <ClInclude Include="player.h">
-      <Filter>GameContents</Filter>
-    </ClInclude>
-    <ClInclude Include="room.h">
-      <Filter>GameContents</Filter>
     </ClInclude>
     <ClInclude Include="gen_procedures.h">
       <Filter>DB</Filter>
@@ -79,6 +70,9 @@
     </ClInclude>
     <ClInclude Include="protocol\login_struct.pb.h">
       <Filter>protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="login_server.h">
+      <Filter>main</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

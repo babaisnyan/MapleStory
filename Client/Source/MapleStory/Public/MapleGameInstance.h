@@ -16,18 +16,18 @@ class MAPLESTORY_API UMapleGameInstance : public UGameInstance {
 
 public:
 	UFUNCTION(BlueprintCallable)
-	void ConnectToLoginServer();
+	bool ConnectToLoginServer();
 
 	UFUNCTION(BlueprintCallable)
 	void DisconnectFromLoginServer();
-	
-	void SendPacket(FSendBufferRef SendBuffer);
-	
+
+	void SendPacket(const FSendBufferRef& SendBuffer) const;
+
 	UFUNCTION(BlueprintCallable)
 	void HandleRecvPackets() const;
 
 	void Shutdown() override;
-	
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeLoginState(ELoginState NewState);
@@ -35,6 +35,9 @@ public:
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	ELoginState LoginState = ELoginState::Login;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	bool bIsConnected = false;
 
 private:
 	FSocket* Socket = nullptr;

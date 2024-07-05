@@ -181,6 +181,38 @@ class LoginClientLogin final :
 
   // accessors -------------------------------------------------------
 
+  enum : int {
+    kUsernameFieldNumber = 1,
+    kPasswordFieldNumber = 2,
+  };
+  // string username = 1;
+  void clear_username();
+  const std::string& username() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_username(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_username();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_username();
+  void set_allocated_username(std::string* username);
+  private:
+  const std::string& _internal_username() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_username(const std::string& value);
+  std::string* _internal_mutable_username();
+  public:
+
+  // string password = 2;
+  void clear_password();
+  const std::string& password() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_password(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_password();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_password();
+  void set_allocated_password(std::string* password);
+  private:
+  const std::string& _internal_password() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_password(const std::string& value);
+  std::string* _internal_mutable_password();
+  public:
+
   // @@protoc_insertion_point(class_scope:protocol.LoginClientLogin)
  private:
   class _Internal;
@@ -188,6 +220,8 @@ class LoginClientLogin final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr username_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr password_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_login_5fprotocol_2eproto;
 };
@@ -301,27 +335,8 @@ class LoginServerLogin final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kPlayersFieldNumber = 2,
     kSuccessFieldNumber = 1,
   };
-  // repeated .protocol.Player players = 2;
-  int players_size() const;
-  private:
-  int _internal_players_size() const;
-  public:
-  void clear_players();
-  ::protocol::Player* mutable_players(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::Player >*
-      mutable_players();
-  private:
-  const ::protocol::Player& _internal_players(int index) const;
-  ::protocol::Player* _internal_add_players();
-  public:
-  const ::protocol::Player& players(int index) const;
-  ::protocol::Player* add_players();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::Player >&
-      players() const;
-
   // bool success = 1;
   void clear_success();
   bool success() const;
@@ -338,7 +353,6 @@ class LoginServerLogin final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::Player > players_;
   bool success_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_login_5fprotocol_2eproto;
@@ -491,6 +505,96 @@ class LoginServerChat final :
 #endif  // __GNUC__
 // LoginClientLogin
 
+// string username = 1;
+inline void LoginClientLogin::clear_username() {
+  username_.ClearToEmpty();
+}
+inline const std::string& LoginClientLogin::username() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginClientLogin.username)
+  return _internal_username();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void LoginClientLogin::set_username(ArgT0&& arg0, ArgT... args) {
+ 
+ username_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:protocol.LoginClientLogin.username)
+}
+inline std::string* LoginClientLogin::mutable_username() {
+  // @@protoc_insertion_point(field_mutable:protocol.LoginClientLogin.username)
+  return _internal_mutable_username();
+}
+inline const std::string& LoginClientLogin::_internal_username() const {
+  return username_.Get();
+}
+inline void LoginClientLogin::_internal_set_username(const std::string& value) {
+  
+  username_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* LoginClientLogin::_internal_mutable_username() {
+  
+  return username_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* LoginClientLogin::release_username() {
+  // @@protoc_insertion_point(field_release:protocol.LoginClientLogin.username)
+  return username_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void LoginClientLogin::set_allocated_username(std::string* username) {
+  if (username != nullptr) {
+    
+  } else {
+    
+  }
+  username_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), username,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:protocol.LoginClientLogin.username)
+}
+
+// string password = 2;
+inline void LoginClientLogin::clear_password() {
+  password_.ClearToEmpty();
+}
+inline const std::string& LoginClientLogin::password() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginClientLogin.password)
+  return _internal_password();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void LoginClientLogin::set_password(ArgT0&& arg0, ArgT... args) {
+ 
+ password_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:protocol.LoginClientLogin.password)
+}
+inline std::string* LoginClientLogin::mutable_password() {
+  // @@protoc_insertion_point(field_mutable:protocol.LoginClientLogin.password)
+  return _internal_mutable_password();
+}
+inline const std::string& LoginClientLogin::_internal_password() const {
+  return password_.Get();
+}
+inline void LoginClientLogin::_internal_set_password(const std::string& value) {
+  
+  password_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* LoginClientLogin::_internal_mutable_password() {
+  
+  return password_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* LoginClientLogin::release_password() {
+  // @@protoc_insertion_point(field_release:protocol.LoginClientLogin.password)
+  return password_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void LoginClientLogin::set_allocated_password(std::string* password) {
+  if (password != nullptr) {
+    
+  } else {
+    
+  }
+  password_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), password,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:protocol.LoginClientLogin.password)
+}
+
 // -------------------------------------------------------------------
 
 // LoginServerLogin
@@ -513,42 +617,6 @@ inline void LoginServerLogin::_internal_set_success(bool value) {
 inline void LoginServerLogin::set_success(bool value) {
   _internal_set_success(value);
   // @@protoc_insertion_point(field_set:protocol.LoginServerLogin.success)
-}
-
-// repeated .protocol.Player players = 2;
-inline int LoginServerLogin::_internal_players_size() const {
-  return players_.size();
-}
-inline int LoginServerLogin::players_size() const {
-  return _internal_players_size();
-}
-inline ::protocol::Player* LoginServerLogin::mutable_players(int index) {
-  // @@protoc_insertion_point(field_mutable:protocol.LoginServerLogin.players)
-  return players_.Mutable(index);
-}
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::Player >*
-LoginServerLogin::mutable_players() {
-  // @@protoc_insertion_point(field_mutable_list:protocol.LoginServerLogin.players)
-  return &players_;
-}
-inline const ::protocol::Player& LoginServerLogin::_internal_players(int index) const {
-  return players_.Get(index);
-}
-inline const ::protocol::Player& LoginServerLogin::players(int index) const {
-  // @@protoc_insertion_point(field_get:protocol.LoginServerLogin.players)
-  return _internal_players(index);
-}
-inline ::protocol::Player* LoginServerLogin::_internal_add_players() {
-  return players_.Add();
-}
-inline ::protocol::Player* LoginServerLogin::add_players() {
-  // @@protoc_insertion_point(field_add:protocol.LoginServerLogin.players)
-  return _internal_add_players();
-}
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::Player >&
-LoginServerLogin::players() const {
-  // @@protoc_insertion_point(field_list:protocol.LoginServerLogin.players)
-  return players_;
 }
 
 // -------------------------------------------------------------------

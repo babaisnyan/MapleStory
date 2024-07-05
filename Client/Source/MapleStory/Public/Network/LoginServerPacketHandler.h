@@ -4,6 +4,7 @@
 #include "PacketHeader.h"
 #include "login_protocol.pb.h"
 
+class UMapleGameInstance;
 using FPacketHandlerFunction = TFunction<bool(FPacketSessionRef&, uint8*, int32)>;
 
 enum : uint16 {
@@ -18,7 +19,9 @@ bool HandleLoginServerChat(const FPacketSessionRef& Session, const protocol::Log
 
 class FLoginServerPacketHandler {
 public:
-  static void Init() {
+  static void Init(const TObjectPtr<UMapleGameInstance>& Instance) {
+    FLoginServerPacketHandler::GameInstance = Instance;
+
     for (uint16 i = 0; i < UINT16_MAX; ++i) {
       PacketHandlers[i] = HandleLoginInvalid;
     }
@@ -73,6 +76,9 @@ private:
     return SendBuffer;
   }
 
+public:
+  inline static TObjectPtr<UMapleGameInstance> GameInstance = nullptr;
+  
 private:
   inline static FPacketHandlerFunction PacketHandlers[UINT16_MAX] = {};
 };

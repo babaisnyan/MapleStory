@@ -13,5 +13,4 @@
 #include "core_pch.h"
 #include "protocol/login_enum.pb.h"
 
-using GameSessionRef = std::shared_ptr<class GameSession>;
-using PlayerRef = std::shared_ptr<class Player>;
+using GameSessionRef = std::shared_ptr<class LoginSession>;

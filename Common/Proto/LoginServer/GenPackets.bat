@@ -32,3 +32,5 @@ MOVE .\LoginServerPacketHandler2.h .\LoginServerPacketHandler.h
 XCOPY /Y login_client_packet_handler.h "../../../Server/LoginServer"
 XCOPY /Y LoginServerPacketHandler.h "../../../Client/Source/MapleStory/Public/Network"
 DEL /S /Q /F *.h
+
+PAUSE

@@ -25,14 +25,14 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = n
 static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_login_5fenum_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\020login_enum.proto\022\010protocol*j\n\nPlayerTy"
-  "pe\022\024\n\020PLAYER_TYPE_NONE\020\000\022\026\n\022PLAYER_TYPE_"
-  "KNIGHT\020\001\022\026\n\022PLAYER_TYPE_ARCHER\020\002\022\026\n\022PLAY"
-  "ER_TYPE_WIZARD\020\003b\006proto3"
+  "\n\020login_enum.proto\022\010protocol*Y\n\013LoginRes"
+  "ult\022\013\n\007Success\020\000\022\023\n\017InvalidUsername\020\001\022\023\n"
+  "\017InvalidPassword\020\002\022\023\n\017AlreadyLoggedIn\020\003b"
+  "\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_login_5fenum_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_login_5fenum_2eproto = {
-  false, false, 144, descriptor_table_protodef_login_5fenum_2eproto, "login_enum.proto", 
+  false, false, 127, descriptor_table_protodef_login_5fenum_2eproto, "login_enum.proto", 
   &descriptor_table_login_5fenum_2eproto_once, nullptr, 0, 0,
   schemas, file_default_instances, TableStruct_login_5fenum_2eproto::offsets,
   nullptr, file_level_enum_descriptors_login_5fenum_2eproto, file_level_service_descriptors_login_5fenum_2eproto,
@@ -44,11 +44,11 @@ PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_login_5fenum_2eproto(&descriptor_table_login_5fenum_2eproto);
 namespace protocol {
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PlayerType_descriptor() {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LoginResult_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_login_5fenum_2eproto);
   return file_level_enum_descriptors_login_5fenum_2eproto[0];
 }
-bool PlayerType_IsValid(int value) {
+bool LoginResult_IsValid(int value) {
   switch (value) {
     case 0:
     case 1:

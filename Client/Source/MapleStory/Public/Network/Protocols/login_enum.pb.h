@@ -56,32 +56,32 @@ PROTOBUF_NAMESPACE_OPEN
 PROTOBUF_NAMESPACE_CLOSE
 namespace protocol {
 
-enum PlayerType : int {
-  PLAYER_TYPE_NONE = 0,
-  PLAYER_TYPE_KNIGHT = 1,
-  PLAYER_TYPE_ARCHER = 2,
-  PLAYER_TYPE_WIZARD = 3,
-  PlayerType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  PlayerType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+enum LoginResult : int {
+  Success = 0,
+  InvalidUsername = 1,
+  InvalidPassword = 2,
+  AlreadyLoggedIn = 3,
+  LoginResult_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  LoginResult_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
-bool PlayerType_IsValid(int value);
-constexpr PlayerType PlayerType_MIN = PLAYER_TYPE_NONE;
-constexpr PlayerType PlayerType_MAX = PLAYER_TYPE_WIZARD;
-constexpr int PlayerType_ARRAYSIZE = PlayerType_MAX + 1;
+bool LoginResult_IsValid(int value);
+constexpr LoginResult LoginResult_MIN = Success;
+constexpr LoginResult LoginResult_MAX = AlreadyLoggedIn;
+constexpr int LoginResult_ARRAYSIZE = LoginResult_MAX + 1;
 
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PlayerType_descriptor();
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LoginResult_descriptor();
 template<typename T>
-inline const std::string& PlayerType_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, PlayerType>::value ||
+inline const std::string& LoginResult_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, LoginResult>::value ||
     ::std::is_integral<T>::value,
-    "Incorrect type passed to function PlayerType_Name.");
+    "Incorrect type passed to function LoginResult_Name.");
   return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    PlayerType_descriptor(), enum_t_value);
+    LoginResult_descriptor(), enum_t_value);
 }
-inline bool PlayerType_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, PlayerType* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PlayerType>(
-    PlayerType_descriptor(), name, value);
+inline bool LoginResult_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, LoginResult* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<LoginResult>(
+    LoginResult_descriptor(), name, value);
 }
 // ===================================================================
 
@@ -105,10 +105,10 @@ inline bool PlayerType_Parse(
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::protocol::PlayerType> : ::std::true_type {};
+template <> struct is_proto_enum< ::protocol::LoginResult> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::protocol::PlayerType>() {
-  return ::protocol::PlayerType_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::protocol::LoginResult>() {
+  return ::protocol::LoginResult_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

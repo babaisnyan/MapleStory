@@ -4,12 +4,12 @@ package protocol;
 import "login_struct.proto";
 
 message LoginClientLogin {
-
+	string username = 1;
+	string password = 2;
 }
 
 message LoginServerLogin {
-	bool success = 1;
-	repeated Player players = 2;
+	LoginResult result = 1;
 }
 
 message LoginServerChat {
