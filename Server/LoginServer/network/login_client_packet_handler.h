@@ -8,11 +8,14 @@ using PacketHandler = std::function<bool(PacketSessionRef&, std::byte*, int32_t)
 enum : uint16_t {
   PKT_LOGINCLIENTLOGIN = 1000,
   PKT_LOGINSERVERLOGIN = 1001,
-  PKT_LOGINSERVERCHAT = 1002,
+  PKT_LOGINCLIENTREQUESTCHARACTERLIST = 1002,
+  PKT_LOGINSERVERCHARACTERLIST = 1003,
+  PKT_LOGINSERVERCHAT = 1004,
 };
 
 bool HandleLoginInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
 bool HandleLoginClientLogin(const PacketSessionRef& session, const protocol::LoginClientLogin& packet);
+bool HandleLoginClientRequestCharacterList(const PacketSessionRef& session, const protocol::LoginClientRequestCharacterList& packet);
 
 class LoginClientPacketHandler {
 public:
@@ -26,6 +29,9 @@ public:
 
     _packet_handler_map[PKT_LOGINCLIENTLOGIN] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
       return HandlePacket<protocol::LoginClientLogin>(HandleLoginClientLogin, session, buffer, len);
+    };
+    _packet_handler_map[PKT_LOGINCLIENTREQUESTCHARACTERLIST] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+      return HandlePacket<protocol::LoginClientRequestCharacterList>(HandleLoginClientRequestCharacterList, session, buffer, len);
     };
   }
 
@@ -42,6 +48,9 @@ public:
 
   static SendBufferRef MakeSendBuffer(const protocol::LoginServerLogin& packet) { 
     return MakeSendBufferInternal(packet, PKT_LOGINSERVERLOGIN); 
+  }
+  static SendBufferRef MakeSendBuffer(const protocol::LoginServerCharacterList& packet) { 
+    return MakeSendBufferInternal(packet, PKT_LOGINSERVERCHARACTERLIST); 
   }
   static SendBufferRef MakeSendBuffer(const protocol::LoginServerChat& packet) { 
     return MakeSendBufferInternal(packet, PKT_LOGINSERVERCHAT); 

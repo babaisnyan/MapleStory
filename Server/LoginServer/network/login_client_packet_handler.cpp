@@ -11,3 +11,8 @@ bool HandleLoginClientLogin(const PacketSessionRef& session, const protocol::Log
   LoginManager::GetInstance().HandleLoginRequest(session, packet);
   return true;
 }
+
+bool HandleLoginClientRequestCharacterList(const PacketSessionRef& session, const protocol::LoginClientRequestCharacterList& packet) {
+  LoginManager::GetInstance().HandleCharacterListRequest(session, packet);
+  return true;
+}

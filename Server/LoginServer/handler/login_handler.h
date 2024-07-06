@@ -6,4 +6,5 @@
 class LoginHandler final : public JobQueue {
 public:
   void HandleLogin(PacketSessionRef session, protocol::LoginClientLogin request);
+  void HandleCharacterList(PacketSessionRef session, protocol::LoginClientRequestCharacterList request);
 };

@@ -2,7 +2,8 @@
 
 class LoginServer {
   enum {
-    kWorkerTick = 64
+    kWorkerTick = 64,
+    kMaxDbConnection = 15,
   };
 
 public:

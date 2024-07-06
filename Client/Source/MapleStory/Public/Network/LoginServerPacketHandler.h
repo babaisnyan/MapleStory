@@ -10,11 +10,14 @@ using FPacketHandlerFunction = TFunction<bool(FPacketSessionRef&, uint8*, int32)
 enum : uint16 {
   PKT_LOGINCLIENTLOGIN = 1000,
   PKT_LOGINSERVERLOGIN = 1001,
-  PKT_LOGINSERVERCHAT = 1002,
+  PKT_LOGINCLIENTREQUESTCHARACTERLIST = 1002,
+  PKT_LOGINSERVERCHARACTERLIST = 1003,
+  PKT_LOGINSERVERCHAT = 1004,
 };
 
 bool HandleLoginInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len);
 bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::LoginServerLogin& Packet);
+bool HandleLoginServerCharacterList(const FPacketSessionRef& Session, const protocol::LoginServerCharacterList& Packet);
 bool HandleLoginServerChat(const FPacketSessionRef& Session, const protocol::LoginServerChat& Packet);
 
 class FLoginServerPacketHandler {
@@ -28,6 +31,9 @@ public:
 
     PacketHandlers[PKT_LOGINSERVERLOGIN] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
       return HandlePacket<protocol::LoginServerLogin>(HandleLoginServerLogin, Session, Buffer, Len);
+    };
+    PacketHandlers[PKT_LOGINSERVERCHARACTERLIST] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
+      return HandlePacket<protocol::LoginServerCharacterList>(HandleLoginServerCharacterList, Session, Buffer, Len);
     };
     PacketHandlers[PKT_LOGINSERVERCHAT] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
       return HandlePacket<protocol::LoginServerChat>(HandleLoginServerChat, Session, Buffer, Len);
@@ -47,6 +53,9 @@ public:
 
   static FSendBufferRef MakeSendBuffer(const protocol::LoginClientLogin& Packet) { 
     return MakeSendBufferInternal(Packet, PKT_LOGINCLIENTLOGIN); 
+  }
+  static FSendBufferRef MakeSendBuffer(const protocol::LoginClientRequestCharacterList& Packet) { 
+    return MakeSendBufferInternal(Packet, PKT_LOGINCLIENTREQUESTCHARACTERLIST); 
   }
 
 private:

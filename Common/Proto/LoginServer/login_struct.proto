@@ -2,3 +2,17 @@ syntax = "proto3";
 package protocol;
 
 import "login_enum.proto";
+
+message LoginCharacter {
+    int32 id = 1;
+    string name = 2;
+    int32 level = 3;
+    int32 type = 4;
+    int32 job = 5;
+    int32 hp = 6;
+    int32 mp = 7;
+    int32 str = 8;
+    int32 dex = 9;
+    int32 luk = 10;
+    int32 int = 11;
+}

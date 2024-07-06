@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="DB">
-      <UniqueIdentifier>{df13b695-c349-4e1d-a6eb-0bce38f36d19}</UniqueIdentifier>
-    </Filter>
     <Filter Include="utils">
       <UniqueIdentifier>{718fe4fc-db30-45e9-b03b-b056a9f7f7a4}</UniqueIdentifier>
     </Filter>
@@ -18,6 +15,9 @@
     </Filter>
     <Filter Include="handler">
       <UniqueIdentifier>{4238e849-c9f4-438a-8645-6c50f89ac5f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{04da26e7-b46c-4c85-9d95-deb91085a406}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -59,9 +59,6 @@
     <ClInclude Include="pch.h">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="gen_procedures.h">
-      <Filter>DB</Filter>
-    </ClInclude>
     <ClInclude Include="network\protocol\login_enum.pb.h">
       <Filter>network\protocol</Filter>
     </ClInclude>
@@ -89,10 +86,5 @@
     <ClInclude Include="handler\login_manager.h">
       <Filter>handler</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="GameDB.xml">
-      <Filter>DB</Filter>
-    </Xml>
   </ItemGroup>
 </Project>

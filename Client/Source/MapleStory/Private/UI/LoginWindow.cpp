@@ -8,6 +8,7 @@
 #include "Components/EditableTextBox.h"
 #include "Kismet/GameplayStatics.h"
 #include "Network/LoginServerPacketHandler.h"
+#include "Network/PacketCreator.h"
 
 bool ULoginWindow::TryLogin() {
 	const auto GameInstance = Cast<UMapleGameInstance>(UGameplayStatics::GetGameInstance(GetWorld()));
@@ -35,11 +36,7 @@ bool ULoginWindow::TryLogin() {
 		return false;
 	}
 
-	protocol::LoginClientLogin Packet;
-	Packet.set_username(TCHAR_TO_UTF8(*Username));
-	Packet.set_password(TCHAR_TO_UTF8(*Password));
-
-	const auto SendBuffer = FLoginServerPacketHandler::MakeSendBuffer(Packet);
+	const auto SendBuffer = FPacketCreator::GetLoginRequest(Username, Password);
 	GameInstance->SendPacket(SendBuffer);
 	return true;
 }

@@ -204,7 +204,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gen_procedures.h" />
     <ClInclude Include="handler\login_handler.h" />
     <ClInclude Include="handler\login_manager.h" />
     <ClInclude Include="network\login_client_packet_handler.h" />
@@ -215,9 +214,6 @@
     <ClInclude Include="network\protocol\login_protocol.pb.h" />
     <ClInclude Include="network\protocol\login_struct.pb.h" />
     <ClInclude Include="pch.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="GameDB.xml" />
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="GameDB.xml" />

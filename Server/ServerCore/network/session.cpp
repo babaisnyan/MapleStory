@@ -191,7 +191,7 @@ void Session::RegisterSend() {
   wsa_buffers.reserve(_send_event.GetSendBufferCount());
 
   for (const SendBufferRef& send_buffer : _send_event.GetSendBuffers()) {
-    wsa_buffers.emplace_back(static_cast<uint32_t>(send_buffer->GetWriteSize()),
+    wsa_buffers.emplace_back(send_buffer->GetWriteSize(),
                              reinterpret_cast<char*>(send_buffer->GetBuffer()));
   }
 

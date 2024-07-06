@@ -27,8 +27,10 @@
 #include <google/protobuf/generated_message_util.h>
 #include <google/protobuf/metadata_lite.h>
 #include <google/protobuf/generated_message_reflection.h>
+#include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/unknown_field_set.h>
 #include "login_enum.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
@@ -52,13 +54,263 @@ struct TableStruct_login_5fstruct_2eproto {
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_login_5fstruct_2eproto;
+namespace protocol {
+class LoginCharacter;
+struct LoginCharacterDefaultTypeInternal;
+extern LoginCharacterDefaultTypeInternal _LoginCharacter_default_instance_;
+}  // namespace protocol
 PROTOBUF_NAMESPACE_OPEN
+template<> ::protocol::LoginCharacter* Arena::CreateMaybeMessage<::protocol::LoginCharacter>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace protocol {
 
 // ===================================================================
 
+class LoginCharacter final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.LoginCharacter) */ {
+ public:
+  inline LoginCharacter() : LoginCharacter(nullptr) {}
+  ~LoginCharacter() override;
+  explicit constexpr LoginCharacter(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
+  LoginCharacter(const LoginCharacter& from);
+  LoginCharacter(LoginCharacter&& from) noexcept
+    : LoginCharacter() {
+    *this = ::std::move(from);
+  }
+
+  inline LoginCharacter& operator=(const LoginCharacter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LoginCharacter& operator=(LoginCharacter&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const LoginCharacter& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const LoginCharacter* internal_default_instance() {
+    return reinterpret_cast<const LoginCharacter*>(
+               &_LoginCharacter_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    0;
+
+  friend void swap(LoginCharacter& a, LoginCharacter& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(LoginCharacter* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(LoginCharacter* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline LoginCharacter* New() const final {
+    return new LoginCharacter();
+  }
+
+  LoginCharacter* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<LoginCharacter>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const LoginCharacter& from);
+  void MergeFrom(const LoginCharacter& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LoginCharacter* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.LoginCharacter";
+  }
+  protected:
+  explicit LoginCharacter(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kNameFieldNumber = 2,
+    kIdFieldNumber = 1,
+    kLevelFieldNumber = 3,
+    kTypeFieldNumber = 4,
+    kJobFieldNumber = 5,
+    kHpFieldNumber = 6,
+    kMpFieldNumber = 7,
+    kStrFieldNumber = 8,
+    kDexFieldNumber = 9,
+    kLukFieldNumber = 10,
+    kIntFieldNumber = 11,
+  };
+  // string name = 2;
+  void clear_name();
+  const std::string& name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_name();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_name();
+  void set_allocated_name(std::string* name);
+  private:
+  const std::string& _internal_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_name(const std::string& value);
+  std::string* _internal_mutable_name();
+  public:
+
+  // int32 id = 1;
+  void clear_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
+  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
+  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 level = 3;
+  void clear_level();
+  ::PROTOBUF_NAMESPACE_ID::int32 level() const;
+  void set_level(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_level() const;
+  void _internal_set_level(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 type = 4;
+  void clear_type();
+  ::PROTOBUF_NAMESPACE_ID::int32 type() const;
+  void set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_type() const;
+  void _internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 job = 5;
+  void clear_job();
+  ::PROTOBUF_NAMESPACE_ID::int32 job() const;
+  void set_job(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_job() const;
+  void _internal_set_job(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 hp = 6;
+  void clear_hp();
+  ::PROTOBUF_NAMESPACE_ID::int32 hp() const;
+  void set_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_hp() const;
+  void _internal_set_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 mp = 7;
+  void clear_mp();
+  ::PROTOBUF_NAMESPACE_ID::int32 mp() const;
+  void set_mp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_mp() const;
+  void _internal_set_mp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 str = 8;
+  void clear_str();
+  ::PROTOBUF_NAMESPACE_ID::int32 str() const;
+  void set_str(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_str() const;
+  void _internal_set_str(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 dex = 9;
+  void clear_dex();
+  ::PROTOBUF_NAMESPACE_ID::int32 dex() const;
+  void set_dex(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_dex() const;
+  void _internal_set_dex(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 luk = 10;
+  void clear_luk();
+  ::PROTOBUF_NAMESPACE_ID::int32 luk() const;
+  void set_luk(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_luk() const;
+  void _internal_set_luk(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 int = 11;
+  void clear_int_();
+  ::PROTOBUF_NAMESPACE_ID::int32 int_() const;
+  void set_int_(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_int_() const;
+  void _internal_set_int_(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protocol.LoginCharacter)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+  ::PROTOBUF_NAMESPACE_ID::int32 id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 level_;
+  ::PROTOBUF_NAMESPACE_ID::int32 type_;
+  ::PROTOBUF_NAMESPACE_ID::int32 job_;
+  ::PROTOBUF_NAMESPACE_ID::int32 hp_;
+  ::PROTOBUF_NAMESPACE_ID::int32 mp_;
+  ::PROTOBUF_NAMESPACE_ID::int32 str_;
+  ::PROTOBUF_NAMESPACE_ID::int32 dex_;
+  ::PROTOBUF_NAMESPACE_ID::int32 luk_;
+  ::PROTOBUF_NAMESPACE_ID::int32 int__;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_login_5fstruct_2eproto;
+};
 // ===================================================================
 
 
@@ -68,6 +320,253 @@ namespace protocol {
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
+// LoginCharacter
+
+// int32 id = 1;
+inline void LoginCharacter::clear_id() {
+  id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::_internal_id() const {
+  return id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::id() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.id)
+  return _internal_id();
+}
+inline void LoginCharacter::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  id_ = value;
+}
+inline void LoginCharacter::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_id(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.id)
+}
+
+// string name = 2;
+inline void LoginCharacter::clear_name() {
+  name_.ClearToEmpty();
+}
+inline const std::string& LoginCharacter::name() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.name)
+  return _internal_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void LoginCharacter::set_name(ArgT0&& arg0, ArgT... args) {
+ 
+ name_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.name)
+}
+inline std::string* LoginCharacter::mutable_name() {
+  // @@protoc_insertion_point(field_mutable:protocol.LoginCharacter.name)
+  return _internal_mutable_name();
+}
+inline const std::string& LoginCharacter::_internal_name() const {
+  return name_.Get();
+}
+inline void LoginCharacter::_internal_set_name(const std::string& value) {
+  
+  name_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* LoginCharacter::_internal_mutable_name() {
+  
+  return name_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* LoginCharacter::release_name() {
+  // @@protoc_insertion_point(field_release:protocol.LoginCharacter.name)
+  return name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void LoginCharacter::set_allocated_name(std::string* name) {
+  if (name != nullptr) {
+    
+  } else {
+    
+  }
+  name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), name,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:protocol.LoginCharacter.name)
+}
+
+// int32 level = 3;
+inline void LoginCharacter::clear_level() {
+  level_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::_internal_level() const {
+  return level_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::level() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.level)
+  return _internal_level();
+}
+inline void LoginCharacter::_internal_set_level(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  level_ = value;
+}
+inline void LoginCharacter::set_level(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_level(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.level)
+}
+
+// int32 type = 4;
+inline void LoginCharacter::clear_type() {
+  type_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::_internal_type() const {
+  return type_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::type() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.type)
+  return _internal_type();
+}
+inline void LoginCharacter::_internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  type_ = value;
+}
+inline void LoginCharacter::set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_type(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.type)
+}
+
+// int32 job = 5;
+inline void LoginCharacter::clear_job() {
+  job_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::_internal_job() const {
+  return job_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::job() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.job)
+  return _internal_job();
+}
+inline void LoginCharacter::_internal_set_job(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  job_ = value;
+}
+inline void LoginCharacter::set_job(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_job(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.job)
+}
+
+// int32 hp = 6;
+inline void LoginCharacter::clear_hp() {
+  hp_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::_internal_hp() const {
+  return hp_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::hp() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.hp)
+  return _internal_hp();
+}
+inline void LoginCharacter::_internal_set_hp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  hp_ = value;
+}
+inline void LoginCharacter::set_hp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_hp(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.hp)
+}
+
+// int32 mp = 7;
+inline void LoginCharacter::clear_mp() {
+  mp_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::_internal_mp() const {
+  return mp_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::mp() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.mp)
+  return _internal_mp();
+}
+inline void LoginCharacter::_internal_set_mp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  mp_ = value;
+}
+inline void LoginCharacter::set_mp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_mp(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.mp)
+}
+
+// int32 str = 8;
+inline void LoginCharacter::clear_str() {
+  str_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::_internal_str() const {
+  return str_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::str() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.str)
+  return _internal_str();
+}
+inline void LoginCharacter::_internal_set_str(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  str_ = value;
+}
+inline void LoginCharacter::set_str(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_str(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.str)
+}
+
+// int32 dex = 9;
+inline void LoginCharacter::clear_dex() {
+  dex_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::_internal_dex() const {
+  return dex_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::dex() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.dex)
+  return _internal_dex();
+}
+inline void LoginCharacter::_internal_set_dex(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  dex_ = value;
+}
+inline void LoginCharacter::set_dex(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_dex(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.dex)
+}
+
+// int32 luk = 10;
+inline void LoginCharacter::clear_luk() {
+  luk_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::_internal_luk() const {
+  return luk_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::luk() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.luk)
+  return _internal_luk();
+}
+inline void LoginCharacter::_internal_set_luk(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  luk_ = value;
+}
+inline void LoginCharacter::set_luk(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_luk(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.luk)
+}
+
+// int32 int = 11;
+inline void LoginCharacter::clear_int_() {
+  int__ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::_internal_int_() const {
+  return int__;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::int_() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.int)
+  return _internal_int_();
+}
+inline void LoginCharacter::_internal_set_int_(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  int__ = value;
+}
+inline void LoginCharacter::set_int_(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_int_(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.int)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__

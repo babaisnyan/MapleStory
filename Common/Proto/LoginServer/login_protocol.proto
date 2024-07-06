@@ -13,6 +13,13 @@ message LoginServerLogin {
 	LoginResult result = 1;
 }
 
+message LoginClientRequestCharacterList {
+}
+
+message LoginServerCharacterList {
+	repeated LoginCharacter characters = 1;
+}
+
 message LoginServerChat {
 	string message = 1;
 }

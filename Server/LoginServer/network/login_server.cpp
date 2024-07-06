@@ -5,7 +5,6 @@
 #include "login_session.h"
 
 #include "database/db_connection_pool.h"
-#include "database/db_synchronizer.h"
 
 #include "memory/memory.h"
 
@@ -18,11 +17,8 @@ void LoginServer::Init() {
   SocketUtils::Init();
   LoginClientPacketHandler::Init();
 
-  ASSERT_CRASH(DbConnectionPool::GetInstance().Connect(10, L"DRIVER={SQL Server};SERVER=BABA\\SQLEXPRESS;DATABASE=Maplestory;Trusted_Connection=Yes"));
-  DbConnection*  connection = DbConnectionPool::GetInstance().GetConnection();
-  DbSynchronizer synchronizer(*connection);
-  synchronizer.Synchronize(L"GameDB.xml");
-  DbConnectionPool::GetInstance().ReleaseConnection(connection);
+  ASSERT_CRASH(DbConnectionPool::GetInstance().Connect(kMaxDbConnection,
+                 L"DRIVER={SQL Server};SERVER=BABA\\SQLEXPRESS;DATABASE=Maplestory;Trusted_Connection=Yes"));
 
   StartLoginServer();
 }
