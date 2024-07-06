@@ -38,5 +38,7 @@ bool ULoginWindow::TryLogin() {
 
 	const auto SendBuffer = FPacketCreator::GetLoginRequest(Username, Password);
 	GameInstance->SendPacket(SendBuffer);
+
+	PasswordTextBox->SetText(FText::FromString(TEXT("")));
 	return true;
 }

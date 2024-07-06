@@ -17,4 +17,7 @@ class MAPLESTORY_API ALoginController : public APlayerController
 public:
 	UPROPERTY(BlueprintReadWrite)
 	TObjectPtr<UUserWidget> LoginWindow;
+
+	UPROPERTY(BlueprintReadWrite)
+	TObjectPtr<UUserWidget> Hud;
 };

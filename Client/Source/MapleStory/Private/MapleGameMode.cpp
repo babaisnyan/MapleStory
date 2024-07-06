@@ -31,6 +31,9 @@ AMapleGameMode::AMapleGameMode() {
 void AMapleGameMode::BeginPlay() {
 	Super::BeginPlay();
 
+	
+	
+	
 	if (!GetWorld()->GetMapName().Equals("MAP_Login") && PlayerClasses.Contains(AvatarType)) {
 		GetWorld()->SpawnActor<AMsPlayer>(PlayerClasses[AvatarType], FVector::ZeroVector, FRotator::ZeroRotator);
 	}

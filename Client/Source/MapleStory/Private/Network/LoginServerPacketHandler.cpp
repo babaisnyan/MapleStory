@@ -31,7 +31,7 @@ bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::Lo
 			return false;
 		}
 
-		LoginController->LoginWindow->RemoveFromParent();
+		LoginController->LoginWindow->SetVisibility(ESlateVisibility::Hidden);
 		FLoginServerPacketHandler::GameInstance->ChangeLoginState(ELoginState::CharacterSelection);
 
 		const auto SendBuffer = FPacketCreator::GetCharacterListRequest();
