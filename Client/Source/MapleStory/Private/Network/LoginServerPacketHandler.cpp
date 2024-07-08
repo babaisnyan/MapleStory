@@ -2,7 +2,10 @@
 
 #include "MapleGameInstance.h"
 #include "Blueprint/UserWidget.h"
+#include "Characters/LoginCharacter.h"
 #include "Characters/LoginController.h"
+#include "GameModes/LoginGameMode.h"
+#include "Kismet/GameplayStatics.h"
 #include "Network/PacketCreator.h"
 
 bool HandleLoginInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
@@ -46,12 +49,35 @@ bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::Lo
 }
 
 bool HandleLoginServerCharacterList(const FPacketSessionRef& Session, const protocol::LoginServerCharacterList& Packet) {
-	if (Packet.characters_size() == 0) return true;
-	
-	for (auto&& Character : Packet.characters()) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Character: %s"), *FString(UTF8_TO_TCHAR(Character.name().c_str()))));
+	if (!FLoginServerPacketHandler::GameInstance) {
+		return false;
 	}
-	
+
+	const UWorld* World = FLoginServerPacketHandler::GameInstance->GetWorld();
+	if (!World) {
+		return false;
+	}
+
+	ALoginGameMode* GameMode = Cast<ALoginGameMode>(UGameplayStatics::GetGameMode(World));
+	if (!GameMode) {
+		return false;
+	}
+
+	if (Packet.characters_size() == 0) return true;
+
+	if (Packet.characters_size() >= 6) {
+		GameMode->bCanCreateCharacter = false;
+	}
+
+	for (int32 i = 0; i < Packet.characters_size(); i++) {
+		const protocol::LoginCharacter Character = Packet.characters(i);
+		const FString Name = UTF8_TO_TCHAR(Character.name().c_str());
+
+		GameMode->LoginCharacterVisualizer->SetAvatar(i, static_cast<EAvatarType>(Character.type()), Name);
+		GameMode->LoginCharacters.Add(Character);
+	}
+
+
 	return true;
 }
 

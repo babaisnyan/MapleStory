@@ -1,10 +1,11 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "MapleGameMode.h"
+#include "GameModes/MapleGameMode.h"
 
 #include "Characters/MaplePlayerController.h"
 #include "Characters/MsPlayer.h"
+#include "GameFramework/GameUserSettings.h"
 
 
 AMapleGameMode::AMapleGameMode() {
@@ -30,11 +31,9 @@ AMapleGameMode::AMapleGameMode() {
 
 void AMapleGameMode::BeginPlay() {
 	Super::BeginPlay();
+	GetWorld()->SpawnActor<AMsPlayer>(PlayerClasses[AvatarType], FVector::ZeroVector, FRotator::ZeroRotator);
 
-	
-	
-	
-	if (!GetWorld()->GetMapName().Equals("MAP_Login") && PlayerClasses.Contains(AvatarType)) {
-		GetWorld()->SpawnActor<AMsPlayer>(PlayerClasses[AvatarType], FVector::ZeroVector, FRotator::ZeroRotator);
-	}
+	const FIntPoint NewResolution(1920, 1080);
+	GEngine->GameUserSettings->SetScreenResolution(NewResolution);
+	GEngine->GameUserSettings->ApplyResolutionSettings(false);
 }
