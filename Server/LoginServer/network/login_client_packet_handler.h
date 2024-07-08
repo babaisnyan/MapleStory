@@ -10,12 +10,14 @@ enum : uint16_t {
   PKT_LOGINSERVERLOGIN = 1001,
   PKT_LOGINCLIENTREQUESTCHARACTERLIST = 1002,
   PKT_LOGINSERVERCHARACTERLIST = 1003,
-  PKT_LOGINSERVERCHAT = 1004,
+  PKT_LOGINCLIENTSELECTCHARACTER = 1004,
+  PKT_LOGINSERVERCHAT = 1005,
 };
 
 bool HandleLoginInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
 bool HandleLoginClientLogin(const PacketSessionRef& session, const protocol::LoginClientLogin& packet);
 bool HandleLoginClientRequestCharacterList(const PacketSessionRef& session, const protocol::LoginClientRequestCharacterList& packet);
+bool HandleLoginClientSelectCharacter(const PacketSessionRef& session, const protocol::LoginClientSelectCharacter& packet);
 
 class LoginClientPacketHandler {
 public:
@@ -32,6 +34,9 @@ public:
     };
     _packet_handler_map[PKT_LOGINCLIENTREQUESTCHARACTERLIST] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
       return HandlePacket<protocol::LoginClientRequestCharacterList>(HandleLoginClientRequestCharacterList, session, buffer, len);
+    };
+    _packet_handler_map[PKT_LOGINCLIENTSELECTCHARACTER] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+      return HandlePacket<protocol::LoginClientSelectCharacter>(HandleLoginClientSelectCharacter, session, buffer, len);
     };
   }
 

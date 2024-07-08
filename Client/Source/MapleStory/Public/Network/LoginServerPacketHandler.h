@@ -12,7 +12,8 @@ enum : uint16 {
   PKT_LOGINSERVERLOGIN = 1001,
   PKT_LOGINCLIENTREQUESTCHARACTERLIST = 1002,
   PKT_LOGINSERVERCHARACTERLIST = 1003,
-  PKT_LOGINSERVERCHAT = 1004,
+  PKT_LOGINCLIENTSELECTCHARACTER = 1004,
+  PKT_LOGINSERVERCHAT = 1005,
 };
 
 bool HandleLoginInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len);
@@ -56,6 +57,9 @@ public:
   }
   static FSendBufferRef MakeSendBuffer(const protocol::LoginClientRequestCharacterList& Packet) { 
     return MakeSendBufferInternal(Packet, PKT_LOGINCLIENTREQUESTCHARACTERLIST); 
+  }
+  static FSendBufferRef MakeSendBuffer(const protocol::LoginClientSelectCharacter& Packet) { 
+    return MakeSendBufferInternal(Packet, PKT_LOGINCLIENTSELECTCHARACTER); 
   }
 
 private:

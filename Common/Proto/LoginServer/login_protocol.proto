@@ -20,6 +20,10 @@ message LoginServerCharacterList {
 	repeated LoginCharacter characters = 1;
 }
 
+message LoginClientSelectCharacter {
+	int32 character_id = 1;
+}
+
 message LoginServerChat {
 	string message = 1;
 }

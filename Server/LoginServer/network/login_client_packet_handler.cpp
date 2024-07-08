@@ -16,3 +16,7 @@ bool HandleLoginClientRequestCharacterList(const PacketSessionRef& session, cons
   LoginManager::GetInstance().HandleCharacterListRequest(session, packet);
   return true;
 }
+
+bool HandleLoginClientSelectCharacter(const PacketSessionRef& session, const protocol::LoginClientSelectCharacter& packet) {
+  return true;
+}

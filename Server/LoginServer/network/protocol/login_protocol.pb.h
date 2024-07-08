@@ -48,7 +48,7 @@ struct TableStruct_login_5fprotocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[6]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -62,6 +62,9 @@ extern LoginClientLoginDefaultTypeInternal _LoginClientLogin_default_instance_;
 class LoginClientRequestCharacterList;
 struct LoginClientRequestCharacterListDefaultTypeInternal;
 extern LoginClientRequestCharacterListDefaultTypeInternal _LoginClientRequestCharacterList_default_instance_;
+class LoginClientSelectCharacter;
+struct LoginClientSelectCharacterDefaultTypeInternal;
+extern LoginClientSelectCharacterDefaultTypeInternal _LoginClientSelectCharacter_default_instance_;
 class LoginServerCharacterList;
 struct LoginServerCharacterListDefaultTypeInternal;
 extern LoginServerCharacterListDefaultTypeInternal _LoginServerCharacterList_default_instance_;
@@ -75,6 +78,7 @@ extern LoginServerLoginDefaultTypeInternal _LoginServerLogin_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::protocol::LoginClientLogin* Arena::CreateMaybeMessage<::protocol::LoginClientLogin>(Arena*);
 template<> ::protocol::LoginClientRequestCharacterList* Arena::CreateMaybeMessage<::protocol::LoginClientRequestCharacterList>(Arena*);
+template<> ::protocol::LoginClientSelectCharacter* Arena::CreateMaybeMessage<::protocol::LoginClientSelectCharacter>(Arena*);
 template<> ::protocol::LoginServerCharacterList* Arena::CreateMaybeMessage<::protocol::LoginServerCharacterList>(Arena*);
 template<> ::protocol::LoginServerChat* Arena::CreateMaybeMessage<::protocol::LoginServerChat>(Arena*);
 template<> ::protocol::LoginServerLogin* Arena::CreateMaybeMessage<::protocol::LoginServerLogin>(Arena*);
@@ -628,6 +632,138 @@ class LoginServerCharacterList final :
 };
 // -------------------------------------------------------------------
 
+class LoginClientSelectCharacter final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.LoginClientSelectCharacter) */ {
+ public:
+  inline LoginClientSelectCharacter() : LoginClientSelectCharacter(nullptr) {}
+  ~LoginClientSelectCharacter() override;
+  explicit constexpr LoginClientSelectCharacter(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  LoginClientSelectCharacter(const LoginClientSelectCharacter& from);
+  LoginClientSelectCharacter(LoginClientSelectCharacter&& from) noexcept
+    : LoginClientSelectCharacter() {
+    *this = ::std::move(from);
+  }
+
+  inline LoginClientSelectCharacter& operator=(const LoginClientSelectCharacter& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline LoginClientSelectCharacter& operator=(LoginClientSelectCharacter&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const LoginClientSelectCharacter& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const LoginClientSelectCharacter* internal_default_instance() {
+    return reinterpret_cast<const LoginClientSelectCharacter*>(
+               &_LoginClientSelectCharacter_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(LoginClientSelectCharacter& a, LoginClientSelectCharacter& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(LoginClientSelectCharacter* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(LoginClientSelectCharacter* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline LoginClientSelectCharacter* New() const final {
+    return new LoginClientSelectCharacter();
+  }
+
+  LoginClientSelectCharacter* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<LoginClientSelectCharacter>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const LoginClientSelectCharacter& from);
+  void MergeFrom(const LoginClientSelectCharacter& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(LoginClientSelectCharacter* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.LoginClientSelectCharacter";
+  }
+  protected:
+  explicit LoginClientSelectCharacter(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kCharacterIdFieldNumber = 1,
+  };
+  // int32 character_id = 1;
+  void clear_character_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 character_id() const;
+  void set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_character_id() const;
+  void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protocol.LoginClientSelectCharacter)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 character_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_login_5fprotocol_2eproto;
+};
+// -------------------------------------------------------------------
+
 class LoginServerChat final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.LoginServerChat) */ {
  public:
@@ -672,7 +808,7 @@ class LoginServerChat final :
                &_LoginServerChat_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(LoginServerChat& a, LoginServerChat& b) {
     a.Swap(&b);
@@ -934,6 +1070,30 @@ LoginServerCharacterList::characters() const {
 
 // -------------------------------------------------------------------
 
+// LoginClientSelectCharacter
+
+// int32 character_id = 1;
+inline void LoginClientSelectCharacter::clear_character_id() {
+  character_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginClientSelectCharacter::_internal_character_id() const {
+  return character_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginClientSelectCharacter::character_id() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginClientSelectCharacter.character_id)
+  return _internal_character_id();
+}
+inline void LoginClientSelectCharacter::_internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  character_id_ = value;
+}
+inline void LoginClientSelectCharacter::set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_character_id(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginClientSelectCharacter.character_id)
+}
+
+// -------------------------------------------------------------------
+
 // LoginServerChat
 
 // string message = 1;
@@ -984,6 +1144,8 @@ inline void LoginServerChat::set_allocated_message(std::string* message) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------
