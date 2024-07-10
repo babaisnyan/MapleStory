@@ -18,4 +18,7 @@ class MAPLESTORY_API ULoginCharNamePlate : public UUserWidget
 public:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UTextBlock> CharacterName;
+
+	UPROPERTY(BlueprintReadWrite)
+	bool IsSelected = false;
 };

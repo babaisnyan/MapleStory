@@ -3,7 +3,9 @@
 
 #include "Network/NetworkWorker.h"
 
+#include "MapleGameInstance.h"
 #include "Sockets.h"
+#include "Kismet/GameplayStatics.h"
 #include "Network/PacketHeader.h"
 #include "Network/PacketSession.h"
 
@@ -20,11 +22,21 @@ uint32 FRecvWorker::Run() {
 	while (bRunning) {
 		TArray<uint8> Packet;
 
+		// if socket is disconnected, break the loop
+		
+
 		if (!ReceivePacket(Packet)) continue;
 
 		if (const TSharedPtr<FPacketSession> Session = SessionRef.Pin()) {
 			Session->EnqueueRecvPacket(Packet);
 		}
+	}
+
+
+	// get game instance
+	const UWorld* World = GEngine->GetWorld();
+	if (UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(UGameplayStatics::GetGameInstance(World))) {
+		GameInstance->QuitGame();
 	}
 
 	return 0;
@@ -67,7 +79,7 @@ bool FRecvWorker::ReceivePacket(TArray<uint8>& OutPacket) const {
 
 bool FRecvWorker::ReceiveDesiredBytes(uint8* Buffer, int32 Size) const {
 	uint32 PendingDataSize = 0;
-	
+
 	if (!Socket->HasPendingData(PendingDataSize) || PendingDataSize <= 0) {
 		return false;
 	}

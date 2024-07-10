@@ -33,6 +33,7 @@ bool UMapleGameInstance::ConnectToLoginServer() {
 	}
 
 	bIsConnected = bConnected;
+
 	return bConnected;
 }
 
@@ -65,6 +66,16 @@ void UMapleGameInstance::Shutdown() {
 	}
 
 	DisconnectFromLoginServer();
+}
+
+void UMapleGameInstance::QuitGame() {
+	const UWorld* World = GetWorld();
+	if (World) {
+		APlayerController* PlayerController = World->GetFirstPlayerController();
+		if (PlayerController) {
+			UKismetSystemLibrary::QuitGame(World, PlayerController, EQuitPreference::Quit, true);
+		}
+	}
 }
 
 void UMapleGameInstance::ChangeLoginState(const ELoginState NewState) {

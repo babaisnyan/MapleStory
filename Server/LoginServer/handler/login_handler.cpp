@@ -107,6 +107,7 @@ void LoginHandler::HandleCharacterList(PacketSessionRef session, protocol::Login
           character->set_dex(dex);
           character->set_luk(luk);
           character->set_int_(int_);
+          login_session->AddCharacter(*character);
         }
       } while (bind.GetMoreResult() != SQL_NO_DATA);
     }
@@ -115,4 +116,23 @@ void LoginHandler::HandleCharacterList(PacketSessionRef session, protocol::Login
   }
 
   login_session->Send(LoginClientPacketHandler::MakeSendBuffer(response));
+}
+
+void LoginHandler::HandleSelectCharacter(PacketSessionRef session, protocol::LoginClientSelectCharacter request) {
+  //TODO: 소유한 캐릭터인지 확인
+  const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
+
+  bool found = false;
+
+  for (const auto& character : login_session->GetCharacterList()) {
+    if (character.id() == request.character_id()) {
+      found = true;
+      break;
+    }
+  }
+
+  if (found) {
+    login_session->Disconnect(L"Invalid character id");
+    return;
+  }
 }

@@ -26,7 +26,10 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void HandleRecvPackets() const;
 
-	void Shutdown() override;
+	virtual void Shutdown() override;
+
+	void QuitGame();
+	
 
 public:
 	UFUNCTION(BlueprintCallable)

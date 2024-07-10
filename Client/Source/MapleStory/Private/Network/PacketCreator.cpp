@@ -24,3 +24,11 @@ FSendBufferRef FPacketCreator::GetCharacterListRequest() {
 	const auto SendBuffer = FLoginServerPacketHandler::MakeSendBuffer(Packet);
 	return SendBuffer;
 }
+
+FSendBufferRef FPacketCreator::GetSelectCharacterRequest(int32 CharacterId) {
+	LoginClientSelectCharacter Packet;
+	Packet.set_character_id(CharacterId);
+
+	const auto SendBuffer = FLoginServerPacketHandler::MakeSendBuffer(Packet);
+	return SendBuffer;
+}

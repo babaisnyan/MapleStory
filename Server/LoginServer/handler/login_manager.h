@@ -16,6 +16,7 @@ public:
 
   void HandleLoginRequest(const PacketSessionRef& session, const protocol::LoginClientLogin& request);
   void HandleCharacterListRequest(const PacketSessionRef& session, const protocol::LoginClientRequestCharacterList& request);
+  void HandleSelectCharacterRequest(const PacketSessionRef& session, const protocol::LoginClientSelectCharacter& request);
 
 private:
   std::shared_ptr<LoginHandler> _login_handler;

@@ -3,9 +3,12 @@
 
 #include "GameModes/LoginGameMode.h"
 
+#include "MapleGameInstance.h"
 #include "Characters/LoginCharacter.h"
 #include "GameFramework/GameUserSettings.h"
 #include "Kismet/GameplayStatics.h"
+#include "Network/LoginServerPacketHandler.h"
+#include "Network/PacketCreator.h"
 
 void ALoginGameMode::BeginPlay() {
 	Super::BeginPlay();
@@ -24,5 +27,11 @@ void ALoginGameMode::BeginPlay() {
 }
 
 void ALoginGameMode::StartGame() {
-	
+	UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
+	if (!GameInstance) return;
+
+	check(LoginCharacters.Num() > SelectedPlayerIndex);
+
+	const auto SendBuffer = FPacketCreator::GetSelectCharacterRequest(LoginCharacters[SelectedPlayerIndex].id());
+	FLoginServerPacketHandler::GameInstance->SendPacket(SendBuffer);
 }
