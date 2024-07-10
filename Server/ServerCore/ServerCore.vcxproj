@@ -175,10 +175,7 @@
     <ClInclude Include="job\job.h" />
     <ClInclude Include="job\job_queue.h" />
     <ClInclude Include="job\job_timer.h" />
-    <ClInclude Include="log\console_log.h">
-      <DeploymentContent>false</DeploymentContent>
-      <FileType>CppHeader</FileType>
-    </ClInclude>
+    <ClInclude Include="log\console_log.h"/>
     <ClInclude Include="memory\allocator.h" />
     <ClInclude Include="memory\container.h" />
     <ClInclude Include="memory\memory.h" />
@@ -223,9 +220,7 @@
     <ClCompile Include="job\job.cpp" />
     <ClCompile Include="job\job_queue.cpp" />
     <ClCompile Include="job\job_timer.cpp" />
-    <ClCompile Include="log\console_log.cpp">
-      <DeploymentContent>false</DeploymentContent>
-    </ClCompile>
+    <ClCompile Include="log\console_log.cpp"/>
     <ClCompile Include="memory\allocator.cpp" />
     <ClCompile Include="memory\memory.cpp" />
     <ClCompile Include="memory\memory_pool.cpp" />
