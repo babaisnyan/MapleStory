@@ -9,7 +9,7 @@
 #include "database/db_connection_pool.h"
 
 void LoginHandler::HandleLogin(PacketSessionRef session, protocol::LoginClientLogin request) {
-  const LoginSessionRef      login_session = std::static_pointer_cast<LoginSession>(session);
+  const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
   protocol::LoginServerLogin response;
   response.set_result(protocol::ServerError);
 
@@ -53,7 +53,7 @@ void LoginHandler::HandleLogin(PacketSessionRef session, protocol::LoginClientLo
 }
 
 void LoginHandler::HandleCharacterList(PacketSessionRef session, protocol::LoginClientRequestCharacterList request) {
-  const LoginSessionRef              login_session = std::static_pointer_cast<LoginSession>(session);
+  const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
   protocol::LoginServerCharacterList response;
 
   if (auto connection = DbConnectionPool::GetInstance().GetConnection()) {
@@ -96,6 +96,8 @@ void LoginHandler::HandleCharacterList(PacketSessionRef session, protocol::Login
           if (!name_str.has_value()) continue;
 
           protocol::LoginCharacter* character = response.add_characters();
+          auto login_character = std::make_shared<LoginCharacter>(id, name, level, type, job, hp, mp, str, dex, luk, int_);
+
           character->set_id(id);
           character->set_name(name_str.value());
           character->set_level(level);
@@ -107,7 +109,7 @@ void LoginHandler::HandleCharacterList(PacketSessionRef session, protocol::Login
           character->set_dex(dex);
           character->set_luk(luk);
           character->set_int_(int_);
-          login_session->AddCharacter(*character);
+          login_session->AddCharacter(login_character);
         }
       } while (bind.GetMoreResult() != SQL_NO_DATA);
     }
@@ -119,20 +121,21 @@ void LoginHandler::HandleCharacterList(PacketSessionRef session, protocol::Login
 }
 
 void LoginHandler::HandleSelectCharacter(PacketSessionRef session, protocol::LoginClientSelectCharacter request) {
-  //TODO: 소유한 캐릭터인지 확인
   const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
 
   bool found = false;
 
   for (const auto& character : login_session->GetCharacterList()) {
-    if (character.id() == request.character_id()) {
+    if (character->GetId() == request.character_id()) {
       found = true;
       break;
     }
   }
 
-  if (found) {
+  if (!found) {
     login_session->Disconnect(L"Invalid character id");
     return;
   }
+
+  //TODO: 센터서버 통신
 }

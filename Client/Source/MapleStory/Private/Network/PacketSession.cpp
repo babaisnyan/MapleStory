@@ -1,11 +1,11 @@
 #include "Network/PacketSession.h"
 
+#include "MapleGameInstance.h"
+#include "Kismet/GameplayStatics.h"
 #include "Network/LoginServerPacketHandler.h"
 #include "Network/NetworkWorker.h"
 
 FPacketSession::FPacketSession(FSocket* Socket) : Socket(Socket) {}
-
-FPacketSession::~FPacketSession() {}
 
 void FPacketSession::Run() {
 	RecvWorkerThread = MakeShared<FRecvWorker>(Socket, AsShared());
@@ -21,6 +21,14 @@ void FPacketSession::Disconnect() {
 	if (SendWorkerThread) {
 		SendWorkerThread->Destroy();
 		SendWorkerThread = nullptr;
+	}
+}
+
+void FPacketSession::OnServerDisconnected() {
+	const UWorld* World = GEngine->GetWorld();
+
+	if (UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(UGameplayStatics::GetGameInstance(World))) {
+		GameInstance->QuitGame();
 	}
 }
 

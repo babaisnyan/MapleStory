@@ -86,5 +86,8 @@
     <ClInclude Include="handler\login_manager.h">
       <Filter>handler</Filter>
     </ClInclude>
+    <ClInclude Include="data\login_character.h">
+      <Filter>data</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

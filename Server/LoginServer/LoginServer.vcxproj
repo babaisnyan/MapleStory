@@ -204,6 +204,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="data\login_character.h" />
     <ClInclude Include="handler\login_handler.h" />
     <ClInclude Include="handler\login_manager.h" />
     <ClInclude Include="network\login_client_packet_handler.h" />

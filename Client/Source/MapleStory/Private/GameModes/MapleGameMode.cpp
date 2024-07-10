@@ -3,13 +3,9 @@
 
 #include "GameModes/MapleGameMode.h"
 
-#include "NavigationSystem.h"
-#include "AI/NavDataGenerator.h"
-#include "AI/NavigationSystemBase.h"
 #include "Characters/MaplePlayerController.h"
 #include "Characters/MsPlayer.h"
 #include "GameFramework/GameUserSettings.h"
-#include "NavMesh/RecastNavMesh.h"
 
 
 AMapleGameMode::AMapleGameMode() {
@@ -40,14 +36,4 @@ void AMapleGameMode::BeginPlay() {
 	const FIntPoint NewResolution(1920, 1080);
 	GEngine->GameUserSettings->SetScreenResolution(NewResolution);
 	GEngine->GameUserSettings->ApplyResolutionSettings(false);
-
-	// FWorldContext Context = GEngine->GetWorldContexts().Last();
-	// UWorld* World = GetWorld();
-	// UNavigationSystemV1* NavSys = FNavigationSystem::GetCurrent<UNavigationSystemV1>(World);
-	// ANavigationData* NavData = NavSys->GetDefaultNavDataInstance(FNavigationSystem::ECreateIfEmpty::Create);
-	// NavData->RebuildAll();
-	// NavData->EnsureBuildCompletion();
-	// ARecastNavMesh* NavMesh = Cast<ARecastNavMesh>(NavData);
-	// FNavDataGenerator* NavDataGenerator = NavMesh->GetGenerator();
-	// NavDataGenerator->ExportNavigationData(FString(TEXT("C:\\Nexon\\test.obj")));
 }

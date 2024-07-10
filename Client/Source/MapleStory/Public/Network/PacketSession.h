@@ -12,11 +12,12 @@ class FSendWorker;
 class MAPLESTORY_API FPacketSession : public TSharedFromThis<FPacketSession> {
 public:
 	explicit FPacketSession(FSocket* Socket);
-	~FPacketSession();
+	~FPacketSession() = default;
 
 public:
 	void Run();
 	void Disconnect();
+	void OnServerDisconnected();
 
 public:
 	UFUNCTION(BlueprintCallable)
@@ -29,7 +30,7 @@ public:
 
 	bool DequeueSendPacket(FSendBufferRef& SendBuffer) {
 		if (SendPacketQueue.IsEmpty()) return false;
-		
+
 		return SendPacketQueue.Dequeue(SendBuffer);
 	}
 

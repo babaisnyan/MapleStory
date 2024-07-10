@@ -22,9 +22,6 @@ uint32 FRecvWorker::Run() {
 	while (bRunning) {
 		TArray<uint8> Packet;
 
-		// if socket is disconnected, break the loop
-		
-
 		if (!ReceivePacket(Packet)) continue;
 
 		if (const TSharedPtr<FPacketSession> Session = SessionRef.Pin()) {
@@ -46,7 +43,7 @@ void FRecvWorker::Destroy() {
 	bRunning = false;
 }
 
-bool FRecvWorker::ReceivePacket(TArray<uint8>& OutPacket) const {
+bool FRecvWorker::ReceivePacket(TArray<uint8>& OutPacket) {
 	constexpr int32 HeaderSize = sizeof(FPacketHeader);
 	TArray<uint8> HeaderBuffer;
 	HeaderBuffer.AddZeroed(HeaderSize);
@@ -58,7 +55,6 @@ bool FRecvWorker::ReceivePacket(TArray<uint8>& OutPacket) const {
 	FPacketHeader Header;
 	FMemoryReader Reader(HeaderBuffer);
 	Reader << Header;
-	UE_LOG(LogTemp, Warning, TEXT("Packet size: %d, id: %d"), Header.PacketSize, Header.PacketId);
 
 	OutPacket = HeaderBuffer;
 
@@ -77,7 +73,7 @@ bool FRecvWorker::ReceivePacket(TArray<uint8>& OutPacket) const {
 	return false;
 }
 
-bool FRecvWorker::ReceiveDesiredBytes(uint8* Buffer, int32 Size) const {
+bool FRecvWorker::ReceiveDesiredBytes(uint8* Buffer, int32 Size) {
 	uint32 PendingDataSize = 0;
 
 	if (!Socket->HasPendingData(PendingDataSize) || PendingDataSize <= 0) {
@@ -88,7 +84,17 @@ bool FRecvWorker::ReceiveDesiredBytes(uint8* Buffer, int32 Size) const {
 
 	while (Size > 0) {
 		int32 ReadSize = 0;
-		Socket->Recv(Buffer + Offset, Size, ReadSize);
+
+		if (!Socket->Recv(Buffer + Offset, Size, ReadSize)) {
+			if (auto Session = SessionRef.Pin()) {
+				Session->Disconnect();
+				Session->OnServerDisconnected();
+			}
+
+			bRunning = false;
+			return false;
+		}
+
 		check(ReadSize <= Size);
 
 		if (ReadSize <= 0) {

@@ -1,4 +1,6 @@
 #pragma once
+#include "../data/login_character.h"
+
 #include "network/session.h"
 
 #include "protocol/login_struct.pb.h"
@@ -11,10 +13,10 @@ public:
 
 public:
   int32_t GetAccountId() const { return _account_id; }
-  void    SetAccountId(const int32_t account_id) { _account_id = account_id; }
+  void SetAccountId(const int32_t account_id) { _account_id = account_id; }
 
-  Vector<protocol::LoginCharacter>& GetCharacterList() { return _character_list; }
-  void AddCharacter(const protocol::LoginCharacter& character) { _character_list.push_back(character); }
+  Vector<std::shared_ptr<LoginCharacter>>& GetCharacterList() { return _character_list; }
+  void AddCharacter(const std::shared_ptr<LoginCharacter>& character) { _character_list.push_back(character); }
 
 protected:
   void OnConnected() override;
@@ -24,5 +26,5 @@ protected:
 
 private:
   int32_t _account_id = 0;
-  Vector<protocol::LoginCharacter> _character_list;
+  Vector<std::shared_ptr<LoginCharacter>> _character_list;
 };

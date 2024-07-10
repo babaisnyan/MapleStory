@@ -24,19 +24,6 @@ bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::Lo
 			return false;
 		}
 
-		const APlayerController* Controller = World->GetFirstPlayerController();
-		if (!Controller) {
-			return false;
-		}
-
-		const ALoginController* LoginController = Cast<ALoginController>(Controller);
-		if (!LoginController) {
-			return false;
-		}
-
-		LoginController->LoginWindow->SetVisibility(ESlateVisibility::Hidden);
-		FLoginServerPacketHandler::GameInstance->ChangeLoginState(ELoginState::CharacterSelection);
-
 		const auto SendBuffer = FPacketCreator::GetCharacterListRequest();
 		FLoginServerPacketHandler::GameInstance->SendPacket(SendBuffer);
 	} else {
@@ -62,6 +49,19 @@ bool HandleLoginServerCharacterList(const FPacketSessionRef& Session, const prot
 	if (!GameMode) {
 		return false;
 	}
+
+	const APlayerController* Controller = World->GetFirstPlayerController();
+	if (!Controller) {
+		return false;
+	}
+
+	const ALoginController* LoginController = Cast<ALoginController>(Controller);
+	if (!LoginController) {
+		return false;
+	}
+
+	LoginController->LoginWindow->SetVisibility(ESlateVisibility::Hidden);
+	FLoginServerPacketHandler::GameInstance->ChangeLoginState(ELoginState::CharacterSelection);
 
 	if (Packet.characters_size() == 0) return true;
 

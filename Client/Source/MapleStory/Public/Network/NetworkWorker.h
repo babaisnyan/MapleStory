@@ -16,8 +16,8 @@ public:
 	void Destroy();
 
 private:
-	bool ReceivePacket(TArray<uint8>& OutPacket) const;
-	bool ReceiveDesiredBytes(uint8* Buffer, int32 Size) const;
+	bool ReceivePacket(TArray<uint8>& OutPacket);
+	bool ReceiveDesiredBytes(uint8* Buffer, int32 Size);
 
 protected:
 	FSocket* Socket = nullptr;
