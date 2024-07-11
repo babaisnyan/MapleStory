@@ -49,6 +49,43 @@ void ALoginCharacter::SetAvatar(const int32 Index, const EAvatarType AvatarType,
 	}
 }
 
+void ALoginCharacter::DeleteAvatar(const int32 Index) {
+	check(Index >= 0 && Index < Avatars.Num());
+
+	Avatars[Index] = EAvatarType::None;
+	AvatarNames[Index] = "";
+
+	TArray<EAvatarType> NewAvatars;
+	TArray<FString> NewAvatarNames;
+	NewAvatars.Reserve(6);
+	NewAvatarNames.Reserve(6);
+
+	int32 AddCount = 0;
+
+	for (int i = 0; i < Avatars.Num(); i++) {
+		if (Avatars[i] != EAvatarType::None) {
+			NewAvatars.Add(Avatars[i]);
+			NewAvatarNames.Add(AvatarNames[i]);
+			AddCount++;
+		}
+	}
+
+	for (int i = 0; i < 6 - AddCount; i++) {
+		NewAvatars.Add(EAvatarType::None);
+		NewAvatarNames.Add("");
+	}
+
+	Avatars = NewAvatars;
+	AvatarNames = NewAvatarNames;
+	MaxAvatarCount = FMath::Max(MaxAvatarCount - 1, 0);
+
+	if (Avatars[0] == EAvatarType::None) {
+		SelectedAvatarIndex = -1;
+	} else {
+		SelectedAvatarIndex = 0;
+	}
+}
+
 void ALoginCharacter::BeginPlay() {
 	Super::BeginPlay();
 

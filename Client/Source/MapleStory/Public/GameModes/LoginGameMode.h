@@ -24,45 +24,34 @@ public:
 	void StartGame();
 
 	UFUNCTION(BlueprintCallable)
-	FString GetSelectedPlayerName() {
-		check(SelectedPlayerIndex >= 0 && SelectedPlayerIndex < LoginCharacters.Num());
-		FString Name = UTF8_TO_TCHAR(LoginCharacters[SelectedPlayerIndex].name().c_str());
-		return Name;
-	}
+	void Delete();
 
 	UFUNCTION(BlueprintCallable)
-	int32 GetSelectedPlayerStr() {
-		check(SelectedPlayerIndex >= 0 && SelectedPlayerIndex < LoginCharacters.Num());
-		return LoginCharacters[SelectedPlayerIndex].str();
-	}
+	FString GetSelectedPlayerName();
 
 	UFUNCTION(BlueprintCallable)
-	int GetSelectedPlayerDex() {
-		check(SelectedPlayerIndex >= 0 && SelectedPlayerIndex < LoginCharacters.Num());
-		return LoginCharacters[SelectedPlayerIndex].dex();
-	}
+	int32 GetSelectedPlayerStr();
 
 	UFUNCTION(BlueprintCallable)
-	int GetSelectedPlayerInt() {
-		check(SelectedPlayerIndex >= 0 && SelectedPlayerIndex < LoginCharacters.Num());
-		return LoginCharacters[SelectedPlayerIndex].int_();
-	}
+	int GetSelectedPlayerDex();
 
 	UFUNCTION(BlueprintCallable)
-	int GetSelectedPlayerLuk() {
-		check(SelectedPlayerIndex >= 0 && SelectedPlayerIndex < LoginCharacters.Num());
-		return LoginCharacters[SelectedPlayerIndex].luk();
-	}
+	int GetSelectedPlayerInt();
 
 	UFUNCTION(BlueprintCallable)
-	EJobType GetSelectedPlayerJob() {
-		check(SelectedPlayerIndex >= 0 && SelectedPlayerIndex < LoginCharacters.Num());
-		return static_cast<EJobType>(LoginCharacters[SelectedPlayerIndex].job());
-	}
+	int GetSelectedPlayerLuk();
 
+	UFUNCTION(BlueprintCallable)
+	EJobType GetSelectedPlayerJob();
+
+	UFUNCTION(BlueprintCallable)
+	FString GetSelectedPlayerLevelText();
+
+	void DeleteCharacter(int32 CharacterId);
+	
 public:
 	UPROPERTY(BlueprintReadOnly)
-	bool bCharacterSelected = true;
+	bool bCharacterSelected = false;
 
 	UPROPERTY(BlueprintReadOnly)
 	bool bCanCreateCharacter = true;

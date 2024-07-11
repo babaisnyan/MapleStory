@@ -84,6 +84,32 @@ inline bool LoginResult_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<LoginResult>(
     LoginResult_descriptor(), name, value);
 }
+enum CreateCharResult : int {
+  CreateCharSuccess = 0,
+  CreateCharInvalidName = 1,
+  CreateCharServerError = 2,
+  CreateCharResult_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  CreateCharResult_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool CreateCharResult_IsValid(int value);
+constexpr CreateCharResult CreateCharResult_MIN = CreateCharSuccess;
+constexpr CreateCharResult CreateCharResult_MAX = CreateCharServerError;
+constexpr int CreateCharResult_ARRAYSIZE = CreateCharResult_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* CreateCharResult_descriptor();
+template<typename T>
+inline const std::string& CreateCharResult_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, CreateCharResult>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function CreateCharResult_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    CreateCharResult_descriptor(), enum_t_value);
+}
+inline bool CreateCharResult_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, CreateCharResult* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<CreateCharResult>(
+    CreateCharResult_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -110,6 +136,11 @@ template <> struct is_proto_enum< ::protocol::LoginResult> : ::std::true_type {}
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::protocol::LoginResult>() {
   return ::protocol::LoginResult_descriptor();
+}
+template <> struct is_proto_enum< ::protocol::CreateCharResult> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::protocol::CreateCharResult>() {
+  return ::protocol::CreateCharResult_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

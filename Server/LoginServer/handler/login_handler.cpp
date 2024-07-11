@@ -139,3 +139,54 @@ void LoginHandler::HandleSelectCharacter(PacketSessionRef session, protocol::Log
 
   //TODO: 센터서버 통신
 }
+
+void LoginHandler::HandleDeleteCharacter(PacketSessionRef session, protocol::LoginClientDeleteCharacter request) {
+  const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
+  protocol::LoginServerDeleteCharacter response;
+  response.set_success(false);
+  response.set_character_id(request.character_id());
+
+  bool found = false;
+
+  for (const auto& character : login_session->GetCharacterList()) {
+    if (character->GetId() == request.character_id()) {
+      found = true;
+      login_session->RemoveCharacter(character);
+      break;
+    }
+  }
+
+  if (found) {
+    if (auto connection = DbConnectionPool::GetInstance().GetConnection()) {
+      DbBind<1, 1> bind(*connection, L"{CALL dbo.spDeleteCharacter(?)}");
+
+      int32_t character_id = request.character_id();
+      bind.BindParam(0, character_id);
+
+      int32_t result = 0;
+      bind.BindCol(0, result);
+
+      if (bind.Execute()) {
+        do {
+          int16_t count = 0;
+          bind.GetResultColumnCount(&count);
+
+          if (count > 0 && bind.Fetch()) {
+            if (result == 1) {
+              response.set_success(true);
+            }
+          }
+        } while (bind.GetMoreResult() != SQL_NO_DATA);
+      }
+
+      DbConnectionPool::GetInstance().ReleaseConnection(connection);
+    }
+  }
+
+  login_session->Send(LoginClientPacketHandler::MakeSendBuffer(response));
+}
+
+void LoginHandler::HandleCreateCharacter(PacketSessionRef session, protocol::LoginClientCreateCharacter request) {
+  const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
+  protocol::LoginServerCreateCharacter response;
+}

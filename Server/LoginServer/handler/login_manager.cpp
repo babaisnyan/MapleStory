@@ -12,3 +12,11 @@ void LoginManager::HandleCharacterListRequest(const PacketSessionRef& session, c
 void LoginManager::HandleSelectCharacterRequest(const PacketSessionRef& session, const protocol::LoginClientSelectCharacter& request) {
   _login_handler->DoAsync(&LoginHandler::HandleSelectCharacter, session, request);
 }
+
+void LoginManager::HandleDeleteCharacterRequest(const PacketSessionRef& session, const protocol::LoginClientDeleteCharacter& request) {
+  _login_handler->DoAsync(&LoginHandler::HandleDeleteCharacter, session, request);
+}
+
+void LoginManager::HandleCreateCharacterRequest(const PacketSessionRef& session, const protocol::LoginClientCreateCharacter& request) {
+  _login_handler->DoAsync(&LoginHandler::HandleCreateCharacter, session, request);
+}

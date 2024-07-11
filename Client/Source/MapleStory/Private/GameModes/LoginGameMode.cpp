@@ -33,5 +33,96 @@ void ALoginGameMode::StartGame() {
 	check(LoginCharacters.Num() > SelectedPlayerIndex);
 
 	const auto SendBuffer = FPacketCreator::GetSelectCharacterRequest(LoginCharacters[SelectedPlayerIndex].id());
-	FLoginServerPacketHandler::GameInstance->SendPacket(SendBuffer);
+	GameInstance->SendPacket(SendBuffer);
+}
+
+void ALoginGameMode::Delete() {
+	UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
+	if (!GameInstance) return;
+
+	check(LoginCharacters.Num() > SelectedPlayerIndex);
+
+	const auto SendBuffer = FPacketCreator::GetDeleteCharacterRequest(LoginCharacters[SelectedPlayerIndex].id());
+	GameInstance->SendPacket(SendBuffer);
+}
+
+FString ALoginGameMode::GetSelectedPlayerName() {
+	if (SelectedPlayerIndex < 0 || SelectedPlayerIndex >= LoginCharacters.Num()) {
+		return "";
+	}
+	
+	FString Name = UTF8_TO_TCHAR(LoginCharacters[SelectedPlayerIndex].name().c_str());
+	return Name;
+}
+
+int32 ALoginGameMode::GetSelectedPlayerStr() {
+	if (SelectedPlayerIndex < 0 || SelectedPlayerIndex >= LoginCharacters.Num()) {
+		return 0;
+	}
+	
+	return LoginCharacters[SelectedPlayerIndex].str();
+}
+
+int ALoginGameMode::GetSelectedPlayerDex() {
+	if (SelectedPlayerIndex < 0 || SelectedPlayerIndex >= LoginCharacters.Num()) {
+		return 0;
+	}
+	
+	return LoginCharacters[SelectedPlayerIndex].dex();
+}
+
+int ALoginGameMode::GetSelectedPlayerInt() {
+	if (SelectedPlayerIndex < 0 || SelectedPlayerIndex >= LoginCharacters.Num()) {
+		return 0;
+	}
+
+	return LoginCharacters[SelectedPlayerIndex].int_();
+}
+
+int ALoginGameMode::GetSelectedPlayerLuk() {
+	if (SelectedPlayerIndex < 0 || SelectedPlayerIndex >= LoginCharacters.Num()) {
+		return 0;
+	}
+
+	return LoginCharacters[SelectedPlayerIndex].luk();
+}
+
+EJobType ALoginGameMode::GetSelectedPlayerJob() {
+	if (SelectedPlayerIndex < 0 || SelectedPlayerIndex >= LoginCharacters.Num()) {
+		return EJobType::Error;
+	}
+
+	return static_cast<EJobType>(LoginCharacters[SelectedPlayerIndex].job());
+}
+
+FString ALoginGameMode::GetSelectedPlayerLevelText() {
+	if (SelectedPlayerIndex < 0 || SelectedPlayerIndex >= LoginCharacters.Num()) {
+		return "";
+	}
+
+	FString LevelText = FString::Printf(TEXT("<img id=\"LoginLv\"/>"));
+	const FString Level = FString::Printf(TEXT("%d"), LoginCharacters[SelectedPlayerIndex].level());
+
+	for (int32 i = 0; i < Level.Len(); i++) {
+		LevelText += FString::Printf(TEXT("<img id=\"LoginLv%d\"/>"), Level[i] - '0');
+	}
+
+	return LevelText;
+}
+
+void ALoginGameMode::DeleteCharacter(const int32 CharacterId) {
+	for (int i = 0; i < LoginCharacters.Num(); i++) {
+		if (LoginCharacters[i].id() == CharacterId) {
+			LoginCharacterVisualizer->DeleteAvatar(i);
+			LoginCharacters.RemoveAt(i);
+
+			if (LoginCharacters.Num()) {
+				SelectedPlayerIndex = 0;
+			} else {
+				SelectedPlayerIndex = -1;
+				bCharacterSelected = false;
+			}
+			break;
+		}
+	}
 }

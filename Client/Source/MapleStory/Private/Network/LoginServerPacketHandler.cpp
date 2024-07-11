@@ -7,6 +7,7 @@
 #include "GameModes/LoginGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Network/PacketCreator.h"
+#include "UI/LoginMessageWindow.h"
 
 bool HandleLoginInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("Invalid packet received"));
@@ -14,6 +15,12 @@ bool HandleLoginInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 L
 }
 
 bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::LoginServerLogin& Packet) {
+	static auto WindowClass = StaticLoadClass(ULoginMessageWindow::StaticClass(), nullptr, TEXT("/Game/UI/Login/WB_LoginNotice.WB_LoginNotice_C"));
+
+	if (!WindowClass) {
+		return false;
+	}
+
 	if (Packet.result() == protocol::Success) {
 		if (!FLoginServerPacketHandler::GameInstance) {
 			return false;
@@ -28,8 +35,9 @@ bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::Lo
 		FLoginServerPacketHandler::GameInstance->SendPacket(SendBuffer);
 	} else {
 		const int8 ErrorCode = Packet.result();
-		//TODO: 오류 메시지 창 띄우기
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Login failed with error code: %d"), ErrorCode));
+		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
+		Window->ErrorCode = ErrorCode;
+		Window->AddToViewport();
 	}
 
 	return true;
@@ -78,6 +86,38 @@ bool HandleLoginServerCharacterList(const FPacketSessionRef& Session, const prot
 	}
 
 
+	return true;
+}
+
+bool HandleLoginServerDeleteCharacter(const FPacketSessionRef& Session, const protocol::LoginServerDeleteCharacter& Packet) {
+	static auto WindowClass = StaticLoadClass(ULoginMessageWindow::StaticClass(), nullptr, TEXT("/Game/UI/Login/WB_LoginNotice.WB_LoginNotice_C"));
+	
+	if (!FLoginServerPacketHandler::GameInstance) {
+		return false;
+	}
+
+	const UWorld* World = FLoginServerPacketHandler::GameInstance->GetWorld();
+	if (!World) {
+		return false;
+	}
+
+	ALoginGameMode* GameMode = Cast<ALoginGameMode>(UGameplayStatics::GetGameMode(World));
+	if (!GameMode) {
+		return false;
+	}
+
+	if (Packet.success()) {
+		GameMode->DeleteCharacter(Packet.character_id());
+	} else {
+		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
+		Window->ErrorCode = 4;
+		Window->AddToViewport();
+	}
+
+	return true;
+}
+
+bool HandleLoginServerCreateCharacter(const FPacketSessionRef& Session, const protocol::LoginServerCreateCharacter& Packet) {
 	return true;
 }
 

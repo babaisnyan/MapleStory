@@ -6,10 +6,10 @@
 #include "MapleStory.h"
 
 
-class MAPLESTORY_API FPacketCreator
-{
+class MAPLESTORY_API FPacketCreator {
 public:
 	static FSendBufferRef GetLoginRequest(const FString& Username, const FString& Password);
 	static FSendBufferRef GetCharacterListRequest();
 	static FSendBufferRef GetSelectCharacterRequest(int32 CharacterId);
+	static FSendBufferRef GetDeleteCharacterRequest(int32 CharacterId);
 };

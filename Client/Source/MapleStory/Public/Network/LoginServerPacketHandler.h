@@ -13,12 +13,18 @@ enum : uint16 {
   PKT_LOGINCLIENTREQUESTCHARACTERLIST = 1002,
   PKT_LOGINSERVERCHARACTERLIST = 1003,
   PKT_LOGINCLIENTSELECTCHARACTER = 1004,
-  PKT_LOGINSERVERCHAT = 1005,
+  PKT_LOGINCLIENTDELETECHARACTER = 1005,
+  PKT_LOGINSERVERDELETECHARACTER = 1006,
+  PKT_LOGINCLIENTCREATECHARACTER = 1007,
+  PKT_LOGINSERVERCREATECHARACTER = 1008,
+  PKT_LOGINSERVERCHAT = 1009,
 };
 
 bool HandleLoginInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len);
 bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::LoginServerLogin& Packet);
 bool HandleLoginServerCharacterList(const FPacketSessionRef& Session, const protocol::LoginServerCharacterList& Packet);
+bool HandleLoginServerDeleteCharacter(const FPacketSessionRef& Session, const protocol::LoginServerDeleteCharacter& Packet);
+bool HandleLoginServerCreateCharacter(const FPacketSessionRef& Session, const protocol::LoginServerCreateCharacter& Packet);
 bool HandleLoginServerChat(const FPacketSessionRef& Session, const protocol::LoginServerChat& Packet);
 
 class FLoginServerPacketHandler {
@@ -35,6 +41,12 @@ public:
     };
     PacketHandlers[PKT_LOGINSERVERCHARACTERLIST] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
       return HandlePacket<protocol::LoginServerCharacterList>(HandleLoginServerCharacterList, Session, Buffer, Len);
+    };
+    PacketHandlers[PKT_LOGINSERVERDELETECHARACTER] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
+      return HandlePacket<protocol::LoginServerDeleteCharacter>(HandleLoginServerDeleteCharacter, Session, Buffer, Len);
+    };
+    PacketHandlers[PKT_LOGINSERVERCREATECHARACTER] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
+      return HandlePacket<protocol::LoginServerCreateCharacter>(HandleLoginServerCreateCharacter, Session, Buffer, Len);
     };
     PacketHandlers[PKT_LOGINSERVERCHAT] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
       return HandlePacket<protocol::LoginServerChat>(HandleLoginServerChat, Session, Buffer, Len);
@@ -60,6 +72,12 @@ public:
   }
   static FSendBufferRef MakeSendBuffer(const protocol::LoginClientSelectCharacter& Packet) { 
     return MakeSendBufferInternal(Packet, PKT_LOGINCLIENTSELECTCHARACTER); 
+  }
+  static FSendBufferRef MakeSendBuffer(const protocol::LoginClientDeleteCharacter& Packet) { 
+    return MakeSendBufferInternal(Packet, PKT_LOGINCLIENTDELETECHARACTER); 
+  }
+  static FSendBufferRef MakeSendBuffer(const protocol::LoginClientCreateCharacter& Packet) { 
+    return MakeSendBufferInternal(Packet, PKT_LOGINCLIENTCREATECHARACTER); 
   }
 
 private:

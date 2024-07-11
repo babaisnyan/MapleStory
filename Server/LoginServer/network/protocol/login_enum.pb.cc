@@ -18,7 +18,7 @@
 PROTOBUF_PRAGMA_INIT_SEG
 namespace protocol {
 }  // namespace protocol
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_login_5fenum_2eproto[1];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_login_5fenum_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_login_5fenum_2eproto = nullptr;
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_login_5fenum_2eproto::offsets[1] = {};
 static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = nullptr;
@@ -28,11 +28,14 @@ const char descriptor_table_protodef_login_5fenum_2eproto[] PROTOBUF_SECTION_VAR
   "\n\020login_enum.proto\022\010protocol*j\n\013LoginRes"
   "ult\022\013\n\007Success\020\000\022\023\n\017InvalidUsername\020\001\022\023\n"
   "\017InvalidPassword\020\002\022\023\n\017AlreadyLoggedIn\020\003\022"
-  "\017\n\013ServerError\020\004b\006proto3"
+  "\017\n\013ServerError\020\004*_\n\020CreateCharResult\022\025\n\021"
+  "CreateCharSuccess\020\000\022\031\n\025CreateCharInvalid"
+  "Name\020\001\022\031\n\025CreateCharServerError\020\002b\006proto"
+  "3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_login_5fenum_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_login_5fenum_2eproto = {
-  false, false, 144, descriptor_table_protodef_login_5fenum_2eproto, "login_enum.proto", 
+  false, false, 241, descriptor_table_protodef_login_5fenum_2eproto, "login_enum.proto", 
   &descriptor_table_login_5fenum_2eproto_once, nullptr, 0, 0,
   schemas, file_default_instances, TableStruct_login_5fenum_2eproto::offsets,
   nullptr, file_level_enum_descriptors_login_5fenum_2eproto, file_level_service_descriptors_login_5fenum_2eproto,
@@ -55,6 +58,21 @@ bool LoginResult_IsValid(int value) {
     case 2:
     case 3:
     case 4:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* CreateCharResult_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_login_5fenum_2eproto);
+  return file_level_enum_descriptors_login_5fenum_2eproto[1];
+}
+bool CreateCharResult_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
       return true;
     default:
       return false;

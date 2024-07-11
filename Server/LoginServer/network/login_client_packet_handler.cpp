@@ -21,3 +21,13 @@ bool HandleLoginClientSelectCharacter(const PacketSessionRef& session, const pro
   LoginManager::GetInstance().HandleSelectCharacterRequest(session, packet);
   return true;
 }
+
+bool HandleLoginClientDeleteCharacter(const PacketSessionRef& session, const protocol::LoginClientDeleteCharacter& packet) {
+  LoginManager::GetInstance().HandleDeleteCharacterRequest(session, packet);
+  return true;
+}
+
+bool HandleLoginClientCreateCharacter(const PacketSessionRef& session, const protocol::LoginClientCreateCharacter& packet) {
+  LoginManager::GetInstance().HandleCreateCharacterRequest(session, packet);
+  return true;
+}

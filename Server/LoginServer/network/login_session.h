@@ -17,6 +17,7 @@ public:
 
   Vector<std::shared_ptr<LoginCharacter>>& GetCharacterList() { return _character_list; }
   void AddCharacter(const std::shared_ptr<LoginCharacter>& character) { _character_list.push_back(character); }
+  void RemoveCharacter(const std::shared_ptr<LoginCharacter>& character) { std::erase(_character_list, character); }
 
 protected:
   void OnConnected() override;

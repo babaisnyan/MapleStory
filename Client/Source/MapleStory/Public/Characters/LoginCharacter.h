@@ -19,6 +19,7 @@ private:
 
 public:
 	void SetAvatar(int32 Index, EAvatarType AvatarType, const FString& AvatarName);
+	void DeleteAvatar(int32 Index);
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 

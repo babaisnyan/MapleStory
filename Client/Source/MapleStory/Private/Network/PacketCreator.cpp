@@ -25,8 +25,16 @@ FSendBufferRef FPacketCreator::GetCharacterListRequest() {
 	return SendBuffer;
 }
 
-FSendBufferRef FPacketCreator::GetSelectCharacterRequest(int32 CharacterId) {
+FSendBufferRef FPacketCreator::GetSelectCharacterRequest(const int32 CharacterId) {
 	LoginClientSelectCharacter Packet;
+	Packet.set_character_id(CharacterId);
+
+	const auto SendBuffer = FLoginServerPacketHandler::MakeSendBuffer(Packet);
+	return SendBuffer;
+}
+
+FSendBufferRef FPacketCreator::GetDeleteCharacterRequest(const int32 CharacterId) {
+	LoginClientDeleteCharacter Packet;
 	Packet.set_character_id(CharacterId);
 
 	const auto SendBuffer = FLoginServerPacketHandler::MakeSendBuffer(Packet);

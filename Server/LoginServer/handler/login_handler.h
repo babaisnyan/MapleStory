@@ -8,4 +8,6 @@ public:
   void HandleLogin(PacketSessionRef session, protocol::LoginClientLogin request);
   void HandleCharacterList(PacketSessionRef session, protocol::LoginClientRequestCharacterList request);
   void HandleSelectCharacter(PacketSessionRef session, protocol::LoginClientSelectCharacter request);
+  void HandleDeleteCharacter(PacketSessionRef session, protocol::LoginClientDeleteCharacter request);
+  void HandleCreateCharacter(PacketSessionRef session, protocol::LoginClientCreateCharacter request);
 };

@@ -24,6 +24,24 @@ message LoginClientSelectCharacter {
 	int32 character_id = 1;
 }
 
+message LoginClientDeleteCharacter {
+	int32 character_id = 1;
+}
+
+message LoginServerDeleteCharacter {
+	bool success = 1;
+	int32 character_id = 2;
+}
+
+message LoginClientCreateCharacter {
+	string name = 1;
+	int32 type = 2;
+}
+
+message LoginServerCreateCharacter {
+	CreateCharResult result = 1;
+}
+
 message LoginServerChat {
 	string message = 1;
 }

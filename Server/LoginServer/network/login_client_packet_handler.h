@@ -11,13 +11,19 @@ enum : uint16_t {
   PKT_LOGINCLIENTREQUESTCHARACTERLIST = 1002,
   PKT_LOGINSERVERCHARACTERLIST = 1003,
   PKT_LOGINCLIENTSELECTCHARACTER = 1004,
-  PKT_LOGINSERVERCHAT = 1005,
+  PKT_LOGINCLIENTDELETECHARACTER = 1005,
+  PKT_LOGINSERVERDELETECHARACTER = 1006,
+  PKT_LOGINCLIENTCREATECHARACTER = 1007,
+  PKT_LOGINSERVERCREATECHARACTER = 1008,
+  PKT_LOGINSERVERCHAT = 1009,
 };
 
 bool HandleLoginInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
 bool HandleLoginClientLogin(const PacketSessionRef& session, const protocol::LoginClientLogin& packet);
 bool HandleLoginClientRequestCharacterList(const PacketSessionRef& session, const protocol::LoginClientRequestCharacterList& packet);
 bool HandleLoginClientSelectCharacter(const PacketSessionRef& session, const protocol::LoginClientSelectCharacter& packet);
+bool HandleLoginClientDeleteCharacter(const PacketSessionRef& session, const protocol::LoginClientDeleteCharacter& packet);
+bool HandleLoginClientCreateCharacter(const PacketSessionRef& session, const protocol::LoginClientCreateCharacter& packet);
 
 class LoginClientPacketHandler {
 public:
@@ -38,6 +44,12 @@ public:
     _packet_handler_map[PKT_LOGINCLIENTSELECTCHARACTER] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
       return HandlePacket<protocol::LoginClientSelectCharacter>(HandleLoginClientSelectCharacter, session, buffer, len);
     };
+    _packet_handler_map[PKT_LOGINCLIENTDELETECHARACTER] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+      return HandlePacket<protocol::LoginClientDeleteCharacter>(HandleLoginClientDeleteCharacter, session, buffer, len);
+    };
+    _packet_handler_map[PKT_LOGINCLIENTCREATECHARACTER] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+      return HandlePacket<protocol::LoginClientCreateCharacter>(HandleLoginClientCreateCharacter, session, buffer, len);
+    };
   }
 
   static bool HandlePacket(PacketSessionRef& session, std::byte* buffer, const int32_t len) {
@@ -56,6 +68,12 @@ public:
   }
   static SendBufferRef MakeSendBuffer(const protocol::LoginServerCharacterList& packet) { 
     return MakeSendBufferInternal(packet, PKT_LOGINSERVERCHARACTERLIST); 
+  }
+  static SendBufferRef MakeSendBuffer(const protocol::LoginServerDeleteCharacter& packet) { 
+    return MakeSendBufferInternal(packet, PKT_LOGINSERVERDELETECHARACTER); 
+  }
+  static SendBufferRef MakeSendBuffer(const protocol::LoginServerCreateCharacter& packet) { 
+    return MakeSendBufferInternal(packet, PKT_LOGINSERVERCREATECHARACTER); 
   }
   static SendBufferRef MakeSendBuffer(const protocol::LoginServerChat& packet) { 
     return MakeSendBufferInternal(packet, PKT_LOGINSERVERCHAT); 
