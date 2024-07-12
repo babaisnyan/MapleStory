@@ -77,6 +77,9 @@ bool HandleLoginServerCharacterList(const FPacketSessionRef& Session, const prot
 		GameMode->bCanCreateCharacter = false;
 	}
 
+	GameMode->LoginCharacterVisualizer->ClearAvatars();
+	GameMode->LoginCharacters.Empty();
+
 	for (int32 i = 0; i < Packet.characters_size(); i++) {
 		const protocol::LoginCharacter Character = Packet.characters(i);
 		const FString Name = UTF8_TO_TCHAR(Character.name().c_str());

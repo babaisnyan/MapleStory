@@ -189,4 +189,9 @@ void LoginHandler::HandleDeleteCharacter(PacketSessionRef session, protocol::Log
 void LoginHandler::HandleCreateCharacter(PacketSessionRef session, protocol::LoginClientCreateCharacter request) {
   const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
   protocol::LoginServerCreateCharacter response;
+
+  if (request.type() < 1 || request.type() > 3) {
+    login_session->Disconnect(L"Invalid character type");
+    return;
+  }
 }

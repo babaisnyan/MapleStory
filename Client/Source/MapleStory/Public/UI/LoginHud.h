@@ -13,8 +13,6 @@ UCLASS()
 class MAPLESTORY_API ULoginHud : public UUserWidget
 {
 	GENERATED_BODY()
-
-
-protected:
+	
 
 };

@@ -20,6 +20,8 @@ private:
 public:
 	void SetAvatar(int32 Index, EAvatarType AvatarType, const FString& AvatarName);
 	void DeleteAvatar(int32 Index);
+	void ClearAvatars();
+	
 	virtual void BeginPlay() override;
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
@@ -28,7 +30,7 @@ protected:
 	TArray<EAvatarType> Avatars = {EAvatarType::None, EAvatarType::None, EAvatarType::None, EAvatarType::None, EAvatarType::None, EAvatarType::None};
 
 	UPROPERTY(BlueprintReadOnly, Category = Avatar)
-	TArray<FString> AvatarNames = {"", "", "", "", "", ""};
+	TArray<FString> AvatarNames = {FString(TEXT("")), FString(TEXT("")), FString(TEXT("")), FString(TEXT("")), FString(TEXT("")), FString(TEXT(""))};
 
 	UPROPERTY(EditDefaultsOnly, Category = Input)
 	TObjectPtr<UInputMappingContext> InputContext;

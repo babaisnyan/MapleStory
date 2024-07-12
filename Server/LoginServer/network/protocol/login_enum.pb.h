@@ -87,7 +87,8 @@ inline bool LoginResult_Parse(
 enum CreateCharResult : int {
   CreateCharSuccess = 0,
   CreateCharInvalidName = 1,
-  CreateCharServerError = 2,
+  CreateCharNameTaken = 2,
+  CreateCharServerError = 3,
   CreateCharResult_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   CreateCharResult_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };

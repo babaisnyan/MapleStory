@@ -12,5 +12,6 @@ enum LoginResult {
 enum CreateCharResult {
 	CreateCharSuccess = 0;
 	CreateCharInvalidName = 1;
-	CreateCharServerError = 2;
+	CreateCharNameTaken = 2;
+	CreateCharServerError = 3;
 }

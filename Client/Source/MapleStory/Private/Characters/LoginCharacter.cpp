@@ -53,7 +53,7 @@ void ALoginCharacter::DeleteAvatar(const int32 Index) {
 	check(Index >= 0 && Index < Avatars.Num());
 
 	Avatars[Index] = EAvatarType::None;
-	AvatarNames[Index] = "";
+	AvatarNames[Index] = FString(TEXT(""));
 
 	TArray<EAvatarType> NewAvatars;
 	TArray<FString> NewAvatarNames;
@@ -72,7 +72,7 @@ void ALoginCharacter::DeleteAvatar(const int32 Index) {
 
 	for (int i = 0; i < 6 - AddCount; i++) {
 		NewAvatars.Add(EAvatarType::None);
-		NewAvatarNames.Add("");
+		NewAvatarNames.Add(FString(TEXT("")));
 	}
 
 	Avatars = NewAvatars;
@@ -83,6 +83,16 @@ void ALoginCharacter::DeleteAvatar(const int32 Index) {
 		SelectedAvatarIndex = -1;
 	} else {
 		SelectedAvatarIndex = 0;
+	}
+}
+
+void ALoginCharacter::ClearAvatars() {
+	SelectedAvatarIndex = -1;
+	MaxAvatarCount = 0;
+
+	for (int i = 0; i < 6; i++) {
+		Avatars[i] = EAvatarType::None;
+		AvatarNames[i] = FString(TEXT(""));
 	}
 }
 
