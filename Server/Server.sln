@@ -13,6 +13,10 @@ Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PacketGenerator", "..\Tools
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "ProcedureGenerator", "..\Tools\ProcedureGenerator\ProcedureGenerator.pyproj", "{5848C569-E1F5-4CEF-BB94-77C08864D684}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapleImageResizer", "..\Tools\MapleImageResizer\MapleImageResizer.csproj", "{ADA33513-BC97-451F-96DB-145A881EF047}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CenterServer", "CenterServer\CenterServer.vcxproj", "{6CC954A6-1669-475F-9ECB-1D30772FDD22}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +63,30 @@ Global
 		{5848C569-E1F5-4CEF-BB94-77C08864D684}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5848C569-E1F5-4CEF-BB94-77C08864D684}.Release|x64.ActiveCfg = Release|Any CPU
 		{5848C569-E1F5-4CEF-BB94-77C08864D684}.Release|x86.ActiveCfg = Release|Any CPU
+		{ADA33513-BC97-451F-96DB-145A881EF047}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADA33513-BC97-451F-96DB-145A881EF047}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADA33513-BC97-451F-96DB-145A881EF047}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{ADA33513-BC97-451F-96DB-145A881EF047}.Debug|x64.Build.0 = Debug|Any CPU
+		{ADA33513-BC97-451F-96DB-145A881EF047}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ADA33513-BC97-451F-96DB-145A881EF047}.Debug|x86.Build.0 = Debug|Any CPU
+		{ADA33513-BC97-451F-96DB-145A881EF047}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADA33513-BC97-451F-96DB-145A881EF047}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADA33513-BC97-451F-96DB-145A881EF047}.Release|x64.ActiveCfg = Release|Any CPU
+		{ADA33513-BC97-451F-96DB-145A881EF047}.Release|x64.Build.0 = Release|Any CPU
+		{ADA33513-BC97-451F-96DB-145A881EF047}.Release|x86.ActiveCfg = Release|Any CPU
+		{ADA33513-BC97-451F-96DB-145A881EF047}.Release|x86.Build.0 = Release|Any CPU
+		{6CC954A6-1669-475F-9ECB-1D30772FDD22}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{6CC954A6-1669-475F-9ECB-1D30772FDD22}.Debug|Any CPU.Build.0 = Debug|x64
+		{6CC954A6-1669-475F-9ECB-1D30772FDD22}.Debug|x64.ActiveCfg = Debug|x64
+		{6CC954A6-1669-475F-9ECB-1D30772FDD22}.Debug|x64.Build.0 = Debug|x64
+		{6CC954A6-1669-475F-9ECB-1D30772FDD22}.Debug|x86.ActiveCfg = Debug|Win32
+		{6CC954A6-1669-475F-9ECB-1D30772FDD22}.Debug|x86.Build.0 = Debug|Win32
+		{6CC954A6-1669-475F-9ECB-1D30772FDD22}.Release|Any CPU.ActiveCfg = Release|x64
+		{6CC954A6-1669-475F-9ECB-1D30772FDD22}.Release|Any CPU.Build.0 = Release|x64
+		{6CC954A6-1669-475F-9ECB-1D30772FDD22}.Release|x64.ActiveCfg = Release|x64
+		{6CC954A6-1669-475F-9ECB-1D30772FDD22}.Release|x64.Build.0 = Release|x64
+		{6CC954A6-1669-475F-9ECB-1D30772FDD22}.Release|x86.ActiveCfg = Release|Win32
+		{6CC954A6-1669-475F-9ECB-1D30772FDD22}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +94,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{A30DF8CE-1D3E-475C-8DED-3784E99CB6D3} = {9602E219-70E9-42CC-830E-A285456E745D}
 		{5848C569-E1F5-4CEF-BB94-77C08864D684} = {9602E219-70E9-42CC-830E-A285456E745D}
+		{ADA33513-BC97-451F-96DB-145A881EF047} = {9602E219-70E9-42CC-830E-A285456E745D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {375728BA-E29F-4171-ADBE-061CF33EACB0}

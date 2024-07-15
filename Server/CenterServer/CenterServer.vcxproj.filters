@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="pch.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>main</Filter>
+    </ClCompile>
+    <ClCompile Include="network\center_server.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\center_session.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\center_session_manager.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\center_enum.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\center_protocol.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\center_struct.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\center_client_packet_handler.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\PacketCreator.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="network\center_server.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\center_session.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\center_session_manager.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\center_client_packet_handler.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\protocol\center_enum.pb.h">
+      <Filter>network\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="network\protocol\center_protocol.pb.h">
+      <Filter>network\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="network\protocol\center_struct.pb.h">
+      <Filter>network\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="network\PacketCreator.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="constants.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="data">
+      <UniqueIdentifier>{560f8c8e-bcb4-4e29-9b15-4a4f2de3c076}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="handler">
+      <UniqueIdentifier>{a48c1f79-53da-4bce-b5a9-a471f0612812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{cc0d4670-8ab2-425c-a773-37b1242ca588}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network">
+      <UniqueIdentifier>{a4d2bc3c-dbf4-486e-8882-40cd0b0c865d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{b9da328f-28bf-44d2-9a88-2c087d6481fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\protocol">
+      <UniqueIdentifier>{5af0257f-edbb-41a4-b75d-e7a0cfa5cc4a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

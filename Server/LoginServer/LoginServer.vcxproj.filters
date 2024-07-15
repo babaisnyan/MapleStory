@@ -54,6 +54,18 @@
     <ClCompile Include="handler\login_manager.cpp">
       <Filter>handler</Filter>
     </ClCompile>
+    <ClCompile Include="network\center_server_packet_handler.cpp">
+      <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\center_enum.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\center_protocol.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\center_struct.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -88,6 +100,18 @@
     </ClInclude>
     <ClInclude Include="data\login_character.h">
       <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="network\center_server_packet_handler.h">
+      <Filter>network</Filter>
+    </ClInclude>
+    <ClInclude Include="network\protocol\center_enum.pb.h">
+      <Filter>network\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="network\protocol\center_protocol.pb.h">
+      <Filter>network\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="network\protocol\center_struct.pb.h">
+      <Filter>network\protocol</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

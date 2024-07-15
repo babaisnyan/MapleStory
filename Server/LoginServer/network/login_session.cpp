@@ -5,11 +5,11 @@
 
 
 void LoginSession::OnConnected() {
-  LoginSessionManager::GetInstance().Add(std::static_pointer_cast<LoginSession>(shared_from_this()));
+  CenterSessionManager::GetInstance().Add(std::static_pointer_cast<LoginSession>(shared_from_this()));
 }
 
 void LoginSession::OnDisconnected() {
-  LoginSessionManager::GetInstance().Remove(std::static_pointer_cast<LoginSession>(shared_from_this()));
+  CenterSessionManager::GetInstance().Remove(std::static_pointer_cast<LoginSession>(shared_from_this()));
 
   std::cout << "LoginSession Disconnected\n";
 }

@@ -1,0 +1,4 @@
+syntax = "proto3";
+package protocol;
+
+import "center_enum.proto";
