@@ -138,7 +138,7 @@ Vector<XmlNode> XmlNode::FindChildren(const wchar_t* key) const {
 bool XmlParser::ParseFromFile(const wchar_t* path, XmlNode& root) {
   const Vector<std::byte>     bytes = FileUtils::ReadFile(path);
   const auto*                 utf8_data = reinterpret_cast<const char*>(bytes.data());
-  const std::optional<String> wide_data = ConvertToWide(std::string(utf8_data));
+  const std::optional<String> wide_data = utils::ConvertToWide(std::string(utf8_data));
 
   if (!wide_data.has_value()) return false;
 

@@ -1,14 +1,13 @@
 // ReSharper disable CppInconsistentNaming
 
 #pragma once
-#include "protocol/center_protocol.pb.h"
+#include "network/protocol/center_protocol.pb.h"
 
 using PacketHandler = std::function<bool(PacketSessionRef&, std::byte*, int32_t)>;
 
 enum : uint16_t {
-  PKT_CENTERSERVERHANDSHAKE = 1000,
-  PKT_CENTERCLIENTREGISTERREQUEST = 1001,
-  PKT_CENTERSERVERREGISTERRESPONSE = 1002,
+  PKT_CENTERCLIENTREGISTERREQUEST = 1000,
+  PKT_CENTERSERVERREGISTERRESPONSE = 1001,
 };
 
 bool HandleCenterInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
@@ -40,9 +39,6 @@ public:
   }
 
 
-  static SendBufferRef MakeSendBuffer(const protocol::CenterServerHandshake& packet) { 
-    return MakeSendBufferInternal(packet, PKT_CENTERSERVERHANDSHAKE); 
-  }
   static SendBufferRef MakeSendBuffer(const protocol::CenterServerRegisterResponse& packet) { 
     return MakeSendBufferInternal(packet, PKT_CENTERSERVERREGISTERRESPONSE); 
   }

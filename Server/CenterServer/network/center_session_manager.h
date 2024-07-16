@@ -12,12 +12,17 @@ public:
   }
 
 public:
-  void Add(const CenterSessionRef& session);
+  void Add(const CenterSessionRef& session, const String& name);
   void Remove(const CenterSessionRef& session);
+  void RemoveByName(const String& name);
+
+  bool IsExist(const String& name);
+  bool IsExist(const String& ip, uint16_t port);
+  CenterSessionRef Get(const String& name);
 
   void Broadcast(const SendBufferRef& send_buffer);
 
 private:
   USE_LOCK;
-  Set<CenterSessionRef> _center_sessions;
+  Map<String, CenterSessionRef> _center_sessions;
 };

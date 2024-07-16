@@ -29,6 +29,6 @@ DEL /S /Q /F *.pb.cc
 chdir ..
 MOVE .\LoginClientPacketHandler.h .\login_client_packet_handler.h
 MOVE .\LoginServerPacketHandler2.h .\LoginServerPacketHandler.h
-XCOPY /Y login_client_packet_handler.h "../../../Server/LoginServer/network"
+XCOPY /Y login_client_packet_handler.h "../../../Server/LoginServer/network/login"
 XCOPY /Y LoginServerPacketHandler.h "../../../Client/Source/MapleStory/Public/Network"
 DEL /S /Q /F *.h

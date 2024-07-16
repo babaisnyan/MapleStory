@@ -71,22 +71,22 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\Libs\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Output\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\Libs\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Output\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\Libs\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Output\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\Libs\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Output\$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -174,11 +174,14 @@
     <ClCompile Include="handler\login_handler.cpp" />
     <ClCompile Include="handler\login_manager.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="network\center_server_packet_handler.cpp" />
-    <ClCompile Include="network\login_client_packet_handler.cpp" />
-    <ClCompile Include="network\login_server.cpp" />
-    <ClCompile Include="network\login_session.cpp" />
-    <ClCompile Include="network\login_session_manager.cpp" />
+    <ClCompile Include="network\center\center_packet_creator.cpp" />
+    <ClCompile Include="network\center\center_server_packet_handler.cpp" />
+    <ClCompile Include="network\center\center_server_session.cpp" />
+    <ClCompile Include="network\login\login_client_packet_handler.cpp" />
+    <ClCompile Include="network\login\login_packet_creator.cpp" />
+    <ClCompile Include="network\login\login_server.cpp" />
+    <ClCompile Include="network\login\login_session.cpp" />
+    <ClCompile Include="network\login\login_session_manager.cpp" />
     <ClCompile Include="network\protocol\center_enum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -226,11 +229,14 @@
     <ClInclude Include="data\login_character.h" />
     <ClInclude Include="handler\login_handler.h" />
     <ClInclude Include="handler\login_manager.h" />
-    <ClInclude Include="network\center_server_packet_handler.h" />
-    <ClInclude Include="network\login_client_packet_handler.h" />
-    <ClInclude Include="network\login_server.h" />
-    <ClInclude Include="network\login_session.h" />
-    <ClInclude Include="network\login_session_manager.h" />
+    <ClInclude Include="network\center\center_packet_creator.h" />
+    <ClInclude Include="network\center\center_server_packet_handler.h" />
+    <ClInclude Include="network\center\center_server_session.h" />
+    <ClInclude Include="network\login\login_client_packet_handler.h" />
+    <ClInclude Include="network\login\login_packet_creator.h" />
+    <ClInclude Include="network\login\login_server.h" />
+    <ClInclude Include="network\login\login_session.h" />
+    <ClInclude Include="network\login\login_session_manager.h" />
     <ClInclude Include="network\protocol\center_enum.pb.h" />
     <ClInclude Include="network\protocol\center_protocol.pb.h" />
     <ClInclude Include="network\protocol\center_struct.pb.h" />

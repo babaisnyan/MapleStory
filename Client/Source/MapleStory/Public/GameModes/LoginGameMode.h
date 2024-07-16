@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "login_struct.pb.h"
+#include "Data/Enum/EAvatarType.h"
 #include "Data/Enum/EJobType.h"
 #include "GameFramework/GameModeBase.h"
 #include "LoginGameMode.generated.h"
@@ -25,6 +26,9 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Delete();
+
+	UFUNCTION(BlueprintCallable)
+	void CreateCharacter(FString Name, EAvatarType Avatar);
 
 	UFUNCTION(BlueprintCallable)
 	FString GetSelectedPlayerName();
@@ -63,4 +67,7 @@ public:
 	TObjectPtr<ALoginCharacter> LoginCharacterVisualizer = nullptr;
 
 	TArray<protocol::LoginCharacter> LoginCharacters;
+
+private:
+	TObjectPtr<UClass> WindowClass;
 };

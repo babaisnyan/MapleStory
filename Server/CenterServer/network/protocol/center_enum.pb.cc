@@ -28,17 +28,21 @@ const char descriptor_table_protodef_center_5fenum_2eproto[] PROTOBUF_SECTION_VA
   "\n\021center_enum.proto\022\010protocol*n\n\nServerT"
   "ype\022\033\n\027SERVER_TYPE_UNSPECIFIED\020\000\022\026\n\022SERV"
   "ER_TYPE_CENTER\020\001\022\025\n\021SERVER_TYPE_LOGIN\020\002\022"
-  "\024\n\020SERVER_TYPE_GAME\020\003*\334\001\n\024ServerRegister"
+  "\024\n\020SERVER_TYPE_GAME\020\003*\201\003\n\024ServerRegister"
   "Result\022&\n\"SERVER_REGISTER_RESULT_UNSPECI"
   "FIED\020\000\022\"\n\036SERVER_REGISTER_RESULT_SUCCESS"
   "\020\001\022-\n)SERVER_REGISTER_RESULT_ALREADY_REG"
   "ISTERED\020\002\022\'\n#SERVER_REGISTER_RESULT_INVA"
-  "LID_TYPE\020\003\022 \n\034SERVER_REGISTER_RESULT_ERR"
-  "OR\020\004b\006proto3"
+  "LID_TYPE\020\003\022*\n&SERVER_REGISTER_RESULT_INV"
+  "ALID_VERSION\020\004\022\'\n#SERVER_REGISTER_RESULT"
+  "_INVALID_NAME\020\005\022%\n!SERVER_REGISTER_RESUL"
+  "T_INVALID_IP\020\006\022\'\n#SERVER_REGISTER_RESULT"
+  "_INVALID_PORT\020\007\022 \n\034SERVER_REGISTER_RESUL"
+  "T_ERROR\020\010b\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_center_5fenum_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_center_5fenum_2eproto = {
-  false, false, 372, descriptor_table_protodef_center_5fenum_2eproto, "center_enum.proto", 
+  false, false, 537, descriptor_table_protodef_center_5fenum_2eproto, "center_enum.proto", 
   &descriptor_table_center_5fenum_2eproto_once, nullptr, 0, 0,
   schemas, file_default_instances, TableStruct_center_5fenum_2eproto::offsets,
   nullptr, file_level_enum_descriptors_center_5fenum_2eproto, file_level_service_descriptors_center_5fenum_2eproto,
@@ -77,6 +81,10 @@ bool ServerRegisterResult_IsValid(int value) {
     case 2:
     case 3:
     case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
       return true;
     default:
       return false;

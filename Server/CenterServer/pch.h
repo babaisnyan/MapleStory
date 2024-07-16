@@ -10,8 +10,8 @@
 #pragma comment(lib, "Protobuf\\Release\\libprotobuf.lib")
 #endif
 
-#include "constants.h"
 #include "core_pch.h"
 #include "network/protocol/center_enum.pb.h"
+#include "utils/constants.h"
 
 using CenterSessionRef = std::shared_ptr<class CenterSession>;

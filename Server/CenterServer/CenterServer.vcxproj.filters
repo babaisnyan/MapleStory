@@ -28,8 +28,14 @@
     <ClCompile Include="network\center_client_packet_handler.cpp">
       <Filter>network</Filter>
     </ClCompile>
-    <ClCompile Include="network\PacketCreator.cpp">
+    <ClCompile Include="network\packet_creator.cpp">
       <Filter>network</Filter>
+    </ClCompile>
+    <ClCompile Include="handler\center_handler.cpp">
+      <Filter>handler</Filter>
+    </ClCompile>
+    <ClCompile Include="handler\center_manager.cpp">
+      <Filter>handler</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -57,11 +63,14 @@
     <ClInclude Include="network\protocol\center_struct.pb.h">
       <Filter>network\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="network\PacketCreator.h">
+    <ClInclude Include="network\packet_creator.h">
       <Filter>network</Filter>
     </ClInclude>
-    <ClInclude Include="constants.h">
-      <Filter>utils</Filter>
+    <ClInclude Include="handler\center_handler.h">
+      <Filter>handler</Filter>
+    </ClInclude>
+    <ClInclude Include="handler\center_manager.h">
+      <Filter>handler</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

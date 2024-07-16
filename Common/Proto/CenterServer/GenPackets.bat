@@ -30,5 +30,5 @@ chdir ..
 MOVE .\CenterClientPacketHandler.h .\center_client_packet_handler.h
 MOVE .\CenterServerPacketHandler.h .\center_server_packet_handler.h
 XCOPY /Y center_client_packet_handler.h "../../../Server/CenterServer/network"
-XCOPY /Y center_server_packet_handler.h "../../../Server/LoginServer/network"
+XCOPY /Y center_server_packet_handler.h "../../../Server/LoginServer/network/center"
 DEL /S /Q /F *.h

@@ -9,6 +9,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "Network/LoginServerPacketHandler.h"
 #include "Network/PacketCreator.h"
+#include "UI/LoginMessageWindow.h"
 
 void ALoginGameMode::BeginPlay() {
 	Super::BeginPlay();
@@ -22,8 +23,9 @@ void ALoginGameMode::BeginPlay() {
 
 	if (LoginCharacter) {
 		LoginCharacterVisualizer = LoginCharacter;
-		GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Green, TEXT("LoginCharacterVisualizer is set"));
 	}
+
+	WindowClass = StaticLoadClass(ULoginMessageWindow::StaticClass(), nullptr, TEXT("/Game/UI/Login/WB_LoginNotice.WB_LoginNotice_C"));
 }
 
 void ALoginGameMode::StartGame() {
@@ -44,6 +46,15 @@ void ALoginGameMode::Delete() {
 
 	const auto SendBuffer = FPacketCreator::GetDeleteCharacterRequest(LoginCharacters[SelectedPlayerIndex].id());
 	GameInstance->SendPacket(SendBuffer);
+}
+
+void ALoginGameMode::CreateCharacter(const FString Name, EAvatarType Avatar) {
+	if (Name.IsEmpty()) {
+		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
+		Window->ErrorCode = 5;
+		Window->AddToViewport();
+		return;
+	}
 }
 
 FString ALoginGameMode::GetSelectedPlayerName() {

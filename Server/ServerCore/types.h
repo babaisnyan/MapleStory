@@ -14,6 +14,7 @@ using UniqueLock = std::unique_lock<Mutex>;
 using LockGuard = std::lock_guard<Mutex>;
 
 using String = std::wstring;
+using StringView = std::wstring_view;
 
 #define DECLARE_SHARED_PTR(name) using name##Ref = std::shared_ptr<class name>;
 #define DECLARE_CONST_SHARED_PTR(name) using Const##name##Ref = std::shared_ptr<const class name>;

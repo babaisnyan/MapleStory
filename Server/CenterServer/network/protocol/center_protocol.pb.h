@@ -48,7 +48,7 @@ struct TableStruct_center_5fprotocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[3]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -59,153 +59,17 @@ namespace protocol {
 class CenterClientRegisterRequest;
 struct CenterClientRegisterRequestDefaultTypeInternal;
 extern CenterClientRegisterRequestDefaultTypeInternal _CenterClientRegisterRequest_default_instance_;
-class CenterServerHandshake;
-struct CenterServerHandshakeDefaultTypeInternal;
-extern CenterServerHandshakeDefaultTypeInternal _CenterServerHandshake_default_instance_;
 class CenterServerRegisterResponse;
 struct CenterServerRegisterResponseDefaultTypeInternal;
 extern CenterServerRegisterResponseDefaultTypeInternal _CenterServerRegisterResponse_default_instance_;
 }  // namespace protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::protocol::CenterClientRegisterRequest* Arena::CreateMaybeMessage<::protocol::CenterClientRegisterRequest>(Arena*);
-template<> ::protocol::CenterServerHandshake* Arena::CreateMaybeMessage<::protocol::CenterServerHandshake>(Arena*);
 template<> ::protocol::CenterServerRegisterResponse* Arena::CreateMaybeMessage<::protocol::CenterServerRegisterResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace protocol {
 
 // ===================================================================
-
-class CenterServerHandshake final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.CenterServerHandshake) */ {
- public:
-  inline CenterServerHandshake() : CenterServerHandshake(nullptr) {}
-  ~CenterServerHandshake() override;
-  explicit constexpr CenterServerHandshake(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  CenterServerHandshake(const CenterServerHandshake& from);
-  CenterServerHandshake(CenterServerHandshake&& from) noexcept
-    : CenterServerHandshake() {
-    *this = ::std::move(from);
-  }
-
-  inline CenterServerHandshake& operator=(const CenterServerHandshake& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline CenterServerHandshake& operator=(CenterServerHandshake&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const CenterServerHandshake& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const CenterServerHandshake* internal_default_instance() {
-    return reinterpret_cast<const CenterServerHandshake*>(
-               &_CenterServerHandshake_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  friend void swap(CenterServerHandshake& a, CenterServerHandshake& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(CenterServerHandshake* other) {
-    if (other == this) return;
-    if (GetOwningArena() == other->GetOwningArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(CenterServerHandshake* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline CenterServerHandshake* New() const final {
-    return new CenterServerHandshake();
-  }
-
-  CenterServerHandshake* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<CenterServerHandshake>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const CenterServerHandshake& from);
-  void MergeFrom(const CenterServerHandshake& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(CenterServerHandshake* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "protocol.CenterServerHandshake";
-  }
-  protected:
-  explicit CenterServerHandshake(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kVersionFieldNumber = 1,
-  };
-  // int32 version = 1;
-  void clear_version();
-  ::PROTOBUF_NAMESPACE_ID::int32 version() const;
-  void set_version(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_version() const;
-  void _internal_set_version(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // @@protoc_insertion_point(class_scope:protocol.CenterServerHandshake)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::int32 version_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  friend struct ::TableStruct_center_5fprotocol_2eproto;
-};
-// -------------------------------------------------------------------
 
 class CenterClientRegisterRequest final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.CenterClientRegisterRequest) */ {
@@ -251,7 +115,7 @@ class CenterClientRegisterRequest final :
                &_CenterClientRegisterRequest_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    0;
 
   friend void swap(CenterClientRegisterRequest& a, CenterClientRegisterRequest& b) {
     a.Swap(&b);
@@ -315,12 +179,13 @@ class CenterClientRegisterRequest final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNameFieldNumber = 1,
-    kIpFieldNumber = 2,
-    kPortFieldNumber = 3,
-    kTypeFieldNumber = 4,
+    kNameFieldNumber = 2,
+    kIpFieldNumber = 3,
+    kVersionFieldNumber = 1,
+    kPortFieldNumber = 4,
+    kTypeFieldNumber = 5,
   };
-  // string name = 1;
+  // string name = 2;
   void clear_name();
   const std::string& name() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -334,7 +199,7 @@ class CenterClientRegisterRequest final :
   std::string* _internal_mutable_name();
   public:
 
-  // string ip = 2;
+  // string ip = 3;
   void clear_ip();
   const std::string& ip() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -348,7 +213,16 @@ class CenterClientRegisterRequest final :
   std::string* _internal_mutable_ip();
   public:
 
-  // int32 port = 3;
+  // int32 version = 1;
+  void clear_version();
+  ::PROTOBUF_NAMESPACE_ID::int32 version() const;
+  void set_version(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_version() const;
+  void _internal_set_version(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 port = 4;
   void clear_port();
   ::PROTOBUF_NAMESPACE_ID::int32 port() const;
   void set_port(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -357,7 +231,7 @@ class CenterClientRegisterRequest final :
   void _internal_set_port(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // .protocol.ServerType type = 4;
+  // .protocol.ServerType type = 5;
   void clear_type();
   ::protocol::ServerType type() const;
   void set_type(::protocol::ServerType value);
@@ -375,6 +249,7 @@ class CenterClientRegisterRequest final :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
+  ::PROTOBUF_NAMESPACE_ID::int32 version_;
   ::PROTOBUF_NAMESPACE_ID::int32 port_;
   int type_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -426,7 +301,7 @@ class CenterServerRegisterResponse final :
                &_CenterServerRegisterResponse_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    1;
 
   friend void swap(CenterServerRegisterResponse& a, CenterServerRegisterResponse& b) {
     a.Swap(&b);
@@ -521,33 +396,29 @@ class CenterServerRegisterResponse final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// CenterServerHandshake
+// CenterClientRegisterRequest
 
 // int32 version = 1;
-inline void CenterServerHandshake::clear_version() {
+inline void CenterClientRegisterRequest::clear_version() {
   version_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 CenterServerHandshake::_internal_version() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterClientRegisterRequest::_internal_version() const {
   return version_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 CenterServerHandshake::version() const {
-  // @@protoc_insertion_point(field_get:protocol.CenterServerHandshake.version)
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterClientRegisterRequest::version() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterClientRegisterRequest.version)
   return _internal_version();
 }
-inline void CenterServerHandshake::_internal_set_version(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void CenterClientRegisterRequest::_internal_set_version(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   version_ = value;
 }
-inline void CenterServerHandshake::set_version(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void CenterClientRegisterRequest::set_version(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_version(value);
-  // @@protoc_insertion_point(field_set:protocol.CenterServerHandshake.version)
+  // @@protoc_insertion_point(field_set:protocol.CenterClientRegisterRequest.version)
 }
 
-// -------------------------------------------------------------------
-
-// CenterClientRegisterRequest
-
-// string name = 1;
+// string name = 2;
 inline void CenterClientRegisterRequest::clear_name() {
   name_.ClearToEmpty();
 }
@@ -592,7 +463,7 @@ inline void CenterClientRegisterRequest::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:protocol.CenterClientRegisterRequest.name)
 }
 
-// string ip = 2;
+// string ip = 3;
 inline void CenterClientRegisterRequest::clear_ip() {
   ip_.ClearToEmpty();
 }
@@ -637,7 +508,7 @@ inline void CenterClientRegisterRequest::set_allocated_ip(std::string* ip) {
   // @@protoc_insertion_point(field_set_allocated:protocol.CenterClientRegisterRequest.ip)
 }
 
-// int32 port = 3;
+// int32 port = 4;
 inline void CenterClientRegisterRequest::clear_port() {
   port_ = 0;
 }
@@ -657,7 +528,7 @@ inline void CenterClientRegisterRequest::set_port(::PROTOBUF_NAMESPACE_ID::int32
   // @@protoc_insertion_point(field_set:protocol.CenterClientRegisterRequest.port)
 }
 
-// .protocol.ServerType type = 4;
+// .protocol.ServerType type = 5;
 inline void CenterClientRegisterRequest::clear_type() {
   type_ = 0;
 }
@@ -704,8 +575,6 @@ inline void CenterServerRegisterResponse::set_result(::protocol::ServerRegisterR
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 

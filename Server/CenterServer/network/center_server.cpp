@@ -27,11 +27,11 @@ void CenterServer::StartCenterServer() {
   _center_service = MakeShared<ServerService>(NetworkAddress(L"127.0.0.1", 10000),
                                              MakeShared<IocpCore>(),
                                              MakeShared<CenterSession>,
-                                             5);
+                                             10);
 
   ASSERT_CRASH(_center_service->Start());
 
-  for (int i = 0; i < 5; i++) {
+  for (int i = 0; i < 3; i++) {
     ThreadManager::GetInstance().Launch([this] {
       while (true) {
         LEndTickCount = GetTickCount64() + kWorkerTick;

@@ -133,6 +133,9 @@
     <ClInclude Include="utils\xml\rapidxml.hpp">
       <Filter>utils\xml</Filter>
     </ClInclude>
+    <ClInclude Include="utils\constants.h">
+      <Filter>utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="database">

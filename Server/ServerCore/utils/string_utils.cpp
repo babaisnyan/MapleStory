@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "string_utils.h"
 
-std::optional<std::string> ConvertToUtf8(const String& wide_str) {
+std::optional<std::string> utils::ConvertToUtf8(const String& wide_str) {
   if (wide_str.empty()) {
     return std::nullopt;
   }
@@ -20,7 +20,7 @@ std::optional<std::string> ConvertToUtf8(const String& wide_str) {
   return utf8_str;
 }
 
-std::optional<String> ConvertToWide(const std::string& utf8_str) {
+std::optional<String> utils::ConvertToWide(const std::string& utf8_str) {
   if (utf8_str.empty()) {
     return std::nullopt;
   }

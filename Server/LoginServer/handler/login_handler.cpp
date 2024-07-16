@@ -1,9 +1,9 @@
 #include "pch.h"
 #include "login_handler.h"
 
-#include "../network/login_client_packet_handler.h"
-#include "../network/login_session.h"
-#include "../network/login_session_manager.h"
+#include "network/login/login_client_packet_handler.h"
+#include "network/login/login_session.h"
+#include "network/login/login_session_manager.h"
 
 #include "database/db_bind.h"
 #include "database/db_connection_pool.h"
@@ -16,8 +16,8 @@ void LoginHandler::HandleLogin(PacketSessionRef session, protocol::LoginClientLo
   if (auto connection = DbConnectionPool::GetInstance().GetConnection()) {
     DbBind<2, 2> bind(*connection, L"{CALL dbo.spLogin(?, ?)}");
 
-    const String username = ConvertToWide(request.username()).value_or(L"");
-    const String password = ConvertToWide(request.password()).value_or(L"");
+    const String username = utils::ConvertToWide(request.username()).value_or(L"");
+    const String password = utils::ConvertToWide(request.password()).value_or(L"");
     bind.BindParam(0, username.c_str());
     bind.BindParam(1, password.c_str());
 
@@ -92,7 +92,7 @@ void LoginHandler::HandleCharacterList(PacketSessionRef session, protocol::Login
         if (count <= 0) continue;
 
         while (bind.Fetch()) {
-          std::optional<std::string> name_str = ConvertToUtf8(name);
+          std::optional<std::string> name_str = utils::ConvertToUtf8(name);
           if (!name_str.has_value()) continue;
 
           protocol::LoginCharacter* character = response.add_characters();

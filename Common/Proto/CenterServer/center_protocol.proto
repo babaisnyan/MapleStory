@@ -4,15 +4,12 @@ package protocol;
 import "center_enum.proto";
 import "center_struct.proto";
 
-message CenterServerHandshake {
-  int32 version = 1;
-}
-
 message CenterClientRegisterRequest {
-  string name = 1;
-  string ip = 2;
-  int32 port = 3;
-  ServerType type = 4;
+  int32 version = 1;
+  string name = 2;
+  string ip = 3;
+  int32 port = 4;
+  ServerType type = 5;
 }
 
 message CenterServerRegisterResponse {

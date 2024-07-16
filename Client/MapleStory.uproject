@@ -16,11 +16,6 @@
 			]
 		}
 	],
-	"PreBuildSteps": {
-		"Win64": [
-			"cmd /c \"$(ProjectDir)\\..\\Common\\Proto\\LoginServer\\GenPackets.bat\""
-		]
-	},
 	"Plugins": [
 		{
 			"Name": "ModelingToolsEditorMode",
@@ -171,9 +166,20 @@
 			"Name": "LevelBookmarks",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/b4a88d66c795480fb803a0f4f8b1907e"
+		},
+		{
+			"Name": "PaperFlipbookWidget",
+			"Enabled": true,
+			"MarketplaceURL": "https://unrealengineresources.com/plugins"
 		}
 	],
 	"TargetPlatforms": [
 		"Windows"
-	]
+	],
+	"PreBuildSteps":
+	{
+		"Win64": [
+			"cmd /c \"$(ProjectDir)\\..\\Common\\Proto\\LoginServer\\GenPackets.bat\""
+		]
+	}
 }

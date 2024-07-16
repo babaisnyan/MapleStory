@@ -17,22 +17,11 @@
 
 PROTOBUF_PRAGMA_INIT_SEG
 namespace protocol {
-constexpr CenterServerHandshake::CenterServerHandshake(
-  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : version_(0){}
-struct CenterServerHandshakeDefaultTypeInternal {
-  constexpr CenterServerHandshakeDefaultTypeInternal()
-    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
-  ~CenterServerHandshakeDefaultTypeInternal() {}
-  union {
-    CenterServerHandshake _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT CenterServerHandshakeDefaultTypeInternal _CenterServerHandshake_default_instance_;
 constexpr CenterClientRegisterRequest::CenterClientRegisterRequest(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : name_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
   , ip_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
+  , version_(0)
   , port_(0)
   , type_(0)
 {}
@@ -59,22 +48,17 @@ struct CenterServerRegisterResponseDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT CenterServerRegisterResponseDefaultTypeInternal _CenterServerRegisterResponse_default_instance_;
 }  // namespace protocol
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_center_5fprotocol_2eproto[3];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_center_5fprotocol_2eproto[2];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_center_5fprotocol_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_center_5fprotocol_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_center_5fprotocol_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::protocol::CenterServerHandshake, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::protocol::CenterServerHandshake, version_),
-  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::protocol::CenterClientRegisterRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::protocol::CenterClientRegisterRequest, version_),
   PROTOBUF_FIELD_OFFSET(::protocol::CenterClientRegisterRequest, name_),
   PROTOBUF_FIELD_OFFSET(::protocol::CenterClientRegisterRequest, ip_),
   PROTOBUF_FIELD_OFFSET(::protocol::CenterClientRegisterRequest, port_),
@@ -87,26 +71,24 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_center_5fprotocol_2eproto::off
   PROTOBUF_FIELD_OFFSET(::protocol::CenterServerRegisterResponse, result_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, sizeof(::protocol::CenterServerHandshake)},
-  { 6, -1, sizeof(::protocol::CenterClientRegisterRequest)},
-  { 15, -1, sizeof(::protocol::CenterServerRegisterResponse)},
+  { 0, -1, sizeof(::protocol::CenterClientRegisterRequest)},
+  { 10, -1, sizeof(::protocol::CenterServerRegisterResponse)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_CenterServerHandshake_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_CenterClientRegisterRequest_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_CenterServerRegisterResponse_default_instance_),
 };
 
 const char descriptor_table_protodef_center_5fprotocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\025center_protocol.proto\022\010protocol\032\021cente"
-  "r_enum.proto\032\023center_struct.proto\"(\n\025Cen"
-  "terServerHandshake\022\017\n\007version\030\001 \001(\005\"i\n\033C"
-  "enterClientRegisterRequest\022\014\n\004name\030\001 \001(\t"
-  "\022\n\n\002ip\030\002 \001(\t\022\014\n\004port\030\003 \001(\005\022\"\n\004type\030\004 \001(\016"
-  "2\024.protocol.ServerType\"N\n\034CenterServerRe"
-  "gisterResponse\022.\n\006result\030\001 \001(\0162\036.protoco"
-  "l.ServerRegisterResultb\006proto3"
+  "r_enum.proto\032\023center_struct.proto\"z\n\033Cen"
+  "terClientRegisterRequest\022\017\n\007version\030\001 \001("
+  "\005\022\014\n\004name\030\002 \001(\t\022\n\n\002ip\030\003 \001(\t\022\014\n\004port\030\004 \001("
+  "\005\022\"\n\004type\030\005 \001(\0162\024.protocol.ServerType\"N\n"
+  "\034CenterServerRegisterResponse\022.\n\006result\030"
+  "\001 \001(\0162\036.protocol.ServerRegisterResultb\006p"
+  "roto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_center_5fprotocol_2eproto_deps[2] = {
   &::descriptor_table_center_5fenum_2eproto,
@@ -114,8 +96,8 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_center_5fprotocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_center_5fprotocol_2eproto = {
-  false, false, 310, descriptor_table_protodef_center_5fprotocol_2eproto, "center_protocol.proto", 
-  &descriptor_table_center_5fprotocol_2eproto_once, descriptor_table_center_5fprotocol_2eproto_deps, 2, 3,
+  false, false, 285, descriptor_table_protodef_center_5fprotocol_2eproto, "center_protocol.proto", 
+  &descriptor_table_center_5fprotocol_2eproto_once, descriptor_table_center_5fprotocol_2eproto_deps, 2, 2,
   schemas, file_default_instances, TableStruct_center_5fprotocol_2eproto::offsets,
   file_level_metadata_center_5fprotocol_2eproto, file_level_enum_descriptors_center_5fprotocol_2eproto, file_level_service_descriptors_center_5fprotocol_2eproto,
 };
@@ -126,196 +108,6 @@ PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_center_5fprotocol_2eproto(&descriptor_table_center_5fprotocol_2eproto);
 namespace protocol {
-
-// ===================================================================
-
-class CenterServerHandshake::_Internal {
- public:
-};
-
-CenterServerHandshake::CenterServerHandshake(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
-  SharedCtor();
-  RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:protocol.CenterServerHandshake)
-}
-CenterServerHandshake::CenterServerHandshake(const CenterServerHandshake& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  version_ = from.version_;
-  // @@protoc_insertion_point(copy_constructor:protocol.CenterServerHandshake)
-}
-
-void CenterServerHandshake::SharedCtor() {
-version_ = 0;
-}
-
-CenterServerHandshake::~CenterServerHandshake() {
-  // @@protoc_insertion_point(destructor:protocol.CenterServerHandshake)
-  SharedDtor();
-  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-void CenterServerHandshake::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-}
-
-void CenterServerHandshake::ArenaDtor(void* object) {
-  CenterServerHandshake* _this = reinterpret_cast< CenterServerHandshake* >(object);
-  (void)_this;
-}
-void CenterServerHandshake::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
-}
-void CenterServerHandshake::SetCachedSize(int size) const {
-  _cached_size_.Set(size);
-}
-
-void CenterServerHandshake::Clear() {
-// @@protoc_insertion_point(message_clear_start:protocol.CenterServerHandshake)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  version_ = 0;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* CenterServerHandshake::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
-    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // int32 version = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          version_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      default: {
-      handle_unusual:
-        if ((tag == 0) || ((tag & 7) == 4)) {
-          CHK_(ptr);
-          ctx->SetLastTag(tag);
-          goto success;
-        }
-        ptr = UnknownFieldParse(tag,
-            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-            ptr, ctx);
-        CHK_(ptr != nullptr);
-        continue;
-      }
-    }  // switch
-  }  // while
-success:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto success;
-#undef CHK_
-}
-
-::PROTOBUF_NAMESPACE_ID::uint8* CenterServerHandshake::_InternalSerialize(
-    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:protocol.CenterServerHandshake)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // int32 version = 1;
-  if (this->version() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_version(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:protocol.CenterServerHandshake)
-  return target;
-}
-
-size_t CenterServerHandshake::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:protocol.CenterServerHandshake)
-  size_t total_size = 0;
-
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // int32 version = 1;
-  if (this->version() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_version());
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
-        _internal_metadata_, total_size, &_cached_size_);
-  }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
-  SetCachedSize(cached_size);
-  return total_size;
-}
-
-void CenterServerHandshake::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:protocol.CenterServerHandshake)
-  GOOGLE_DCHECK_NE(&from, this);
-  const CenterServerHandshake* source =
-      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<CenterServerHandshake>(
-          &from);
-  if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:protocol.CenterServerHandshake)
-    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
-  } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:protocol.CenterServerHandshake)
-    MergeFrom(*source);
-  }
-}
-
-void CenterServerHandshake::MergeFrom(const CenterServerHandshake& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:protocol.CenterServerHandshake)
-  GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from.version() != 0) {
-    _internal_set_version(from._internal_version());
-  }
-}
-
-void CenterServerHandshake::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:protocol.CenterServerHandshake)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-void CenterServerHandshake::CopyFrom(const CenterServerHandshake& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:protocol.CenterServerHandshake)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool CenterServerHandshake::IsInitialized() const {
-  return true;
-}
-
-void CenterServerHandshake::InternalSwap(CenterServerHandshake* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(version_, other->version_);
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata CenterServerHandshake::GetMetadata() const {
-  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
-      &descriptor_table_center_5fprotocol_2eproto_getter, &descriptor_table_center_5fprotocol_2eproto_once,
-      file_level_metadata_center_5fprotocol_2eproto[0]);
-}
 
 // ===================================================================
 
@@ -342,9 +134,9 @@ CenterClientRegisterRequest::CenterClientRegisterRequest(const CenterClientRegis
     ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_ip(), 
       GetArenaForAllocation());
   }
-  ::memcpy(&port_, &from.port_,
+  ::memcpy(&version_, &from.version_,
     static_cast<size_t>(reinterpret_cast<char*>(&type_) -
-    reinterpret_cast<char*>(&port_)) + sizeof(type_));
+    reinterpret_cast<char*>(&version_)) + sizeof(type_));
   // @@protoc_insertion_point(copy_constructor:protocol.CenterClientRegisterRequest)
 }
 
@@ -352,9 +144,9 @@ void CenterClientRegisterRequest::SharedCtor() {
 name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&port_) - reinterpret_cast<char*>(this)),
+    reinterpret_cast<char*>(&version_) - reinterpret_cast<char*>(this)),
     0, static_cast<size_t>(reinterpret_cast<char*>(&type_) -
-    reinterpret_cast<char*>(&port_)) + sizeof(type_));
+    reinterpret_cast<char*>(&version_)) + sizeof(type_));
 }
 
 CenterClientRegisterRequest::~CenterClientRegisterRequest() {
@@ -387,9 +179,9 @@ void CenterClientRegisterRequest::Clear() {
 
   name_.ClearToEmpty();
   ip_.ClearToEmpty();
-  ::memset(&port_, 0, static_cast<size_t>(
+  ::memset(&version_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&type_) -
-      reinterpret_cast<char*>(&port_)) + sizeof(type_));
+      reinterpret_cast<char*>(&version_)) + sizeof(type_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -399,34 +191,41 @@ const char* CenterClientRegisterRequest::_InternalParse(const char* ptr, ::PROTO
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string name = 1;
+      // int32 version = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          version_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // string name = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           auto str = _internal_mutable_name();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "protocol.CenterClientRegisterRequest.name"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // string ip = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+      // string ip = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           auto str = _internal_mutable_ip();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "protocol.CenterClientRegisterRequest.ip"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 port = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+      // int32 port = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // .protocol.ServerType type = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+      // .protocol.ServerType type = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_type(static_cast<::protocol::ServerType>(val));
@@ -461,37 +260,43 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string name = 1;
+  // int32 version = 1;
+  if (this->version() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_version(), target);
+  }
+
+  // string name = 2;
   if (!this->name().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_name().data(), static_cast<int>(this->_internal_name().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "protocol.CenterClientRegisterRequest.name");
     target = stream->WriteStringMaybeAliased(
-        1, this->_internal_name(), target);
+        2, this->_internal_name(), target);
   }
 
-  // string ip = 2;
+  // string ip = 3;
   if (!this->ip().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "protocol.CenterClientRegisterRequest.ip");
     target = stream->WriteStringMaybeAliased(
-        2, this->_internal_ip(), target);
+        3, this->_internal_ip(), target);
   }
 
-  // int32 port = 3;
+  // int32 port = 4;
   if (this->port() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_port(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_port(), target);
   }
 
-  // .protocol.ServerType type = 4;
+  // .protocol.ServerType type = 5;
   if (this->type() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      4, this->_internal_type(), target);
+      5, this->_internal_type(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -510,28 +315,35 @@ size_t CenterClientRegisterRequest::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string name = 1;
+  // string name = 2;
   if (!this->name().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_name());
   }
 
-  // string ip = 2;
+  // string ip = 3;
   if (!this->ip().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_ip());
   }
 
-  // int32 port = 3;
+  // int32 version = 1;
+  if (this->version() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_version());
+  }
+
+  // int32 port = 4;
   if (this->port() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_port());
   }
 
-  // .protocol.ServerType type = 4;
+  // .protocol.ServerType type = 5;
   if (this->type() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_type());
@@ -573,6 +385,9 @@ void CenterClientRegisterRequest::MergeFrom(const CenterClientRegisterRequest& f
   }
   if (!from.ip().empty()) {
     _internal_set_ip(from._internal_ip());
+  }
+  if (from.version() != 0) {
+    _internal_set_version(from._internal_version());
   }
   if (from.port() != 0) {
     _internal_set_port(from._internal_port());
@@ -616,15 +431,15 @@ void CenterClientRegisterRequest::InternalSwap(CenterClientRegisterRequest* othe
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(CenterClientRegisterRequest, type_)
       + sizeof(CenterClientRegisterRequest::type_)
-      - PROTOBUF_FIELD_OFFSET(CenterClientRegisterRequest, port_)>(
-          reinterpret_cast<char*>(&port_),
-          reinterpret_cast<char*>(&other->port_));
+      - PROTOBUF_FIELD_OFFSET(CenterClientRegisterRequest, version_)>(
+          reinterpret_cast<char*>(&version_),
+          reinterpret_cast<char*>(&other->version_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata CenterClientRegisterRequest::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_center_5fprotocol_2eproto_getter, &descriptor_table_center_5fprotocol_2eproto_once,
-      file_level_metadata_center_5fprotocol_2eproto[1]);
+      file_level_metadata_center_5fprotocol_2eproto[0]);
 }
 
 // ===================================================================
@@ -815,15 +630,12 @@ void CenterServerRegisterResponse::InternalSwap(CenterServerRegisterResponse* ot
 ::PROTOBUF_NAMESPACE_ID::Metadata CenterServerRegisterResponse::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_center_5fprotocol_2eproto_getter, &descriptor_table_center_5fprotocol_2eproto_once,
-      file_level_metadata_center_5fprotocol_2eproto[2]);
+      file_level_metadata_center_5fprotocol_2eproto[1]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace protocol
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::protocol::CenterServerHandshake* Arena::CreateMaybeMessage< ::protocol::CenterServerHandshake >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::protocol::CenterServerHandshake >(arena);
-}
 template<> PROTOBUF_NOINLINE ::protocol::CenterClientRegisterRequest* Arena::CreateMaybeMessage< ::protocol::CenterClientRegisterRequest >(Arena* arena) {
   return Arena::CreateMessageInternal< ::protocol::CenterClientRegisterRequest >(arena);
 }

@@ -17,6 +17,22 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapleImageResizer", "..\Too
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CenterServer", "CenterServer\CenterServer.vcxproj", "{6CC954A6-1669-475F-9ECB-1D30772FDD22}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Proto", "Proto", "{AB761437-FFD7-4CAE-B30B-97F862380B17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoginServer", "LoginServer", "{E34C6A8A-DD3A-4194-89C7-C4604F9B350E}"
+	ProjectSection(SolutionItems) = preProject
+		..\Common\Proto\LoginServer\login_enum.proto = ..\Common\Proto\LoginServer\login_enum.proto
+		..\Common\Proto\LoginServer\login_protocol.proto = ..\Common\Proto\LoginServer\login_protocol.proto
+		..\Common\Proto\LoginServer\login_struct.proto = ..\Common\Proto\LoginServer\login_struct.proto
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CenterServer", "CenterServer", "{7F68DA50-832A-4223-8D66-CB4F0D18AD7F}"
+	ProjectSection(SolutionItems) = preProject
+		..\Common\Proto\CenterServer\center_enum.proto = ..\Common\Proto\CenterServer\center_enum.proto
+		..\Common\Proto\CenterServer\center_protocol.proto = ..\Common\Proto\CenterServer\center_protocol.proto
+		..\Common\Proto\CenterServer\center_struct.proto = ..\Common\Proto\CenterServer\center_struct.proto
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -95,6 +111,8 @@ Global
 		{A30DF8CE-1D3E-475C-8DED-3784E99CB6D3} = {9602E219-70E9-42CC-830E-A285456E745D}
 		{5848C569-E1F5-4CEF-BB94-77C08864D684} = {9602E219-70E9-42CC-830E-A285456E745D}
 		{ADA33513-BC97-451F-96DB-145A881EF047} = {9602E219-70E9-42CC-830E-A285456E745D}
+		{E34C6A8A-DD3A-4194-89C7-C4604F9B350E} = {AB761437-FFD7-4CAE-B30B-97F862380B17}
+		{7F68DA50-832A-4223-8D66-CB4F0D18AD7F} = {AB761437-FFD7-4CAE-B30B-97F862380B17}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {375728BA-E29F-4171-ADBE-061CF33EACB0}

@@ -17,7 +17,7 @@ public class MapleStory : ModuleRules
 			"Sockets", "Networking"
 		});
 
-		PrivateDependencyModuleNames.AddRange(new[] {"ProtobufCore"});
+		PrivateDependencyModuleNames.AddRange(new[] {"ProtobufCore", "PaperFlipbookWidget"});
 
 		PrivateIncludePaths.AddRange(new[] {"MapleStory/Public", "MapleStory/Public/Network/Protocols/"});
 
