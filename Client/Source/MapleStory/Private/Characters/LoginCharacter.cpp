@@ -49,6 +49,15 @@ void ALoginCharacter::SetAvatar(const int32 Index, const EAvatarType AvatarType,
 	}
 }
 
+void ALoginCharacter::SetLastAvatar(const EAvatarType AvatarType, const FString& AvatarName) {
+	for (int i = 0; i < Avatars.Num(); i++) {
+		if (Avatars[i] == EAvatarType::None) {
+			SetAvatar(i, AvatarType, AvatarName);
+			break;
+		}
+	}
+}
+
 void ALoginCharacter::DeleteAvatar(const int32 Index) {
 	check(Index >= 0 && Index < Avatars.Num());
 

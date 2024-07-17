@@ -25,17 +25,22 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = n
 static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_login_5fenum_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\020login_enum.proto\022\010protocol*j\n\013LoginRes"
-  "ult\022\013\n\007Success\020\000\022\023\n\017InvalidUsername\020\001\022\023\n"
-  "\017InvalidPassword\020\002\022\023\n\017AlreadyLoggedIn\020\003\022"
-  "\017\n\013ServerError\020\004*x\n\020CreateCharResult\022\025\n\021"
-  "CreateCharSuccess\020\000\022\031\n\025CreateCharInvalid"
-  "Name\020\001\022\027\n\023CreateCharNameTaken\020\002\022\031\n\025Creat"
-  "eCharServerError\020\003b\006proto3"
+  "\n\020login_enum.proto\022\010protocol*\316\001\n\013LoginRe"
+  "sult\022\034\n\030LOGIN_RESULT_UNSPECIFIED\020\000\022\030\n\024LO"
+  "GIN_RESULT_SUCCESS\020\001\022!\n\035LOGIN_RESULT_INV"
+  "ALID_USERNAME\020\002\022!\n\035LOGIN_RESULT_INVALID_"
+  "PASSWORD\020\003\022\"\n\036LOGIN_RESULT_ALREADY_LOGGE"
+  "D_IN\020\004\022\035\n\031LOGIN_RESULT_SERVER_ERROR\020\005*\344\001"
+  "\n\020CreateCharResult\022\"\n\036CREATE_CHAR_RESULT"
+  "_UNSPECIFIED\020\000\022\036\n\032CREATE_CHAR_RESULT_SUC"
+  "CESS\020\001\022#\n\037CREATE_CHAR_RESULT_INVALID_NAM"
+  "E\020\002\022!\n\035CREATE_CHAR_RESULT_NAME_TAKEN\020\003\022\037"
+  "\n\033CREATE_CHAR_RESULT_NO_SLOTS\020\004\022#\n\037CREAT"
+  "E_CHAR_RESULT_SERVER_ERROR\020\005b\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_login_5fenum_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_login_5fenum_2eproto = {
-  false, false, 266, descriptor_table_protodef_login_5fenum_2eproto, "login_enum.proto", 
+  false, false, 476, descriptor_table_protodef_login_5fenum_2eproto, "login_enum.proto", 
   &descriptor_table_login_5fenum_2eproto_once, nullptr, 0, 0,
   schemas, file_default_instances, TableStruct_login_5fenum_2eproto::offsets,
   nullptr, file_level_enum_descriptors_login_5fenum_2eproto, file_level_service_descriptors_login_5fenum_2eproto,
@@ -58,6 +63,7 @@ bool LoginResult_IsValid(int value) {
     case 2:
     case 3:
     case 4:
+    case 5:
       return true;
     default:
       return false;
@@ -74,6 +80,8 @@ bool CreateCharResult_IsValid(int value) {
     case 1:
     case 2:
     case 3:
+    case 4:
+    case 5:
       return true;
     default:
       return false;

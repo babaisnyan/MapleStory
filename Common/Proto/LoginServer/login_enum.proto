@@ -2,16 +2,19 @@ syntax = "proto3";
 package protocol;
 
 enum LoginResult {
-	Success = 0;
-	InvalidUsername = 1;
-	InvalidPassword = 2;
-	AlreadyLoggedIn = 3;
-	ServerError = 4;
+  LOGIN_RESULT_UNSPECIFIED = 0;
+  LOGIN_RESULT_SUCCESS = 1;
+  LOGIN_RESULT_INVALID_USERNAME = 2;
+  LOGIN_RESULT_INVALID_PASSWORD = 3;
+  LOGIN_RESULT_ALREADY_LOGGED_IN = 4;
+  LOGIN_RESULT_SERVER_ERROR = 5;
 }
 
 enum CreateCharResult {
-	CreateCharSuccess = 0;
-	CreateCharInvalidName = 1;
-	CreateCharNameTaken = 2;
-	CreateCharServerError = 3;
+  CREATE_CHAR_RESULT_UNSPECIFIED = 0;
+  CREATE_CHAR_RESULT_SUCCESS = 1;
+  CREATE_CHAR_RESULT_INVALID_NAME = 2;
+  CREATE_CHAR_RESULT_NAME_TAKEN = 3;
+  CREATE_CHAR_RESULT_NO_SLOTS = 4;
+  CREATE_CHAR_RESULT_SERVER_ERROR = 5;
 }

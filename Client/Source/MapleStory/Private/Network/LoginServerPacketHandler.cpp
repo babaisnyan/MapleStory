@@ -2,11 +2,13 @@
 
 #include "MapleGameInstance.h"
 #include "Blueprint/UserWidget.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Characters/LoginCharacter.h"
 #include "Characters/LoginController.h"
 #include "GameModes/LoginGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Network/PacketCreator.h"
+#include "UI/ChooseCharNameWindow.h"
 #include "UI/LoginMessageWindow.h"
 
 bool HandleLoginInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
@@ -21,7 +23,7 @@ bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::Lo
 		return false;
 	}
 
-	if (Packet.result() == protocol::Success) {
+	if (Packet.result() == protocol::LOGIN_RESULT_SUCCESS) {
 		if (!FLoginServerPacketHandler::GameInstance) {
 			return false;
 		}
@@ -34,9 +36,25 @@ bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::Lo
 		const auto SendBuffer = FPacketCreator::GetCharacterListRequest();
 		FLoginServerPacketHandler::GameInstance->SendPacket(SendBuffer);
 	} else {
-		const int8 ErrorCode = Packet.result();
 		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
-		Window->ErrorCode = ErrorCode;
+
+		switch (Packet.result()) {
+			case protocol::LOGIN_RESULT_SUCCESS:
+				break;
+			case protocol::LOGIN_RESULT_INVALID_USERNAME:
+				Window->ErrorCode = 1;
+				break;
+			case protocol::LOGIN_RESULT_INVALID_PASSWORD:
+				Window->ErrorCode = 2;
+				break;
+			case protocol::LOGIN_RESULT_ALREADY_LOGGED_IN:
+				Window->ErrorCode = 3;
+				break;
+			default:
+				Window->ErrorCode = 4;
+				break;
+		}
+
 		Window->AddToViewport();
 	}
 
@@ -88,13 +106,12 @@ bool HandleLoginServerCharacterList(const FPacketSessionRef& Session, const prot
 		GameMode->LoginCharacters.Add(Character);
 	}
 
-
 	return true;
 }
 
 bool HandleLoginServerDeleteCharacter(const FPacketSessionRef& Session, const protocol::LoginServerDeleteCharacter& Packet) {
 	static auto WindowClass = StaticLoadClass(ULoginMessageWindow::StaticClass(), nullptr, TEXT("/Game/UI/Login/WB_LoginNotice.WB_LoginNotice_C"));
-	
+
 	if (!FLoginServerPacketHandler::GameInstance) {
 		return false;
 	}
@@ -121,6 +138,56 @@ bool HandleLoginServerDeleteCharacter(const FPacketSessionRef& Session, const pr
 }
 
 bool HandleLoginServerCreateCharacter(const FPacketSessionRef& Session, const protocol::LoginServerCreateCharacter& Packet) {
+	if (!FLoginServerPacketHandler::GameInstance) {
+		return false;
+	}
+
+	UWorld* World = FLoginServerPacketHandler::GameInstance->GetWorld();
+	if (!World) {
+		return false;
+	}
+
+	ALoginGameMode* GameMode = Cast<ALoginGameMode>(UGameplayStatics::GetGameMode(World));
+	if (!GameMode) {
+		return false;
+	}
+
+	static auto WindowClass = StaticLoadClass(ULoginMessageWindow::StaticClass(), nullptr, TEXT("/Game/UI/Login/WB_LoginNotice.WB_LoginNotice_C"));
+	ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
+
+	switch (Packet.result()) {
+		case protocol::CREATE_CHAR_RESULT_SUCCESS:
+			if (Packet.has_character()) {
+				const FString Name = UTF8_TO_TCHAR(Packet.character().name().c_str());
+
+				TArray<UUserWidget*> FoundWidgets;
+				UWidgetBlueprintLibrary::GetAllWidgetsOfClass(World, FoundWidgets, UChooseCharNameWindow::StaticClass(), false);
+
+				if (!FoundWidgets.IsEmpty()) {
+					GameMode->LoginCharacterVisualizer->SetLastAvatar(static_cast<EAvatarType>(Packet.character().type()), Name);
+					GameMode->LoginCharacters.Add(Packet.character());
+
+					FoundWidgets[0]->RemoveFromParent();
+					FLoginServerPacketHandler::GameInstance->ChangeLoginState(ELoginState::CharacterSelection);
+				}
+			}
+			break;
+		case protocol::CREATE_CHAR_RESULT_INVALID_NAME:
+			Window->ErrorCode = 5;
+			Window->AddToViewport();
+			break;
+		case protocol::CREATE_CHAR_RESULT_NAME_TAKEN:
+			Window->ErrorCode = 7;
+			Window->AddToViewport();
+			break;
+		case protocol::CREATE_CHAR_RESULT_NO_SLOTS:
+			Window->ErrorCode = 6;
+			Window->AddToViewport();
+			break;
+		default:
+			break;
+	}
+
 	return true;
 }
 

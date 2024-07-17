@@ -1311,8 +1311,27 @@ class LoginServerCreateCharacter final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kCharacterFieldNumber = 2,
     kResultFieldNumber = 1,
   };
+  // optional .protocol.LoginCharacter character = 2;
+  bool has_character() const;
+  private:
+  bool _internal_has_character() const;
+  public:
+  void clear_character();
+  const ::protocol::LoginCharacter& character() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::LoginCharacter* release_character();
+  ::protocol::LoginCharacter* mutable_character();
+  void set_allocated_character(::protocol::LoginCharacter* character);
+  private:
+  const ::protocol::LoginCharacter& _internal_character() const;
+  ::protocol::LoginCharacter* _internal_mutable_character();
+  public:
+  void unsafe_arena_set_allocated_character(
+      ::protocol::LoginCharacter* character);
+  ::protocol::LoginCharacter* unsafe_arena_release_character();
+
   // .protocol.CreateCharResult result = 1;
   void clear_result();
   ::protocol::CreateCharResult result() const;
@@ -1329,8 +1348,10 @@ class LoginServerCreateCharacter final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  int result_;
+  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  ::protocol::LoginCharacter* character_;
+  int result_;
   friend struct ::TableStruct_login_5fprotocol_2eproto;
 };
 // -------------------------------------------------------------------
@@ -1822,6 +1843,87 @@ inline void LoginServerCreateCharacter::_internal_set_result(::protocol::CreateC
 inline void LoginServerCreateCharacter::set_result(::protocol::CreateCharResult value) {
   _internal_set_result(value);
   // @@protoc_insertion_point(field_set:protocol.LoginServerCreateCharacter.result)
+}
+
+// optional .protocol.LoginCharacter character = 2;
+inline bool LoginServerCreateCharacter::_internal_has_character() const {
+  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || character_ != nullptr);
+  return value;
+}
+inline bool LoginServerCreateCharacter::has_character() const {
+  return _internal_has_character();
+}
+inline const ::protocol::LoginCharacter& LoginServerCreateCharacter::_internal_character() const {
+  const ::protocol::LoginCharacter* p = character_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protocol::LoginCharacter&>(
+      ::protocol::_LoginCharacter_default_instance_);
+}
+inline const ::protocol::LoginCharacter& LoginServerCreateCharacter::character() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginServerCreateCharacter.character)
+  return _internal_character();
+}
+inline void LoginServerCreateCharacter::unsafe_arena_set_allocated_character(
+    ::protocol::LoginCharacter* character) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(character_);
+  }
+  character_ = character;
+  if (character) {
+    _has_bits_[0] |= 0x00000001u;
+  } else {
+    _has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.LoginServerCreateCharacter.character)
+}
+inline ::protocol::LoginCharacter* LoginServerCreateCharacter::release_character() {
+  _has_bits_[0] &= ~0x00000001u;
+  ::protocol::LoginCharacter* temp = character_;
+  character_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::protocol::LoginCharacter* LoginServerCreateCharacter::unsafe_arena_release_character() {
+  // @@protoc_insertion_point(field_release:protocol.LoginServerCreateCharacter.character)
+  _has_bits_[0] &= ~0x00000001u;
+  ::protocol::LoginCharacter* temp = character_;
+  character_ = nullptr;
+  return temp;
+}
+inline ::protocol::LoginCharacter* LoginServerCreateCharacter::_internal_mutable_character() {
+  _has_bits_[0] |= 0x00000001u;
+  if (character_ == nullptr) {
+    auto* p = CreateMaybeMessage<::protocol::LoginCharacter>(GetArenaForAllocation());
+    character_ = p;
+  }
+  return character_;
+}
+inline ::protocol::LoginCharacter* LoginServerCreateCharacter::mutable_character() {
+  // @@protoc_insertion_point(field_mutable:protocol.LoginServerCreateCharacter.character)
+  return _internal_mutable_character();
+}
+inline void LoginServerCreateCharacter::set_allocated_character(::protocol::LoginCharacter* character) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(character_);
+  }
+  if (character) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(character));
+    if (message_arena != submessage_arena) {
+      character = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, character, submessage_arena);
+    }
+    _has_bits_[0] |= 0x00000001u;
+  } else {
+    _has_bits_[0] &= ~0x00000001u;
+  }
+  character_ = character;
+  // @@protoc_insertion_point(field_set_allocated:protocol.LoginServerCreateCharacter.character)
 }
 
 // -------------------------------------------------------------------

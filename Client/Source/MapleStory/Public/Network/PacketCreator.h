@@ -12,4 +12,5 @@ public:
 	static FSendBufferRef GetCharacterListRequest();
 	static FSendBufferRef GetSelectCharacterRequest(int32 CharacterId);
 	static FSendBufferRef GetDeleteCharacterRequest(int32 CharacterId);
+	static FSendBufferRef GetCreateCharacterRequest(const FString& Name, int32 Avatar);
 };

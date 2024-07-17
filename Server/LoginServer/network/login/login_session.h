@@ -15,8 +15,11 @@ public:
   void SetAccountId(const int32_t account_id) { _account_id = account_id; }
 
   Vector<std::shared_ptr<LoginCharacter>>& GetCharacterList() { return _character_list; }
+  int32_t GetCharacterCount() const { return static_cast<int32_t>(_character_list.size()); }
+
   void AddCharacter(const std::shared_ptr<LoginCharacter>& character) { _character_list.push_back(character); }
   void RemoveCharacter(const std::shared_ptr<LoginCharacter>& character) { std::erase(_character_list, character); }
+  void ClearCharacters() { _character_list.clear(); }
 
 protected:
   void OnConnected() override;
@@ -28,3 +31,5 @@ private:
   int32_t _account_id = 0;
   Vector<std::shared_ptr<LoginCharacter>> _character_list;
 };
+
+using LoginSessionRef = std::shared_ptr<LoginSession>;

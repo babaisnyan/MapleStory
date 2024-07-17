@@ -29,7 +29,7 @@ void ALoginGameMode::BeginPlay() {
 }
 
 void ALoginGameMode::StartGame() {
-	UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
+	const UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
 	if (!GameInstance) return;
 
 	check(LoginCharacters.Num() > SelectedPlayerIndex);
@@ -49,12 +49,25 @@ void ALoginGameMode::Delete() {
 }
 
 void ALoginGameMode::CreateCharacter(const FString Name, EAvatarType Avatar) {
+	const UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
+	if (!GameInstance) return;
+	
 	if (Name.IsEmpty()) {
 		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
 		Window->ErrorCode = 5;
 		Window->AddToViewport();
 		return;
 	}
+
+	if (Name.Len() > 8) {
+		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
+		Window->ErrorCode = 5;
+		Window->AddToViewport();
+		return;
+	}
+
+	const auto SendBuffer = FPacketCreator::GetCreateCharacterRequest(Name, static_cast<int32>(Avatar));
+	GameInstance->SendPacket(SendBuffer);
 }
 
 FString ALoginGameMode::GetSelectedPlayerName() {

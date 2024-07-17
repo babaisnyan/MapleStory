@@ -179,12 +179,10 @@ class LoginCharacter final :
     kLevelFieldNumber = 3,
     kTypeFieldNumber = 4,
     kJobFieldNumber = 5,
-    kHpFieldNumber = 6,
-    kMpFieldNumber = 7,
-    kStrFieldNumber = 8,
-    kDexFieldNumber = 9,
-    kLukFieldNumber = 10,
-    kIntFieldNumber = 11,
+    kStrFieldNumber = 6,
+    kDexFieldNumber = 7,
+    kLukFieldNumber = 8,
+    kIntFieldNumber = 9,
   };
   // string name = 2;
   void clear_name();
@@ -236,25 +234,7 @@ class LoginCharacter final :
   void _internal_set_job(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 hp = 6;
-  void clear_hp();
-  ::PROTOBUF_NAMESPACE_ID::int32 hp() const;
-  void set_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_hp() const;
-  void _internal_set_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 mp = 7;
-  void clear_mp();
-  ::PROTOBUF_NAMESPACE_ID::int32 mp() const;
-  void set_mp(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_mp() const;
-  void _internal_set_mp(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 str = 8;
+  // int32 str = 6;
   void clear_str();
   ::PROTOBUF_NAMESPACE_ID::int32 str() const;
   void set_str(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -263,7 +243,7 @@ class LoginCharacter final :
   void _internal_set_str(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 dex = 9;
+  // int32 dex = 7;
   void clear_dex();
   ::PROTOBUF_NAMESPACE_ID::int32 dex() const;
   void set_dex(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -272,7 +252,7 @@ class LoginCharacter final :
   void _internal_set_dex(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 luk = 10;
+  // int32 luk = 8;
   void clear_luk();
   ::PROTOBUF_NAMESPACE_ID::int32 luk() const;
   void set_luk(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -281,7 +261,7 @@ class LoginCharacter final :
   void _internal_set_luk(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 int = 11;
+  // int32 int = 9;
   void clear_int_();
   ::PROTOBUF_NAMESPACE_ID::int32 int_() const;
   void set_int_(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -302,8 +282,6 @@ class LoginCharacter final :
   ::PROTOBUF_NAMESPACE_ID::int32 level_;
   ::PROTOBUF_NAMESPACE_ID::int32 type_;
   ::PROTOBUF_NAMESPACE_ID::int32 job_;
-  ::PROTOBUF_NAMESPACE_ID::int32 hp_;
-  ::PROTOBUF_NAMESPACE_ID::int32 mp_;
   ::PROTOBUF_NAMESPACE_ID::int32 str_;
   ::PROTOBUF_NAMESPACE_ID::int32 dex_;
   ::PROTOBUF_NAMESPACE_ID::int32 luk_;
@@ -447,47 +425,7 @@ inline void LoginCharacter::set_job(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.LoginCharacter.job)
 }
 
-// int32 hp = 6;
-inline void LoginCharacter::clear_hp() {
-  hp_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::_internal_hp() const {
-  return hp_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::hp() const {
-  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.hp)
-  return _internal_hp();
-}
-inline void LoginCharacter::_internal_set_hp(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  hp_ = value;
-}
-inline void LoginCharacter::set_hp(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_hp(value);
-  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.hp)
-}
-
-// int32 mp = 7;
-inline void LoginCharacter::clear_mp() {
-  mp_ = 0;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::_internal_mp() const {
-  return mp_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 LoginCharacter::mp() const {
-  // @@protoc_insertion_point(field_get:protocol.LoginCharacter.mp)
-  return _internal_mp();
-}
-inline void LoginCharacter::_internal_set_mp(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  
-  mp_ = value;
-}
-inline void LoginCharacter::set_mp(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_mp(value);
-  // @@protoc_insertion_point(field_set:protocol.LoginCharacter.mp)
-}
-
-// int32 str = 8;
+// int32 str = 6;
 inline void LoginCharacter::clear_str() {
   str_ = 0;
 }
@@ -507,7 +445,7 @@ inline void LoginCharacter::set_str(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.LoginCharacter.str)
 }
 
-// int32 dex = 9;
+// int32 dex = 7;
 inline void LoginCharacter::clear_dex() {
   dex_ = 0;
 }
@@ -527,7 +465,7 @@ inline void LoginCharacter::set_dex(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.LoginCharacter.dex)
 }
 
-// int32 luk = 10;
+// int32 luk = 8;
 inline void LoginCharacter::clear_luk() {
   luk_ = 0;
 }
@@ -547,7 +485,7 @@ inline void LoginCharacter::set_luk(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.LoginCharacter.luk)
 }
 
-// int32 int = 11;
+// int32 int = 9;
 inline void LoginCharacter::clear_int_() {
   int__ = 0;
 }

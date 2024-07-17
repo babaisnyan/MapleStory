@@ -40,3 +40,12 @@ FSendBufferRef FPacketCreator::GetDeleteCharacterRequest(const int32 CharacterId
 	const auto SendBuffer = FLoginServerPacketHandler::MakeSendBuffer(Packet);
 	return SendBuffer;
 }
+
+FSendBufferRef FPacketCreator::GetCreateCharacterRequest(const FString& Name, const int32 Avatar) {
+	LoginClientCreateCharacter Packet;
+	Packet.set_name(TCHAR_TO_UTF8(*Name));
+	Packet.set_type(Avatar);
+
+	const auto SendBuffer = FLoginServerPacketHandler::MakeSendBuffer(Packet);
+	return SendBuffer;
+}

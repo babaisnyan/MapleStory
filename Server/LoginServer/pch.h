@@ -12,5 +12,3 @@
 
 #include "core_pch.h"
 #include "network/protocol/login_enum.pb.h"
-
-using GameSessionRef = std::shared_ptr<class LoginSession>;

@@ -19,6 +19,7 @@ private:
 
 public:
 	void SetAvatar(int32 Index, EAvatarType AvatarType, const FString& AvatarName);
+	void SetLastAvatar(EAvatarType AvatarType, const FString& AvatarName);
 	void DeleteAvatar(int32 Index);
 	void ClearAvatars();
 	

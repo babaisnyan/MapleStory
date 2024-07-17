@@ -5,43 +5,44 @@ import "login_enum.proto";
 import "login_struct.proto";
 
 message LoginClientLogin {
-	string username = 1;
-	string password = 2;
+  string username = 1;
+  string password = 2;
 }
 
 message LoginServerLogin {
-	LoginResult result = 1;
+  LoginResult result = 1;
 }
 
 message LoginClientRequestCharacterList {
 }
 
 message LoginServerCharacterList {
-	repeated LoginCharacter characters = 1;
+  repeated LoginCharacter characters = 1;
 }
 
 message LoginClientSelectCharacter {
-	int32 character_id = 1;
+  int32 character_id = 1;
 }
 
 message LoginClientDeleteCharacter {
-	int32 character_id = 1;
+  int32 character_id = 1;
 }
 
 message LoginServerDeleteCharacter {
-	bool success = 1;
-	int32 character_id = 2;
+  bool success = 1;
+  int32 character_id = 2;
 }
 
 message LoginClientCreateCharacter {
-	string name = 1;
-	int32 type = 2;
+  string name = 1;
+  int32 type = 2;
 }
 
 message LoginServerCreateCharacter {
-	CreateCharResult result = 1;
+  CreateCharResult result = 1;
+  optional LoginCharacter character = 2;
 }
 
 message LoginServerChat {
-	string message = 1;
+  string message = 1;
 }

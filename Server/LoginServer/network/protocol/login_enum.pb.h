@@ -57,17 +57,18 @@ PROTOBUF_NAMESPACE_CLOSE
 namespace protocol {
 
 enum LoginResult : int {
-  Success = 0,
-  InvalidUsername = 1,
-  InvalidPassword = 2,
-  AlreadyLoggedIn = 3,
-  ServerError = 4,
+  LOGIN_RESULT_UNSPECIFIED = 0,
+  LOGIN_RESULT_SUCCESS = 1,
+  LOGIN_RESULT_INVALID_USERNAME = 2,
+  LOGIN_RESULT_INVALID_PASSWORD = 3,
+  LOGIN_RESULT_ALREADY_LOGGED_IN = 4,
+  LOGIN_RESULT_SERVER_ERROR = 5,
   LoginResult_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   LoginResult_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool LoginResult_IsValid(int value);
-constexpr LoginResult LoginResult_MIN = Success;
-constexpr LoginResult LoginResult_MAX = ServerError;
+constexpr LoginResult LoginResult_MIN = LOGIN_RESULT_UNSPECIFIED;
+constexpr LoginResult LoginResult_MAX = LOGIN_RESULT_SERVER_ERROR;
 constexpr int LoginResult_ARRAYSIZE = LoginResult_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* LoginResult_descriptor();
@@ -85,16 +86,18 @@ inline bool LoginResult_Parse(
     LoginResult_descriptor(), name, value);
 }
 enum CreateCharResult : int {
-  CreateCharSuccess = 0,
-  CreateCharInvalidName = 1,
-  CreateCharNameTaken = 2,
-  CreateCharServerError = 3,
+  CREATE_CHAR_RESULT_UNSPECIFIED = 0,
+  CREATE_CHAR_RESULT_SUCCESS = 1,
+  CREATE_CHAR_RESULT_INVALID_NAME = 2,
+  CREATE_CHAR_RESULT_NAME_TAKEN = 3,
+  CREATE_CHAR_RESULT_NO_SLOTS = 4,
+  CREATE_CHAR_RESULT_SERVER_ERROR = 5,
   CreateCharResult_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   CreateCharResult_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool CreateCharResult_IsValid(int value);
-constexpr CreateCharResult CreateCharResult_MIN = CreateCharSuccess;
-constexpr CreateCharResult CreateCharResult_MAX = CreateCharServerError;
+constexpr CreateCharResult CreateCharResult_MIN = CREATE_CHAR_RESULT_UNSPECIFIED;
+constexpr CreateCharResult CreateCharResult_MAX = CREATE_CHAR_RESULT_SERVER_ERROR;
 constexpr int CreateCharResult_ARRAYSIZE = CreateCharResult_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* CreateCharResult_descriptor();

@@ -118,7 +118,8 @@ struct LoginClientCreateCharacterDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT LoginClientCreateCharacterDefaultTypeInternal _LoginClientCreateCharacter_default_instance_;
 constexpr LoginServerCreateCharacter::LoginServerCreateCharacter(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : result_(0)
+  : character_(nullptr)
+  , result_(0)
 {}
 struct LoginServerCreateCharacterDefaultTypeInternal {
   constexpr LoginServerCreateCharacterDefaultTypeInternal()
@@ -197,12 +198,15 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_login_5fprotocol_2eproto::offs
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::protocol::LoginClientCreateCharacter, name_),
   PROTOBUF_FIELD_OFFSET(::protocol::LoginClientCreateCharacter, type_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::protocol::LoginServerCreateCharacter, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::protocol::LoginServerCreateCharacter, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::protocol::LoginServerCreateCharacter, result_),
+  PROTOBUF_FIELD_OFFSET(::protocol::LoginServerCreateCharacter, character_),
+  ~0u,
+  0,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::protocol::LoginServerChat, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -219,8 +223,8 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 30, -1, sizeof(::protocol::LoginClientDeleteCharacter)},
   { 36, -1, sizeof(::protocol::LoginServerDeleteCharacter)},
   { 43, -1, sizeof(::protocol::LoginClientCreateCharacter)},
-  { 50, -1, sizeof(::protocol::LoginServerCreateCharacter)},
-  { 56, -1, sizeof(::protocol::LoginServerChat)},
+  { 50, 57, sizeof(::protocol::LoginServerCreateCharacter)},
+  { 59, -1, sizeof(::protocol::LoginServerChat)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -250,10 +254,11 @@ const char descriptor_table_protodef_login_5fprotocol_2eproto[] PROTOBUF_SECTION
   "\n\032LoginServerDeleteCharacter\022\017\n\007success\030"
   "\001 \001(\010\022\024\n\014character_id\030\002 \001(\005\"8\n\032LoginClie"
   "ntCreateCharacter\022\014\n\004name\030\001 \001(\t\022\014\n\004type\030"
-  "\002 \001(\005\"H\n\032LoginServerCreateCharacter\022*\n\006r"
-  "esult\030\001 \001(\0162\032.protocol.CreateCharResult\""
-  "\"\n\017LoginServerChat\022\017\n\007message\030\001 \001(\tb\006pro"
-  "to3"
+  "\002 \001(\005\"\210\001\n\032LoginServerCreateCharacter\022*\n\006"
+  "result\030\001 \001(\0162\032.protocol.CreateCharResult"
+  "\0220\n\tcharacter\030\002 \001(\0132\030.protocol.LoginChar"
+  "acterH\000\210\001\001B\014\n\n_character\"\"\n\017LoginServerC"
+  "hat\022\017\n\007message\030\001 \001(\tb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_login_5fprotocol_2eproto_deps[2] = {
   &::descriptor_table_login_5fenum_2eproto,
@@ -261,7 +266,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_login_5fprotocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_login_5fprotocol_2eproto = {
-  false, false, 643, descriptor_table_protodef_login_5fprotocol_2eproto, "login_protocol.proto", 
+  false, false, 708, descriptor_table_protodef_login_5fprotocol_2eproto, "login_protocol.proto", 
   &descriptor_table_login_5fprotocol_2eproto_once, descriptor_table_login_5fprotocol_2eproto_deps, 2, 10,
   schemas, file_default_instances, TableStruct_login_5fprotocol_2eproto::offsets,
   file_level_metadata_login_5fprotocol_2eproto, file_level_enum_descriptors_login_5fprotocol_2eproto, file_level_service_descriptors_login_5fprotocol_2eproto,
@@ -1907,8 +1912,21 @@ void LoginClientCreateCharacter::InternalSwap(LoginClientCreateCharacter* other)
 
 class LoginServerCreateCharacter::_Internal {
  public:
+  using HasBits = decltype(std::declval<LoginServerCreateCharacter>()._has_bits_);
+  static const ::protocol::LoginCharacter& character(const LoginServerCreateCharacter* msg);
+  static void set_has_character(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
+const ::protocol::LoginCharacter&
+LoginServerCreateCharacter::_Internal::character(const LoginServerCreateCharacter* msg) {
+  return *msg->character_;
+}
+void LoginServerCreateCharacter::clear_character() {
+  if (character_ != nullptr) character_->Clear();
+  _has_bits_[0] &= ~0x00000001u;
+}
 LoginServerCreateCharacter::LoginServerCreateCharacter(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
@@ -1916,14 +1934,23 @@ LoginServerCreateCharacter::LoginServerCreateCharacter(::PROTOBUF_NAMESPACE_ID::
   // @@protoc_insertion_point(arena_constructor:protocol.LoginServerCreateCharacter)
 }
 LoginServerCreateCharacter::LoginServerCreateCharacter(const LoginServerCreateCharacter& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  if (from._internal_has_character()) {
+    character_ = new ::protocol::LoginCharacter(*from.character_);
+  } else {
+    character_ = nullptr;
+  }
   result_ = from.result_;
   // @@protoc_insertion_point(copy_constructor:protocol.LoginServerCreateCharacter)
 }
 
 void LoginServerCreateCharacter::SharedCtor() {
-result_ = 0;
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&character_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&result_) -
+    reinterpret_cast<char*>(&character_)) + sizeof(result_));
 }
 
 LoginServerCreateCharacter::~LoginServerCreateCharacter() {
@@ -1934,6 +1961,7 @@ LoginServerCreateCharacter::~LoginServerCreateCharacter() {
 
 void LoginServerCreateCharacter::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  if (this != internal_default_instance()) delete character_;
 }
 
 void LoginServerCreateCharacter::ArenaDtor(void* object) {
@@ -1952,12 +1980,19 @@ void LoginServerCreateCharacter::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    GOOGLE_DCHECK(character_ != nullptr);
+    character_->Clear();
+  }
   result_ = 0;
+  _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* LoginServerCreateCharacter::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -1968,6 +2003,13 @@ const char* LoginServerCreateCharacter::_InternalParse(const char* ptr, ::PROTOB
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_result(static_cast<::protocol::CreateCharResult>(val));
+        } else goto handle_unusual;
+        continue;
+      // optional .protocol.LoginCharacter character = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr = ctx->ParseMessage(_internal_mutable_character(), ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       default: {
@@ -1986,6 +2028,7 @@ const char* LoginServerCreateCharacter::_InternalParse(const char* ptr, ::PROTOB
     }  // switch
   }  // while
 success:
+  _has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -2006,6 +2049,14 @@ failure:
       1, this->_internal_result(), target);
   }
 
+  // optional .protocol.LoginCharacter character = 2;
+  if (_internal_has_character()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(
+        2, _Internal::character(this), target, stream);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2021,6 +2072,14 @@ size_t LoginServerCreateCharacter::ByteSizeLong() const {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // optional .protocol.LoginCharacter character = 2;
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *character_);
+  }
 
   // .protocol.CreateCharResult result = 1;
   if (this->result() != 0) {
@@ -2059,6 +2118,9 @@ void LoginServerCreateCharacter::MergeFrom(const LoginServerCreateCharacter& fro
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from._internal_has_character()) {
+    _internal_mutable_character()->::protocol::LoginCharacter::MergeFrom(from._internal_character());
+  }
   if (from.result() != 0) {
     _internal_set_result(from._internal_result());
   }
@@ -2085,7 +2147,13 @@ bool LoginServerCreateCharacter::IsInitialized() const {
 void LoginServerCreateCharacter::InternalSwap(LoginServerCreateCharacter* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(result_, other->result_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(LoginServerCreateCharacter, result_)
+      + sizeof(LoginServerCreateCharacter::result_)
+      - PROTOBUF_FIELD_OFFSET(LoginServerCreateCharacter, character_)>(
+          reinterpret_cast<char*>(&character_),
+          reinterpret_cast<char*>(&other->character_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata LoginServerCreateCharacter::GetMetadata() const {

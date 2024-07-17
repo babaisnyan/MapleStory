@@ -24,8 +24,6 @@ constexpr LoginCharacter::LoginCharacter(
   , level_(0)
   , type_(0)
   , job_(0)
-  , hp_(0)
-  , mp_(0)
   , str_(0)
   , dex_(0)
   , luk_(0)
@@ -55,8 +53,6 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_login_5fstruct_2eproto::offset
   PROTOBUF_FIELD_OFFSET(::protocol::LoginCharacter, level_),
   PROTOBUF_FIELD_OFFSET(::protocol::LoginCharacter, type_),
   PROTOBUF_FIELD_OFFSET(::protocol::LoginCharacter, job_),
-  PROTOBUF_FIELD_OFFSET(::protocol::LoginCharacter, hp_),
-  PROTOBUF_FIELD_OFFSET(::protocol::LoginCharacter, mp_),
   PROTOBUF_FIELD_OFFSET(::protocol::LoginCharacter, str_),
   PROTOBUF_FIELD_OFFSET(::protocol::LoginCharacter, dex_),
   PROTOBUF_FIELD_OFFSET(::protocol::LoginCharacter, luk_),
@@ -72,18 +68,17 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_login_5fstruct_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\022login_struct.proto\022\010protocol\032\020login_en"
-  "um.proto\"\240\001\n\016LoginCharacter\022\n\n\002id\030\001 \001(\005\022"
+  "um.proto\"\210\001\n\016LoginCharacter\022\n\n\002id\030\001 \001(\005\022"
   "\014\n\004name\030\002 \001(\t\022\r\n\005level\030\003 \001(\005\022\014\n\004type\030\004 \001"
-  "(\005\022\013\n\003job\030\005 \001(\005\022\n\n\002hp\030\006 \001(\005\022\n\n\002mp\030\007 \001(\005\022"
-  "\013\n\003str\030\010 \001(\005\022\013\n\003dex\030\t \001(\005\022\013\n\003luk\030\n \001(\005\022\013"
-  "\n\003int\030\013 \001(\005b\006proto3"
+  "(\005\022\013\n\003job\030\005 \001(\005\022\013\n\003str\030\006 \001(\005\022\013\n\003dex\030\007 \001("
+  "\005\022\013\n\003luk\030\010 \001(\005\022\013\n\003int\030\t \001(\005b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_login_5fstruct_2eproto_deps[1] = {
   &::descriptor_table_login_5fenum_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_login_5fstruct_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_login_5fstruct_2eproto = {
-  false, false, 219, descriptor_table_protodef_login_5fstruct_2eproto, "login_struct.proto", 
+  false, false, 195, descriptor_table_protodef_login_5fstruct_2eproto, "login_struct.proto", 
   &descriptor_table_login_5fstruct_2eproto_once, descriptor_table_login_5fstruct_2eproto_deps, 1, 1,
   schemas, file_default_instances, TableStruct_login_5fstruct_2eproto::offsets,
   file_level_metadata_login_5fstruct_2eproto, file_level_enum_descriptors_login_5fstruct_2eproto, file_level_service_descriptors_login_5fstruct_2eproto,
@@ -207,44 +202,30 @@ const char* LoginCharacter::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 hp = 6;
+      // int32 str = 6;
       case 6:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
-          hp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // int32 mp = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
-          mp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // int32 str = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
           str_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 dex = 9;
-      case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
+      // int32 dex = 7;
+      case 7:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
           dex_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 luk = 10;
-      case 10:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 80)) {
+      // int32 luk = 8;
+      case 8:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
           luk_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 int = 11;
-      case 11:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 88)) {
+      // int32 int = 9;
+      case 9:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 72)) {
           int__ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
@@ -312,40 +293,28 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(5, this->_internal_job(), target);
   }
 
-  // int32 hp = 6;
-  if (this->hp() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(6, this->_internal_hp(), target);
-  }
-
-  // int32 mp = 7;
-  if (this->mp() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(7, this->_internal_mp(), target);
-  }
-
-  // int32 str = 8;
+  // int32 str = 6;
   if (this->str() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(8, this->_internal_str(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(6, this->_internal_str(), target);
   }
 
-  // int32 dex = 9;
+  // int32 dex = 7;
   if (this->dex() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(9, this->_internal_dex(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(7, this->_internal_dex(), target);
   }
 
-  // int32 luk = 10;
+  // int32 luk = 8;
   if (this->luk() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(10, this->_internal_luk(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(8, this->_internal_luk(), target);
   }
 
-  // int32 int = 11;
+  // int32 int = 9;
   if (this->int_() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(11, this->_internal_int_(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(9, this->_internal_int_(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -399,42 +368,28 @@ size_t LoginCharacter::ByteSizeLong() const {
         this->_internal_job());
   }
 
-  // int32 hp = 6;
-  if (this->hp() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_hp());
-  }
-
-  // int32 mp = 7;
-  if (this->mp() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_mp());
-  }
-
-  // int32 str = 8;
+  // int32 str = 6;
   if (this->str() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_str());
   }
 
-  // int32 dex = 9;
+  // int32 dex = 7;
   if (this->dex() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_dex());
   }
 
-  // int32 luk = 10;
+  // int32 luk = 8;
   if (this->luk() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_luk());
   }
 
-  // int32 int = 11;
+  // int32 int = 9;
   if (this->int_() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
@@ -486,12 +441,6 @@ void LoginCharacter::MergeFrom(const LoginCharacter& from) {
   }
   if (from.job() != 0) {
     _internal_set_job(from._internal_job());
-  }
-  if (from.hp() != 0) {
-    _internal_set_hp(from._internal_hp());
-  }
-  if (from.mp() != 0) {
-    _internal_set_mp(from._internal_mp());
   }
   if (from.str() != 0) {
     _internal_set_str(from._internal_str());

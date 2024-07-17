@@ -1,8 +1,5 @@
 #pragma once
-
-class LoginSession;
-
-using LoginSessionRef = std::shared_ptr<LoginSession>;
+#include "login_session.h"
 
 class LoginSessionManager {
 public:
