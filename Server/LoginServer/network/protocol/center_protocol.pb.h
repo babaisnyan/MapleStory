@@ -48,7 +48,7 @@ struct TableStruct_center_5fprotocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[6]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -56,15 +56,31 @@ struct TableStruct_center_5fprotocol_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_center_5fprotocol_2eproto;
 namespace protocol {
+class CenterClientMigrationRequest;
+struct CenterClientMigrationRequestDefaultTypeInternal;
+extern CenterClientMigrationRequestDefaultTypeInternal _CenterClientMigrationRequest_default_instance_;
+class CenterClientMigrationResponse;
+struct CenterClientMigrationResponseDefaultTypeInternal;
+extern CenterClientMigrationResponseDefaultTypeInternal _CenterClientMigrationResponse_default_instance_;
 class CenterClientRegisterRequest;
 struct CenterClientRegisterRequestDefaultTypeInternal;
 extern CenterClientRegisterRequestDefaultTypeInternal _CenterClientRegisterRequest_default_instance_;
+class CenterServerMigrationRequest;
+struct CenterServerMigrationRequestDefaultTypeInternal;
+extern CenterServerMigrationRequestDefaultTypeInternal _CenterServerMigrationRequest_default_instance_;
+class CenterServerMigrationResponse;
+struct CenterServerMigrationResponseDefaultTypeInternal;
+extern CenterServerMigrationResponseDefaultTypeInternal _CenterServerMigrationResponse_default_instance_;
 class CenterServerRegisterResponse;
 struct CenterServerRegisterResponseDefaultTypeInternal;
 extern CenterServerRegisterResponseDefaultTypeInternal _CenterServerRegisterResponse_default_instance_;
 }  // namespace protocol
 PROTOBUF_NAMESPACE_OPEN
+template<> ::protocol::CenterClientMigrationRequest* Arena::CreateMaybeMessage<::protocol::CenterClientMigrationRequest>(Arena*);
+template<> ::protocol::CenterClientMigrationResponse* Arena::CreateMaybeMessage<::protocol::CenterClientMigrationResponse>(Arena*);
 template<> ::protocol::CenterClientRegisterRequest* Arena::CreateMaybeMessage<::protocol::CenterClientRegisterRequest>(Arena*);
+template<> ::protocol::CenterServerMigrationRequest* Arena::CreateMaybeMessage<::protocol::CenterServerMigrationRequest>(Arena*);
+template<> ::protocol::CenterServerMigrationResponse* Arena::CreateMaybeMessage<::protocol::CenterServerMigrationResponse>(Arena*);
 template<> ::protocol::CenterServerRegisterResponse* Arena::CreateMaybeMessage<::protocol::CenterServerRegisterResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace protocol {
@@ -387,6 +403,625 @@ class CenterServerRegisterResponse final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_center_5fprotocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class CenterClientMigrationRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.CenterClientMigrationRequest) */ {
+ public:
+  inline CenterClientMigrationRequest() : CenterClientMigrationRequest(nullptr) {}
+  ~CenterClientMigrationRequest() override;
+  explicit constexpr CenterClientMigrationRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CenterClientMigrationRequest(const CenterClientMigrationRequest& from);
+  CenterClientMigrationRequest(CenterClientMigrationRequest&& from) noexcept
+    : CenterClientMigrationRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline CenterClientMigrationRequest& operator=(const CenterClientMigrationRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CenterClientMigrationRequest& operator=(CenterClientMigrationRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CenterClientMigrationRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CenterClientMigrationRequest* internal_default_instance() {
+    return reinterpret_cast<const CenterClientMigrationRequest*>(
+               &_CenterClientMigrationRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    2;
+
+  friend void swap(CenterClientMigrationRequest& a, CenterClientMigrationRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CenterClientMigrationRequest* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CenterClientMigrationRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CenterClientMigrationRequest* New() const final {
+    return new CenterClientMigrationRequest();
+  }
+
+  CenterClientMigrationRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CenterClientMigrationRequest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CenterClientMigrationRequest& from);
+  void MergeFrom(const CenterClientMigrationRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CenterClientMigrationRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.CenterClientMigrationRequest";
+  }
+  protected:
+  explicit CenterClientMigrationRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIpFieldNumber = 2,
+    kServerNameFieldNumber = 3,
+    kCharacterIdFieldNumber = 1,
+  };
+  // string ip = 2;
+  void clear_ip();
+  const std::string& ip() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ip(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ip();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_ip();
+  void set_allocated_ip(std::string* ip);
+  private:
+  const std::string& _internal_ip() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip(const std::string& value);
+  std::string* _internal_mutable_ip();
+  public:
+
+  // string server_name = 3;
+  void clear_server_name();
+  const std::string& server_name() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_server_name(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_server_name();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_server_name();
+  void set_allocated_server_name(std::string* server_name);
+  private:
+  const std::string& _internal_server_name() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_server_name(const std::string& value);
+  std::string* _internal_mutable_server_name();
+  public:
+
+  // int32 character_id = 1;
+  void clear_character_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 character_id() const;
+  void set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_character_id() const;
+  void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protocol.CenterClientMigrationRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr server_name_;
+  ::PROTOBUF_NAMESPACE_ID::int32 character_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_center_5fprotocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CenterServerMigrationResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.CenterServerMigrationResponse) */ {
+ public:
+  inline CenterServerMigrationResponse() : CenterServerMigrationResponse(nullptr) {}
+  ~CenterServerMigrationResponse() override;
+  explicit constexpr CenterServerMigrationResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CenterServerMigrationResponse(const CenterServerMigrationResponse& from);
+  CenterServerMigrationResponse(CenterServerMigrationResponse&& from) noexcept
+    : CenterServerMigrationResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline CenterServerMigrationResponse& operator=(const CenterServerMigrationResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CenterServerMigrationResponse& operator=(CenterServerMigrationResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CenterServerMigrationResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CenterServerMigrationResponse* internal_default_instance() {
+    return reinterpret_cast<const CenterServerMigrationResponse*>(
+               &_CenterServerMigrationResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(CenterServerMigrationResponse& a, CenterServerMigrationResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CenterServerMigrationResponse* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CenterServerMigrationResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CenterServerMigrationResponse* New() const final {
+    return new CenterServerMigrationResponse();
+  }
+
+  CenterServerMigrationResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CenterServerMigrationResponse>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CenterServerMigrationResponse& from);
+  void MergeFrom(const CenterServerMigrationResponse& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CenterServerMigrationResponse* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.CenterServerMigrationResponse";
+  }
+  protected:
+  explicit CenterServerMigrationResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kServerFieldNumber = 3,
+    kSuccessFieldNumber = 1,
+    kCharacterIdFieldNumber = 2,
+  };
+  // optional .protocol.ServerInfo server = 3;
+  bool has_server() const;
+  private:
+  bool _internal_has_server() const;
+  public:
+  void clear_server();
+  const ::protocol::ServerInfo& server() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::ServerInfo* release_server();
+  ::protocol::ServerInfo* mutable_server();
+  void set_allocated_server(::protocol::ServerInfo* server);
+  private:
+  const ::protocol::ServerInfo& _internal_server() const;
+  ::protocol::ServerInfo* _internal_mutable_server();
+  public:
+  void unsafe_arena_set_allocated_server(
+      ::protocol::ServerInfo* server);
+  ::protocol::ServerInfo* unsafe_arena_release_server();
+
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // int32 character_id = 2;
+  void clear_character_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 character_id() const;
+  void set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_character_id() const;
+  void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protocol.CenterServerMigrationResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  ::protocol::ServerInfo* server_;
+  bool success_;
+  ::PROTOBUF_NAMESPACE_ID::int32 character_id_;
+  friend struct ::TableStruct_center_5fprotocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CenterServerMigrationRequest final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.CenterServerMigrationRequest) */ {
+ public:
+  inline CenterServerMigrationRequest() : CenterServerMigrationRequest(nullptr) {}
+  ~CenterServerMigrationRequest() override;
+  explicit constexpr CenterServerMigrationRequest(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CenterServerMigrationRequest(const CenterServerMigrationRequest& from);
+  CenterServerMigrationRequest(CenterServerMigrationRequest&& from) noexcept
+    : CenterServerMigrationRequest() {
+    *this = ::std::move(from);
+  }
+
+  inline CenterServerMigrationRequest& operator=(const CenterServerMigrationRequest& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CenterServerMigrationRequest& operator=(CenterServerMigrationRequest&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CenterServerMigrationRequest& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CenterServerMigrationRequest* internal_default_instance() {
+    return reinterpret_cast<const CenterServerMigrationRequest*>(
+               &_CenterServerMigrationRequest_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(CenterServerMigrationRequest& a, CenterServerMigrationRequest& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CenterServerMigrationRequest* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CenterServerMigrationRequest* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CenterServerMigrationRequest* New() const final {
+    return new CenterServerMigrationRequest();
+  }
+
+  CenterServerMigrationRequest* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CenterServerMigrationRequest>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CenterServerMigrationRequest& from);
+  void MergeFrom(const CenterServerMigrationRequest& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CenterServerMigrationRequest* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.CenterServerMigrationRequest";
+  }
+  protected:
+  explicit CenterServerMigrationRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kIpFieldNumber = 2,
+    kCharacterIdFieldNumber = 1,
+  };
+  // string ip = 2;
+  void clear_ip();
+  const std::string& ip() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_ip(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ip();
+  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_ip();
+  void set_allocated_ip(std::string* ip);
+  private:
+  const std::string& _internal_ip() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip(const std::string& value);
+  std::string* _internal_mutable_ip();
+  public:
+
+  // int32 character_id = 1;
+  void clear_character_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 character_id() const;
+  void set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_character_id() const;
+  void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protocol.CenterServerMigrationRequest)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
+  ::PROTOBUF_NAMESPACE_ID::int32 character_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_center_5fprotocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class CenterClientMigrationResponse final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.CenterClientMigrationResponse) */ {
+ public:
+  inline CenterClientMigrationResponse() : CenterClientMigrationResponse(nullptr) {}
+  ~CenterClientMigrationResponse() override;
+  explicit constexpr CenterClientMigrationResponse(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  CenterClientMigrationResponse(const CenterClientMigrationResponse& from);
+  CenterClientMigrationResponse(CenterClientMigrationResponse&& from) noexcept
+    : CenterClientMigrationResponse() {
+    *this = ::std::move(from);
+  }
+
+  inline CenterClientMigrationResponse& operator=(const CenterClientMigrationResponse& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline CenterClientMigrationResponse& operator=(CenterClientMigrationResponse&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const CenterClientMigrationResponse& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const CenterClientMigrationResponse* internal_default_instance() {
+    return reinterpret_cast<const CenterClientMigrationResponse*>(
+               &_CenterClientMigrationResponse_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    5;
+
+  friend void swap(CenterClientMigrationResponse& a, CenterClientMigrationResponse& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(CenterClientMigrationResponse* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(CenterClientMigrationResponse* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline CenterClientMigrationResponse* New() const final {
+    return new CenterClientMigrationResponse();
+  }
+
+  CenterClientMigrationResponse* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<CenterClientMigrationResponse>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const CenterClientMigrationResponse& from);
+  void MergeFrom(const CenterClientMigrationResponse& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(CenterClientMigrationResponse* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.CenterClientMigrationResponse";
+  }
+  protected:
+  explicit CenterClientMigrationResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kSuccessFieldNumber = 1,
+    kCharacterIdFieldNumber = 2,
+  };
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
+  private:
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
+  public:
+
+  // int32 character_id = 2;
+  void clear_character_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 character_id() const;
+  void set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_character_id() const;
+  void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protocol.CenterClientMigrationResponse)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  bool success_;
+  ::PROTOBUF_NAMESPACE_ID::int32 character_id_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_center_5fprotocol_2eproto;
+};
 // ===================================================================
 
 
@@ -572,9 +1207,369 @@ inline void CenterServerRegisterResponse::set_result(::protocol::ServerRegisterR
   // @@protoc_insertion_point(field_set:protocol.CenterServerRegisterResponse.result)
 }
 
+// -------------------------------------------------------------------
+
+// CenterClientMigrationRequest
+
+// int32 character_id = 1;
+inline void CenterClientMigrationRequest::clear_character_id() {
+  character_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterClientMigrationRequest::_internal_character_id() const {
+  return character_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterClientMigrationRequest::character_id() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterClientMigrationRequest.character_id)
+  return _internal_character_id();
+}
+inline void CenterClientMigrationRequest::_internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  character_id_ = value;
+}
+inline void CenterClientMigrationRequest::set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_character_id(value);
+  // @@protoc_insertion_point(field_set:protocol.CenterClientMigrationRequest.character_id)
+}
+
+// string ip = 2;
+inline void CenterClientMigrationRequest::clear_ip() {
+  ip_.ClearToEmpty();
+}
+inline const std::string& CenterClientMigrationRequest::ip() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterClientMigrationRequest.ip)
+  return _internal_ip();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CenterClientMigrationRequest::set_ip(ArgT0&& arg0, ArgT... args) {
+ 
+ ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:protocol.CenterClientMigrationRequest.ip)
+}
+inline std::string* CenterClientMigrationRequest::mutable_ip() {
+  // @@protoc_insertion_point(field_mutable:protocol.CenterClientMigrationRequest.ip)
+  return _internal_mutable_ip();
+}
+inline const std::string& CenterClientMigrationRequest::_internal_ip() const {
+  return ip_.Get();
+}
+inline void CenterClientMigrationRequest::_internal_set_ip(const std::string& value) {
+  
+  ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* CenterClientMigrationRequest::_internal_mutable_ip() {
+  
+  return ip_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* CenterClientMigrationRequest::release_ip() {
+  // @@protoc_insertion_point(field_release:protocol.CenterClientMigrationRequest.ip)
+  return ip_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void CenterClientMigrationRequest::set_allocated_ip(std::string* ip) {
+  if (ip != nullptr) {
+    
+  } else {
+    
+  }
+  ip_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ip,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:protocol.CenterClientMigrationRequest.ip)
+}
+
+// string server_name = 3;
+inline void CenterClientMigrationRequest::clear_server_name() {
+  server_name_.ClearToEmpty();
+}
+inline const std::string& CenterClientMigrationRequest::server_name() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterClientMigrationRequest.server_name)
+  return _internal_server_name();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CenterClientMigrationRequest::set_server_name(ArgT0&& arg0, ArgT... args) {
+ 
+ server_name_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:protocol.CenterClientMigrationRequest.server_name)
+}
+inline std::string* CenterClientMigrationRequest::mutable_server_name() {
+  // @@protoc_insertion_point(field_mutable:protocol.CenterClientMigrationRequest.server_name)
+  return _internal_mutable_server_name();
+}
+inline const std::string& CenterClientMigrationRequest::_internal_server_name() const {
+  return server_name_.Get();
+}
+inline void CenterClientMigrationRequest::_internal_set_server_name(const std::string& value) {
+  
+  server_name_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* CenterClientMigrationRequest::_internal_mutable_server_name() {
+  
+  return server_name_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* CenterClientMigrationRequest::release_server_name() {
+  // @@protoc_insertion_point(field_release:protocol.CenterClientMigrationRequest.server_name)
+  return server_name_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void CenterClientMigrationRequest::set_allocated_server_name(std::string* server_name) {
+  if (server_name != nullptr) {
+    
+  } else {
+    
+  }
+  server_name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), server_name,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:protocol.CenterClientMigrationRequest.server_name)
+}
+
+// -------------------------------------------------------------------
+
+// CenterServerMigrationResponse
+
+// bool success = 1;
+inline void CenterServerMigrationResponse::clear_success() {
+  success_ = false;
+}
+inline bool CenterServerMigrationResponse::_internal_success() const {
+  return success_;
+}
+inline bool CenterServerMigrationResponse::success() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterServerMigrationResponse.success)
+  return _internal_success();
+}
+inline void CenterServerMigrationResponse::_internal_set_success(bool value) {
+  
+  success_ = value;
+}
+inline void CenterServerMigrationResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:protocol.CenterServerMigrationResponse.success)
+}
+
+// int32 character_id = 2;
+inline void CenterServerMigrationResponse::clear_character_id() {
+  character_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterServerMigrationResponse::_internal_character_id() const {
+  return character_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterServerMigrationResponse::character_id() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterServerMigrationResponse.character_id)
+  return _internal_character_id();
+}
+inline void CenterServerMigrationResponse::_internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  character_id_ = value;
+}
+inline void CenterServerMigrationResponse::set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_character_id(value);
+  // @@protoc_insertion_point(field_set:protocol.CenterServerMigrationResponse.character_id)
+}
+
+// optional .protocol.ServerInfo server = 3;
+inline bool CenterServerMigrationResponse::_internal_has_server() const {
+  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  PROTOBUF_ASSUME(!value || server_ != nullptr);
+  return value;
+}
+inline bool CenterServerMigrationResponse::has_server() const {
+  return _internal_has_server();
+}
+inline const ::protocol::ServerInfo& CenterServerMigrationResponse::_internal_server() const {
+  const ::protocol::ServerInfo* p = server_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protocol::ServerInfo&>(
+      ::protocol::_ServerInfo_default_instance_);
+}
+inline const ::protocol::ServerInfo& CenterServerMigrationResponse::server() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterServerMigrationResponse.server)
+  return _internal_server();
+}
+inline void CenterServerMigrationResponse::unsafe_arena_set_allocated_server(
+    ::protocol::ServerInfo* server) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(server_);
+  }
+  server_ = server;
+  if (server) {
+    _has_bits_[0] |= 0x00000001u;
+  } else {
+    _has_bits_[0] &= ~0x00000001u;
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.CenterServerMigrationResponse.server)
+}
+inline ::protocol::ServerInfo* CenterServerMigrationResponse::release_server() {
+  _has_bits_[0] &= ~0x00000001u;
+  ::protocol::ServerInfo* temp = server_;
+  server_ = nullptr;
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+  return temp;
+}
+inline ::protocol::ServerInfo* CenterServerMigrationResponse::unsafe_arena_release_server() {
+  // @@protoc_insertion_point(field_release:protocol.CenterServerMigrationResponse.server)
+  _has_bits_[0] &= ~0x00000001u;
+  ::protocol::ServerInfo* temp = server_;
+  server_ = nullptr;
+  return temp;
+}
+inline ::protocol::ServerInfo* CenterServerMigrationResponse::_internal_mutable_server() {
+  _has_bits_[0] |= 0x00000001u;
+  if (server_ == nullptr) {
+    auto* p = CreateMaybeMessage<::protocol::ServerInfo>(GetArenaForAllocation());
+    server_ = p;
+  }
+  return server_;
+}
+inline ::protocol::ServerInfo* CenterServerMigrationResponse::mutable_server() {
+  // @@protoc_insertion_point(field_mutable:protocol.CenterServerMigrationResponse.server)
+  return _internal_mutable_server();
+}
+inline void CenterServerMigrationResponse::set_allocated_server(::protocol::ServerInfo* server) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(server_);
+  }
+  if (server) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<
+            ::PROTOBUF_NAMESPACE_ID::MessageLite>::GetOwningArena(
+                reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(server));
+    if (message_arena != submessage_arena) {
+      server = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, server, submessage_arena);
+    }
+    _has_bits_[0] |= 0x00000001u;
+  } else {
+    _has_bits_[0] &= ~0x00000001u;
+  }
+  server_ = server;
+  // @@protoc_insertion_point(field_set_allocated:protocol.CenterServerMigrationResponse.server)
+}
+
+// -------------------------------------------------------------------
+
+// CenterServerMigrationRequest
+
+// int32 character_id = 1;
+inline void CenterServerMigrationRequest::clear_character_id() {
+  character_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterServerMigrationRequest::_internal_character_id() const {
+  return character_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterServerMigrationRequest::character_id() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterServerMigrationRequest.character_id)
+  return _internal_character_id();
+}
+inline void CenterServerMigrationRequest::_internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  character_id_ = value;
+}
+inline void CenterServerMigrationRequest::set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_character_id(value);
+  // @@protoc_insertion_point(field_set:protocol.CenterServerMigrationRequest.character_id)
+}
+
+// string ip = 2;
+inline void CenterServerMigrationRequest::clear_ip() {
+  ip_.ClearToEmpty();
+}
+inline const std::string& CenterServerMigrationRequest::ip() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterServerMigrationRequest.ip)
+  return _internal_ip();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void CenterServerMigrationRequest::set_ip(ArgT0&& arg0, ArgT... args) {
+ 
+ ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:protocol.CenterServerMigrationRequest.ip)
+}
+inline std::string* CenterServerMigrationRequest::mutable_ip() {
+  // @@protoc_insertion_point(field_mutable:protocol.CenterServerMigrationRequest.ip)
+  return _internal_mutable_ip();
+}
+inline const std::string& CenterServerMigrationRequest::_internal_ip() const {
+  return ip_.Get();
+}
+inline void CenterServerMigrationRequest::_internal_set_ip(const std::string& value) {
+  
+  ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
+}
+inline std::string* CenterServerMigrationRequest::_internal_mutable_ip() {
+  
+  return ip_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
+}
+inline std::string* CenterServerMigrationRequest::release_ip() {
+  // @@protoc_insertion_point(field_release:protocol.CenterServerMigrationRequest.ip)
+  return ip_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
+}
+inline void CenterServerMigrationRequest::set_allocated_ip(std::string* ip) {
+  if (ip != nullptr) {
+    
+  } else {
+    
+  }
+  ip_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ip,
+      GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set_allocated:protocol.CenterServerMigrationRequest.ip)
+}
+
+// -------------------------------------------------------------------
+
+// CenterClientMigrationResponse
+
+// bool success = 1;
+inline void CenterClientMigrationResponse::clear_success() {
+  success_ = false;
+}
+inline bool CenterClientMigrationResponse::_internal_success() const {
+  return success_;
+}
+inline bool CenterClientMigrationResponse::success() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterClientMigrationResponse.success)
+  return _internal_success();
+}
+inline void CenterClientMigrationResponse::_internal_set_success(bool value) {
+  
+  success_ = value;
+}
+inline void CenterClientMigrationResponse::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:protocol.CenterClientMigrationResponse.success)
+}
+
+// int32 character_id = 2;
+inline void CenterClientMigrationResponse::clear_character_id() {
+  character_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterClientMigrationResponse::_internal_character_id() const {
+  return character_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterClientMigrationResponse::character_id() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterClientMigrationResponse.character_id)
+  return _internal_character_id();
+}
+inline void CenterClientMigrationResponse::_internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  character_id_ = value;
+}
+inline void CenterClientMigrationResponse::set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_character_id(value);
+  // @@protoc_insertion_point(field_set:protocol.CenterClientMigrationResponse.character_id)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 

@@ -4,10 +4,14 @@
 #include <ranges>
 
 #include "center_session.h"
+#include "data/server_info.h"
 
 void CenterSessionManager::Add(const CenterSessionRef& session, const String& name) {
   WRITE_LOCK;
   _center_sessions[name] = session;
+
+  auto server_info = std::make_shared<ServerInfo>(name, session->GetServerIp(), session->GetServerPort());
+  _server_infos[name] = std::move(server_info);
 }
 
 void CenterSessionManager::Remove(const CenterSessionRef& session) {
@@ -59,4 +63,14 @@ void CenterSessionManager::Broadcast(const SendBufferRef& send_buffer) {
   for (const auto& session : _center_sessions | std::views::values) {
     session->Send(send_buffer);
   }
+}
+
+std::optional<std::shared_ptr<ServerInfo>> CenterSessionManager::GetServerInfo(const String& name) {
+  READ_LOCK;
+
+  if (_server_infos.contains(name)) {
+    return _server_infos[name];
+  }
+
+  return std::nullopt;
 }

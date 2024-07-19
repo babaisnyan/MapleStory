@@ -15,6 +15,7 @@ public:
   }
 
   void HandleServerRegisterRequest(const PacketSessionRef& session, const protocol::CenterClientRegisterRequest& request);
+  void HandleServerMigrationRequest(const PacketSessionRef& session, const protocol::CenterClientMigrationRequest& request);
 
 private:
   std::shared_ptr<CenterHandler> _center_handler;

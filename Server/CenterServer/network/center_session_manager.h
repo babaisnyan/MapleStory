@@ -1,5 +1,6 @@
 #pragma once
 
+struct ServerInfo;
 class CenterSession;
 
 using CenterSessionRef = std::shared_ptr<CenterSession>;
@@ -22,7 +23,10 @@ public:
 
   void Broadcast(const SendBufferRef& send_buffer);
 
+  std::optional<std::shared_ptr<ServerInfo>> GetServerInfo(const String& name);
+
 private:
   USE_LOCK;
   Map<String, CenterSessionRef> _center_sessions;
+  HashMap<String, std::shared_ptr<ServerInfo>> _server_infos;
 };

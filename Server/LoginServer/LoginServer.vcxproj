@@ -71,22 +71,22 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(SolutionDir)Common\;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\Libs\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Output\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(SolutionDir)Common\;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\Libs\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Output\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(SolutionDir)Common\;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\Libs\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Output\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(ProjectDir);$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)Libraries\Include\;$(SolutionDir)ServerCore\;$(SolutionDir)Common\;$(ProjectDir);$(IncludePath)</IncludePath>
     <LibraryPath>$(SolutionDir)Libraries\Libs\;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)Output\$(Configuration)\</OutDir>
   </PropertyGroup>
@@ -171,12 +171,14 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="auth\migration_storage.cpp" />
     <ClCompile Include="handler\login_handler.cpp" />
     <ClCompile Include="handler\login_manager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="network\center\center_packet_creator.cpp" />
     <ClCompile Include="network\center\center_server_packet_handler.cpp" />
     <ClCompile Include="network\center\center_server_session.cpp" />
+    <ClCompile Include="network\center\center_session_manager.cpp" />
     <ClCompile Include="network\login\login_client_packet_handler.cpp" />
     <ClCompile Include="network\login\login_packet_creator.cpp" />
     <ClCompile Include="network\login\login_server.cpp" />
@@ -226,12 +228,14 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="auth\migration_storage.h" />
     <ClInclude Include="data\login_character.h" />
     <ClInclude Include="handler\login_handler.h" />
     <ClInclude Include="handler\login_manager.h" />
     <ClInclude Include="network\center\center_packet_creator.h" />
     <ClInclude Include="network\center\center_server_packet_handler.h" />
     <ClInclude Include="network\center\center_server_session.h" />
+    <ClInclude Include="network\center\center_session_manager.h" />
     <ClInclude Include="network\login\login_client_packet_handler.h" />
     <ClInclude Include="network\login\login_packet_creator.h" />
     <ClInclude Include="network\login\login_server.h" />
@@ -247,6 +251,11 @@
   </ItemGroup>
   <ItemGroup>
     <UpToDateCheckInput Include="GameDB.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.vcxproj">
+      <Project>{e189da41-3ff2-474f-bb45-81d5ea2672e2}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

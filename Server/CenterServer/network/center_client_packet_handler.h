@@ -8,10 +8,16 @@ using PacketHandler = std::function<bool(PacketSessionRef&, std::byte*, int32_t)
 enum : uint16_t {
   PKT_CENTERCLIENTREGISTERREQUEST = 1000,
   PKT_CENTERSERVERREGISTERRESPONSE = 1001,
+  PKT_CENTERCLIENTMIGRATIONREQUEST = 1002,
+  PKT_CENTERSERVERMIGRATIONRESPONSE = 1003,
+  PKT_CENTERSERVERMIGRATIONREQUEST = 1004,
+  PKT_CENTERCLIENTMIGRATIONRESPONSE = 1005,
 };
 
 bool HandleCenterInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
 bool HandleCenterClientRegisterRequest(const PacketSessionRef& session, const protocol::CenterClientRegisterRequest& packet);
+bool HandleCenterClientMigrationRequest(const PacketSessionRef& session, const protocol::CenterClientMigrationRequest& packet);
+bool HandleCenterClientMigrationResponse(const PacketSessionRef& session, const protocol::CenterClientMigrationResponse& packet);
 
 class CenterClientPacketHandler {
 public:
@@ -25,6 +31,12 @@ public:
 
     _packet_handler_map[PKT_CENTERCLIENTREGISTERREQUEST] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
       return HandlePacket<protocol::CenterClientRegisterRequest>(HandleCenterClientRegisterRequest, session, buffer, len);
+    };
+    _packet_handler_map[PKT_CENTERCLIENTMIGRATIONREQUEST] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+      return HandlePacket<protocol::CenterClientMigrationRequest>(HandleCenterClientMigrationRequest, session, buffer, len);
+    };
+    _packet_handler_map[PKT_CENTERCLIENTMIGRATIONRESPONSE] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+      return HandlePacket<protocol::CenterClientMigrationResponse>(HandleCenterClientMigrationResponse, session, buffer, len);
     };
   }
 
@@ -41,6 +53,12 @@ public:
 
   static SendBufferRef MakeSendBuffer(const protocol::CenterServerRegisterResponse& packet) { 
     return MakeSendBufferInternal(packet, PKT_CENTERSERVERREGISTERRESPONSE); 
+  }
+  static SendBufferRef MakeSendBuffer(const protocol::CenterServerMigrationResponse& packet) { 
+    return MakeSendBufferInternal(packet, PKT_CENTERSERVERMIGRATIONRESPONSE); 
+  }
+  static SendBufferRef MakeSendBuffer(const protocol::CenterServerMigrationRequest& packet) { 
+    return MakeSendBufferInternal(packet, PKT_CENTERSERVERMIGRATIONREQUEST); 
   }
 
 private:

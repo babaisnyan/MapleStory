@@ -12,8 +12,8 @@ public:
 
 public:
   bool IsRegistered() const { return _is_registered; }
-  StringView GetServerName() const { return _server_name; }
-  StringView GetServerIp() const { return _server_ip; }
+  String GetServerName() const { return _server_name; }
+  String GetServerIp() const { return _server_ip; }
   uint16_t GetServerPort() const { return _server_port; }
 
 protected:

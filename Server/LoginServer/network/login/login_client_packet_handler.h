@@ -15,7 +15,8 @@ enum : uint16_t {
   PKT_LOGINSERVERDELETECHARACTER = 1006,
   PKT_LOGINCLIENTCREATECHARACTER = 1007,
   PKT_LOGINSERVERCREATECHARACTER = 1008,
-  PKT_LOGINSERVERCHAT = 1009,
+  PKT_LOGINSERVERCHARSELECTRESULT = 1009,
+  PKT_LOGINSERVERCHAT = 1010,
 };
 
 bool HandleLoginInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
@@ -74,6 +75,9 @@ public:
   }
   static SendBufferRef MakeSendBuffer(const protocol::LoginServerCreateCharacter& packet) { 
     return MakeSendBufferInternal(packet, PKT_LOGINSERVERCREATECHARACTER); 
+  }
+  static SendBufferRef MakeSendBuffer(const protocol::LoginServerCharSelectResult& packet) { 
+    return MakeSendBufferInternal(packet, PKT_LOGINSERVERCHARSELECTRESULT); 
   }
   static SendBufferRef MakeSendBuffer(const protocol::LoginServerChat& packet) { 
     return MakeSendBufferInternal(packet, PKT_LOGINSERVERCHAT); 

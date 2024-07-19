@@ -17,7 +17,8 @@ enum : uint16 {
   PKT_LOGINSERVERDELETECHARACTER = 1006,
   PKT_LOGINCLIENTCREATECHARACTER = 1007,
   PKT_LOGINSERVERCREATECHARACTER = 1008,
-  PKT_LOGINSERVERCHAT = 1009,
+  PKT_LOGINSERVERCHARSELECTRESULT = 1009,
+  PKT_LOGINSERVERCHAT = 1010,
 };
 
 bool HandleLoginInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len);
@@ -25,6 +26,7 @@ bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::Lo
 bool HandleLoginServerCharacterList(const FPacketSessionRef& Session, const protocol::LoginServerCharacterList& Packet);
 bool HandleLoginServerDeleteCharacter(const FPacketSessionRef& Session, const protocol::LoginServerDeleteCharacter& Packet);
 bool HandleLoginServerCreateCharacter(const FPacketSessionRef& Session, const protocol::LoginServerCreateCharacter& Packet);
+bool HandleLoginServerCharSelectResult(const FPacketSessionRef& Session, const protocol::LoginServerCharSelectResult& Packet);
 bool HandleLoginServerChat(const FPacketSessionRef& Session, const protocol::LoginServerChat& Packet);
 
 class FLoginServerPacketHandler {
@@ -47,6 +49,9 @@ public:
     };
     PacketHandlers[PKT_LOGINSERVERCREATECHARACTER] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
       return HandlePacket<protocol::LoginServerCreateCharacter>(HandleLoginServerCreateCharacter, Session, Buffer, Len);
+    };
+    PacketHandlers[PKT_LOGINSERVERCHARSELECTRESULT] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
+      return HandlePacket<protocol::LoginServerCharSelectResult>(HandleLoginServerCharSelectResult, Session, Buffer, Len);
     };
     PacketHandlers[PKT_LOGINSERVERCHAT] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
       return HandlePacket<protocol::LoginServerChat>(HandleLoginServerChat, Session, Buffer, Len);

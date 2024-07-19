@@ -3,6 +3,7 @@
 
 #include "center_packet_creator.h"
 #include "center_server_packet_handler.h"
+#include "center_session_manager.h"
 
 void CenterServerSession::OnConnected() {
   std::cout << "CenterServerSession Connected\n";
@@ -16,12 +17,16 @@ void CenterServerSession::OnConnected() {
     return;
   }
 
+  const auto session = std::static_pointer_cast<CenterServerSession>(shared_from_this());
+  CenterSessionManager::GetInstance().SetCenterSession(session);
+
   const auto send_buffer = CenterPacketCreator::GetRegisterRequest(name.value(), ip.value(), 7777);
   Send(send_buffer);
 }
 
 void CenterServerSession::OnDisconnected() {
   std::cout << "CenterServerSession Disconnected\n";
+  CenterSessionManager::GetInstance().Reset();
 }
 
 void CenterServerSession::OnRecvPacket(std::byte* buffer, const int32_t len) {

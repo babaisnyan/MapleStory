@@ -2,3 +2,9 @@ syntax = "proto3";
 package protocol;
 
 import "center_enum.proto";
+
+message ServerInfo {
+  string name = 1;
+  string ip = 2;
+  int32 port = 3;
+}

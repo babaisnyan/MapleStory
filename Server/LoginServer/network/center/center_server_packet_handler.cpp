@@ -28,3 +28,7 @@ bool HandleCenterServerRegisterResponse(const PacketSessionRef& session, const p
 
   return true;
 }
+
+bool HandleCenterServerMigrationResponse(const PacketSessionRef& session, const protocol::CenterServerMigrationResponse& packet) {
+  return true;
+}

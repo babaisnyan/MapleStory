@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="network\protocol\center_enum.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\center_protocol.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\center_struct.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\center\center_server_packet_handler.cpp">
+      <Filter>network\center</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="network\protocol\center_enum.pb.h">
+      <Filter>network\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="network\protocol\center_protocol.pb.h">
+      <Filter>network\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="network\protocol\center_struct.pb.h">
+      <Filter>network\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="network\center\center_server_packet_handler.h">
+      <Filter>network\center</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="network">
+      <UniqueIdentifier>{6a0e2cbd-fe89-440f-b3d4-373464b86a1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\protocol">
+      <UniqueIdentifier>{a075b8d4-0a29-4d7c-b9c1-ad2d311576d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\center">
+      <UniqueIdentifier>{55bf31fe-0912-4e37-9604-22159aa94fb2}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

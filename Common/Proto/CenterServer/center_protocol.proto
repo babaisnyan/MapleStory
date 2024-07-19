@@ -12,6 +12,28 @@ message CenterClientRegisterRequest {
   ServerType type = 5;
 }
 
-message CenterServerRegisterResponse {
-  ServerRegisterResult result = 1;
+message CenterServerRegisterResponse { 
+  ServerRegisterResult result = 1; 
+}
+
+message CenterClientMigrationRequest {
+  int32 character_id = 1;
+  string ip = 2;
+  string server_name = 3;
+}
+
+message CenterServerMigrationResponse {
+  bool success = 1;
+  int32 character_id = 2;
+  optional ServerInfo server = 3;
+}
+
+message CenterServerMigrationRequest {
+  int32 character_id = 1;
+  string ip = 2;
+}
+
+message CenterClientMigrationResponse {
+  bool success = 1;
+  int32 character_id = 2;
 }

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="data\server_info.h">
+      <Filter>data</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="pch.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="data">
+      <UniqueIdentifier>{b60d0d0b-1daf-4122-b478-8725e460acb9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -25,6 +25,9 @@
     <Filter Include="network\center">
       <UniqueIdentifier>{ecbc0457-34bc-432b-ae48-5283fa5393ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="auth">
+      <UniqueIdentifier>{be55bdc5-7049-4ea3-b4ee-f19e56968c19}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -81,6 +84,12 @@
     <ClCompile Include="network\center\center_packet_creator.cpp">
       <Filter>network\center</Filter>
     </ClCompile>
+    <ClCompile Include="network\center\center_session_manager.cpp">
+      <Filter>network\center</Filter>
+    </ClCompile>
+    <ClCompile Include="auth\migration_storage.cpp">
+      <Filter>auth</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -136,6 +145,12 @@
     </ClInclude>
     <ClInclude Include="network\center\center_packet_creator.h">
       <Filter>network\center</Filter>
+    </ClInclude>
+    <ClInclude Include="network\center\center_session_manager.h">
+      <Filter>network\center</Filter>
+    </ClInclude>
+    <ClInclude Include="auth\migration_storage.h">
+      <Filter>auth</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

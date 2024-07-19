@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "center_handler.h"
 
+#include "data/server_info.h"
+
 #include "database/db_bind.h"
 #include "database/db_connection_pool.h"
 
@@ -71,7 +73,40 @@ void CenterHandler::HandleServerRegisterRequest(PacketSessionRef session, Center
   SendResponse(center_session, response);
 }
 
-void CenterHandler::SendResponse(const CenterSessionRef& session, const CenterServerRegisterResponse& response) {
-  const auto buffer = CenterClientPacketHandler::MakeSendBuffer(response);
-  session->Send(buffer);
+void CenterHandler::HandleServerMigrationRequest(PacketSessionRef session, protocol::CenterClientMigrationRequest request) {
+  const CenterSessionRef center_session = std::static_pointer_cast<CenterSession>(session);
+  CenterServerMigrationResponse response;
+  response.set_character_id(request.character_id());
+  response.set_success(false);
+
+  const auto server_name = utils::ConvertToWide(request.server_name());
+
+  if (!server_name.has_value()) {
+    SendResponse(center_session, response);
+    return;
+  }
+
+  const auto server_info = CenterSessionManager::GetInstance().GetServerInfo(server_name.value());
+
+  if (!server_info.has_value()) {
+    SendResponse(center_session, response);
+    return;
+  }
+
+  const auto server_ip = utils::ConvertToUtf8(server_info.value()->ip);
+
+  if (!server_ip.has_value()) {
+    SendResponse(center_session, response);
+    return;
+  }
+
+  auto* info = response.mutable_server();
+  info->set_name(request.server_name());
+  info->set_ip(server_ip.value());
+  info->set_port(server_info.value()->port);
+  response.set_success(true);
+
+  SendResponse(center_session, response);
+
+  //TODO: 게임서버에 정보 등록
 }

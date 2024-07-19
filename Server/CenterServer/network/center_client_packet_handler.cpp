@@ -11,3 +11,8 @@ bool HandleCenterClientRegisterRequest(const PacketSessionRef& session, const pr
   CenterManager::GetInstance().HandleServerRegisterRequest(session, packet);
   return true;
 }
+
+bool HandleCenterClientMigrationRequest(const PacketSessionRef& session, const protocol::CenterClientMigrationRequest& packet) {
+  CenterManager::GetInstance().HandleServerMigrationRequest(session, packet);
+  return true;
+}

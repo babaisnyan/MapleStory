@@ -1,11 +1,17 @@
 #include "pch.h"
 #include "login_handler.h"
 
+#include "auth/migration_storage.h"
+
 #include "network/login/login_client_packet_handler.h"
 #include "network/login/login_session.h"
 
 #include "database/db_bind.h"
 #include "database/db_connection_pool.h"
+
+#include "network/center/center_packet_creator.h"
+#include "network/center/center_session_manager.h"
+#include "network/login/login_packet_creator.h"
 
 void LoginHandler::HandleLogin(PacketSessionRef session, protocol::LoginClientLogin request) {
   const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
@@ -128,11 +134,23 @@ void LoginHandler::HandleSelectCharacter(PacketSessionRef session, protocol::Log
   }
 
   if (!found) {
-    login_session->Disconnect(L"Invalid character id");
+    login_session->Send(LoginPacketCreator::GetSelectCharFailedResponse());
     return;
   }
 
-  //TODO: 센터서버 통신
+  const auto player_ip = utils::ConvertToUtf8(session->GetNetworkAddress().GetIpAddress());
+  const auto sever_name = utils::ConvertToUtf8(L"Game01"); // TODO: 설정으로 배기
+
+  if (!player_ip.has_value() || !sever_name.has_value()) {
+    login_session->Send(LoginPacketCreator::GetSelectCharFailedResponse());
+    return;
+  }
+
+  const auto migration_request = CenterPacketCreator::GetMigrationRequest(request.character_id(), player_ip.value(), sever_name.value());
+  CenterSessionManager::GetInstance().Send(migration_request);
+
+  const std::weak_ptr weak_session = login_session;
+  MigrationStorage::GetInstance().Add(request.character_id(), weak_session);
 }
 
 void LoginHandler::HandleDeleteCharacter(PacketSessionRef session, protocol::LoginClientDeleteCharacter request) {

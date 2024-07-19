@@ -114,6 +114,32 @@ inline bool CreateCharResult_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<CreateCharResult>(
     CreateCharResult_descriptor(), name, value);
 }
+enum SelectCharResult : int {
+  SELECT_CHAR_RESULT_UNSPECIFIED = 0,
+  SELECT_CHAR_RESULT_SUCCESS = 1,
+  SELECT_CHAR_RESULT_SERVER_ERROR = 2,
+  SelectCharResult_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  SelectCharResult_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool SelectCharResult_IsValid(int value);
+constexpr SelectCharResult SelectCharResult_MIN = SELECT_CHAR_RESULT_UNSPECIFIED;
+constexpr SelectCharResult SelectCharResult_MAX = SELECT_CHAR_RESULT_SERVER_ERROR;
+constexpr int SelectCharResult_ARRAYSIZE = SelectCharResult_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* SelectCharResult_descriptor();
+template<typename T>
+inline const std::string& SelectCharResult_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, SelectCharResult>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function SelectCharResult_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    SelectCharResult_descriptor(), enum_t_value);
+}
+inline bool SelectCharResult_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, SelectCharResult* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<SelectCharResult>(
+    SelectCharResult_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -145,6 +171,11 @@ template <> struct is_proto_enum< ::protocol::CreateCharResult> : ::std::true_ty
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::protocol::CreateCharResult>() {
   return ::protocol::CreateCharResult_descriptor();
+}
+template <> struct is_proto_enum< ::protocol::SelectCharResult> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::protocol::SelectCharResult>() {
+  return ::protocol::SelectCharResult_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE
