@@ -398,4 +398,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 .vscode
-/Client/Content/Item/Texture/
+/Client/Content/Item/

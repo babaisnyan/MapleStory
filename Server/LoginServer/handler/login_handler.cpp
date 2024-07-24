@@ -139,7 +139,7 @@ void LoginHandler::HandleSelectCharacter(PacketSessionRef session, protocol::Log
   }
 
   const auto player_ip = utils::ConvertToUtf8(session->GetNetworkAddress().GetIpAddress());
-  const auto sever_name = utils::ConvertToUtf8(L"Game01"); // TODO: 설정으로 배기
+  const auto sever_name = utils::ConvertToUtf8(L"Game01"); // TODO: 설정으로 빼기
 
   if (!player_ip.has_value() || !sever_name.has_value()) {
     login_session->Send(LoginPacketCreator::GetSelectCharFailedResponse());

@@ -10,8 +10,8 @@ using namespace protocol;
 SendBufferRef LoginPacketCreator::GetSelectCharSuccessResponse(const std::string& ip, const uint16_t port) {
   LoginServerCharSelectResult packet;
   packet.set_result(SELECT_CHAR_RESULT_SUCCESS);
-  packet.set_ip(ip);
-  packet.set_port(port);
+  // packet.set_ip(ip);
+  // packet.set_port(port);
 
   const auto send_buffer = LoginClientPacketHandler::MakeSendBuffer(packet);
   return send_buffer;

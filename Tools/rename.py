@@ -9,11 +9,8 @@ for asset in assets:
     old_name = asset.asset_name
     new_name = old_name
 
-    if 'Sprite' in new_name:
-        new_name = new_name.replace('Sprite', '')
-
-    if new_name.startswith('T_'):
-        new_name = 'S_' + new_name[2:]
+    new_name = new_name.replace('_Sprite', '')
+    new_name = 'S_' + new_name[2:]   
 
     if old_name != new_name:
         package_path = asset.package_name

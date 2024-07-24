@@ -191,6 +191,15 @@ bool HandleLoginServerCreateCharacter(const FPacketSessionRef& Session, const pr
 	return true;
 }
 
+bool HandleLoginServerCharSelectResult(const FPacketSessionRef& Session, const protocol::LoginServerCharSelectResult& Packet) {
+	if (!FLoginServerPacketHandler::GameInstance) {
+		return false;
+	}
+	
+	FLoginServerPacketHandler::GameInstance->ChangeLoginState(ELoginState::InGame);
+	return true;
+}
+
 bool HandleLoginServerChat(const FPacketSessionRef& Session, const protocol::LoginServerChat& Packet) {
 	const auto Message = Packet.message();
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Chat: %s"), *FString(Message.c_str())));
