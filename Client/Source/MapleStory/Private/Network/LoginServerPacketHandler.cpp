@@ -195,8 +195,20 @@ bool HandleLoginServerCharSelectResult(const FPacketSessionRef& Session, const p
 	if (!FLoginServerPacketHandler::GameInstance) {
 		return false;
 	}
-	
-	FLoginServerPacketHandler::GameInstance->ChangeLoginState(ELoginState::InGame);
+
+	if (Packet.result() == protocol::SELECT_CHAR_RESULT_SUCCESS) {
+		if (!Packet.has_ip() || !Packet.has_port() || !Packet.has_auth_key()) {
+			//TODO: 오류 창 띄우기
+			return false;
+		}
+
+		const FString IpAddress = UTF8_TO_TCHAR(Packet.ip().c_str());
+
+		if (FLoginServerPacketHandler::GameInstance->ConnectToGameServer(IpAddress, Packet.port())) {
+			FLoginServerPacketHandler::GameInstance->ChangeLoginState(ELoginState::InGame);
+		}
+	}
+
 	return true;
 }
 

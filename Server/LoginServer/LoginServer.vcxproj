@@ -171,10 +171,12 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="auth\migration_storage.cpp" />
-    <ClCompile Include="handler\login_handler.cpp" />
-    <ClCompile Include="handler\login_manager.cpp" />
+    <ClCompile Include="handler\center\center_handler.cpp" />
+    <ClCompile Include="handler\center\center_manager.cpp" />
+    <ClCompile Include="handler\login\login_handler.cpp" />
+    <ClCompile Include="handler\login\login_manager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="migration\migration_storage.cpp" />
     <ClCompile Include="network\center\center_packet_creator.cpp" />
     <ClCompile Include="network\center\center_server_packet_handler.cpp" />
     <ClCompile Include="network\center\center_server_session.cpp" />
@@ -228,10 +230,12 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="auth\migration_storage.h" />
     <ClInclude Include="data\login_character.h" />
-    <ClInclude Include="handler\login_handler.h" />
-    <ClInclude Include="handler\login_manager.h" />
+    <ClInclude Include="handler\center\center_handler.h" />
+    <ClInclude Include="handler\center\center_manager.h" />
+    <ClInclude Include="handler\login\login_handler.h" />
+    <ClInclude Include="handler\login\login_manager.h" />
+    <ClInclude Include="migration\migration_storage.h" />
     <ClInclude Include="network\center\center_packet_creator.h" />
     <ClInclude Include="network\center\center_server_packet_handler.h" />
     <ClInclude Include="network\center\center_server_session.h" />

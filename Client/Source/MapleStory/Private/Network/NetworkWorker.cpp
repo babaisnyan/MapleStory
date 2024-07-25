@@ -28,14 +28,7 @@ uint32 FRecvWorker::Run() {
 			Session->EnqueueRecvPacket(Packet);
 		}
 	}
-
-
-	// get game instance
-	const UWorld* World = GEngine->GetWorld();
-	if (UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(UGameplayStatics::GetGameInstance(World))) {
-		GameInstance->QuitGame();
-	}
-
+	
 	return 0;
 }
 

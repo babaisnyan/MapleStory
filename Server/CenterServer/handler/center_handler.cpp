@@ -3,17 +3,17 @@
 
 #include "data/server_info.h"
 
-#include "database/db_bind.h"
-#include "database/db_connection_pool.h"
+#include "migration/migration_storage.h"
 
 #include "network/center_client_packet_handler.h"
 #include "network/center_session.h"
 #include "network/center_session_manager.h"
+#include "network/packet_creator.h"
 
 using namespace protocol;
 
 void CenterHandler::HandleServerRegisterRequest(PacketSessionRef session, CenterClientRegisterRequest request) {
-  const CenterSessionRef center_session = std::static_pointer_cast<CenterSession>(session);
+  const auto center_session = std::static_pointer_cast<CenterSession>(session);
   CenterServerRegisterResponse response;
   response.set_result(SERVER_REGISTER_RESULT_ERROR);
 
@@ -74,7 +74,7 @@ void CenterHandler::HandleServerRegisterRequest(PacketSessionRef session, Center
 }
 
 void CenterHandler::HandleServerMigrationRequest(PacketSessionRef session, protocol::CenterClientMigrationRequest request) {
-  const CenterSessionRef center_session = std::static_pointer_cast<CenterSession>(session);
+  const auto center_session = std::static_pointer_cast<CenterSession>(session);
   CenterServerMigrationResponse response;
   response.set_character_id(request.character_id());
   response.set_success(false);
@@ -86,27 +86,50 @@ void CenterHandler::HandleServerMigrationRequest(PacketSessionRef session, proto
     return;
   }
 
-  const auto server_info = CenterSessionManager::GetInstance().GetServerInfo(server_name.value());
+  const auto game_server = CenterSessionManager::GetInstance().Get(server_name.value());
 
-  if (!server_info.has_value()) {
+  if (!game_server.has_value()) {
     SendResponse(center_session, response);
     return;
   }
 
-  const auto server_ip = utils::ConvertToUtf8(server_info.value()->ip);
+  const auto migration_data = std::make_shared<MigrationData>(request.character_id(), center_session, game_server.value());
+  MigrationStorage::GetInstance().Add(request.character_id(), migration_data);
 
-  if (!server_ip.has_value()) {
-    SendResponse(center_session, response);
+  const auto send_buffer = PacketCreator::GetMigrationRequest(request.character_id());
+  game_server.value()->Send(send_buffer);
+}
+
+void CenterHandler::HandleServerMigrationResponse(PacketSessionRef session, CenterClientMigrationResponse response) {
+  const auto success = response.success();
+  const auto character_id = response.character_id();
+  const auto migration_data = MigrationStorage::GetInstance().Find(character_id);
+
+  if (!migration_data.has_value()) {
     return;
   }
 
-  auto* info = response.mutable_server();
-  info->set_name(request.server_name());
-  info->set_ip(server_ip.value());
-  info->set_port(server_info.value()->port);
-  response.set_success(true);
+  const auto from_server = migration_data.value()->from_session.lock();
+  const auto target_server = migration_data.value()->to_session.lock();
 
-  SendResponse(center_session, response);
+  if (!from_server || !target_server) {
+    MigrationStorage::GetInstance().Remove(character_id);
+    return;
+  }
 
-  //TODO: 게임서버에 정보 등록
+  if (success) {
+    const auto name = utils::ConvertToUtf8(target_server->GetServerInfo()->name);
+    const auto ip = utils::ConvertToUtf8(target_server->GetServerInfo()->ip);
+
+    if (!name.has_value() || !ip.has_value()) {
+      MigrationStorage::GetInstance().Remove(character_id);
+      return;
+    }
+
+    const auto send_buffer = PacketCreator::GetMigrationSuccessResponse(character_id, true, name.value(), ip.value(), target_server->GetServerInfo()->port);
+    from_server->Send(send_buffer);
+  } else {
+    const auto send_buffer = PacketCreator::GetMigrationFailedResponse(character_id);
+    from_server->Send(send_buffer);
+  }
 }

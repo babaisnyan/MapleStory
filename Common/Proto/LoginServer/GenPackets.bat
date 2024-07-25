@@ -4,8 +4,8 @@ protoc.exe -I=./ --cpp_out=./Generated/ ./login_struct.proto
 protoc.exe -I=./ --cpp_out=./Generated/ ./login_enum.proto
 protoc.exe -I=./ --cpp_out=./Generated/ ./login_protocol.proto
 
-GenPackets.exe --path=./login_protocol.proto --output=LoginClientPacketHandler --recv=LoginClient --send=LoginServer
-GenPackets.exe --path=./login_protocol.proto --output=LoginServerPacketHandler --recv=LoginServer --send=LoginClient
+GenPackets.exe --path=./login_protocol.proto --output=LoginClientPacketHandler --recv=LoginClient --send=LoginServer --namespace=login --classname=LoginClientPacketHandler --packetstart=2000
+GenPackets.exe --path=./login_protocol.proto --output=LoginServerPacketHandler --recv=LoginServer --send=LoginClient --namespace=login --classname=LoginServerPacketHandler --packetstart=2000
 
 chdir Generated
 

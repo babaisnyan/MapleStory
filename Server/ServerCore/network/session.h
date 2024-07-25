@@ -85,7 +85,7 @@ struct PacketHeader {
 class PacketSession : public Session {
 public:
   PacketSession() = default;
-  ~PacketSession() override = default;
+  virtual ~PacketSession() = default;
 
   PacketSessionRef GetPacketSession() noexcept {
     return std::static_pointer_cast<PacketSession>(shared_from_this());

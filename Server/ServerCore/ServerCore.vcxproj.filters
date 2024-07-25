@@ -136,6 +136,9 @@
     <ClInclude Include="utils\constants.h">
       <Filter>utils</Filter>
     </ClInclude>
+    <ClInclude Include="utils\randomizer.h">
+      <Filter>utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="database">
@@ -271,6 +274,9 @@
     </ClCompile>
     <ClCompile Include="utils\xml\xml_parser.cpp">
       <Filter>utils\xml</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\randomizer.cpp">
+      <Filter>utils</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

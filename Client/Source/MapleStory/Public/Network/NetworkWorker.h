@@ -12,7 +12,7 @@ public:
 
 	virtual bool Init() override;
 	virtual uint32 Run() override;
-
+	
 	void Destroy();
 
 private:
@@ -22,7 +22,7 @@ private:
 protected:
 	FSocket* Socket = nullptr;
 	FRunnableThread* Thread = nullptr;
-	bool bRunning = true;
+	volatile bool bRunning = true;
 
 	TWeakPtr<FPacketSession> SessionRef;
 };
@@ -43,7 +43,7 @@ private:
 protected:
 	FSocket* Socket = nullptr;
 	FRunnableThread* Thread = nullptr;
-	bool bRunning = true;
+	volatile bool bRunning = true;
 
 	TWeakPtr<FPacketSession> SessionRef;
 };

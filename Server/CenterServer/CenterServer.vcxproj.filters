@@ -37,6 +37,9 @@
     <ClCompile Include="handler\center_manager.cpp">
       <Filter>handler</Filter>
     </ClCompile>
+    <ClCompile Include="migration\migration_storage.cpp">
+      <Filter>migration</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -72,6 +75,12 @@
     <ClInclude Include="handler\center_manager.h">
       <Filter>handler</Filter>
     </ClInclude>
+    <ClInclude Include="migration\migration_storage.h">
+      <Filter>migration</Filter>
+    </ClInclude>
+    <ClInclude Include="data\migration_data.h">
+      <Filter>data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="data">
@@ -91,6 +100,9 @@
     </Filter>
     <Filter Include="network\protocol">
       <UniqueIdentifier>{5af0257f-edbb-41a4-b75d-e7a0cfa5cc4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="migration">
+      <UniqueIdentifier>{ca511196-bd48-4a74-8b99-f45c0c4d11a3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

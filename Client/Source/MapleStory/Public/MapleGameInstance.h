@@ -21,6 +21,11 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void DisconnectFromLoginServer();
 
+	bool ConnectToGameServer(const FString& IpAddress, int16 Port);
+
+	UFUNCTION(BlueprintCallable)
+	void DisconnectFromGameServer();
+
 	void SendPacket(const FSendBufferRef& SendBuffer) const;
 
 	UFUNCTION(BlueprintCallable)
@@ -29,7 +34,6 @@ public:
 	virtual void Shutdown() override;
 
 	void QuitGame();
-	
 
 public:
 	UFUNCTION(BlueprintCallable)
@@ -44,9 +48,8 @@ public:
 
 private:
 	FSocket* Socket = nullptr;
-	FString IpAddress = TEXT("127.0.0.1");
+	FString LoginIpAddress = TEXT("127.0.0.1");
 	int16 LoginPort = 7777;
-	int16 GamePort = 7778;
 
 	TSharedPtr<FPacketSession> Session;
 };

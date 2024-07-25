@@ -1,20 +1,21 @@
 #pragma once
 #include "login_session.h"
 
-class LoginSessionManager {
-public:
-  static LoginSessionManager& GetInstance() {
-    static LoginSessionManager instance;
-    return instance;
-  }
+namespace login {
+  class LoginSessionManager {
+  public:
+    static LoginSessionManager& GetInstance() {
+      static LoginSessionManager instance;
+      return instance;
+    }
 
-public:
-  void Add(const LoginSessionRef& session);
-  void Remove(const LoginSessionRef& session);
+  public:
+    void Add(const LoginSessionRef& session);
+    void Remove(const LoginSessionRef& session);
 
-  void Broadcast(const SendBufferRef& send_buffer);
+    void Broadcast(const SendBufferRef& send_buffer) const;
 
-private:
-  USE_LOCK;
-  Set<LoginSessionRef> _login_sessions;
-};
+  private:
+    tbb::concurrent_hash_map<int32_t, LoginSessionRef> _login_sessions;
+  };
+}

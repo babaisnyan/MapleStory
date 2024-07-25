@@ -20,9 +20,7 @@ public:
 	void OnServerDisconnected();
 
 public:
-	UFUNCTION(BlueprintCallable)
 	void HandleRecvPackets();
-
 	void SendPacket(const FSendBufferRef& SendBuffer);
 
 public:
@@ -35,6 +33,13 @@ public:
 	}
 
 private:
+	void WaitForEmptyRecvQueue() const {
+		while (!RecvPacketQueue.IsEmpty()) {
+			FPlatformProcess::YieldThread();
+		}
+	}
+
+private:
 	FSocket* Socket;
 
 	TSharedPtr<FRecvWorker> RecvWorkerThread;
@@ -42,4 +47,6 @@ private:
 
 	TQueue<TArray<uint8>> RecvPacketQueue;
 	TQueue<FSendBufferRef> SendPacketQueue;
+
+	bool bRunning = true;
 };

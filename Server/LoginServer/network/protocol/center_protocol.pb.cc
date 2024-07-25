@@ -65,7 +65,8 @@ constexpr CenterServerMigrationResponse::CenterServerMigrationResponse(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : server_(nullptr)
   , success_(false)
-  , character_id_(0){}
+  , character_id_(0)
+  , auth_key_(0){}
 struct CenterServerMigrationResponseDefaultTypeInternal {
   constexpr CenterServerMigrationResponseDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -77,8 +78,7 @@ struct CenterServerMigrationResponseDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT CenterServerMigrationResponseDefaultTypeInternal _CenterServerMigrationResponse_default_instance_;
 constexpr CenterServerMigrationRequest::CenterServerMigrationRequest(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : ip_(&::PROTOBUF_NAMESPACE_ID::internal::fixed_address_empty_string)
-  , character_id_(0){}
+  : character_id_(0){}
 struct CenterServerMigrationRequestDefaultTypeInternal {
   constexpr CenterServerMigrationRequestDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -91,7 +91,8 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT CenterServerMigrationRequestDef
 constexpr CenterClientMigrationResponse::CenterClientMigrationResponse(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : success_(false)
-  , character_id_(0){}
+  , character_id_(0)
+  , auth_key_(0){}
 struct CenterClientMigrationResponseDefaultTypeInternal {
   constexpr CenterClientMigrationResponseDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -139,31 +140,36 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_center_5fprotocol_2eproto::off
   PROTOBUF_FIELD_OFFSET(::protocol::CenterServerMigrationResponse, success_),
   PROTOBUF_FIELD_OFFSET(::protocol::CenterServerMigrationResponse, character_id_),
   PROTOBUF_FIELD_OFFSET(::protocol::CenterServerMigrationResponse, server_),
+  PROTOBUF_FIELD_OFFSET(::protocol::CenterServerMigrationResponse, auth_key_),
   ~0u,
   ~0u,
   0,
+  1,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::protocol::CenterServerMigrationRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::protocol::CenterServerMigrationRequest, character_id_),
-  PROTOBUF_FIELD_OFFSET(::protocol::CenterServerMigrationRequest, ip_),
-  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::protocol::CenterClientMigrationResponse, _has_bits_),
   PROTOBUF_FIELD_OFFSET(::protocol::CenterClientMigrationResponse, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::protocol::CenterClientMigrationResponse, success_),
   PROTOBUF_FIELD_OFFSET(::protocol::CenterClientMigrationResponse, character_id_),
+  PROTOBUF_FIELD_OFFSET(::protocol::CenterClientMigrationResponse, auth_key_),
+  ~0u,
+  ~0u,
+  0,
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::protocol::CenterClientRegisterRequest)},
   { 10, -1, sizeof(::protocol::CenterServerRegisterResponse)},
   { 16, -1, sizeof(::protocol::CenterClientMigrationRequest)},
-  { 24, 32, sizeof(::protocol::CenterServerMigrationResponse)},
-  { 35, -1, sizeof(::protocol::CenterServerMigrationRequest)},
-  { 42, -1, sizeof(::protocol::CenterClientMigrationResponse)},
+  { 24, 33, sizeof(::protocol::CenterServerMigrationResponse)},
+  { 37, -1, sizeof(::protocol::CenterServerMigrationRequest)},
+  { 43, 51, sizeof(::protocol::CenterClientMigrationResponse)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -185,13 +191,15 @@ const char descriptor_table_protodef_center_5fprotocol_2eproto[] PROTOBUF_SECTIO
   "\001 \001(\0162\036.protocol.ServerRegisterResult\"U\n"
   "\034CenterClientMigrationRequest\022\024\n\014charact"
   "er_id\030\001 \001(\005\022\n\n\002ip\030\002 \001(\t\022\023\n\013server_name\030\003"
-  " \001(\t\"|\n\035CenterServerMigrationResponse\022\017\n"
-  "\007success\030\001 \001(\010\022\024\n\014character_id\030\002 \001(\005\022)\n\006"
-  "server\030\003 \001(\0132\024.protocol.ServerInfoH\000\210\001\001B"
-  "\t\n\007_server\"@\n\034CenterServerMigrationReque"
-  "st\022\024\n\014character_id\030\001 \001(\005\022\n\n\002ip\030\002 \001(\t\"F\n\035"
-  "CenterClientMigrationResponse\022\017\n\007success"
-  "\030\001 \001(\010\022\024\n\014character_id\030\002 \001(\005b\006proto3"
+  " \001(\t\"\240\001\n\035CenterServerMigrationResponse\022\017"
+  "\n\007success\030\001 \001(\010\022\024\n\014character_id\030\002 \001(\005\022)\n"
+  "\006server\030\003 \001(\0132\024.protocol.ServerInfoH\000\210\001\001"
+  "\022\025\n\010auth_key\030\004 \001(\005H\001\210\001\001B\t\n\007_serverB\013\n\t_a"
+  "uth_key\"4\n\034CenterServerMigrationRequest\022"
+  "\024\n\014character_id\030\001 \001(\005\"j\n\035CenterClientMig"
+  "rationResponse\022\017\n\007success\030\001 \001(\010\022\024\n\014chara"
+  "cter_id\030\002 \001(\005\022\025\n\010auth_key\030\003 \001(\005H\000\210\001\001B\013\n\t"
+  "_auth_keyb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_center_5fprotocol_2eproto_deps[2] = {
   &::descriptor_table_center_5fenum_2eproto,
@@ -199,7 +207,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_center_5fprotocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_center_5fprotocol_2eproto = {
-  false, false, 636, descriptor_table_protodef_center_5fprotocol_2eproto, "center_protocol.proto", 
+  false, false, 697, descriptor_table_protodef_center_5fprotocol_2eproto, "center_protocol.proto", 
   &descriptor_table_center_5fprotocol_2eproto_once, descriptor_table_center_5fprotocol_2eproto_deps, 2, 6,
   schemas, file_default_instances, TableStruct_center_5fprotocol_2eproto::offsets,
   file_level_metadata_center_5fprotocol_2eproto, file_level_enum_descriptors_center_5fprotocol_2eproto, file_level_service_descriptors_center_5fprotocol_2eproto,
@@ -1019,6 +1027,9 @@ class CenterServerMigrationResponse::_Internal {
   static void set_has_server(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
   }
+  static void set_has_auth_key(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
 };
 
 const ::protocol::ServerInfo&
@@ -1045,16 +1056,16 @@ CenterServerMigrationResponse::CenterServerMigrationResponse(const CenterServerM
     server_ = nullptr;
   }
   ::memcpy(&success_, &from.success_,
-    static_cast<size_t>(reinterpret_cast<char*>(&character_id_) -
-    reinterpret_cast<char*>(&success_)) + sizeof(character_id_));
+    static_cast<size_t>(reinterpret_cast<char*>(&auth_key_) -
+    reinterpret_cast<char*>(&success_)) + sizeof(auth_key_));
   // @@protoc_insertion_point(copy_constructor:protocol.CenterServerMigrationResponse)
 }
 
 void CenterServerMigrationResponse::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&server_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&character_id_) -
-    reinterpret_cast<char*>(&server_)) + sizeof(character_id_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&auth_key_) -
+    reinterpret_cast<char*>(&server_)) + sizeof(auth_key_));
 }
 
 CenterServerMigrationResponse::~CenterServerMigrationResponse() {
@@ -1092,6 +1103,7 @@ void CenterServerMigrationResponse::Clear() {
   ::memset(&success_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&character_id_) -
       reinterpret_cast<char*>(&success_)) + sizeof(character_id_));
+  auth_key_ = 0;
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -1121,6 +1133,14 @@ const char* CenterServerMigrationResponse::_InternalParse(const char* ptr, ::PRO
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
           ptr = ctx->ParseMessage(_internal_mutable_server(), ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // optional int32 auth_key = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          _Internal::set_has_auth_key(&has_bits);
+          auth_key_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1174,6 +1194,12 @@ failure:
         3, _Internal::server(this), target, stream);
   }
 
+  // optional int32 auth_key = 4;
+  if (_internal_has_auth_key()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_auth_key(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1208,6 +1234,13 @@ size_t CenterServerMigrationResponse::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_character_id());
+  }
+
+  // optional int32 auth_key = 4;
+  if (cached_has_bits & 0x00000002u) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_auth_key());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1250,6 +1283,9 @@ void CenterServerMigrationResponse::MergeFrom(const CenterServerMigrationRespons
   if (from.character_id() != 0) {
     _internal_set_character_id(from._internal_character_id());
   }
+  if (from._internal_has_auth_key()) {
+    _internal_set_auth_key(from._internal_auth_key());
+  }
 }
 
 void CenterServerMigrationResponse::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -1275,8 +1311,8 @@ void CenterServerMigrationResponse::InternalSwap(CenterServerMigrationResponse* 
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(CenterServerMigrationResponse, character_id_)
-      + sizeof(CenterServerMigrationResponse::character_id_)
+      PROTOBUF_FIELD_OFFSET(CenterServerMigrationResponse, auth_key_)
+      + sizeof(CenterServerMigrationResponse::auth_key_)
       - PROTOBUF_FIELD_OFFSET(CenterServerMigrationResponse, server_)>(
           reinterpret_cast<char*>(&server_),
           reinterpret_cast<char*>(&other->server_));
@@ -1303,17 +1339,11 @@ CenterServerMigrationRequest::CenterServerMigrationRequest(::PROTOBUF_NAMESPACE_
 CenterServerMigrationRequest::CenterServerMigrationRequest(const CenterServerMigrationRequest& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  if (!from._internal_ip().empty()) {
-    ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, from._internal_ip(), 
-      GetArenaForAllocation());
-  }
   character_id_ = from.character_id_;
   // @@protoc_insertion_point(copy_constructor:protocol.CenterServerMigrationRequest)
 }
 
 void CenterServerMigrationRequest::SharedCtor() {
-ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 character_id_ = 0;
 }
 
@@ -1325,7 +1355,6 @@ CenterServerMigrationRequest::~CenterServerMigrationRequest() {
 
 void CenterServerMigrationRequest::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  ip_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
 void CenterServerMigrationRequest::ArenaDtor(void* object) {
@@ -1344,7 +1373,6 @@ void CenterServerMigrationRequest::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  ip_.ClearToEmpty();
   character_id_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -1359,15 +1387,6 @@ const char* CenterServerMigrationRequest::_InternalParse(const char* ptr, ::PROT
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
           character_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else goto handle_unusual;
-        continue;
-      // string ip = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          auto str = _internal_mutable_ip();
-          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "protocol.CenterServerMigrationRequest.ip"));
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1406,16 +1425,6 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_character_id(), target);
   }
 
-  // string ip = 2;
-  if (!this->ip().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "protocol.CenterServerMigrationRequest.ip");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_ip(), target);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -1431,13 +1440,6 @@ size_t CenterServerMigrationRequest::ByteSizeLong() const {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // string ip = 2;
-  if (!this->ip().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_ip());
-  }
 
   // int32 character_id = 1;
   if (this->character_id() != 0) {
@@ -1477,9 +1479,6 @@ void CenterServerMigrationRequest::MergeFrom(const CenterServerMigrationRequest&
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!from.ip().empty()) {
-    _internal_set_ip(from._internal_ip());
-  }
   if (from.character_id() != 0) {
     _internal_set_character_id(from._internal_character_id());
   }
@@ -1506,11 +1505,6 @@ bool CenterServerMigrationRequest::IsInitialized() const {
 void CenterServerMigrationRequest::InternalSwap(CenterServerMigrationRequest* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(),
-      &ip_, GetArenaForAllocation(),
-      &other->ip_, other->GetArenaForAllocation()
-  );
   swap(character_id_, other->character_id_);
 }
 
@@ -1524,6 +1518,10 @@ void CenterServerMigrationRequest::InternalSwap(CenterServerMigrationRequest* ot
 
 class CenterClientMigrationResponse::_Internal {
  public:
+  using HasBits = decltype(std::declval<CenterClientMigrationResponse>()._has_bits_);
+  static void set_has_auth_key(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
 };
 
 CenterClientMigrationResponse::CenterClientMigrationResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
@@ -1533,19 +1531,20 @@ CenterClientMigrationResponse::CenterClientMigrationResponse(::PROTOBUF_NAMESPAC
   // @@protoc_insertion_point(arena_constructor:protocol.CenterClientMigrationResponse)
 }
 CenterClientMigrationResponse::CenterClientMigrationResponse(const CenterClientMigrationResponse& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&success_, &from.success_,
-    static_cast<size_t>(reinterpret_cast<char*>(&character_id_) -
-    reinterpret_cast<char*>(&success_)) + sizeof(character_id_));
+    static_cast<size_t>(reinterpret_cast<char*>(&auth_key_) -
+    reinterpret_cast<char*>(&success_)) + sizeof(auth_key_));
   // @@protoc_insertion_point(copy_constructor:protocol.CenterClientMigrationResponse)
 }
 
 void CenterClientMigrationResponse::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&success_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&character_id_) -
-    reinterpret_cast<char*>(&success_)) + sizeof(character_id_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&auth_key_) -
+    reinterpret_cast<char*>(&success_)) + sizeof(auth_key_));
 }
 
 CenterClientMigrationResponse::~CenterClientMigrationResponse() {
@@ -1577,11 +1576,14 @@ void CenterClientMigrationResponse::Clear() {
   ::memset(&success_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&character_id_) -
       reinterpret_cast<char*>(&success_)) + sizeof(character_id_));
+  auth_key_ = 0;
+  _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 const char* CenterClientMigrationResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
@@ -1597,6 +1599,14 @@ const char* CenterClientMigrationResponse::_InternalParse(const char* ptr, ::PRO
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
           character_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // optional int32 auth_key = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          _Internal::set_has_auth_key(&has_bits);
+          auth_key_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -1616,6 +1626,7 @@ const char* CenterClientMigrationResponse::_InternalParse(const char* ptr, ::PRO
     }  // switch
   }  // while
 success:
+  _has_bits_.Or(has_bits);
   return ptr;
 failure:
   ptr = nullptr;
@@ -1639,6 +1650,12 @@ failure:
   if (this->character_id() != 0) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_character_id(), target);
+  }
+
+  // optional int32 auth_key = 3;
+  if (_internal_has_auth_key()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_auth_key(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1667,6 +1684,14 @@ size_t CenterClientMigrationResponse::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
         this->_internal_character_id());
+  }
+
+  // optional int32 auth_key = 3;
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x00000001u) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_auth_key());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1706,6 +1731,9 @@ void CenterClientMigrationResponse::MergeFrom(const CenterClientMigrationRespons
   if (from.character_id() != 0) {
     _internal_set_character_id(from._internal_character_id());
   }
+  if (from._internal_has_auth_key()) {
+    _internal_set_auth_key(from._internal_auth_key());
+  }
 }
 
 void CenterClientMigrationResponse::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -1729,9 +1757,10 @@ bool CenterClientMigrationResponse::IsInitialized() const {
 void CenterClientMigrationResponse::InternalSwap(CenterClientMigrationResponse* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(_has_bits_[0], other->_has_bits_[0]);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(CenterClientMigrationResponse, character_id_)
-      + sizeof(CenterClientMigrationResponse::character_id_)
+      PROTOBUF_FIELD_OFFSET(CenterClientMigrationResponse, auth_key_)
+      + sizeof(CenterClientMigrationResponse::auth_key_)
       - PROTOBUF_FIELD_OFFSET(CenterClientMigrationResponse, success_)>(
           reinterpret_cast<char*>(&success_),
           reinterpret_cast<char*>(&other->success_));

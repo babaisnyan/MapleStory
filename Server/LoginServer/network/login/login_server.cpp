@@ -32,6 +32,8 @@ void LoginServer::StartLoginServer() {
                                              MakeShared<LoginSession>,
                                              100);
 
+  std::cout << "Login Server Start" << std::endl;
+
   ASSERT_CRASH(_login_service->Start());
 
   for (int i = 0; i < 5; i++) {

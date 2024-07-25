@@ -680,6 +680,7 @@ class CenterServerMigrationResponse final :
     kServerFieldNumber = 3,
     kSuccessFieldNumber = 1,
     kCharacterIdFieldNumber = 2,
+    kAuthKeyFieldNumber = 4,
   };
   // optional .protocol.ServerInfo server = 3;
   bool has_server() const;
@@ -717,6 +718,19 @@ class CenterServerMigrationResponse final :
   void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // optional int32 auth_key = 4;
+  bool has_auth_key() const;
+  private:
+  bool _internal_has_auth_key() const;
+  public:
+  void clear_auth_key();
+  ::PROTOBUF_NAMESPACE_ID::int32 auth_key() const;
+  void set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_auth_key() const;
+  void _internal_set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:protocol.CenterServerMigrationResponse)
  private:
   class _Internal;
@@ -729,6 +743,7 @@ class CenterServerMigrationResponse final :
   ::protocol::ServerInfo* server_;
   bool success_;
   ::PROTOBUF_NAMESPACE_ID::int32 character_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 auth_key_;
   friend struct ::TableStruct_center_5fprotocol_2eproto;
 };
 // -------------------------------------------------------------------
@@ -841,23 +856,8 @@ class CenterServerMigrationRequest final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kIpFieldNumber = 2,
     kCharacterIdFieldNumber = 1,
   };
-  // string ip = 2;
-  void clear_ip();
-  const std::string& ip() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_ip(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_ip();
-  PROTOBUF_FUTURE_MUST_USE_RESULT std::string* release_ip();
-  void set_allocated_ip(std::string* ip);
-  private:
-  const std::string& _internal_ip() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip(const std::string& value);
-  std::string* _internal_mutable_ip();
-  public:
-
   // int32 character_id = 1;
   void clear_character_id();
   ::PROTOBUF_NAMESPACE_ID::int32 character_id() const;
@@ -874,7 +874,6 @@ class CenterServerMigrationRequest final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
   ::PROTOBUF_NAMESPACE_ID::int32 character_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_center_5fprotocol_2eproto;
@@ -991,6 +990,7 @@ class CenterClientMigrationResponse final :
   enum : int {
     kSuccessFieldNumber = 1,
     kCharacterIdFieldNumber = 2,
+    kAuthKeyFieldNumber = 3,
   };
   // bool success = 1;
   void clear_success();
@@ -1010,6 +1010,19 @@ class CenterClientMigrationResponse final :
   void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // optional int32 auth_key = 3;
+  bool has_auth_key() const;
+  private:
+  bool _internal_has_auth_key() const;
+  public:
+  void clear_auth_key();
+  ::PROTOBUF_NAMESPACE_ID::int32 auth_key() const;
+  void set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_auth_key() const;
+  void _internal_set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:protocol.CenterClientMigrationResponse)
  private:
   class _Internal;
@@ -1017,9 +1030,11 @@ class CenterClientMigrationResponse final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   bool success_;
   ::PROTOBUF_NAMESPACE_ID::int32 character_id_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  ::PROTOBUF_NAMESPACE_ID::int32 auth_key_;
   friend struct ::TableStruct_center_5fprotocol_2eproto;
 };
 // ===================================================================
@@ -1446,6 +1461,34 @@ inline void CenterServerMigrationResponse::set_allocated_server(::protocol::Serv
   // @@protoc_insertion_point(field_set_allocated:protocol.CenterServerMigrationResponse.server)
 }
 
+// optional int32 auth_key = 4;
+inline bool CenterServerMigrationResponse::_internal_has_auth_key() const {
+  bool value = (_has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool CenterServerMigrationResponse::has_auth_key() const {
+  return _internal_has_auth_key();
+}
+inline void CenterServerMigrationResponse::clear_auth_key() {
+  auth_key_ = 0;
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterServerMigrationResponse::_internal_auth_key() const {
+  return auth_key_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterServerMigrationResponse::auth_key() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterServerMigrationResponse.auth_key)
+  return _internal_auth_key();
+}
+inline void CenterServerMigrationResponse::_internal_set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _has_bits_[0] |= 0x00000002u;
+  auth_key_ = value;
+}
+inline void CenterServerMigrationResponse::set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_auth_key(value);
+  // @@protoc_insertion_point(field_set:protocol.CenterServerMigrationResponse.auth_key)
+}
+
 // -------------------------------------------------------------------
 
 // CenterServerMigrationRequest
@@ -1468,51 +1511,6 @@ inline void CenterServerMigrationRequest::_internal_set_character_id(::PROTOBUF_
 inline void CenterServerMigrationRequest::set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_character_id(value);
   // @@protoc_insertion_point(field_set:protocol.CenterServerMigrationRequest.character_id)
-}
-
-// string ip = 2;
-inline void CenterServerMigrationRequest::clear_ip() {
-  ip_.ClearToEmpty();
-}
-inline const std::string& CenterServerMigrationRequest::ip() const {
-  // @@protoc_insertion_point(field_get:protocol.CenterServerMigrationRequest.ip)
-  return _internal_ip();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void CenterServerMigrationRequest::set_ip(ArgT0&& arg0, ArgT... args) {
- 
- ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:protocol.CenterServerMigrationRequest.ip)
-}
-inline std::string* CenterServerMigrationRequest::mutable_ip() {
-  // @@protoc_insertion_point(field_mutable:protocol.CenterServerMigrationRequest.ip)
-  return _internal_mutable_ip();
-}
-inline const std::string& CenterServerMigrationRequest::_internal_ip() const {
-  return ip_.Get();
-}
-inline void CenterServerMigrationRequest::_internal_set_ip(const std::string& value) {
-  
-  ip_.Set(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, value, GetArenaForAllocation());
-}
-inline std::string* CenterServerMigrationRequest::_internal_mutable_ip() {
-  
-  return ip_.Mutable(::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::EmptyDefault{}, GetArenaForAllocation());
-}
-inline std::string* CenterServerMigrationRequest::release_ip() {
-  // @@protoc_insertion_point(field_release:protocol.CenterServerMigrationRequest.ip)
-  return ip_.Release(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArenaForAllocation());
-}
-inline void CenterServerMigrationRequest::set_allocated_ip(std::string* ip) {
-  if (ip != nullptr) {
-    
-  } else {
-    
-  }
-  ip_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ip,
-      GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set_allocated:protocol.CenterServerMigrationRequest.ip)
 }
 
 // -------------------------------------------------------------------
@@ -1557,6 +1555,34 @@ inline void CenterClientMigrationResponse::_internal_set_character_id(::PROTOBUF
 inline void CenterClientMigrationResponse::set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_character_id(value);
   // @@protoc_insertion_point(field_set:protocol.CenterClientMigrationResponse.character_id)
+}
+
+// optional int32 auth_key = 3;
+inline bool CenterClientMigrationResponse::_internal_has_auth_key() const {
+  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool CenterClientMigrationResponse::has_auth_key() const {
+  return _internal_has_auth_key();
+}
+inline void CenterClientMigrationResponse::clear_auth_key() {
+  auth_key_ = 0;
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterClientMigrationResponse::_internal_auth_key() const {
+  return auth_key_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 CenterClientMigrationResponse::auth_key() const {
+  // @@protoc_insertion_point(field_get:protocol.CenterClientMigrationResponse.auth_key)
+  return _internal_auth_key();
+}
+inline void CenterClientMigrationResponse::_internal_set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _has_bits_[0] |= 0x00000001u;
+  auth_key_ = value;
+}
+inline void CenterClientMigrationResponse::set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_auth_key(value);
+  // @@protoc_insertion_point(field_set:protocol.CenterClientMigrationResponse.auth_key)
 }
 
 #ifdef __GNUC__

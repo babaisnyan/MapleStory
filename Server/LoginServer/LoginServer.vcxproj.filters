@@ -25,8 +25,14 @@
     <Filter Include="network\center">
       <UniqueIdentifier>{ecbc0457-34bc-432b-ae48-5283fa5393ae}</UniqueIdentifier>
     </Filter>
-    <Filter Include="auth">
+    <Filter Include="migration">
       <UniqueIdentifier>{be55bdc5-7049-4ea3-b4ee-f19e56968c19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="handler\login">
+      <UniqueIdentifier>{048eccab-47ca-4aa9-a6b4-e2ca5540ec07}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="handler\center">
+      <UniqueIdentifier>{67c3de3c-769d-4a09-85e3-7ed5fa9b2cb0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,12 +50,6 @@
     </ClCompile>
     <ClCompile Include="network\protocol\login_struct.pb.cc">
       <Filter>network\protocol</Filter>
-    </ClCompile>
-    <ClCompile Include="handler\login_handler.cpp">
-      <Filter>handler</Filter>
-    </ClCompile>
-    <ClCompile Include="handler\login_manager.cpp">
-      <Filter>handler</Filter>
     </ClCompile>
     <ClCompile Include="network\protocol\center_enum.pb.cc">
       <Filter>network\protocol</Filter>
@@ -87,8 +87,20 @@
     <ClCompile Include="network\center\center_session_manager.cpp">
       <Filter>network\center</Filter>
     </ClCompile>
-    <ClCompile Include="auth\migration_storage.cpp">
-      <Filter>auth</Filter>
+    <ClCompile Include="migration\migration_storage.cpp">
+      <Filter>migration</Filter>
+    </ClCompile>
+    <ClCompile Include="handler\login\login_handler.cpp">
+      <Filter>handler\login</Filter>
+    </ClCompile>
+    <ClCompile Include="handler\login\login_manager.cpp">
+      <Filter>handler\login</Filter>
+    </ClCompile>
+    <ClCompile Include="handler\center\center_handler.cpp">
+      <Filter>handler\center</Filter>
+    </ClCompile>
+    <ClCompile Include="handler\center\center_manager.cpp">
+      <Filter>handler\center</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -103,12 +115,6 @@
     </ClInclude>
     <ClInclude Include="network\protocol\login_struct.pb.h">
       <Filter>network\protocol</Filter>
-    </ClInclude>
-    <ClInclude Include="handler\login_handler.h">
-      <Filter>handler</Filter>
-    </ClInclude>
-    <ClInclude Include="handler\login_manager.h">
-      <Filter>handler</Filter>
     </ClInclude>
     <ClInclude Include="data\login_character.h">
       <Filter>data</Filter>
@@ -149,8 +155,20 @@
     <ClInclude Include="network\center\center_session_manager.h">
       <Filter>network\center</Filter>
     </ClInclude>
-    <ClInclude Include="auth\migration_storage.h">
-      <Filter>auth</Filter>
+    <ClInclude Include="migration\migration_storage.h">
+      <Filter>migration</Filter>
+    </ClInclude>
+    <ClInclude Include="handler\login\login_handler.h">
+      <Filter>handler\login</Filter>
+    </ClInclude>
+    <ClInclude Include="handler\login\login_manager.h">
+      <Filter>handler\login</Filter>
+    </ClInclude>
+    <ClInclude Include="handler\center\center_handler.h">
+      <Filter>handler\center</Filter>
+    </ClInclude>
+    <ClInclude Include="handler\center\center_manager.h">
+      <Filter>handler\center</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

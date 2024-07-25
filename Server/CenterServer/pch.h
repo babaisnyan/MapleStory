@@ -14,4 +14,8 @@
 #include "network/protocol/center_enum.pb.h"
 #include "utils/constants.h"
 
-using CenterSessionRef = std::shared_ptr<class CenterSession>;
+namespace center {
+  using CenterSessionRef = std::shared_ptr<class CenterSession>;
+}
+
+using namespace center;

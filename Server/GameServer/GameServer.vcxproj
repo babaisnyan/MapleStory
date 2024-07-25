@@ -100,6 +100,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>CALL "$(SolutionDir)..\Common\Proto\GameServer\GenPackets.bat"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -119,6 +122,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>CALL "$(SolutionDir)..\Common\Proto\GameServer\GenPackets.bat"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -134,6 +140,9 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>CALL "$(SolutionDir)..\Common\Proto\GameServer\GenPackets.bat"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -153,10 +162,24 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PreBuildEvent>
+      <Command>CALL "$(SolutionDir)..\Common\Proto\GameServer\GenPackets.bat"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="handler\center\center_handler.cpp" />
+    <ClCompile Include="handler\center\center_manager.cpp" />
+    <ClCompile Include="handler\game\game_handler.cpp" />
+    <ClCompile Include="handler\game\game_manager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="network\center\center_packet_creator.cpp" />
     <ClCompile Include="network\center\center_server_packet_handler.cpp" />
+    <ClCompile Include="network\center\center_server_session.cpp" />
+    <ClCompile Include="network\center\center_session_manager.cpp" />
+    <ClCompile Include="network\game\game_client_packet_handler.cpp" />
+    <ClCompile Include="network\game\game_server.cpp" />
+    <ClCompile Include="network\game\game_session.cpp" />
+    <ClCompile Include="network\game\game_session_manager.cpp" />
     <ClCompile Include="network\protocol\center_enum.pb.cc">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
@@ -175,6 +198,24 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="network\protocol\game_enum.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="network\protocol\game_protocol.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="network\protocol\game_struct.pb.cc">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -188,10 +229,24 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="handler\center\center_handler.h" />
+    <ClInclude Include="handler\center\center_manager.h" />
+    <ClInclude Include="handler\game\game_handler.h" />
+    <ClInclude Include="handler\game\game_manager.h" />
+    <ClInclude Include="network\center\center_packet_creator.h" />
     <ClInclude Include="network\center\center_server_packet_handler.h" />
+    <ClInclude Include="network\center\center_server_session.h" />
+    <ClInclude Include="network\center\center_session_manager.h" />
+    <ClInclude Include="network\game\game_client_packet_handler.h" />
+    <ClInclude Include="network\game\game_server.h" />
+    <ClInclude Include="network\game\game_session.h" />
+    <ClInclude Include="network\game\game_session_manager.h" />
     <ClInclude Include="network\protocol\center_enum.pb.h" />
     <ClInclude Include="network\protocol\center_protocol.pb.h" />
     <ClInclude Include="network\protocol\center_struct.pb.h" />
+    <ClInclude Include="network\protocol\game_enum.pb.h" />
+    <ClInclude Include="network\protocol\game_protocol.pb.h" />
+    <ClInclude Include="network\protocol\game_struct.pb.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

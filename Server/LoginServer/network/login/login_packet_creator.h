@@ -1,10 +1,9 @@
 ﻿#pragma once
 
-struct ServerInfo;
-
-class LoginPacketCreator {
-public:
-  static SendBufferRef GetSelectCharSuccessResponse(const std::string& ip, uint16_t port);
-  static SendBufferRef GetSelectCharFailedResponse();
-  
-};
+namespace login {
+  class LoginPacketCreator {
+  public:
+    static SendBufferRef GetSelectCharSuccessResponse(const std::string& ip, uint16_t port, int32_t auth_key);
+    static SendBufferRef GetSelectCharFailedResponse();
+  };
+}

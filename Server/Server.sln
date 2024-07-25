@@ -39,6 +39,13 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameServer", "GameServer\Ga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ItemExporter", "..\Tools\ItemExporter\ItemExporter.csproj", "{C88DFA3B-A88D-4047-827E-A435E82106B5}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GameServer", "GameServer", "{1D479B66-060A-4A31-9F76-4807781E9D9A}"
+	ProjectSection(SolutionItems) = preProject
+		..\Common\Proto\GameServer\game_enum.proto = ..\Common\Proto\GameServer\game_enum.proto
+		..\Common\Proto\GameServer\game_protocol.proto = ..\Common\Proto\GameServer\game_protocol.proto
+		..\Common\Proto\GameServer\game_struct.proto = ..\Common\Proto\GameServer\game_struct.proto
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -156,6 +163,7 @@ Global
 		{E34C6A8A-DD3A-4194-89C7-C4604F9B350E} = {AB761437-FFD7-4CAE-B30B-97F862380B17}
 		{7F68DA50-832A-4223-8D66-CB4F0D18AD7F} = {AB761437-FFD7-4CAE-B30B-97F862380B17}
 		{C88DFA3B-A88D-4047-827E-A435E82106B5} = {9602E219-70E9-42CC-830E-A285456E745D}
+		{1D479B66-060A-4A31-9F76-4807781E9D9A} = {AB761437-FFD7-4CAE-B30B-97F862380B17}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {375728BA-E29F-4171-ADBE-061CF33EACB0}

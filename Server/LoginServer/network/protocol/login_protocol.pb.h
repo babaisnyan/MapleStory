@@ -1471,6 +1471,7 @@ class LoginServerCharSelectResult final :
     kIpFieldNumber = 2,
     kResultFieldNumber = 1,
     kPortFieldNumber = 3,
+    kAuthKeyFieldNumber = 4,
   };
   // optional string ip = 2;
   bool has_ip() const;
@@ -1512,6 +1513,19 @@ class LoginServerCharSelectResult final :
   void _internal_set_port(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // optional int32 auth_key = 4;
+  bool has_auth_key() const;
+  private:
+  bool _internal_has_auth_key() const;
+  public:
+  void clear_auth_key();
+  ::PROTOBUF_NAMESPACE_ID::int32 auth_key() const;
+  void set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_auth_key() const;
+  void _internal_set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:protocol.LoginServerCharSelectResult)
  private:
   class _Internal;
@@ -1524,6 +1538,7 @@ class LoginServerCharSelectResult final :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
   int result_;
   ::PROTOBUF_NAMESPACE_ID::int32 port_;
+  ::PROTOBUF_NAMESPACE_ID::int32 auth_key_;
   friend struct ::TableStruct_login_5fprotocol_2eproto;
 };
 // -------------------------------------------------------------------
@@ -2205,6 +2220,34 @@ inline void LoginServerCharSelectResult::_internal_set_port(::PROTOBUF_NAMESPACE
 inline void LoginServerCharSelectResult::set_port(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_port(value);
   // @@protoc_insertion_point(field_set:protocol.LoginServerCharSelectResult.port)
+}
+
+// optional int32 auth_key = 4;
+inline bool LoginServerCharSelectResult::_internal_has_auth_key() const {
+  bool value = (_has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline bool LoginServerCharSelectResult::has_auth_key() const {
+  return _internal_has_auth_key();
+}
+inline void LoginServerCharSelectResult::clear_auth_key() {
+  auth_key_ = 0;
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginServerCharSelectResult::_internal_auth_key() const {
+  return auth_key_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginServerCharSelectResult::auth_key() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginServerCharSelectResult.auth_key)
+  return _internal_auth_key();
+}
+inline void LoginServerCharSelectResult::_internal_set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _has_bits_[0] |= 0x00000004u;
+  auth_key_ = value;
+}
+inline void LoginServerCharSelectResult::set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_auth_key(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginServerCharSelectResult.auth_key)
 }
 
 // -------------------------------------------------------------------

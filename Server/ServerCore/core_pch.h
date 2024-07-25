@@ -18,6 +18,8 @@ using namespace std::chrono_literals;
 #include <WS2tcpip.h>
 #pragma comment(lib, "ws2_32.lib")
 
+#include <tbb/concurrent_hash_map.h>
+
 #include "types.h"
 #include "core_tls.h"
 #include "core_macro.h"

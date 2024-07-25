@@ -202,6 +202,7 @@
     <ClInclude Include="utils\constants.h" />
     <ClInclude Include="utils\file_utils.h" />
     <ClInclude Include="utils\lock_queue.h" />
+    <ClInclude Include="utils\randomizer.h" />
     <ClInclude Include="utils\string_utils.h" />
     <ClInclude Include="utils\xml\rapidxml.hpp" />
     <ClInclude Include="utils\xml\rapidxml_iterators.hpp" />
@@ -248,6 +249,7 @@
     <ClCompile Include="utils\buffer_writer.cpp" />
     <ClCompile Include="utils\file_utils.cpp" />
     <ClCompile Include="utils\lock_queue.cpp" />
+    <ClCompile Include="utils\randomizer.cpp" />
     <ClCompile Include="utils\string_utils.cpp" />
     <ClCompile Include="utils\xml\xml_parser.cpp" />
   </ItemGroup>

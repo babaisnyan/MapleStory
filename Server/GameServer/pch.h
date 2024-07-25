@@ -12,4 +12,8 @@
 
 #include "core_pch.h"
 
-using CenterSessionRef = std::shared_ptr<class CenterSession>;
+namespace game {
+  using CenterSessionRef = std::shared_ptr<class CenterServerSession>;
+}
+
+using namespace game;

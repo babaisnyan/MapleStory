@@ -6,6 +6,7 @@
 #include "Sockets.h"
 #include "Common/TcpSocketBuilder.h"
 #include "Kismet/GameplayStatics.h"
+#include "Network/GameServerPacketHandler.h"
 #include "Network/LoginServerPacketHandler.h"
 #include "Network/PacketSession.h"
 
@@ -14,7 +15,7 @@ bool UMapleGameInstance::ConnectToLoginServer() {
 	Socket->SetNoDelay(true);
 
 	FIPv4Address Ip;
-	FIPv4Address::Parse(IpAddress, Ip);
+	FIPv4Address::Parse(LoginIpAddress, Ip);
 
 	const TSharedRef<FInternetAddr> Address = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
 	Address->SetIp(Ip.Value);
@@ -26,6 +27,8 @@ bool UMapleGameInstance::ConnectToLoginServer() {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Connected to Login Server"));
 
 		FLoginServerPacketHandler::Init(this);
+		FGameServerPacketHandler::Init(this);
+
 		Session = MakeShared<FPacketSession>(Socket);
 		Session->Run();
 	} else {
@@ -38,10 +41,57 @@ bool UMapleGameInstance::ConnectToLoginServer() {
 }
 
 void UMapleGameInstance::DisconnectFromLoginServer() {
+	bIsConnected = false;
+
+	if (Session) {
+		Session->Disconnect();
+		Session = nullptr;
+	}
+
+	if (Socket) {
+		Socket->Close();
+
+		ISocketSubsystem* SocketSubsystem = ISocketSubsystem::Get();
+		SocketSubsystem->DestroySocket(Socket);
+		Socket = nullptr;
+	}
+}
+
+bool UMapleGameInstance::ConnectToGameServer(const FString& IpAddress, const int16 Port) {
+	DisconnectFromLoginServer();
+	
+	Socket = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateSocket(TEXT("Stream"), TEXT("Game Client Socket"));
+	Socket->SetNoDelay(true);
+
+	FIPv4Address Ip;
+	FIPv4Address::Parse(IpAddress, Ip);
+
+	const TSharedRef<FInternetAddr> Address = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
+	Address->SetIp(Ip.Value);
+	Address->SetPort(Port);
+
+	const bool bConnected = Socket->Connect(*Address);
+
+	if (bConnected) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Connected to Game Server"));
+
+		Session = MakeShared<FPacketSession>(Socket);
+		Session->Run();
+	} else {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Failed to connect to Game Server"));
+	}
+
+	bIsConnected = bConnected;
+
+	return bConnected;
+}
+
+void UMapleGameInstance::DisconnectFromGameServer() {
 	if (Socket) {
 		ISocketSubsystem* SocketSubsystem = ISocketSubsystem::Get();
 		SocketSubsystem->DestroySocket(Socket);
 		Socket = nullptr;
+		Session = nullptr;
 	}
 }
 

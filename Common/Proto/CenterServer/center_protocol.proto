@@ -26,14 +26,15 @@ message CenterServerMigrationResponse {
   bool success = 1;
   int32 character_id = 2;
   optional ServerInfo server = 3;
+  optional int32 auth_key = 4;
 }
 
 message CenterServerMigrationRequest {
   int32 character_id = 1;
-  string ip = 2;
 }
 
 message CenterClientMigrationResponse {
   bool success = 1;
   int32 character_id = 2;
+  optional int32 auth_key = 3;
 }

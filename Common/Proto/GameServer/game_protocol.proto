@@ -1,0 +1,14 @@
+syntax = "proto3";
+package protocol;
+
+import "game_enum.proto";
+import "game_struct.proto";
+
+message GameClientEnter {
+  int32 character_id = 1;
+  int32 auth_key = 2;
+}
+
+message GameServerEnter {
+  GameEnterResult result = 1;
+}

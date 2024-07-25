@@ -15,6 +15,48 @@
     <ClCompile Include="network\center\center_server_packet_handler.cpp">
       <Filter>network\center</Filter>
     </ClCompile>
+    <ClCompile Include="network\center\center_server_session.cpp">
+      <Filter>network\center</Filter>
+    </ClCompile>
+    <ClCompile Include="network\center\center_session_manager.cpp">
+      <Filter>network\center</Filter>
+    </ClCompile>
+    <ClCompile Include="network\game\game_server.cpp">
+      <Filter>network\game</Filter>
+    </ClCompile>
+    <ClCompile Include="network\game\game_session.cpp">
+      <Filter>network\game</Filter>
+    </ClCompile>
+    <ClCompile Include="network\game\game_session_manager.cpp">
+      <Filter>network\game</Filter>
+    </ClCompile>
+    <ClCompile Include="network\game\game_client_packet_handler.cpp">
+      <Filter>network\game</Filter>
+    </ClCompile>
+    <ClCompile Include="network\center\center_packet_creator.cpp">
+      <Filter>network\center</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\game_enum.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\game_protocol.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="network\protocol\game_struct.pb.cc">
+      <Filter>network\protocol</Filter>
+    </ClCompile>
+    <ClCompile Include="handler\game\game_handler.cpp">
+      <Filter>handler\game</Filter>
+    </ClCompile>
+    <ClCompile Include="handler\game\game_manager.cpp">
+      <Filter>handler\game</Filter>
+    </ClCompile>
+    <ClCompile Include="handler\center\center_handler.cpp">
+      <Filter>handler\center</Filter>
+    </ClCompile>
+    <ClCompile Include="handler\center\center_manager.cpp">
+      <Filter>handler\center</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -30,6 +72,48 @@
     <ClInclude Include="network\center\center_server_packet_handler.h">
       <Filter>network\center</Filter>
     </ClInclude>
+    <ClInclude Include="network\center\center_server_session.h">
+      <Filter>network\center</Filter>
+    </ClInclude>
+    <ClInclude Include="network\center\center_session_manager.h">
+      <Filter>network\center</Filter>
+    </ClInclude>
+    <ClInclude Include="network\game\game_client_packet_handler.h">
+      <Filter>network\game</Filter>
+    </ClInclude>
+    <ClInclude Include="network\game\game_server.h">
+      <Filter>network\game</Filter>
+    </ClInclude>
+    <ClInclude Include="network\game\game_session.h">
+      <Filter>network\game</Filter>
+    </ClInclude>
+    <ClInclude Include="network\game\game_session_manager.h">
+      <Filter>network\game</Filter>
+    </ClInclude>
+    <ClInclude Include="network\center\center_packet_creator.h">
+      <Filter>network\center</Filter>
+    </ClInclude>
+    <ClInclude Include="network\protocol\game_enum.pb.h">
+      <Filter>network\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="network\protocol\game_protocol.pb.h">
+      <Filter>network\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="network\protocol\game_struct.pb.h">
+      <Filter>network\protocol</Filter>
+    </ClInclude>
+    <ClInclude Include="handler\game\game_handler.h">
+      <Filter>handler\game</Filter>
+    </ClInclude>
+    <ClInclude Include="handler\game\game_manager.h">
+      <Filter>handler\game</Filter>
+    </ClInclude>
+    <ClInclude Include="handler\center\center_handler.h">
+      <Filter>handler\center</Filter>
+    </ClInclude>
+    <ClInclude Include="handler\center\center_manager.h">
+      <Filter>handler\center</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="network">
@@ -40,6 +124,21 @@
     </Filter>
     <Filter Include="network\center">
       <UniqueIdentifier>{55bf31fe-0912-4e37-9604-22159aa94fb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="network\game">
+      <UniqueIdentifier>{9c5c3a3c-1db4-4f7f-8a76-36268d65d840}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="migration">
+      <UniqueIdentifier>{b7e0bda9-d82f-48bd-a5b6-a4a9ec58a5aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="handler">
+      <UniqueIdentifier>{7d021d63-4eb7-4d71-a0a4-60730e219125}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="handler\game">
+      <UniqueIdentifier>{4128f66f-913c-4ce3-86fa-f12ce19c7763}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="handler\center">
+      <UniqueIdentifier>{bec933fa-0d54-4812-809d-b33869a47a38}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

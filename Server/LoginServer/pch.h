@@ -12,3 +12,9 @@
 
 #include "core_pch.h"
 #include "network/protocol/login_enum.pb.h"
+
+namespace login {
+  using CenterSessionRef = std::shared_ptr<class CenterServerSession>;
+  using LoginSessionRef = std::shared_ptr<class LoginSession>;
+}
+using namespace login;

@@ -13,6 +13,13 @@ void FPacketSession::Run() {
 }
 
 void FPacketSession::Disconnect() {
+	bRunning = false;
+
+	WaitForEmptyRecvQueue();
+
+	SendPacketQueue.Empty();
+	RecvPacketQueue.Empty();
+
 	if (RecvWorkerThread) {
 		RecvWorkerThread->Destroy();
 		RecvWorkerThread = nullptr;
@@ -33,6 +40,8 @@ void FPacketSession::OnServerDisconnected() {
 }
 
 void FPacketSession::HandleRecvPackets() {
+	if (!bRunning) return;
+	
 	while (!RecvPacketQueue.IsEmpty()) {
 		TArray<uint8> Packet;
 
