@@ -1,9 +1,12 @@
 ﻿namespace ItemExporter;
 
-public class ItemInfo(int id, string name, ItemType type)
+public class ItemInfo(int itemId, string itemName, ItemType type)
 {
-    public int Id { get; } = id;
-    public string Name { get; } = name;
+    public int Name { get; set; }
+    public int ItemId { get; } = itemId;
+    public string Icon { get; } = $"\"/Paper2D.PaperSprite'/Game/Item/S_{itemId}_icon.S_{itemId}_icon'\"";
+    public string IconRaw { get; } = $"\"/Paper2D.PaperSprite'/Game/Item/S_{itemId}_iconRaw.S_{itemId}_iconRaw'\"";
+    public string ItemName { get; } = itemName;
     public string Desc { get; set; }
     public byte ItemType { get; } = (byte) type;
     public byte SubType { get; set; }

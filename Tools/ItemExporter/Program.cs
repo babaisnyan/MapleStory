@@ -42,6 +42,13 @@ internal static class Program
         await FillItemInfoAsync(itemCollection).ConfigureAwait(false);
         await FillEquipInfoAsync(characterCollection).ConfigureAwait(false);
 
+        var index = 1;
+
+        foreach (var kvp in _itemInfos)
+        {
+            kvp.Value.Name = index++;
+        }
+
         await SaveToCsvAsync().ConfigureAwait(false);
         await SaveToJsonAsync().ConfigureAwait(false);
     }
@@ -51,13 +58,13 @@ internal static class Program
         await using var writer = new StreamWriter("Items.csv");
         await using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
 
-        await csv.WriteRecordsAsync(_itemInfos.Values.OrderBy(x => x.Id)).ConfigureAwait(false);
+        await csv.WriteRecordsAsync(_itemInfos.Values.OrderBy(x => x.Name)).ConfigureAwait(false);
     }
 
     private static async Task SaveToJsonAsync()
     {
         await using var writer = new StreamWriter("Items.json");
-        await writer.WriteAsync(JsonConvert.SerializeObject(_itemInfos.Values.OrderBy(x => x.Id), Formatting.Indented)).ConfigureAwait(false);
+        await writer.WriteAsync(JsonConvert.SerializeObject(_itemInfos.Values.OrderBy(x => x.ItemId), Formatting.Indented)).ConfigureAwait(false);
     }
 
     private static IDictionary<int, ItemInfo> GetItemInfos(WzProperty collection)
@@ -88,11 +95,11 @@ internal static class Program
                         {
                             var info = await GetSimpleItemInfoAsync(node).ConfigureAwait(false);
                             if (info == null) continue;
-                            if (itemNames.ContainsKey(info.Name)) continue;
+                            if (itemNames.ContainsKey(info.ItemName)) continue;
 
                             info.SubType = (byte) FastEnum.Parse<SubItemType>(subType);
-                            items.TryAdd(info.Id, info);
-                            itemNames.TryAdd(info.Name, true);
+                            items.TryAdd(info.ItemId, info);
+                            itemNames.TryAdd(info.ItemName, true);
                         }
                     }
 
@@ -106,9 +113,9 @@ internal static class Program
                     {
                         var info = await GetSimpleItemInfoAsync(node).ConfigureAwait(false);
                         if (info == null) continue;
-                        if (itemNames.ContainsKey(info.Name)) continue;
-                        items.TryAdd(info.Id, info);
-                        itemNames.TryAdd(info.Name, true);
+                        if (itemNames.ContainsKey(info.ItemName)) continue;
+                        items.TryAdd(info.ItemId, info);
+                        itemNames.TryAdd(info.ItemName, true);
                     }
 
                     break;
@@ -121,9 +128,9 @@ internal static class Program
                     {
                         var info = await GetSimpleItemInfoAsync(node).ConfigureAwait(false);
                         if (info == null) continue;
-                        if (itemNames.ContainsKey(info.Name)) continue;
-                        items.TryAdd(info.Id, info);
-                        itemNames.TryAdd(info.Name, true);
+                        if (itemNames.ContainsKey(info.ItemName)) continue;
+                        items.TryAdd(info.ItemId, info);
+                        itemNames.TryAdd(info.ItemName, true);
                     }
 
                     break;
@@ -158,12 +165,12 @@ internal static class Program
                     case "icon":
                     case "iconRaw":
                     {
-                        var image = await wzProperty.ResolveForOrNull<Image<Rgba32>>().ConfigureAwait(false);
-
-                        if (image != null)
-                        {
-                            await image.SaveAsPngAsync($"./Exported/T_{id}_{wzProperty._name}.png").ConfigureAwait(false);
-                        }
+                        // var image = await wzProperty.ResolveForOrNull<Image<Rgba32>>().ConfigureAwait(false);
+                        //
+                        // if (image != null)
+                        // {
+                        //     await image.SaveAsPngAsync($"./Exported/T_{id}_{wzProperty._name}.png").ConfigureAwait(false);
+                        // }
 
                         break;
                     }
@@ -221,12 +228,12 @@ internal static class Program
                     case "icon":
                     case "iconRaw":
                     {
-                        var image = await wzProperty.ResolveForOrNull<Image<Rgba32>>().ConfigureAwait(false);
-
-                        if (image != null)
-                        {
-                            await image.SaveAsPngAsync($"./Exported/T_{id}_{wzProperty._name}.png").ConfigureAwait(false);
-                        }
+                        // var image = await wzProperty.ResolveForOrNull<Image<Rgba32>>().ConfigureAwait(false);
+                        //
+                        // if (image != null)
+                        // {
+                        //     await image.SaveAsPngAsync($"./Exported/T_{id}_{wzProperty._name}.png").ConfigureAwait(false);
+                        // }
 
                         break;
                     }
