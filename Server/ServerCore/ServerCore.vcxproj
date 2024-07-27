@@ -170,7 +170,6 @@
     <ClInclude Include="database\db_connection.h" />
     <ClInclude Include="database\db_connection_pool.h" />
     <ClInclude Include="database\db_model.h" />
-    <ClInclude Include="database\db_synchronizer.h" />
     <ClInclude Include="job\global_queue.h" />
     <ClInclude Include="job\job.h" />
     <ClInclude Include="job\job_queue.h" />
@@ -204,11 +203,6 @@
     <ClInclude Include="utils\lock_queue.h" />
     <ClInclude Include="utils\randomizer.h" />
     <ClInclude Include="utils\string_utils.h" />
-    <ClInclude Include="utils\xml\rapidxml.hpp" />
-    <ClInclude Include="utils\xml\rapidxml_iterators.hpp" />
-    <ClInclude Include="utils\xml\rapidxml_print.hpp" />
-    <ClInclude Include="utils\xml\rapidxml_utils.hpp" />
-    <ClInclude Include="utils\xml\xml_parser.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core_tls.cpp" />
@@ -217,7 +211,6 @@
     <ClCompile Include="database\db_connection.cpp" />
     <ClCompile Include="database\db_connection_pool.cpp" />
     <ClCompile Include="database\db_model.cpp" />
-    <ClCompile Include="database\db_synchronizer.cpp" />
     <ClCompile Include="job\global_queue.cpp" />
     <ClCompile Include="job\job.cpp" />
     <ClCompile Include="job\job_queue.cpp" />
@@ -251,7 +244,6 @@
     <ClCompile Include="utils\lock_queue.cpp" />
     <ClCompile Include="utils\randomizer.cpp" />
     <ClCompile Include="utils\string_utils.cpp" />
-    <ClCompile Include="utils\xml\xml_parser.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -22,9 +22,6 @@
     <ClInclude Include="database\db_model.h">
       <Filter>database</Filter>
     </ClInclude>
-    <ClInclude Include="database\db_synchronizer.h">
-      <Filter>database</Filter>
-    </ClInclude>
     <ClInclude Include="database\db_bind.h">
       <Filter>database</Filter>
     </ClInclude>
@@ -118,21 +115,6 @@
     <ClInclude Include="utils\string_utils.h">
       <Filter>utils</Filter>
     </ClInclude>
-    <ClInclude Include="utils\xml\rapidxml_iterators.hpp">
-      <Filter>utils\xml</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\xml\rapidxml_print.hpp">
-      <Filter>utils\xml</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\xml\rapidxml_utils.hpp">
-      <Filter>utils\xml</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\xml\xml_parser.h">
-      <Filter>utils\xml</Filter>
-    </ClInclude>
-    <ClInclude Include="utils\xml\rapidxml.hpp">
-      <Filter>utils\xml</Filter>
-    </ClInclude>
     <ClInclude Include="utils\constants.h">
       <Filter>utils</Filter>
     </ClInclude>
@@ -165,9 +147,6 @@
     <Filter Include="utils">
       <UniqueIdentifier>{61b6d06d-cc02-4ade-a7b1-96fb132a2b8c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="utils\xml">
-      <UniqueIdentifier>{6e1ed80c-b465-41f5-86b4-ae40a0278436}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="core_pch.cpp">
@@ -183,9 +162,6 @@
       <Filter>database</Filter>
     </ClCompile>
     <ClCompile Include="database\db_model.cpp">
-      <Filter>database</Filter>
-    </ClCompile>
-    <ClCompile Include="database\db_synchronizer.cpp">
       <Filter>database</Filter>
     </ClCompile>
     <ClCompile Include="database\db_bind.cpp">
@@ -271,9 +247,6 @@
     </ClCompile>
     <ClCompile Include="utils\string_utils.cpp">
       <Filter>utils</Filter>
-    </ClCompile>
-    <ClCompile Include="utils\xml\xml_parser.cpp">
-      <Filter>utils\xml</Filter>
     </ClCompile>
     <ClCompile Include="utils\randomizer.cpp">
       <Filter>utils</Filter>
