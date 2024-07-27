@@ -81,7 +81,6 @@ bool FRecvWorker::ReceiveDesiredBytes(uint8* Buffer, int32 Size) {
 		if (!Socket->Recv(Buffer + Offset, Size, ReadSize)) {
 			if (auto Session = SessionRef.Pin()) {
 				Session->Disconnect();
-				Session->OnServerDisconnected();
 			}
 
 			bRunning = false;

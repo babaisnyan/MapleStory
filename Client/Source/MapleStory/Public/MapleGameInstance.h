@@ -19,7 +19,7 @@ public:
 	bool ConnectToLoginServer();
 
 	UFUNCTION(BlueprintCallable)
-	void DisconnectFromLoginServer();
+	void DisconnectFromServer();
 
 	bool ConnectToGameServer(const FString& IpAddress, int16 Port);
 

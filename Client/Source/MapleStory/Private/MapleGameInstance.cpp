@@ -29,7 +29,7 @@ bool UMapleGameInstance::ConnectToLoginServer() {
 		FLoginServerPacketHandler::Init(this);
 		FGameServerPacketHandler::Init(this);
 
-		Session = MakeShared<FPacketSession>(Socket);
+		Session = MakeShared<FPacketSession>(Socket, EServerType::Login);
 		Session->Run();
 	} else {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Failed to connect to Login Server"));
@@ -40,11 +40,12 @@ bool UMapleGameInstance::ConnectToLoginServer() {
 	return bConnected;
 }
 
-void UMapleGameInstance::DisconnectFromLoginServer() {
+void UMapleGameInstance::DisconnectFromServer() {
 	bIsConnected = false;
 
 	if (Session) {
 		Session->Disconnect();
+		Session.Reset();
 		Session = nullptr;
 	}
 
@@ -58,7 +59,7 @@ void UMapleGameInstance::DisconnectFromLoginServer() {
 }
 
 bool UMapleGameInstance::ConnectToGameServer(const FString& IpAddress, const int16 Port) {
-	DisconnectFromLoginServer();
+	DisconnectFromServer();
 	
 	Socket = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateSocket(TEXT("Stream"), TEXT("Game Client Socket"));
 	Socket->SetNoDelay(true);
@@ -74,8 +75,8 @@ bool UMapleGameInstance::ConnectToGameServer(const FString& IpAddress, const int
 
 	if (bConnected) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Connected to Game Server"));
-
-		Session = MakeShared<FPacketSession>(Socket);
+		
+		Session = MakeShared<FPacketSession>(Socket, EServerType::Game);
 		Session->Run();
 	} else {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Failed to connect to Game Server"));
@@ -109,13 +110,9 @@ void UMapleGameInstance::HandleRecvPackets() const {
 }
 
 void UMapleGameInstance::Shutdown() {
+	DisconnectFromServer();
+
 	Super::Shutdown();
-
-	if (Session) {
-		Session->Disconnect();
-	}
-
-	DisconnectFromLoginServer();
 }
 
 void UMapleGameInstance::QuitGame() {

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "MapleStory.h"
+#include "Data/Enum/EServerType.h"
 
 class FSocket;
 class FRecvWorker;
@@ -11,42 +12,33 @@ class FSendWorker;
 
 class MAPLESTORY_API FPacketSession : public TSharedFromThis<FPacketSession> {
 public:
-	explicit FPacketSession(FSocket* Socket);
-	~FPacketSession() = default;
+	explicit FPacketSession(FSocket* Socket, EServerType Type);
 
 public:
 	void Run();
 	void Disconnect();
-	void OnServerDisconnected();
 
 public:
 	void HandleRecvPackets();
-	void SendPacket(const FSendBufferRef& SendBuffer);
+	void SendPacket(const FSendBufferRef& SendBuffer) const;
 
 public:
-	void EnqueueRecvPacket(const TArray<uint8>& Packet);
+	void EnqueueRecvPacket(const TArray<uint8>& Packet) const;
 
-	bool DequeueSendPacket(FSendBufferRef& SendBuffer) {
-		if (SendPacketQueue.IsEmpty()) return false;
+	bool DequeueSendPacket(FSendBufferRef& SendBuffer) const {
+		if (SendPacketQueue->IsEmpty()) return false;
 
-		return SendPacketQueue.Dequeue(SendBuffer);
-	}
-
-private:
-	void WaitForEmptyRecvQueue() const {
-		while (!RecvPacketQueue.IsEmpty()) {
-			FPlatformProcess::YieldThread();
-		}
+		return SendPacketQueue->Dequeue(SendBuffer);
 	}
 
 private:
 	FSocket* Socket;
-
+	EServerType ServerType;
+	bool bRunning = true;
+	
 	TSharedPtr<FRecvWorker> RecvWorkerThread;
 	TSharedPtr<FSendWorker> SendWorkerThread;
 
-	TQueue<TArray<uint8>> RecvPacketQueue;
-	TQueue<FSendBufferRef> SendPacketQueue;
-
-	bool bRunning = true;
+	TUniquePtr<TQueue<TArray<uint8>>> RecvPacketQueue;
+	TUniquePtr<TQueue<FSendBufferRef>> SendPacketQueue;
 };

@@ -1,11 +1,14 @@
 #include "Network/PacketSession.h"
 
 #include "MapleGameInstance.h"
-#include "Kismet/GameplayStatics.h"
+#include "Network/GameServerPacketHandler.h"
 #include "Network/LoginServerPacketHandler.h"
 #include "Network/NetworkWorker.h"
 
-FPacketSession::FPacketSession(FSocket* Socket) : Socket(Socket) {}
+FPacketSession::FPacketSession(FSocket* Socket, const EServerType Type) : Socket(Socket), ServerType(Type) {
+	RecvPacketQueue = MakeUnique<TQueue<TArray<uint8>>>();
+	SendPacketQueue = MakeUnique<TQueue<FSendBufferRef>>();
+}
 
 void FPacketSession::Run() {
 	RecvWorkerThread = MakeShared<FRecvWorker>(Socket, AsShared());
@@ -15,47 +18,54 @@ void FPacketSession::Run() {
 void FPacketSession::Disconnect() {
 	bRunning = false;
 
-	WaitForEmptyRecvQueue();
-
-	SendPacketQueue.Empty();
-	RecvPacketQueue.Empty();
+	HandleRecvPackets();
 
 	if (RecvWorkerThread) {
 		RecvWorkerThread->Destroy();
-		RecvWorkerThread = nullptr;
+		RecvWorkerThread.Reset();
 	}
 
 	if (SendWorkerThread) {
 		SendWorkerThread->Destroy();
-		SendWorkerThread = nullptr;
+		SendWorkerThread.Reset();
 	}
-}
 
-void FPacketSession::OnServerDisconnected() {
-	const UWorld* World = GEngine->GetWorld();
+	if (RecvPacketQueue) {
+		RecvPacketQueue.Reset();
+		RecvPacketQueue = nullptr;
+	}
 
-	if (UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(UGameplayStatics::GetGameInstance(World))) {
-		GameInstance->QuitGame();
+	if (SendPacketQueue) {
+		SendPacketQueue.Reset();
+		SendPacketQueue = nullptr;
 	}
 }
 
 void FPacketSession::HandleRecvPackets() {
 	if (!bRunning) return;
-	
-	while (!RecvPacketQueue.IsEmpty()) {
+
+	while (RecvPacketQueue && !RecvPacketQueue->IsEmpty()) {
 		TArray<uint8> Packet;
 
-		if (!RecvPacketQueue.Dequeue(Packet)) break;
+		if (!RecvPacketQueue->Dequeue(Packet)) break;
 
 		FPacketSessionRef Session = AsShared();
-		FLoginServerPacketHandler::HandlePacket(Session, Packet.GetData(), Packet.Num());
+
+		switch (ServerType) {
+			case EServerType::Login:
+				FLoginServerPacketHandler::HandlePacket(Session, Packet.GetData(), Packet.Num());
+				break;
+			case EServerType::Game:
+				FGameServerPacketHandler::HandlePacket(Session, Packet.GetData(), Packet.Num());
+				break;
+		}
 	}
 }
 
-void FPacketSession::SendPacket(const FSendBufferRef& SendBuffer) {
-	SendPacketQueue.Enqueue(SendBuffer);
+void FPacketSession::SendPacket(const FSendBufferRef& SendBuffer) const {
+	SendPacketQueue->Enqueue(SendBuffer);
 }
 
-void FPacketSession::EnqueueRecvPacket(const TArray<uint8>& Packet) {
-	RecvPacketQueue.Enqueue(Packet);
+void FPacketSession::EnqueueRecvPacket(const TArray<uint8>& Packet) const {
+	RecvPacketQueue->Enqueue(Packet);
 }
