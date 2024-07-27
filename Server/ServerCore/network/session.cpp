@@ -288,7 +288,6 @@ void Session::HandleError(const int32_t error_code) {
       Disconnect(L"HandleError");
       break;
     default:
-      //TODO: Log
       std::cout << "Session::HandleError: " << error_code << '\n';
       break;
   }

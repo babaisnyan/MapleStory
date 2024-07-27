@@ -322,15 +322,15 @@ class GameServerEnter final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kResultFieldNumber = 1,
+    kSuccessFieldNumber = 1,
   };
-  // .protocol.GameEnterResult result = 1;
-  void clear_result();
-  ::protocol::GameEnterResult result() const;
-  void set_result(::protocol::GameEnterResult value);
+  // bool success = 1;
+  void clear_success();
+  bool success() const;
+  void set_success(bool value);
   private:
-  ::protocol::GameEnterResult _internal_result() const;
-  void _internal_set_result(::protocol::GameEnterResult value);
+  bool _internal_success() const;
+  void _internal_set_success(bool value);
   public:
 
   // @@protoc_insertion_point(class_scope:protocol.GameServerEnter)
@@ -340,7 +340,7 @@ class GameServerEnter final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  int result_;
+  bool success_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fprotocol_2eproto;
 };
@@ -399,24 +399,24 @@ inline void GameClientEnter::set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value) 
 
 // GameServerEnter
 
-// .protocol.GameEnterResult result = 1;
-inline void GameServerEnter::clear_result() {
-  result_ = 0;
+// bool success = 1;
+inline void GameServerEnter::clear_success() {
+  success_ = false;
 }
-inline ::protocol::GameEnterResult GameServerEnter::_internal_result() const {
-  return static_cast< ::protocol::GameEnterResult >(result_);
+inline bool GameServerEnter::_internal_success() const {
+  return success_;
 }
-inline ::protocol::GameEnterResult GameServerEnter::result() const {
-  // @@protoc_insertion_point(field_get:protocol.GameServerEnter.result)
-  return _internal_result();
+inline bool GameServerEnter::success() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerEnter.success)
+  return _internal_success();
 }
-inline void GameServerEnter::_internal_set_result(::protocol::GameEnterResult value) {
+inline void GameServerEnter::_internal_set_success(bool value) {
   
-  result_ = value;
+  success_ = value;
 }
-inline void GameServerEnter::set_result(::protocol::GameEnterResult value) {
-  _internal_set_result(value);
-  // @@protoc_insertion_point(field_set:protocol.GameServerEnter.result)
+inline void GameServerEnter::set_success(bool value) {
+  _internal_set_success(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerEnter.success)
 }
 
 #ifdef __GNUC__

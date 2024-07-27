@@ -17,5 +17,8 @@ namespace login {
 
   private:
     tbb::concurrent_hash_map<int32_t, std::weak_ptr<LoginSession>> _migration_sessions;
+
+    DECLARE_ACCESSOR_TYPE(_migration_sessions);
+    DECLARE_CONST_ACCESSOR_TYPE(_migration_sessions);
   };
 }

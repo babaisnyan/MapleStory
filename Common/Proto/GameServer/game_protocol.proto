@@ -10,5 +10,5 @@ message GameClientEnter {
 }
 
 message GameServerEnter {
-  GameEnterResult result = 1;
+  bool success = 1;
 }

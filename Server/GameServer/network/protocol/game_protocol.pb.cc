@@ -32,8 +32,7 @@ struct GameClientEnterDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameClientEnterDefaultTypeInternal _GameClientEnter_default_instance_;
 constexpr GameServerEnter::GameServerEnter(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : result_(0)
-{}
+  : success_(false){}
 struct GameServerEnterDefaultTypeInternal {
   constexpr GameServerEnterDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -61,7 +60,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fprotocol_2eproto::offse
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::protocol::GameServerEnter, result_),
+  PROTOBUF_FIELD_OFFSET(::protocol::GameServerEnter, success_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::protocol::GameClientEnter)},
@@ -77,8 +76,8 @@ const char descriptor_table_protodef_game_5fprotocol_2eproto[] PROTOBUF_SECTION_
   "\n\023game_protocol.proto\022\010protocol\032\017game_en"
   "um.proto\032\021game_struct.proto\"9\n\017GameClien"
   "tEnter\022\024\n\014character_id\030\001 \001(\005\022\020\n\010auth_key"
-  "\030\002 \001(\005\"<\n\017GameServerEnter\022)\n\006result\030\001 \001("
-  "\0162\031.protocol.GameEnterResultb\006proto3"
+  "\030\002 \001(\005\"\"\n\017GameServerEnter\022\017\n\007success\030\001 \001"
+  "(\010b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_game_5fprotocol_2eproto_deps[2] = {
   &::descriptor_table_game_5fenum_2eproto,
@@ -86,7 +85,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_5fprotocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fprotocol_2eproto = {
-  false, false, 196, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
+  false, false, 170, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
   &descriptor_table_game_5fprotocol_2eproto_once, descriptor_table_game_5fprotocol_2eproto_deps, 2, 2,
   schemas, file_default_instances, TableStruct_game_5fprotocol_2eproto::offsets,
   file_level_metadata_game_5fprotocol_2eproto, file_level_enum_descriptors_game_5fprotocol_2eproto, file_level_service_descriptors_game_5fprotocol_2eproto,
@@ -339,12 +338,12 @@ GameServerEnter::GameServerEnter(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 GameServerEnter::GameServerEnter(const GameServerEnter& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  result_ = from.result_;
+  success_ = from.success_;
   // @@protoc_insertion_point(copy_constructor:protocol.GameServerEnter)
 }
 
 void GameServerEnter::SharedCtor() {
-result_ = 0;
+success_ = false;
 }
 
 GameServerEnter::~GameServerEnter() {
@@ -373,7 +372,7 @@ void GameServerEnter::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  result_ = 0;
+  success_ = false;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -383,12 +382,11 @@ const char* GameServerEnter::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .protocol.GameEnterResult result = 1;
+      // bool success = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          success_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          _internal_set_result(static_cast<::protocol::GameEnterResult>(val));
         } else goto handle_unusual;
         continue;
       default: {
@@ -420,11 +418,10 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .protocol.GameEnterResult result = 1;
-  if (this->result() != 0) {
+  // bool success = 1;
+  if (this->success() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
-      1, this->_internal_result(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(1, this->_internal_success(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -443,10 +440,9 @@ size_t GameServerEnter::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .protocol.GameEnterResult result = 1;
-  if (this->result() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_result());
+  // bool success = 1;
+  if (this->success() != 0) {
+    total_size += 1 + 1;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -480,8 +476,8 @@ void GameServerEnter::MergeFrom(const GameServerEnter& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.result() != 0) {
-    _internal_set_result(from._internal_result());
+  if (from.success() != 0) {
+    _internal_set_success(from._internal_success());
   }
 }
 
@@ -506,7 +502,7 @@ bool GameServerEnter::IsInitialized() const {
 void GameServerEnter::InternalSwap(GameServerEnter* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(result_, other->result_);
+  swap(success_, other->success_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GameServerEnter::GetMetadata() const {

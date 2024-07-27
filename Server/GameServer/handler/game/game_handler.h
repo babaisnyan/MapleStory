@@ -12,5 +12,7 @@ namespace game {
     void SendPacket(const GameSessionRef& session, T& message) {
       session->Send(GameClientPacketHandler::MakeSendBuffer(message));
     }
+
+    void HandleClientEnter(PacketSessionRef session, protocol::GameClientEnter packet);
   };
 }

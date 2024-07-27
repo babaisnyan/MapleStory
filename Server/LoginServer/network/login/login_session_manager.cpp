@@ -4,9 +4,6 @@
 
 #include <ranges>
 
-using Accessor = tbb::concurrent_hash_map<int32_t, LoginSessionRef>::accessor;
-using ConstAccessor = tbb::concurrent_hash_map<int32_t, LoginSessionRef>::const_accessor;
-
 void LoginSessionManager::Add(const LoginSessionRef& session) {
   Accessor accessor;
 

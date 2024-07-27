@@ -12,8 +12,11 @@
 
 #include "core_pch.h"
 
+#include <nlohmann/json.hpp>
+
 namespace game {
   using CenterSessionRef = std::shared_ptr<class CenterServerSession>;
 }
 
 using namespace game;
+using namespace nlohmann;

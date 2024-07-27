@@ -47,7 +47,6 @@ bool IocpCore::Dispatch(const uint32_t timeout_ms) const {
     const IocpObjectRef iocp_object = iocp_event->GetOwner();
 
     iocp_object->Dispatch(iocp_event, num_of_bytes);
-    // TODO: 로그
   }
 
   return true;

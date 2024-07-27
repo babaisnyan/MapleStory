@@ -171,16 +171,21 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="data\item_provider.cpp" />
+    <ClCompile Include="data\templates\item_template.cpp" />
+    <ClCompile Include="game\player.cpp" />
     <ClCompile Include="handler\center\center_handler.cpp" />
     <ClCompile Include="handler\center\center_manager.cpp" />
     <ClCompile Include="handler\game\game_handler.cpp" />
     <ClCompile Include="handler\game\game_manager.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="migration\auth_storage.cpp" />
     <ClCompile Include="network\center\center_packet_creator.cpp" />
     <ClCompile Include="network\center\center_server_packet_handler.cpp" />
     <ClCompile Include="network\center\center_server_session.cpp" />
     <ClCompile Include="network\center\center_session_manager.cpp" />
     <ClCompile Include="network\game\game_client_packet_handler.cpp" />
+    <ClCompile Include="network\game\game_packet_creator.cpp" />
     <ClCompile Include="network\game\game_server.cpp" />
     <ClCompile Include="network\game\game_session.cpp" />
     <ClCompile Include="network\game\game_session_manager.cpp" />
@@ -233,15 +238,20 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="data\item_provider.h" />
+    <ClInclude Include="data\templates\item_template.h" />
+    <ClInclude Include="game\player.h" />
     <ClInclude Include="handler\center\center_handler.h" />
     <ClInclude Include="handler\center\center_manager.h" />
     <ClInclude Include="handler\game\game_handler.h" />
     <ClInclude Include="handler\game\game_manager.h" />
+    <ClInclude Include="migration\auth_storage.h" />
     <ClInclude Include="network\center\center_packet_creator.h" />
     <ClInclude Include="network\center\center_server_packet_handler.h" />
     <ClInclude Include="network\center\center_server_session.h" />
     <ClInclude Include="network\center\center_session_manager.h" />
     <ClInclude Include="network\game\game_client_packet_handler.h" />
+    <ClInclude Include="network\game\game_packet_creator.h" />
     <ClInclude Include="network\game\game_server.h" />
     <ClInclude Include="network\game\game_session.h" />
     <ClInclude Include="network\game\game_session_manager.h" />

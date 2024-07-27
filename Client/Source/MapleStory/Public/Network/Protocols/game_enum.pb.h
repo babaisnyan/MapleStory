@@ -29,7 +29,6 @@
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_game_5fenum_2eproto
@@ -56,33 +55,6 @@ PROTOBUF_NAMESPACE_OPEN
 PROTOBUF_NAMESPACE_CLOSE
 namespace protocol {
 
-enum GameEnterResult : int {
-  GAME_ENTER_RESULT_UNSPECIFIED = 0,
-  GAME_ENTER_RESULT_SUCCESS = 1,
-  GAME_ENTER_RESULT_NOT_AUTHORIZED = 2,
-  GAME_ENTER_RESULT_SERVER_ERROR = 3,
-  GameEnterResult_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
-  GameEnterResult_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
-};
-bool GameEnterResult_IsValid(int value);
-constexpr GameEnterResult GameEnterResult_MIN = GAME_ENTER_RESULT_UNSPECIFIED;
-constexpr GameEnterResult GameEnterResult_MAX = GAME_ENTER_RESULT_SERVER_ERROR;
-constexpr int GameEnterResult_ARRAYSIZE = GameEnterResult_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* GameEnterResult_descriptor();
-template<typename T>
-inline const std::string& GameEnterResult_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, GameEnterResult>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function GameEnterResult_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    GameEnterResult_descriptor(), enum_t_value);
-}
-inline bool GameEnterResult_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, GameEnterResult* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<GameEnterResult>(
-    GameEnterResult_descriptor(), name, value);
-}
 // ===================================================================
 
 
@@ -102,16 +74,6 @@ inline bool GameEnterResult_Parse(
 // @@protoc_insertion_point(namespace_scope)
 
 }  // namespace protocol
-
-PROTOBUF_NAMESPACE_OPEN
-
-template <> struct is_proto_enum< ::protocol::GameEnterResult> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::protocol::GameEnterResult>() {
-  return ::protocol::GameEnterResult_descriptor();
-}
-
-PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 

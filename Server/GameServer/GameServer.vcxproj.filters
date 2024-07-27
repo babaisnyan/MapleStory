@@ -57,6 +57,21 @@
     <ClCompile Include="handler\center\center_manager.cpp">
       <Filter>handler\center</Filter>
     </ClCompile>
+    <ClCompile Include="game\player.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="migration\auth_storage.cpp">
+      <Filter>migration</Filter>
+    </ClCompile>
+    <ClCompile Include="network\game\game_packet_creator.cpp">
+      <Filter>network\game</Filter>
+    </ClCompile>
+    <ClCompile Include="data\item_provider.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="data\templates\item_template.cpp">
+      <Filter>data\templates</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -114,6 +129,21 @@
     <ClInclude Include="handler\center\center_manager.h">
       <Filter>handler\center</Filter>
     </ClInclude>
+    <ClInclude Include="game\player.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="migration\auth_storage.h">
+      <Filter>migration</Filter>
+    </ClInclude>
+    <ClInclude Include="network\game\game_packet_creator.h">
+      <Filter>network\game</Filter>
+    </ClInclude>
+    <ClInclude Include="data\item_provider.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="data\templates\item_template.h">
+      <Filter>data\templates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="network">
@@ -139,6 +169,15 @@
     </Filter>
     <Filter Include="handler\center">
       <UniqueIdentifier>{bec933fa-0d54-4812-809d-b33869a47a38}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game">
+      <UniqueIdentifier>{688c5b6a-5f36-46ac-95da-f323a5f3257e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{03bc6185-3989-4dcc-bcd3-e747c4c0ed7a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data\templates">
+      <UniqueIdentifier>{8d515af5-dee1-433c-be39-3f00008ef0c5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

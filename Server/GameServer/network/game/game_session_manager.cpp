@@ -4,9 +4,6 @@
 
 #include <ranges>
 
-using Accessor = tbb::concurrent_hash_map<int32_t, GameSessionRef>::accessor;
-using ConstAccessor = tbb::concurrent_hash_map<int32_t, GameSessionRef>::const_accessor;
-
 void GameSessionManager::Add(const GameSessionRef& session) {
   Accessor accessor;
 

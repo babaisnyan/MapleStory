@@ -9,7 +9,7 @@
 namespace center {
   class CenterHandler final : public JobQueue {
   public:
-    void HandleServerRegisterRequest( PacketSessionRef session,  protocol::CenterClientRegisterRequest request);
+    void HandleServerRegisterRequest(PacketSessionRef session,  protocol::CenterClientRegisterRequest request);
     void HandleServerMigrationRequest( PacketSessionRef session,  protocol::CenterClientMigrationRequest request);
     void HandleServerMigrationResponse( PacketSessionRef session,  protocol::CenterClientMigrationResponse response);
 

@@ -5,9 +5,6 @@
 
 #include <ranges>
 
-using Accessor = tbb::concurrent_hash_map<String, CenterSessionRef>::accessor;
-using ConstAccessor = tbb::concurrent_hash_map<String, CenterSessionRef>::const_accessor;
-
 void CenterSessionManager::Add(const CenterSessionRef& session) {
   Accessor accessor;
 

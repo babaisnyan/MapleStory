@@ -3,9 +3,6 @@
 
 #include "network/center_session.h"
 
-using Accessor = tbb::concurrent_hash_map<int32_t, std::shared_ptr<MigrationData>>::accessor;
-using ConstAccessor = tbb::concurrent_hash_map<int32_t, std::shared_ptr<MigrationData>>::const_accessor;
-
 void MigrationStorage::Add(const int32_t character_id, const std::shared_ptr<MigrationData>& data) {
   Accessor accessor;
 

@@ -3,9 +3,6 @@
 
 #include "network/login/login_session.h"
 
-using Accessor = tbb::concurrent_hash_map<int32_t, std::weak_ptr<LoginSession>>::accessor;
-using ConstAccessor = tbb::concurrent_hash_map<int32_t, std::weak_ptr<LoginSession>>::const_accessor;
-
 void MigrationStorage::Add(const int32_t character_id, const std::weak_ptr<LoginSession>& session) {
   Accessor accessor;
 

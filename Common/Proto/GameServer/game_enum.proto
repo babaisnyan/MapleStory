@@ -1,9 +1,2 @@
 syntax = "proto3";
 package protocol;
-
-enum GameEnterResult {
-  GAME_ENTER_RESULT_UNSPECIFIED = 0;
-  GAME_ENTER_RESULT_SUCCESS = 1;
-  GAME_ENTER_RESULT_NOT_AUTHORIZED = 2;
-  GAME_ENTER_RESULT_SERVER_ERROR = 3;
-}

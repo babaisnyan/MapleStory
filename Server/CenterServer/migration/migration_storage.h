@@ -16,5 +16,8 @@ namespace center {
 
   private:
     tbb::concurrent_hash_map<int32_t, std::shared_ptr<MigrationData>> _migration_sessions;
+
+    DECLARE_ACCESSOR_TYPE(_migration_sessions);
+    DECLARE_CONST_ACCESSOR_TYPE(_migration_sessions);
   };
 }

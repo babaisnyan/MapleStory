@@ -21,3 +21,6 @@
       __analysis_assume(expr);          \
   }                                     \
 }
+
+#define DECLARE_ACCESSOR_TYPE(name) using Accessor = decltype(name)::accessor;
+#define DECLARE_CONST_ACCESSOR_TYPE(name) using ConstAccessor = decltype(name)::const_accessor;

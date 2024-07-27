@@ -25,5 +25,8 @@ namespace center {
 
   private:
     tbb::concurrent_hash_map<String, CenterSessionRef> _center_sessions;
+
+    DECLARE_ACCESSOR_TYPE(_center_sessions);
+    DECLARE_CONST_ACCESSOR_TYPE(_center_sessions);
   };
 }

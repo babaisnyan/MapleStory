@@ -17,5 +17,8 @@ namespace game {
 
   private:
     tbb::concurrent_hash_map<int32_t, GameSessionRef> _game_sessions;
+
+    DECLARE_ACCESSOR_TYPE(_game_sessions);
+    DECLARE_CONST_ACCESSOR_TYPE(_game_sessions);
   };
 }

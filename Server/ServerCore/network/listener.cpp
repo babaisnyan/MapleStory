@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "listener.h"
 
-#include <utility>
-
 #include "iocp_event.h"
 #include "network_address.h"
 #include "service.h"
