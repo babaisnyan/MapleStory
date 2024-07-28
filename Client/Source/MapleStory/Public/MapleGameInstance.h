@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "MapleStory.h"
+#include "Data/Enum/EAvatarType.h"
 
 #include "Data/Enum/ELoginState.h"
 #include "Engine/GameInstance.h"
@@ -50,6 +51,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int32 MapId = 0;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Avatar")
+	EAvatarType AvatarType = EAvatarType::GoTalk;
 
 private:
 	FSocket* Socket = nullptr;

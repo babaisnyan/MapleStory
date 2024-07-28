@@ -56,6 +56,8 @@ AMsPlayer::AMsPlayer() {
 	if (MoveVerticalActionFinder.Succeeded()) {
 		MoveVerticalAction = MoveVerticalActionFinder.Object;
 	}
+
+	
 }
 
 void AMsPlayer::BeginPlay() {
@@ -99,17 +101,17 @@ void AMsPlayer::Tick(const float DeltaSeconds) {
 
 	const UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
 	
-	// if (MovementComponent->Velocity.Length() > 0) {
-	// 	AnimationType = EPlayerAnimationType::Run;
-	// } else {
-	// 	AnimationType = EPlayerAnimationType::Idle;
-	// }
-	//
-	// if (MovementComponent->IsFalling()) {
-	// 	AnimationType = EPlayerAnimationType::Fall;
-	// }
-	//
-	// UpdateAnimation();
+	if (MovementComponent->Velocity.Length() > 0) {
+		AnimationType = EPlayerAnimationType::Run;
+	} else {
+		AnimationType = EPlayerAnimationType::Idle;
+	}
+	
+	if (MovementComponent->IsFalling()) {
+		AnimationType = EPlayerAnimationType::Fall;
+	}
+	
+	UpdateAnimation();
 	
 	if (MovementComponent->Velocity.X > 0) {
 		GetSprite()->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));

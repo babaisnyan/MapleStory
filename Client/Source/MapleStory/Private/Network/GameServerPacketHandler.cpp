@@ -9,7 +9,13 @@ bool HandleGameInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Le
 }
 
 bool HandleGameServerEnter(const FPacketSessionRef& Session, const protocol::GameServerEnter& Packet) {
-	FGameServerPacketHandler::GameInstance->ChnageMap(Packet.map_id());
+	if (Packet.has_player_info()) {
+		FGameServerPacketHandler::GameInstance->AvatarType = static_cast<EAvatarType>(Packet.player_info().type());
+	}
+
+	if (Packet.has_map_id()) {
+		FGameServerPacketHandler::GameInstance->ChnageMap(Packet.map_id());
+	}
 	return true;
 }
 

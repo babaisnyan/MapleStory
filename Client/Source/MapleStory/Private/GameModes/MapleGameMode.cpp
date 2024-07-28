@@ -3,6 +3,7 @@
 
 #include "GameModes/MapleGameMode.h"
 
+#include "MapleGameInstance.h"
 #include "Characters/MaplePlayerController.h"
 #include "Characters/MsPlayer.h"
 #include "GameFramework/GameUserSettings.h"
@@ -30,6 +31,12 @@ AMapleGameMode::AMapleGameMode() {
 }
 
 void AMapleGameMode::BeginPlay() {
+	const auto GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
+
+	if(GameInstance) {
+		AvatarType = GameInstance->AvatarType;
+	}
+	
 	Super::BeginPlay();
 	GetWorld()->SpawnActor<AMsPlayer>(PlayerClasses[AvatarType], FVector::ZeroVector, FRotator::ZeroRotator);
 

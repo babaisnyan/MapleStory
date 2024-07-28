@@ -6,11 +6,11 @@
 #include "database/db_bind.h"
 #include "database/db_connection_pool.h"
 
-bool PlayerManager::AddPlayer(const int32_t player_id, const GameSessionRef& session) {
+std::optional<std::shared_ptr<Player>> PlayerManager::AddPlayer(const int32_t player_id, const GameSessionRef& session) {
   auto player = LoadPlayer(player_id);
 
   if (!player.has_value()) {
-    return false;
+    return std::nullopt;
   }
 
   player.value()->SetSession(session);
@@ -19,11 +19,11 @@ bool PlayerManager::AddPlayer(const int32_t player_id, const GameSessionRef& ses
     Accessor accessor;
     if (_players.insert(accessor, player.value()->GetId())) {
       accessor->second = player.value();
-      return true;
+      return player;
     }
   }
 
-  return false;
+  return std::nullopt;
 }
 
 void PlayerManager::RemovePlayer(const int32_t player_id) {
@@ -46,7 +46,7 @@ std::optional<std::shared_ptr<Player>> PlayerManager::Find(const int32_t player_
 
 std::optional<std::shared_ptr<Player>> PlayerManager::LoadPlayer(int32_t player_id) const {
   if (const auto connection = DbConnectionPool::GetInstance().GetConnection()) {
-    std::shared_ptr<Player> player;
+    std::optional<std::shared_ptr<Player>> player = std::nullopt;
     DbBind<1, 17> bind(*connection, L"{CALL dbo.spLoadCharacter(?)}");
     bind.BindParam(0, player_id);
 
@@ -85,13 +85,13 @@ std::optional<std::shared_ptr<Player>> PlayerManager::LoadPlayer(int32_t player_
     int16_t int_;
     bind.BindCol(16, int_);
 
-    if (bind.Execute()) {
+    if (bind.Execute() && bind.Fetch()) {
       player = std::make_shared<Player>(id, account_id, name, type, level, exp, meso, map, hp, mp, max_hp, max_mp, str, dex, int_, luk);
     }
 
-    return player;
-
     DbConnectionPool::GetInstance().ReleaseConnection(connection);
+
+    return player;
   }
 
   return std::nullopt;

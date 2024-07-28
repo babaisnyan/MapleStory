@@ -12,21 +12,24 @@ void GameHandler::HandleClientEnter(PacketSessionRef session, protocol::GameClie
   const auto game_session = std::static_pointer_cast<GameSession>(session);
 
   if (!auth_key.has_value()) {
-    const auto response = GamePacketCreator::GetClientEnterResponse(false);
+    const auto response = GamePacketCreator::GetClientEnterFailResponse();
     game_session->Send(response);
     return;
   }
 
   if (auth_key.value() != packet.auth_key()) {
-    const auto response = GamePacketCreator::GetClientEnterResponse(false);
+    const auto response = GamePacketCreator::GetClientEnterFailResponse();
     game_session->Send(response);
     return;
   }
 
-  const auto response = GamePacketCreator::GetClientEnterResponse(true);
-  game_session->Send(response);
-  AuthStorage::GetInstance().Remove(packet.character_id());
 
-  PlayerManager::GetInstance().AddPlayer(packet.character_id(), game_session);
-  game_session->SetPlayerId(packet.character_id());
+  AuthStorage::GetInstance().Remove(packet.character_id());
+  const auto player = PlayerManager::GetInstance().AddPlayer(packet.character_id(), game_session);
+
+  if (player.has_value()) {
+    game_session->SetPlayerId(packet.character_id());
+    const auto response = GamePacketCreator::GetClientEnterSuccessResponse(player.value());
+    game_session->Send(response);
+  }
 }

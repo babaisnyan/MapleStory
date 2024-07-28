@@ -12,7 +12,7 @@ namespace game {
     }
 
   public:
-    bool AddPlayer(const int32_t player_id, const GameSessionRef& session);
+    std::optional<std::shared_ptr<Player>> AddPlayer(const int32_t player_id, const GameSessionRef& session);
     void RemovePlayer(int32_t player_id);
     std::optional<std::shared_ptr<Player>> Find(int32_t player_id) const;
 
