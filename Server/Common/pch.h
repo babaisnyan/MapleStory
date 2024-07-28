@@ -11,4 +11,7 @@
 
 #include "core_pch.h"
 
+#include <nlohmann/json.hpp>
+using namespace nlohmann;
+
 #endif 

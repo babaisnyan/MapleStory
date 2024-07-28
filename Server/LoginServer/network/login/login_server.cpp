@@ -4,6 +4,8 @@
 #include "login_client_packet_handler.h"
 #include "login_session.h"
 
+#include "data/server_config.h"
+
 #include "database/db_connection_pool.h"
 
 #include "memory/memory.h"
@@ -27,7 +29,10 @@ void LoginServer::Init() {
 }
 
 void LoginServer::StartLoginServer() {
-  _login_service = MakeShared<ServerService>(NetworkAddress(L"127.0.0.1", 7777),
+  const auto ip = ServerConfig::GetInstance().GetServerIp();
+  const auto port = ServerConfig::GetInstance().GetServerPort();
+
+  _login_service = MakeShared<ServerService>(NetworkAddress(ip, port),
                                              MakeShared<IocpCore>(),
                                              MakeShared<LoginSession>,
                                              100);
@@ -51,7 +56,9 @@ void LoginServer::StartLoginServer() {
 }
 
 void LoginServer::ConnectCenterServer() {
-  _center_service = MakeShared<ClientService>(NetworkAddress(L"127.0.0.1", 10000),
+  const auto ip = ServerConfig::GetInstance().GetCenterIp();
+  const auto port = ServerConfig::GetInstance().GetCenterPort();
+  _center_service = MakeShared<ClientService>(NetworkAddress(ip, port),
                                               MakeShared<IocpCore>(),
                                               MakeShared<CenterServerSession>,
                                               1);

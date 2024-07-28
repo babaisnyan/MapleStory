@@ -4,6 +4,8 @@
 #include "game_client_packet_handler.h"
 #include "game_session.h"
 
+#include "data/server_config.h"
+
 #include "database/db_connection_pool.h"
 
 #include "memory/memory.h"
@@ -27,10 +29,12 @@ void GameServer::Init() {
 }
 
 void GameServer::StartGameServer() {
-  _game_service = MakeShared<ServerService>(NetworkAddress(L"127.0.0.1", 7778),
+  const auto ip = ServerConfig::GetInstance().GetServerIp();
+  const auto port = ServerConfig::GetInstance().GetServerPort();
+  _game_service = MakeShared<ServerService>(NetworkAddress(ip, port),
                                             MakeShared<IocpCore>(),
                                             MakeShared<GameSession>,
-                                            500);
+                                            300);
 
   ASSERT_CRASH(_game_service->Start());
 
@@ -49,7 +53,9 @@ void GameServer::StartGameServer() {
 }
 
 void GameServer::ConnectCenterServer() {
-  _center_service = MakeShared<ClientService>(NetworkAddress(L"127.0.0.1", 10000),
+  const auto ip = ServerConfig::GetInstance().GetCenterIp();
+  const auto port = ServerConfig::GetInstance().GetCenterPort();
+  _center_service = MakeShared<ClientService>(NetworkAddress(ip, port),
                                               MakeShared<IocpCore>(),
                                               MakeShared<CenterServerSession>,
                                               1);

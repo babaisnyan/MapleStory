@@ -5,9 +5,15 @@
     <ClInclude Include="data\server_info.h">
       <Filter>data</Filter>
     </ClInclude>
+    <ClInclude Include="data\server_config.h">
+      <Filter>data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="data\server_config.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="data">

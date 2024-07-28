@@ -19,9 +19,6 @@
     <ClInclude Include="database\db_connection_pool.h">
       <Filter>database</Filter>
     </ClInclude>
-    <ClInclude Include="database\db_model.h">
-      <Filter>database</Filter>
-    </ClInclude>
     <ClInclude Include="database\db_bind.h">
       <Filter>database</Filter>
     </ClInclude>
@@ -159,9 +156,6 @@
       <Filter>main</Filter>
     </ClCompile>
     <ClCompile Include="database\db_connection_pool.cpp">
-      <Filter>database</Filter>
-    </ClCompile>
-    <ClCompile Include="database\db_model.cpp">
       <Filter>database</Filter>
     </ClCompile>
     <ClCompile Include="database\db_bind.cpp">

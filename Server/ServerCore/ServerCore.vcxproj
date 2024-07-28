@@ -169,7 +169,6 @@
     <ClInclude Include="database\db_bind.h" />
     <ClInclude Include="database\db_connection.h" />
     <ClInclude Include="database\db_connection_pool.h" />
-    <ClInclude Include="database\db_model.h" />
     <ClInclude Include="job\global_queue.h" />
     <ClInclude Include="job\job.h" />
     <ClInclude Include="job\job_queue.h" />
@@ -210,7 +209,6 @@
     <ClCompile Include="database\db_bind.cpp" />
     <ClCompile Include="database\db_connection.cpp" />
     <ClCompile Include="database\db_connection_pool.cpp" />
-    <ClCompile Include="database\db_model.cpp" />
     <ClCompile Include="job\global_queue.cpp" />
     <ClCompile Include="job\job.cpp" />
     <ClCompile Include="job\job_queue.cpp" />

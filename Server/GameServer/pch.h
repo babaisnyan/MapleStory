@@ -14,6 +14,14 @@
 
 #include <nlohmann/json.hpp>
 
+extern "C" {
+  #include <lua.h>
+  #include <lauxlib.h>
+  #include <lualib.h>
+}
+
+#pragma comment(lib, "lua.lib")
+
 namespace game {
   using CenterSessionRef = std::shared_ptr<class CenterServerSession>;
 }
