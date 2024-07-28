@@ -39,8 +39,6 @@ bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::Lo
 		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
 
 		switch (Packet.result()) {
-			case protocol::LOGIN_RESULT_SUCCESS:
-				break;
 			case protocol::LOGIN_RESULT_INVALID_USERNAME:
 				Window->ErrorCode = 1;
 				break;
@@ -196,16 +194,23 @@ bool HandleLoginServerCharSelectResult(const FPacketSessionRef& Session, const p
 		return false;
 	}
 
+	static auto WindowClass = StaticLoadClass(ULoginMessageWindow::StaticClass(), nullptr, TEXT("/Game/UI/Login/WB_LoginNotice.WB_LoginNotice_C"));
+	ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
+
 	if (Packet.result() == protocol::SELECT_CHAR_RESULT_SUCCESS) {
 		if (!Packet.has_ip() || !Packet.has_port() || !Packet.has_auth_key()) {
-			//TODO: 오류 창 띄우기
+			Window->ErrorCode = 4;
+			Window->AddToViewport();
 			return false;
 		}
 
 		const FString IpAddress = UTF8_TO_TCHAR(Packet.ip().c_str());
 
-		if (FLoginServerPacketHandler::GameInstance->ConnectToGameServer(IpAddress, Packet.port())) {
-			FLoginServerPacketHandler::GameInstance->ChangeLoginState(ELoginState::InGame);
+		if (!FLoginServerPacketHandler::GameInstance->ConnectToGameServer(IpAddress, Packet.port())) {
+			FLoginServerPacketHandler::GameInstance->QuitGame();
+		} else {
+			const auto SendBuffer = FPacketCreator::GetClientEnterRequest(Packet.character_id(), Packet.auth_key());
+			FLoginServerPacketHandler::GameInstance->SendPacket(SendBuffer);
 		}
 	}
 

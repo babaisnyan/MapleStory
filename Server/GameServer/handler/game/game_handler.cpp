@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "game_handler.h"
 
+#include "game/player_manager.h"
+
 #include "migration/auth_storage.h"
 
 #include "network/game/game_packet_creator.h"
@@ -25,5 +27,6 @@ void GameHandler::HandleClientEnter(PacketSessionRef session, protocol::GameClie
   game_session->Send(response);
   AuthStorage::GetInstance().Remove(packet.character_id());
 
-  //TODO: 플레이어 리스트에 추가
+  PlayerManager::GetInstance().AddPlayer(packet.character_id(), game_session);
+  game_session->SetPlayerId(packet.character_id());
 }

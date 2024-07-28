@@ -39,12 +39,17 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeLoginState(ELoginState NewState);
 
+	void ChnageMap(int32 NewMapId);
+
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	ELoginState LoginState = ELoginState::Login;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	bool bIsConnected = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	int32 MapId = 0;
 
 private:
 	FSocket* Socket = nullptr;

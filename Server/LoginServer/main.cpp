@@ -15,9 +15,8 @@ int _tmain(const int argc, TCHAR* argv[]) {
   }
 
   ServerConfig::GetInstance().Init(argv[1]);
-
   LoginServer::GetInstance().Init();
-
   ThreadManager::GetInstance().Join();
+
   SocketUtils::Clear();
 }

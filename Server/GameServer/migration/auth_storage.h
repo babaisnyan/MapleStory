@@ -1,11 +1,7 @@
 ﻿#pragma once
-#include <google/protobuf/stubs/port.h>
 
 namespace game {
   class AuthStorage {
-  private:
-
-
   public:
     static AuthStorage& GetInstance() {
       static AuthStorage instance;

@@ -11,4 +11,14 @@ message GameClientEnter {
 
 message GameServerEnter {
   bool success = 1;
+  optional PlayerInfo player_info = 2;
+  optional int32 map_id = 3;
+}
+
+message GameServerAddPlayer {
+  PlayerInfo player_info = 1;
+}
+
+message GameServerChangeMap {
+  int32 map_id = 1;
 }

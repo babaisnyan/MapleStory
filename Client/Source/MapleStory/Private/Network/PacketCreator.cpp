@@ -3,7 +3,9 @@
 
 #include "Network/PacketCreator.h"
 
+#include "game_protocol.pb.h"
 #include "login_protocol.pb.h"
+#include "Network/GameServerPacketHandler.h"
 #include "Network/LoginServerPacketHandler.h"
 
 
@@ -47,5 +49,14 @@ FSendBufferRef FPacketCreator::GetCreateCharacterRequest(const FString& Name, co
 	Packet.set_type(Avatar);
 
 	const auto SendBuffer = FLoginServerPacketHandler::MakeSendBuffer(Packet);
+	return SendBuffer;
+}
+
+FSendBufferRef FPacketCreator::GetClientEnterRequest(const int32 CharacterId, const int32 AuthKey) {
+	GameClientEnter Packet;
+	Packet.set_character_id(CharacterId);
+	Packet.set_auth_key(AuthKey);
+
+	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
 	return SendBuffer;
 }

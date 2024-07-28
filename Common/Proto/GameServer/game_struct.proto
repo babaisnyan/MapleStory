@@ -2,3 +2,28 @@ syntax = "proto3";
 package protocol;
 
 import "game_enum.proto";
+
+message PlayerInfo {
+  int32 id = 1;
+  string name = 2;
+  int32 type = 3;
+  int32 level = 4;
+  int32 exp = 5;
+  int32 meso = 6;
+  int32 hp = 7;
+  int32 mp = 8;
+  int32 max_hp = 9;
+  int32 max_mp = 10;
+  int32 str = 11;
+  int32 dex = 12;
+  int32 luk = 13;
+  int32 int = 14;
+  repeated ItemInfo items = 15;
+}
+
+message ItemInfo {
+  int32 id = 1;
+  int32 type = 2;
+  int32 count = 3;
+  int32 sub_type = 4;
+}

@@ -1472,6 +1472,7 @@ class LoginServerCharSelectResult final :
     kResultFieldNumber = 1,
     kPortFieldNumber = 3,
     kAuthKeyFieldNumber = 4,
+    kCharacterIdFieldNumber = 5,
   };
   // optional string ip = 2;
   bool has_ip() const;
@@ -1526,6 +1527,19 @@ class LoginServerCharSelectResult final :
   void _internal_set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // optional int32 character_id = 5;
+  bool has_character_id() const;
+  private:
+  bool _internal_has_character_id() const;
+  public:
+  void clear_character_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 character_id() const;
+  void set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_character_id() const;
+  void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:protocol.LoginServerCharSelectResult)
  private:
   class _Internal;
@@ -1539,6 +1553,7 @@ class LoginServerCharSelectResult final :
   int result_;
   ::PROTOBUF_NAMESPACE_ID::int32 port_;
   ::PROTOBUF_NAMESPACE_ID::int32 auth_key_;
+  ::PROTOBUF_NAMESPACE_ID::int32 character_id_;
   friend struct ::TableStruct_login_5fprotocol_2eproto;
 };
 // -------------------------------------------------------------------
@@ -2248,6 +2263,34 @@ inline void LoginServerCharSelectResult::_internal_set_auth_key(::PROTOBUF_NAMES
 inline void LoginServerCharSelectResult::set_auth_key(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_auth_key(value);
   // @@protoc_insertion_point(field_set:protocol.LoginServerCharSelectResult.auth_key)
+}
+
+// optional int32 character_id = 5;
+inline bool LoginServerCharSelectResult::_internal_has_character_id() const {
+  bool value = (_has_bits_[0] & 0x00000008u) != 0;
+  return value;
+}
+inline bool LoginServerCharSelectResult::has_character_id() const {
+  return _internal_has_character_id();
+}
+inline void LoginServerCharSelectResult::clear_character_id() {
+  character_id_ = 0;
+  _has_bits_[0] &= ~0x00000008u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginServerCharSelectResult::_internal_character_id() const {
+  return character_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 LoginServerCharSelectResult::character_id() const {
+  // @@protoc_insertion_point(field_get:protocol.LoginServerCharSelectResult.character_id)
+  return _internal_character_id();
+}
+inline void LoginServerCharSelectResult::_internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _has_bits_[0] |= 0x00000008u;
+  character_id_ = value;
+}
+inline void LoginServerCharSelectResult::set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_character_id(value);
+  // @@protoc_insertion_point(field_set:protocol.LoginServerCharSelectResult.character_id)
 }
 
 // -------------------------------------------------------------------

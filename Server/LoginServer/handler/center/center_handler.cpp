@@ -21,7 +21,7 @@ void CenterHandler::HandleMigrationResponse(PacketSessionRef session, protocol::
   }
 
   if (packet.success()) {
-    const auto response = LoginPacketCreator::GetSelectCharSuccessResponse(packet.server().ip(), packet.server().port(), packet.auth_key());
+    const auto response = LoginPacketCreator::GetSelectCharSuccessResponse(packet.server().ip(), packet.server().port(), packet.auth_key(), packet.character_id());
     login_session->Send(response);
   } else {
     const auto response = LoginPacketCreator::GetSelectCharFailedResponse();

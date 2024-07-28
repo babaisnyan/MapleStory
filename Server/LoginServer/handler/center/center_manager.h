@@ -5,7 +5,7 @@
 namespace login {
   class CenterManager {
   private:
-    CenterManager() : _center_handler(std::make_unique<CenterHandler>()) {}
+    CenterManager() : _center_handler(std::make_shared<CenterHandler>()) {}
     ~CenterManager() = default;
 
   public:
@@ -19,6 +19,6 @@ namespace login {
     void HandleMigrationRequest(const PacketSessionRef& session, const protocol::CenterServerMigrationRequest& packet);
 
   private:
-    std::unique_ptr<CenterHandler> _center_handler;
+    std::shared_ptr<CenterHandler> _center_handler;
   };
 }

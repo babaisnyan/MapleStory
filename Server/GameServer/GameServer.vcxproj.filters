@@ -72,6 +72,9 @@
     <ClCompile Include="data\templates\item_template.cpp">
       <Filter>data\templates</Filter>
     </ClCompile>
+    <ClCompile Include="game\player_manager.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -143,6 +146,9 @@
     </ClInclude>
     <ClInclude Include="data\templates\item_template.h">
       <Filter>data\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="game\player_manager.h">
+      <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

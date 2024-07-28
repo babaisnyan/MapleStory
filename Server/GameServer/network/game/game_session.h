@@ -16,6 +16,9 @@ namespace game {
   public:
     int32_t GetSessionId() const { return _session_id; }
 
+    int32_t GetPlayerId() const { return _player_id; }
+    void SetPlayerId(const int32_t player_id) { _player_id = player_id; }
+
   protected:
     void OnConnected() override;
     void OnDisconnected() override;
@@ -24,6 +27,7 @@ namespace game {
 
   private:
     int32_t _session_id = 0;
+    int32_t _player_id = 0;
 
   private:
     inline static Atomic<int32_t> _session_id_generator = 0;

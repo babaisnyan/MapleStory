@@ -128,13 +128,18 @@ void UMapleGameInstance::QuitGame() {
 void UMapleGameInstance::ChangeLoginState(const ELoginState NewState) {
 	LoginState = NewState;
 
-	switch (NewState) {
-		case ELoginState::Login:
-			break;
-		case ELoginState::CharacterSelection:
-			break;
-		case ELoginState::InGame:
-			UGameplayStatics::OpenLevel(GetWorld(), TEXT("/Game/Maps/MAP_Test"));
-			break;
-	}
+	// switch (NewState) {
+	// 	case ELoginState::Login:
+	// 		break;
+	// 	case ELoginState::CharacterSelection:
+	// 		break;
+	// 	case ELoginState::InGame:
+	// 		UGameplayStatics::OpenLevel(GetWorld(), TEXT("/Game/Maps/MAP_Test"));
+	// 		break;
+	// }
+}
+
+void UMapleGameInstance::ChnageMap(const int32 NewMapId) {
+	MapId = NewMapId;
+	UGameplayStatics::OpenLevel(GetWorld(), *FString::Printf(TEXT("/Game/Maps/MAP_%d"), NewMapId));
 }

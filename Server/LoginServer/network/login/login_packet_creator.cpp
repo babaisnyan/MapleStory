@@ -7,12 +7,13 @@
 
 using namespace protocol;
 
-SendBufferRef LoginPacketCreator::GetSelectCharSuccessResponse(const std::string& ip, const uint16_t port, int32_t auth_key) {
+SendBufferRef LoginPacketCreator::GetSelectCharSuccessResponse(const std::string& ip, const uint16_t port, const int32_t auth_key, const int32_t character_id) {
   LoginServerCharSelectResult packet;
   packet.set_result(SELECT_CHAR_RESULT_SUCCESS);
   packet.set_ip(ip);
   packet.set_port(port);
   packet.set_auth_key(auth_key);
+  packet.set_character_id(character_id);
 
   const auto send_buffer = LoginClientPacketHandler::MakeSendBuffer(packet);
   return send_buffer;

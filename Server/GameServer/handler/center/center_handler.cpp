@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "center_handler.h"
 
+#include "game/player_manager.h"
+
 #include "migration/auth_storage.h"
 
 #include "network/center/center_packet_creator.h"
@@ -10,7 +12,11 @@
 void CenterHandler::HandleMigrationResponse(PacketSessionRef session, protocol::CenterServerMigrationResponse packet) {}
 
 void CenterHandler::HandleMigrationRequest(PacketSessionRef session, protocol::CenterServerMigrationRequest packet) {
-  //TODO: 중복 플레이어 검사
+  if (PlayerManager::GetInstance().Find(packet.character_id()).has_value()) {
+    const auto response = CenterPacketCreator::GetMigrationFailedResponse(packet.character_id());
+    session->Send(response);
+    return;
+  }
 
   const auto center_session = std::static_pointer_cast<CenterServerSession>(session);
   const auto auth_key = utils::Randomizer::GetInstance().GetRandomInt32(0x12345678, 0x54321012);

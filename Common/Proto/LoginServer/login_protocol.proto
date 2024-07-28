@@ -48,6 +48,7 @@ message LoginServerCharSelectResult {
   optional string ip = 2;
   optional int32 port = 3;
   optional int32 auth_key = 4;
+  optional int32 character_id = 5;
 }
 
 message LoginServerChat {

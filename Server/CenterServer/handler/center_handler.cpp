@@ -126,7 +126,7 @@ void CenterHandler::HandleServerMigrationResponse(PacketSessionRef session, Cent
       return;
     }
 
-    const auto send_buffer = PacketCreator::GetMigrationSuccessResponse(character_id, true, name.value(), ip.value(), target_server->GetServerInfo()->port);
+    const auto send_buffer = PacketCreator::GetMigrationSuccessResponse(character_id, response.auth_key(), name.value(), ip.value(), target_server->GetServerInfo()->port);
     from_server->Send(send_buffer);
   } else {
     const auto send_buffer = PacketCreator::GetMigrationFailedResponse(character_id);

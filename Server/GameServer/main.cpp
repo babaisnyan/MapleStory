@@ -18,12 +18,12 @@ int _tmain(const int argc, TCHAR* argv[]) {
     return 0;
   }
 
-  ServerConfig::GetInstance().Init(argv[1]);
-
   ThreadManager::GetInstance().Launch([] { ItemProvider::GetInstance().Init(); });
-
   ThreadManager::GetInstance().Join();
 
+  ServerConfig::GetInstance().Init(argv[1]);
   GameServer::GetInstance().Init();
+  ThreadManager::GetInstance().Join();
+
   SocketUtils::Clear();
 }

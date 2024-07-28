@@ -10,10 +10,14 @@ using FPacketHandlerFunction = TFunction<bool(FPacketSessionRef&, uint8*, int32)
 enum : uint16 {
   PKT_GAMECLIENTENTER = 3000,
   PKT_GAMESERVERENTER = 3001,
+  PKT_GAMESERVERADDPLAYER = 3002,
+  PKT_GAMESERVERCHANGEMAP = 3003,
 };
 
 bool HandleGameInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len);
 bool HandleGameServerEnter(const FPacketSessionRef& Session, const protocol::GameServerEnter& Packet);
+bool HandleGameServerAddPlayer(const FPacketSessionRef& Session, const protocol::GameServerAddPlayer& Packet);
+bool HandleGameServerChangeMap(const FPacketSessionRef& Session, const protocol::GameServerChangeMap& Packet);
 
 class FGameServerPacketHandler {
 public:
@@ -26,6 +30,12 @@ public:
 
     PacketHandlers[PKT_GAMESERVERENTER] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
       return HandlePacket<protocol::GameServerEnter>(HandleGameServerEnter, Session, Buffer, Len);
+    };
+    PacketHandlers[PKT_GAMESERVERADDPLAYER] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
+      return HandlePacket<protocol::GameServerAddPlayer>(HandleGameServerAddPlayer, Session, Buffer, Len);
+    };
+    PacketHandlers[PKT_GAMESERVERCHANGEMAP] = [](FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
+      return HandlePacket<protocol::GameServerChangeMap>(HandleGameServerChangeMap, Session, Buffer, Len);
     };
   }
 

@@ -8,6 +8,8 @@ namespace game {
   enum : uint16_t {
     PKT_GAMECLIENTENTER = 3000,
     PKT_GAMESERVERENTER = 3001,
+    PKT_GAMESERVERADDPLAYER = 3002,
+    PKT_GAMESERVERCHANGEMAP = 3003,
   };
 
   bool HandleGameInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
@@ -41,6 +43,12 @@ namespace game {
   
     static SendBufferRef MakeSendBuffer(const protocol::GameServerEnter& packet) { 
       return MakeSendBufferInternal(packet, PKT_GAMESERVERENTER); 
+    }
+    static SendBufferRef MakeSendBuffer(const protocol::GameServerAddPlayer& packet) { 
+      return MakeSendBufferInternal(packet, PKT_GAMESERVERADDPLAYER); 
+    }
+    static SendBufferRef MakeSendBuffer(const protocol::GameServerChangeMap& packet) { 
+      return MakeSendBufferInternal(packet, PKT_GAMESERVERCHANGEMAP); 
     }
 
   private:

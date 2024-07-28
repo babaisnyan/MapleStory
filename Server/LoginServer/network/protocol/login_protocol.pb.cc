@@ -136,7 +136,8 @@ constexpr LoginServerCharSelectResult::LoginServerCharSelectResult(
   , result_(0)
 
   , port_(0)
-  , auth_key_(0){}
+  , auth_key_(0)
+  , character_id_(0){}
 struct LoginServerCharSelectResultDefaultTypeInternal {
   constexpr LoginServerCharSelectResultDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -232,10 +233,12 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_login_5fprotocol_2eproto::offs
   PROTOBUF_FIELD_OFFSET(::protocol::LoginServerCharSelectResult, ip_),
   PROTOBUF_FIELD_OFFSET(::protocol::LoginServerCharSelectResult, port_),
   PROTOBUF_FIELD_OFFSET(::protocol::LoginServerCharSelectResult, auth_key_),
+  PROTOBUF_FIELD_OFFSET(::protocol::LoginServerCharSelectResult, character_id_),
   ~0u,
   0,
   1,
   2,
+  3,
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::protocol::LoginServerChat, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -253,8 +256,8 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 36, -1, sizeof(::protocol::LoginServerDeleteCharacter)},
   { 43, -1, sizeof(::protocol::LoginClientCreateCharacter)},
   { 50, 57, sizeof(::protocol::LoginServerCreateCharacter)},
-  { 59, 68, sizeof(::protocol::LoginServerCharSelectResult)},
-  { 72, -1, sizeof(::protocol::LoginServerChat)},
+  { 59, 69, sizeof(::protocol::LoginServerCharSelectResult)},
+  { 74, -1, sizeof(::protocol::LoginServerChat)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -288,12 +291,13 @@ const char descriptor_table_protodef_login_5fprotocol_2eproto[] PROTOBUF_SECTION
   "\002 \001(\005\"\210\001\n\032LoginServerCreateCharacter\022*\n\006"
   "result\030\001 \001(\0162\032.protocol.CreateCharResult"
   "\0220\n\tcharacter\030\002 \001(\0132\030.protocol.LoginChar"
-  "acterH\000\210\001\001B\014\n\n_character\"\241\001\n\033LoginServer"
+  "acterH\000\210\001\001B\014\n\n_character\"\315\001\n\033LoginServer"
   "CharSelectResult\022*\n\006result\030\001 \001(\0162\032.proto"
   "col.SelectCharResult\022\017\n\002ip\030\002 \001(\tH\000\210\001\001\022\021\n"
-  "\004port\030\003 \001(\005H\001\210\001\001\022\025\n\010auth_key\030\004 \001(\005H\002\210\001\001B"
-  "\005\n\003_ipB\007\n\005_portB\013\n\t_auth_key\"\"\n\017LoginSer"
-  "verChat\022\017\n\007message\030\001 \001(\tb\006proto3"
+  "\004port\030\003 \001(\005H\001\210\001\001\022\025\n\010auth_key\030\004 \001(\005H\002\210\001\001\022"
+  "\031\n\014character_id\030\005 \001(\005H\003\210\001\001B\005\n\003_ipB\007\n\005_po"
+  "rtB\013\n\t_auth_keyB\017\n\r_character_id\"\"\n\017Logi"
+  "nServerChat\022\017\n\007message\030\001 \001(\tb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_login_5fprotocol_2eproto_deps[2] = {
   &::descriptor_table_login_5fenum_2eproto,
@@ -301,7 +305,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_login_5fprotocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_login_5fprotocol_2eproto = {
-  false, false, 872, descriptor_table_protodef_login_5fprotocol_2eproto, "login_protocol.proto", 
+  false, false, 916, descriptor_table_protodef_login_5fprotocol_2eproto, "login_protocol.proto", 
   &descriptor_table_login_5fprotocol_2eproto_once, descriptor_table_login_5fprotocol_2eproto_deps, 2, 11,
   schemas, file_default_instances, TableStruct_login_5fprotocol_2eproto::offsets,
   file_level_metadata_login_5fprotocol_2eproto, file_level_enum_descriptors_login_5fprotocol_2eproto, file_level_service_descriptors_login_5fprotocol_2eproto,
@@ -2211,6 +2215,9 @@ class LoginServerCharSelectResult::_Internal {
   static void set_has_auth_key(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
   }
+  static void set_has_character_id(HasBits* has_bits) {
+    (*has_bits)[0] |= 8u;
+  }
 };
 
 LoginServerCharSelectResult::LoginServerCharSelectResult(::PROTOBUF_NAMESPACE_ID::Arena* arena)
@@ -2229,8 +2236,8 @@ LoginServerCharSelectResult::LoginServerCharSelectResult(const LoginServerCharSe
       GetArenaForAllocation());
   }
   ::memcpy(&result_, &from.result_,
-    static_cast<size_t>(reinterpret_cast<char*>(&auth_key_) -
-    reinterpret_cast<char*>(&result_)) + sizeof(auth_key_));
+    static_cast<size_t>(reinterpret_cast<char*>(&character_id_) -
+    reinterpret_cast<char*>(&result_)) + sizeof(character_id_));
   // @@protoc_insertion_point(copy_constructor:protocol.LoginServerCharSelectResult)
 }
 
@@ -2238,8 +2245,8 @@ void LoginServerCharSelectResult::SharedCtor() {
 ip_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&result_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&auth_key_) -
-    reinterpret_cast<char*>(&result_)) + sizeof(auth_key_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&character_id_) -
+    reinterpret_cast<char*>(&result_)) + sizeof(character_id_));
 }
 
 LoginServerCharSelectResult::~LoginServerCharSelectResult() {
@@ -2274,10 +2281,10 @@ void LoginServerCharSelectResult::Clear() {
     ip_.ClearNonDefaultToEmpty();
   }
   result_ = 0;
-  if (cached_has_bits & 0x00000006u) {
+  if (cached_has_bits & 0x0000000eu) {
     ::memset(&port_, 0, static_cast<size_t>(
-        reinterpret_cast<char*>(&auth_key_) -
-        reinterpret_cast<char*>(&port_)) + sizeof(auth_key_));
+        reinterpret_cast<char*>(&character_id_) -
+        reinterpret_cast<char*>(&port_)) + sizeof(character_id_));
   }
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
@@ -2320,6 +2327,14 @@ const char* LoginServerCharSelectResult::_InternalParse(const char* ptr, ::PROTO
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
           _Internal::set_has_auth_key(&has_bits);
           auth_key_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // optional int32 character_id = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          _Internal::set_has_character_id(&has_bits);
+          character_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -2382,6 +2397,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_auth_key(), target);
   }
 
+  // optional int32 character_id = 5;
+  if (_internal_has_character_id()) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(5, this->_internal_character_id(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2412,7 +2433,7 @@ size_t LoginServerCharSelectResult::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_result());
   }
 
-  if (cached_has_bits & 0x00000006u) {
+  if (cached_has_bits & 0x0000000eu) {
     // optional int32 port = 3;
     if (cached_has_bits & 0x00000002u) {
       total_size += 1 +
@@ -2425,6 +2446,13 @@ size_t LoginServerCharSelectResult::ByteSizeLong() const {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
           this->_internal_auth_key());
+    }
+
+    // optional int32 character_id = 5;
+    if (cached_has_bits & 0x00000008u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+          this->_internal_character_id());
     }
 
   }
@@ -2466,12 +2494,15 @@ void LoginServerCharSelectResult::MergeFrom(const LoginServerCharSelectResult& f
     _internal_set_result(from._internal_result());
   }
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000006u) {
+  if (cached_has_bits & 0x0000000eu) {
     if (cached_has_bits & 0x00000002u) {
       port_ = from.port_;
     }
     if (cached_has_bits & 0x00000004u) {
       auth_key_ = from.auth_key_;
+    }
+    if (cached_has_bits & 0x00000008u) {
+      character_id_ = from.character_id_;
     }
     _has_bits_[0] |= cached_has_bits;
   }
@@ -2505,8 +2536,8 @@ void LoginServerCharSelectResult::InternalSwap(LoginServerCharSelectResult* othe
       &other->ip_, other->GetArenaForAllocation()
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(LoginServerCharSelectResult, auth_key_)
-      + sizeof(LoginServerCharSelectResult::auth_key_)
+      PROTOBUF_FIELD_OFFSET(LoginServerCharSelectResult, character_id_)
+      + sizeof(LoginServerCharSelectResult::character_id_)
       - PROTOBUF_FIELD_OFFSET(LoginServerCharSelectResult, result_)>(
           reinterpret_cast<char*>(&result_),
           reinterpret_cast<char*>(&other->result_));
