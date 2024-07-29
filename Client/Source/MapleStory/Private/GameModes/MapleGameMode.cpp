@@ -31,13 +31,14 @@ AMapleGameMode::AMapleGameMode() {
 }
 
 void AMapleGameMode::BeginPlay() {
+	Super::BeginPlay();
+	
 	const auto GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
 
 	if(GameInstance) {
 		AvatarType = GameInstance->AvatarType;
 	}
 	
-	Super::BeginPlay();
 	GetWorld()->SpawnActor<AMsPlayer>(PlayerClasses[AvatarType], FVector::ZeroVector, FRotator::ZeroRotator);
 
 	const FIntPoint NewResolution(1920, 1080);
