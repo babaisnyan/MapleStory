@@ -3,6 +3,7 @@
 #include "game_client_packet_handler.h"
 
 #include "game/player.h"
+#include "game/player_stat.h"
 
 #include "network/protocol/game_protocol.pb.h"
 
@@ -27,17 +28,17 @@ SendBufferRef GamePacketCreator::GetClientEnterSuccessResponse(const std::shared
     player_info->set_id(player->GetId());
     player_info->set_name(name.value());
     player_info->set_type(player->GetType());
-    player_info->set_level(player->GetLevel());
+    player_info->set_level(player->GetStat()->GetLevel());
     player_info->set_exp(player->GetExp());
     player_info->set_meso(player->GetMeso());
-    player_info->set_hp(player->GetHp());
-    player_info->set_mp(player->GetMp());
-    player_info->set_max_hp(player->GetMaxHp());
-    player_info->set_max_mp(player->GetMaxMp());
-    player_info->set_str(player->GetStr());
-    player_info->set_dex(player->GetDex());
-    player_info->set_int_(player->GetInt());
-    player_info->set_luk(player->GetLuk());
+    player_info->set_hp(player->GetStat()->GetHp());
+    player_info->set_mp(player->GetStat()->GetMp());
+    player_info->set_max_hp(player->GetStat()->GetMaxHp());
+    player_info->set_max_mp(player->GetStat()->GetMaxMp());
+    player_info->set_str(player->GetStat()->GetStr());
+    player_info->set_dex(player->GetStat()->GetDex());
+    player_info->set_int_(player->GetStat()->GetInt());
+    player_info->set_luk(player->GetStat()->GetLuk());
   }
 
   const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(packet);

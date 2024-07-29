@@ -75,6 +75,12 @@
     <ClCompile Include="game\player_manager.cpp">
       <Filter>game</Filter>
     </ClCompile>
+    <ClCompile Include="game\basic_stat.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\player_stat.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -148,6 +154,12 @@
       <Filter>data\templates</Filter>
     </ClInclude>
     <ClInclude Include="game\player_manager.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\basic_stat.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\player_stat.h">
       <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>

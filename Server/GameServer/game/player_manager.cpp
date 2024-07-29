@@ -2,6 +2,7 @@
 #include "player_manager.h"
 
 #include "player.h"
+#include "player_stat.h"
 
 #include "database/db_bind.h"
 #include "database/db_connection_pool.h"
@@ -46,7 +47,7 @@ std::optional<std::shared_ptr<Player>> PlayerManager::Find(const int32_t player_
 
 std::optional<std::shared_ptr<Player>> PlayerManager::LoadPlayer(int32_t player_id) const {
   if (const auto connection = DbConnectionPool::GetInstance().GetConnection()) {
-    std::optional<std::shared_ptr<Player>> player = std::nullopt;
+    std::optional<std::shared_ptr<Player>> ret = std::nullopt;
     DbBind<1, 17> bind(*connection, L"{CALL dbo.spLoadCharacter(?)}");
     bind.BindParam(0, player_id);
 
@@ -86,12 +87,29 @@ std::optional<std::shared_ptr<Player>> PlayerManager::LoadPlayer(int32_t player_
     bind.BindCol(16, int_);
 
     if (bind.Execute() && bind.Fetch()) {
-      player = std::make_shared<Player>(id, account_id, name, type, level, exp, meso, map, hp, mp, max_hp, max_mp, str, dex, int_, luk);
+      const auto player = std::make_shared<Player>(id, account_id, name, type);
+
+      player->SetJob(job);
+      player->SetExp(exp);
+      player->SetMeso(meso);
+      player->SetMap(map);
+
+      player->GetStat()->SetLevel(level);
+      player->GetStat()->SetHp(hp);
+      player->GetStat()->SetMp(mp);
+      player->GetStat()->SetMaxHp(max_hp);
+      player->GetStat()->SetMaxMp(max_mp);
+      player->GetStat()->SetStr(str);
+      player->GetStat()->SetDex(dex);
+      player->GetStat()->SetLuk(luk);
+      player->GetStat()->SetInt(int_);
+
+      ret = player;
     }
 
     DbConnectionPool::GetInstance().ReleaseConnection(connection);
 
-    return player;
+    return ret;
   }
 
   return std::nullopt;
