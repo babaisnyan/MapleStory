@@ -22,6 +22,7 @@ public:
 protected:
 	virtual void BeginPlay() override;
 	
+	
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Avatar")
 	EAvatarType AvatarType = EAvatarType::GoTalk;

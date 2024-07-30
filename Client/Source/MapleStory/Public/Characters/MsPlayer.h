@@ -4,10 +4,15 @@
 
 #include "CoreMinimal.h"
 #include "PaperZDCharacter.h"
+#include "game_struct.pb.h"
 #include "Data/Enum/EAvatarType.h"
 #include "MsPlayer.generated.h"
 
+class UStatusBarHud;
+class UPlayerStatComponent;
+class APlayerCamera;
 class USoundManager;
+class UPaperFlipbook;
 enum class EPlayerAnimationType : uint8;
 struct FInputActionValue;
 
@@ -23,12 +28,13 @@ public:
 
 private:
 	virtual void BeginPlay() override;
-	
+
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void Tick(float DeltaSeconds) override;
 
 private:
 	void UpdateAnimation() const;
+	void UpdateStatusBar() const;
 
 protected:
 	void EnhancedMoveHorizontal(const FInputActionValue& Value);
@@ -36,23 +42,38 @@ protected:
 	void EnhancedJump(const FInputActionValue& Value);
 
 public:
+	void Setup(const protocol::PlayerInfo& Info);
+
+public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
-	class APlayerCamera* PlayerCamera;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
-	class UPaperFlipbook* IdleAnimation;
+	TObjectPtr<APlayerCamera> PlayerCamera;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
-	UPaperFlipbook* RunAnimation;
+	TObjectPtr<UPaperFlipbook> IdleAnimation;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
-	UPaperFlipbook* JumpAnimation;
+	TObjectPtr<UPaperFlipbook> RunAnimation;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
+	TObjectPtr<UPaperFlipbook> JumpAnimation;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Animation")
 	EPlayerAnimationType AnimationType;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Avatar")
 	EAvatarType AvatarType;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Info")
+	FString Name;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stat")
+	TObjectPtr<UPlayerStatComponent> PlayerStat;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UStatusBarHud> StatusBarHudClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+    TSoftObjectPtr<UStatusBarHud> StatusBarHud;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Input)
@@ -66,6 +87,6 @@ private:
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	UInputAction* MoveVerticalAction;
-	
+
 	TObjectPtr<USoundManager> SoundManager;
 };

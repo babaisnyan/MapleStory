@@ -7,16 +7,20 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "InputMappingContext.h"
+#include "MapleGameInstance.h"
 #include "PaperFlipbookComponent.h"
+#include "Blueprint/UserWidget.h"
+#include "Characters/PlayerCamera.h"
 #include "Components/CapsuleComponent.h"
+#include "Components/PlayerStatComponent.h"
+#include "Data/Enum/EPlayerAnimationType.h"
+#include "Data/Enum/ESoundEffectType.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
-#include "Characters/PlayerCamera.h"
-#include "Data/Enum/EPlayerAnimationType.h"
-#include "Data/Enum/ESoundEffectType.h"
 #include "Managers/SoundManager.h"
+#include "UI/StatusBarHud.h"
 
 
 AMsPlayer::AMsPlayer() {
@@ -57,12 +61,17 @@ AMsPlayer::AMsPlayer() {
 		MoveVerticalAction = MoveVerticalActionFinder.Object;
 	}
 
-	
+	static ConstructorHelpers::FClassFinder<UStatusBarHud> StatusBarHudFinder(TEXT("/Game/UI/HUD/WB_StatusBar.WB_StatusBar_C"));
+	if (StatusBarHudFinder.Succeeded()) {
+		StatusBarHudClass = StatusBarHudFinder.Class;
+	}
+
+	PlayerStat = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("PlayerStat"));
 }
 
 void AMsPlayer::BeginPlay() {
 	Super::BeginPlay();
-	
+
 	SoundManager = GetGameInstance()->GetSubsystem<USoundManager>();
 
 	const TObjectPtr<AActor> PlayerStart = UGameplayStatics::GetActorOfClass(GetWorld(), APlayerStart::StaticClass());
@@ -84,6 +93,13 @@ void AMsPlayer::BeginPlay() {
 		PlayerController->Possess(this);
 		PlayerCamera->Player = this;
 	}
+
+	if (StatusBarHudClass) {
+		UStatusBarHud* Window = CreateWidget<UStatusBarHud>(GetWorld(), StatusBarHudClass);
+		StatusBarHud = Window;
+		Window->AddToViewport();
+		UpdateStatusBar();
+	}
 }
 
 void AMsPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
@@ -100,19 +116,19 @@ void AMsPlayer::Tick(const float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
 
 	const UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
-	
+
 	if (MovementComponent->Velocity.Length() > 0) {
 		AnimationType = EPlayerAnimationType::Run;
 	} else {
 		AnimationType = EPlayerAnimationType::Idle;
 	}
-	
+
 	if (MovementComponent->IsFalling()) {
 		AnimationType = EPlayerAnimationType::Fall;
 	}
-	
+
 	UpdateAnimation();
-	
+
 	if (MovementComponent->Velocity.X > 0) {
 		GetSprite()->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 	} else if (MovementComponent->Velocity.X < 0) {
@@ -134,6 +150,16 @@ void AMsPlayer::UpdateAnimation() const {
 			GetSprite()->SetFlipbook(JumpAnimation);
 			break;
 	}
+}
+
+void AMsPlayer::UpdateStatusBar() const {
+	if (!StatusBarHud) {
+		return;
+	}
+
+	const float HpPercent = static_cast<float>(PlayerStat->Hp) / PlayerStat->MaxHp;
+	const float MpPercent = static_cast<float>(PlayerStat->Mp) / PlayerStat->MaxMp;
+	StatusBarHud->UpdateGauge(HpPercent, MpPercent);
 }
 
 void AMsPlayer::EnhancedMoveHorizontal(const FInputActionValue& Value) {
@@ -161,4 +187,10 @@ void AMsPlayer::EnhancedJump(const FInputActionValue& Value) {
 
 		SoundManager->PlaySoundEffect(ESoundEffectType::Jump, GetWorld());
 	}
+}
+
+void AMsPlayer::Setup(const protocol::PlayerInfo& Info) {
+	PlayerStat->Setup(Info);
+	AvatarType = static_cast<EAvatarType>(Info.type());
+	Name = UTF8_TO_TCHAR(Info.name().c_str());
 }

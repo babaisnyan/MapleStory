@@ -1,6 +1,9 @@
 ﻿#include "Network/GameServerPacketHandler.h"
 
+#include "AITestsCommon.h"
 #include "MapleGameInstance.h"
+#include "GameModes/MapleGameMode.h"
+#include "Kismet/GameplayStatics.h"
 
 
 bool HandleGameInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
@@ -9,12 +12,9 @@ bool HandleGameInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Le
 }
 
 bool HandleGameServerEnter(const FPacketSessionRef& Session, const protocol::GameServerEnter& Packet) {
-	if (Packet.has_player_info()) {
-		FGameServerPacketHandler::GameInstance->AvatarType = static_cast<EAvatarType>(Packet.player_info().type());
-	}
-
-	if (Packet.has_map_id()) {
-		FGameServerPacketHandler::GameInstance->ChnageMap(Packet.map_id());
+	if (Packet.has_player_info() && Packet.has_map_id()) {
+		FGameServerPacketHandler::GameInstance->PlayerInfoTemp = Packet.player_info();
+		FGameServerPacketHandler::GameInstance->ChangeMap(Packet.map_id());
 	}
 	return true;
 }
@@ -24,6 +24,6 @@ bool HandleGameServerAddPlayer(const FPacketSessionRef& Session, const protocol:
 }
 
 bool HandleGameServerChangeMap(const FPacketSessionRef& Session, const protocol::GameServerChangeMap& Packet) {
-	FGameServerPacketHandler::GameInstance->ChnageMap(Packet.map_id());
+	FGameServerPacketHandler::GameInstance->ChangeMap(Packet.map_id());
 	return true;
 }

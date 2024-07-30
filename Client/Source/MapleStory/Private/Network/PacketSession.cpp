@@ -50,6 +50,7 @@ void FPacketSession::HandleRecvPackets() {
 		if (!RecvPacketQueue->Dequeue(Packet)) break;
 
 		FPacketSessionRef Session = AsShared();
+		GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("Login packet received"));
 
 		switch (ServerType) {
 			case EServerType::Login:

@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "MapleStory.h"
+#include "game_struct.pb.h"
 #include "Data/Enum/EAvatarType.h"
 
 #include "Data/Enum/ELoginState.h"
@@ -9,6 +10,7 @@
 
 #include "MapleGameInstance.generated.h"
 
+class AMsPlayer;
 class FPacketSession;
 
 UCLASS()
@@ -40,7 +42,7 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeLoginState(ELoginState NewState);
 
-	void ChnageMap(int32 NewMapId);
+	void ChangeMap(int32 NewMapId);
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -51,10 +53,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int32 MapId = 0;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Avatar")
-	EAvatarType AvatarType = EAvatarType::GoTalk;
-
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	TObjectPtr<AMsPlayer> CurrentPlayer;
+	
+	protocol::PlayerInfo PlayerInfoTemp;
+	
 private:
 	FSocket* Socket = nullptr;
 	FString LoginIpAddress = TEXT("127.0.0.1");
