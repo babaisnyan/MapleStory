@@ -124,11 +124,11 @@ FString ALoginGameMode::GetSelectedPlayerLevelText() {
 		return "";
 	}
 
-	FString LevelText = FString::Printf(TEXT("<img id=\"LoginLv\"/>"));
+	FString LevelText = FString::Printf(TEXT("<img id=\"LoginLv\" width=\"desired\"/>"));
 	const FString Level = FString::Printf(TEXT("%d"), LoginCharacters[SelectedPlayerIndex].level());
 
 	for (int32 i = 0; i < Level.Len(); i++) {
-		LevelText += FString::Printf(TEXT("<img id=\"LoginLv%d\"/>"), Level[i] - '0');
+		LevelText += FString::Printf(TEXT("<img id=\"LoginLv%d\" width=\"desired\"/>"), Level[i] - '0');
 	}
 
 	return LevelText;

@@ -18,4 +18,5 @@ void UPlayerStatComponent::Setup(const protocol::PlayerInfo& Info) {
 	Dex = Info.dex();
 	Int = Info.int_();
 	Luk = Info.luk();
+	Exp = Info.exp();
 }

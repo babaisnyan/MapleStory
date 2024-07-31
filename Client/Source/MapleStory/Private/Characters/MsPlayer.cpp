@@ -157,9 +157,12 @@ void AMsPlayer::UpdateStatusBar() const {
 		return;
 	}
 
-	const float HpPercent = static_cast<float>(PlayerStat->Hp) / PlayerStat->MaxHp;
-	const float MpPercent = static_cast<float>(PlayerStat->Mp) / PlayerStat->MaxMp;
-	StatusBarHud->UpdateGauge(HpPercent, MpPercent);
+	const int32 Temp = FMath::RandRange(1000, 10000);
+	PlayerStat->Exp = FMath::RandRange(100, Temp);
+	StatusBarHud->UpdateGauge(PlayerStat->Hp, PlayerStat->MaxHp, PlayerStat->Mp, PlayerStat->MaxMp, PlayerStat->Exp, Temp);
+
+	StatusBarHud->UpdateLevel(FMath::RandRange(1, 300));
+	StatusBarHud->SetName(Name);
 }
 
 void AMsPlayer::EnhancedMoveHorizontal(const FInputActionValue& Value) {
@@ -182,6 +185,10 @@ void AMsPlayer::EnhancedMoveVertical(const FInputActionValue& Value) {
 
 void AMsPlayer::EnhancedJump(const FInputActionValue& Value) {
 	if (Value.Get<bool>() && !GetMovementComponent()->IsFalling()) {
+		PlayerStat->Hp = FMath::RandRange(1, PlayerStat->MaxHp);
+		PlayerStat->Mp = FMath::RandRange(1, PlayerStat->MaxMp);
+		UpdateStatusBar();
+
 		Jump();
 		AnimationType = EPlayerAnimationType::Jump;
 

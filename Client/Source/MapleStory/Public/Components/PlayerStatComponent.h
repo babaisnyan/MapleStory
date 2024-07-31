@@ -17,7 +17,7 @@ public:
 	UPlayerStatComponent();
 
 	void Setup(const protocol::PlayerInfo& Info);
-	
+
 protected:
 	virtual void BeginPlay() override;
 
@@ -33,4 +33,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
 	int32 Luk = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
+	int32 Exp = 0;
 };
