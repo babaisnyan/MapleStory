@@ -13,7 +13,7 @@ bool HandleGameInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Le
 
 bool HandleGameServerEnter(const FPacketSessionRef& Session, const protocol::GameServerEnter& Packet) {
 	if (Packet.has_player_info() && Packet.has_map_id()) {
-		FGameServerPacketHandler::GameInstance->PlayerInfoTemp = Packet.player_info();
+		FGameServerPacketHandler::GameInstance->PlayerInfoTemp = std::move(Packet.player_info());
 		FGameServerPacketHandler::GameInstance->ChangeMap(Packet.map_id());
 	}
 	return true;

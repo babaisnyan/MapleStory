@@ -18,6 +18,14 @@ class MAPLESTORY_API UMapleGameInstance : public UGameInstance {
 	GENERATED_BODY()
 
 public:
+	virtual ~UMapleGameInstance() override {
+		if (PlayerInfoTemp) {
+			PlayerInfoTemp.Reset();
+			PlayerInfoTemp = TOptional<protocol::PlayerInfo>();
+		}
+	}
+	
+public:
 	UFUNCTION(BlueprintCallable)
 	bool ConnectToLoginServer();
 
@@ -57,7 +65,7 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<AMsPlayer> CurrentPlayer;
 	
-	protocol::PlayerInfo PlayerInfoTemp;
+	TOptional<protocol::PlayerInfo> PlayerInfoTemp = TOptional<protocol::PlayerInfo>();
 	
 private:
 	FSocket* Socket = nullptr;

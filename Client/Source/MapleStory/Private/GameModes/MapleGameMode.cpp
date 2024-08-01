@@ -34,11 +34,11 @@ void AMapleGameMode::BeginPlay() {
 	Super::BeginPlay();
 	const auto GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
 
-	AvatarType = static_cast<EAvatarType>(GameInstance->PlayerInfoTemp.type());
+	AvatarType = static_cast<EAvatarType>(GameInstance->PlayerInfoTemp.GetValue().type());
 	GameInstance->CurrentPlayer = GetWorld()->SpawnActorDeferred<AMsPlayer>(PlayerClasses[AvatarType], FTransform::Identity);
-	GameInstance->CurrentPlayer->Setup(GameInstance->PlayerInfoTemp);
+	GameInstance->CurrentPlayer->Setup(GameInstance->PlayerInfoTemp.GetValue());
 	GameInstance->CurrentPlayer->FinishSpawning(FTransform::Identity);
-	GameInstance->PlayerInfoTemp.Clear();
+	GameInstance->PlayerInfoTemp.Reset();
 
 	const FIntPoint NewResolution(1920, 1080);
 	GEngine->GameUserSettings->SetScreenResolution(NewResolution);

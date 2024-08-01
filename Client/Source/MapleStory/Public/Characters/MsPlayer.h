@@ -8,6 +8,7 @@
 #include "Data/Enum/EAvatarType.h"
 #include "MsPlayer.generated.h"
 
+class UWidgetComponent;
 class UStatusBarHud;
 class UPlayerStatComponent;
 class APlayerCamera;
@@ -75,6 +76,10 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
     TSoftObjectPtr<UStatusBarHud> StatusBarHud;
 
+protected:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TObjectPtr<UWidgetComponent> NameTagWidget;
+	
 private:
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	class UInputMappingContext* DefaultContext;

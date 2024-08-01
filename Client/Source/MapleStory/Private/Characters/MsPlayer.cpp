@@ -13,6 +13,8 @@
 #include "Characters/PlayerCamera.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/PlayerStatComponent.h"
+#include "Components/TextBlock.h"
+#include "Components/WidgetComponent.h"
 #include "Data/Enum/EPlayerAnimationType.h"
 #include "Data/Enum/ESoundEffectType.h"
 #include "GameFramework/CharacterMovementComponent.h"
@@ -20,6 +22,7 @@
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/SoundManager.h"
+#include "UI/NameTag.h"
 #include "UI/StatusBarHud.h"
 
 
@@ -66,6 +69,17 @@ AMsPlayer::AMsPlayer() {
 		StatusBarHudClass = StatusBarHudFinder.Class;
 	}
 
+	static ConstructorHelpers::FClassFinder<UNameTag> NameTagFinder(TEXT("/Game/UI/Common/WBP_NameTag.WBP_NameTag_C"));
+	if (NameTagFinder.Succeeded()) {
+		NameTagWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("NameTag"));
+		NameTagWidget->SetWidgetClass(NameTagFinder.Class);
+		NameTagWidget->SetWidgetSpace(EWidgetSpace::World);
+		NameTagWidget->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
+		NameTagWidget->SetRelativeLocation(FVector(-2.0f, 0.0f, -50.0f));
+		NameTagWidget->SetBlendMode(EWidgetBlendMode::Transparent);
+		NameTagWidget->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	}
+
 	PlayerStat = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("PlayerStat"));
 }
 
@@ -100,6 +114,12 @@ void AMsPlayer::BeginPlay() {
 		Window->AddToViewport();
 		UpdateStatusBar();
 	}
+
+	if (NameTagWidget) {
+		if (const auto Widget = Cast<UNameTag>(NameTagWidget->GetUserWidgetObject())) {
+			Widget->NameTagText->SetText(FText::FromString(Name));
+		}
+	}
 }
 
 void AMsPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
@@ -133,6 +153,15 @@ void AMsPlayer::Tick(const float DeltaSeconds) {
 		GetSprite()->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 	} else if (MovementComponent->Velocity.X < 0) {
 		GetSprite()->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
+	}
+
+	if(!NameTagWidget) return;
+	if (const auto Widget = Cast<UNameTag>(NameTagWidget->GetUserWidgetObject())) {
+		const auto Size = Widget->GetDesiredSize();
+		
+		if(Size.X > 0 && Size.Y > 0) {
+			NameTagWidget->SetDrawSize(Size);
+		}
 	}
 }
 

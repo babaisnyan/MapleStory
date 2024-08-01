@@ -500,23 +500,23 @@ class GameServerAddPlayer final :
   enum : int {
     kPlayerInfoFieldNumber = 1,
   };
-  // .protocol.PlayerInfo player_info = 1;
+  // .protocol.OtherPlayerInfo player_info = 1;
   bool has_player_info() const;
   private:
   bool _internal_has_player_info() const;
   public:
   void clear_player_info();
-  const ::protocol::PlayerInfo& player_info() const;
-  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::PlayerInfo* release_player_info();
-  ::protocol::PlayerInfo* mutable_player_info();
-  void set_allocated_player_info(::protocol::PlayerInfo* player_info);
+  const ::protocol::OtherPlayerInfo& player_info() const;
+  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::OtherPlayerInfo* release_player_info();
+  ::protocol::OtherPlayerInfo* mutable_player_info();
+  void set_allocated_player_info(::protocol::OtherPlayerInfo* player_info);
   private:
-  const ::protocol::PlayerInfo& _internal_player_info() const;
-  ::protocol::PlayerInfo* _internal_mutable_player_info();
+  const ::protocol::OtherPlayerInfo& _internal_player_info() const;
+  ::protocol::OtherPlayerInfo* _internal_mutable_player_info();
   public:
   void unsafe_arena_set_allocated_player_info(
-      ::protocol::PlayerInfo* player_info);
-  ::protocol::PlayerInfo* unsafe_arena_release_player_info();
+      ::protocol::OtherPlayerInfo* player_info);
+  ::protocol::OtherPlayerInfo* unsafe_arena_release_player_info();
 
   // @@protoc_insertion_point(class_scope:protocol.GameServerAddPlayer)
  private:
@@ -525,7 +525,7 @@ class GameServerAddPlayer final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::protocol::PlayerInfo* player_info_;
+  ::protocol::OtherPlayerInfo* player_info_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fprotocol_2eproto;
 };
@@ -849,24 +849,24 @@ inline void GameServerEnter::set_map_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
 
 // GameServerAddPlayer
 
-// .protocol.PlayerInfo player_info = 1;
+// .protocol.OtherPlayerInfo player_info = 1;
 inline bool GameServerAddPlayer::_internal_has_player_info() const {
   return this != internal_default_instance() && player_info_ != nullptr;
 }
 inline bool GameServerAddPlayer::has_player_info() const {
   return _internal_has_player_info();
 }
-inline const ::protocol::PlayerInfo& GameServerAddPlayer::_internal_player_info() const {
-  const ::protocol::PlayerInfo* p = player_info_;
-  return p != nullptr ? *p : reinterpret_cast<const ::protocol::PlayerInfo&>(
-      ::protocol::_PlayerInfo_default_instance_);
+inline const ::protocol::OtherPlayerInfo& GameServerAddPlayer::_internal_player_info() const {
+  const ::protocol::OtherPlayerInfo* p = player_info_;
+  return p != nullptr ? *p : reinterpret_cast<const ::protocol::OtherPlayerInfo&>(
+      ::protocol::_OtherPlayerInfo_default_instance_);
 }
-inline const ::protocol::PlayerInfo& GameServerAddPlayer::player_info() const {
+inline const ::protocol::OtherPlayerInfo& GameServerAddPlayer::player_info() const {
   // @@protoc_insertion_point(field_get:protocol.GameServerAddPlayer.player_info)
   return _internal_player_info();
 }
 inline void GameServerAddPlayer::unsafe_arena_set_allocated_player_info(
-    ::protocol::PlayerInfo* player_info) {
+    ::protocol::OtherPlayerInfo* player_info) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(player_info_);
   }
@@ -878,35 +878,35 @@ inline void GameServerAddPlayer::unsafe_arena_set_allocated_player_info(
   }
   // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.GameServerAddPlayer.player_info)
 }
-inline ::protocol::PlayerInfo* GameServerAddPlayer::release_player_info() {
+inline ::protocol::OtherPlayerInfo* GameServerAddPlayer::release_player_info() {
   
-  ::protocol::PlayerInfo* temp = player_info_;
+  ::protocol::OtherPlayerInfo* temp = player_info_;
   player_info_ = nullptr;
   if (GetArenaForAllocation() != nullptr) {
     temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
   }
   return temp;
 }
-inline ::protocol::PlayerInfo* GameServerAddPlayer::unsafe_arena_release_player_info() {
+inline ::protocol::OtherPlayerInfo* GameServerAddPlayer::unsafe_arena_release_player_info() {
   // @@protoc_insertion_point(field_release:protocol.GameServerAddPlayer.player_info)
   
-  ::protocol::PlayerInfo* temp = player_info_;
+  ::protocol::OtherPlayerInfo* temp = player_info_;
   player_info_ = nullptr;
   return temp;
 }
-inline ::protocol::PlayerInfo* GameServerAddPlayer::_internal_mutable_player_info() {
+inline ::protocol::OtherPlayerInfo* GameServerAddPlayer::_internal_mutable_player_info() {
   
   if (player_info_ == nullptr) {
-    auto* p = CreateMaybeMessage<::protocol::PlayerInfo>(GetArenaForAllocation());
+    auto* p = CreateMaybeMessage<::protocol::OtherPlayerInfo>(GetArenaForAllocation());
     player_info_ = p;
   }
   return player_info_;
 }
-inline ::protocol::PlayerInfo* GameServerAddPlayer::mutable_player_info() {
+inline ::protocol::OtherPlayerInfo* GameServerAddPlayer::mutable_player_info() {
   // @@protoc_insertion_point(field_mutable:protocol.GameServerAddPlayer.player_info)
   return _internal_mutable_player_info();
 }
-inline void GameServerAddPlayer::set_allocated_player_info(::protocol::PlayerInfo* player_info) {
+inline void GameServerAddPlayer::set_allocated_player_info(::protocol::OtherPlayerInfo* player_info) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
     delete reinterpret_cast< ::PROTOBUF_NAMESPACE_ID::MessageLite*>(player_info_);
