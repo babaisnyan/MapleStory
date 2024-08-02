@@ -174,6 +174,8 @@
     <ClCompile Include="data\item_provider.cpp" />
     <ClCompile Include="data\templates\item_template.cpp" />
     <ClCompile Include="game\basic_stat.cpp" />
+    <ClCompile Include="game\map\map_instance.cpp" />
+    <ClCompile Include="game\map\map_manager.cpp" />
     <ClCompile Include="game\objects\game_object.cpp" />
     <ClCompile Include="game\objects\player\player.cpp" />
     <ClCompile Include="game\player_manager.cpp" />
@@ -245,6 +247,8 @@
     <ClInclude Include="data\item_provider.h" />
     <ClInclude Include="data\templates\item_template.h" />
     <ClInclude Include="game\basic_stat.h" />
+    <ClInclude Include="game\map\map_instance.h" />
+    <ClInclude Include="game\map\map_manager.h" />
     <ClInclude Include="game\ms_coordinate.h" />
     <ClInclude Include="game\objects\game_object.h" />
     <ClInclude Include="game\objects\player\player.h" />

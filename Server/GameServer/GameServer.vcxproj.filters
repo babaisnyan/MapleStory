@@ -84,6 +84,12 @@
     <ClCompile Include="game\objects\player\player.cpp">
       <Filter>game\objects\player</Filter>
     </ClCompile>
+    <ClCompile Include="game\map\map_instance.cpp">
+      <Filter>game\map</Filter>
+    </ClCompile>
+    <ClCompile Include="game\map\map_manager.cpp">
+      <Filter>game\map</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -171,6 +177,12 @@
     <ClInclude Include="game\ms_coordinate.h">
       <Filter>game</Filter>
     </ClInclude>
+    <ClInclude Include="game\map\map_instance.h">
+      <Filter>game\map</Filter>
+    </ClInclude>
+    <ClInclude Include="game\map\map_manager.h">
+      <Filter>game\map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="network">
@@ -211,6 +223,9 @@
     </Filter>
     <Filter Include="game\objects\player">
       <UniqueIdentifier>{4787d6e9-a6c1-44ad-a0a4-296da5369699}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\map">
+      <UniqueIdentifier>{d94d5c81-46e7-421e-8b32-75661aaa0cb7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

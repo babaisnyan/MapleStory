@@ -8,7 +8,9 @@
 
 Player::Player(const int32_t id): _id(id), _player_stat(std::make_shared<PlayerStat>()) {}
 
-void Player::OnEnter() {}
+void Player::OnEnter() {
+  // TODO: 기타 정보 보내주기
+}
 
 void Player::Update(float delta_time) {}
 

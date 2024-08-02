@@ -1,8 +1,6 @@
 ﻿#pragma once
 #include "game/objects/game_object.h"
 
-#include "network/game/game_session.h"
-
 namespace game {
   class PlayerStat;
 
