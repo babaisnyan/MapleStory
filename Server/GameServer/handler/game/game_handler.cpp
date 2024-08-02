@@ -2,6 +2,7 @@
 #include "game_handler.h"
 
 #include "game/player_manager.h"
+#include "game/objects/player/player.h"
 
 #include "migration/auth_storage.h"
 
@@ -25,11 +26,14 @@ void GameHandler::HandleClientEnter(PacketSessionRef session, protocol::GameClie
 
 
   AuthStorage::GetInstance().Remove(packet.character_id());
-  const auto player = PlayerManager::GetInstance().AddPlayer(packet.character_id(), game_session);
+  auto player = std::make_shared<Player>(packet.character_id());
 
-  if (player.has_value()) {
-    game_session->SetPlayerId(packet.character_id());
-    const auto response = GamePacketCreator::GetClientEnterSuccessResponse(player.value());
+  if (player->TryLoadFromDb()) {
+    game_session->SetPlayer(player);
+    const auto response = GamePacketCreator::GetClientEnterSuccessResponse(player);
     game_session->Send(response);
+    player->OnEnter();
+  } else {
+    // TODO: 오류 메시지 전송
   }
 }

@@ -2,8 +2,8 @@
 #include "game_packet_creator.h"
 #include "game_client_packet_handler.h"
 
-#include "game/player.h"
 #include "game/player_stat.h"
+#include "game/objects/player/player.h"
 
 #include "network/protocol/game_protocol.pb.h"
 
@@ -29,7 +29,7 @@ SendBufferRef GamePacketCreator::GetClientEnterSuccessResponse(const std::shared
     player_info->set_name(name.value());
     player_info->set_type(player->GetType());
     player_info->set_level(player->GetStat()->GetLevel());
-    player_info->set_exp(player->GetExp());
+    player_info->set_exp(player->GetStat()->GetExp());
     player_info->set_meso(player->GetMeso());
     player_info->set_hp(player->GetStat()->GetHp());
     player_info->set_mp(player->GetStat()->GetMp());
@@ -39,6 +39,10 @@ SendBufferRef GamePacketCreator::GetClientEnterSuccessResponse(const std::shared
     player_info->set_dex(player->GetStat()->GetDex());
     player_info->set_int_(player->GetStat()->GetInt());
     player_info->set_luk(player->GetStat()->GetLuk());
+    player_info->set_x(player->GetPosition().x);
+    player_info->set_y(player->GetPosition().y);
+    player_info->set_ap(player->GetStat()->GetAp());
+    player_info->set_sp(player->GetStat()->GetSp());
   }
 
   const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(packet);

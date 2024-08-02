@@ -16,7 +16,7 @@ message GameServerEnter {
 }
 
 message GameServerAddPlayer {
-  PlayerInfo player_info = 1;
+  OtherPlayerInfo player_info = 1;
 }
 
 message GameServerChangeMap {

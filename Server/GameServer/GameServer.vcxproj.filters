@@ -57,9 +57,6 @@
     <ClCompile Include="handler\center\center_manager.cpp">
       <Filter>handler\center</Filter>
     </ClCompile>
-    <ClCompile Include="game\player.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
     <ClCompile Include="migration\auth_storage.cpp">
       <Filter>migration</Filter>
     </ClCompile>
@@ -80,6 +77,12 @@
     </ClCompile>
     <ClCompile Include="game\player_stat.cpp">
       <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\objects\game_object.cpp">
+      <Filter>game\objects</Filter>
+    </ClCompile>
+    <ClCompile Include="game\objects\player\player.cpp">
+      <Filter>game\objects\player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -138,9 +141,6 @@
     <ClInclude Include="handler\center\center_manager.h">
       <Filter>handler\center</Filter>
     </ClInclude>
-    <ClInclude Include="game\player.h">
-      <Filter>game</Filter>
-    </ClInclude>
     <ClInclude Include="migration\auth_storage.h">
       <Filter>migration</Filter>
     </ClInclude>
@@ -160,6 +160,15 @@
       <Filter>game</Filter>
     </ClInclude>
     <ClInclude Include="game\player_stat.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\objects\game_object.h">
+      <Filter>game\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="game\objects\player\player.h">
+      <Filter>game\objects\player</Filter>
+    </ClInclude>
+    <ClInclude Include="game\ms_coordinate.h">
       <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
@@ -196,6 +205,12 @@
     </Filter>
     <Filter Include="data\templates">
       <UniqueIdentifier>{8d515af5-dee1-433c-be39-3f00008ef0c5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\objects">
+      <UniqueIdentifier>{96203afa-58a6-4535-99a1-63fac4f165ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\objects\player">
+      <UniqueIdentifier>{4787d6e9-a6c1-44ad-a0a4-296da5369699}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

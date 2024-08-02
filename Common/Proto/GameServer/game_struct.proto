@@ -18,7 +18,22 @@ message PlayerInfo {
   int32 dex = 12;
   int32 luk = 13;
   int32 int = 14;
-  repeated ItemInfo items = 15;
+  int32 x = 15;
+  int32 y = 16;
+  int32 ap = 17;
+  int32 sp = 18;
+  repeated ItemInfo items = 19;
+}
+
+message OtherPlayerInfo {
+  int32 id = 1;
+  string name = 2;
+  int32 type = 3;
+  int32 level = 4;
+  int32 hp = 5;
+  int32 max_hp = 6;
+  int32 x = 7;
+  int32 y = 8;
 }
 
 message ItemInfo {

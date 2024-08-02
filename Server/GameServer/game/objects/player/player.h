@@ -1,37 +1,39 @@
 ﻿#pragma once
+#include "game/objects/game_object.h"
+
 #include "network/game/game_session.h"
 
 namespace game {
   class PlayerStat;
 
-  class Player {
+  class Player final : public GameObject {
   public:
-    Player(const int32_t id, const int32_t account_id, String name, int8_t type);
+    explicit Player(const int32_t id);
+    ~Player() override = default;
 
+    void OnEnter() override;
+    void Update(float delta_time) override;
+    void UpdatePosition(int16_t x, int16_t y);
+
+  public:
     int32_t GetId() const;
-
     int32_t GetAccountId() const;
-
     const String& GetName() const;
-
     int8_t GetType() const;
-
     int16_t GetJob() const;
     void SetJob(int16_t job);
-
-    int32_t GetExp() const;
-    void SetExp(int32_t exp);
-
     int32_t GetMeso() const;
     void SetMeso(int32_t meso);
-
     int32_t GetMap() const;
     void SetMap(int32_t map);
 
-    const GameSessionRef& GetSession() const;
-    void SetSession(const GameSessionRef& shared);
+    const MsCoordinate& GetPosition() const;
 
     std::shared_ptr<PlayerStat> GetStat() const;
+
+  public:
+    bool TryLoadFromDb();
+    bool TrySaveToDb();
 
   private:
     int32_t _id = 0;
@@ -39,11 +41,9 @@ namespace game {
     String _name;
     int8_t _type = 0;
     int16_t _job = 0;
-    int32_t _exp = 0;
     int32_t _meso = 0;
     int32_t _map = 0;
+    MsCoordinate _position = {};
     std::shared_ptr<PlayerStat> _player_stat = nullptr;
-
-    GameSessionRef _session;
   };
 }

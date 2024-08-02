@@ -11,6 +11,7 @@
 #endif
 
 #include "core_pch.h"
+#include "game/ms_coordinate.h"
 
 #include <nlohmann/json.hpp>
 
@@ -28,3 +29,5 @@ namespace game {
 
 using namespace game;
 using namespace nlohmann;
+
+inline std::atomic<int64_t> next_object_id;

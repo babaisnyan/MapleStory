@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include "network/game/game_session.h"
 
 namespace game {
   class Player;
@@ -12,12 +11,9 @@ namespace game {
     }
 
   public:
-    std::optional<std::shared_ptr<Player>> AddPlayer(const int32_t player_id, const GameSessionRef& session);
+    void AddPlayer(const std::shared_ptr<Player>& player);
     void RemovePlayer(int32_t player_id);
     std::optional<std::shared_ptr<Player>> Find(int32_t player_id) const;
-
-  private:
-    std::optional<std::shared_ptr<Player>> LoadPlayer(const int32_t player_id) const;
 
   private:
     tbb::concurrent_hash_map<int32_t, std::shared_ptr<Player>> _players;

@@ -126,10 +126,10 @@ const char descriptor_table_protodef_game_5fprotocol_2eproto[] PROTOBUF_SECTION_
   "\030\002 \001(\005\"\202\001\n\017GameServerEnter\022\017\n\007success\030\001 "
   "\001(\010\022.\n\013player_info\030\002 \001(\0132\024.protocol.Play"
   "erInfoH\000\210\001\001\022\023\n\006map_id\030\003 \001(\005H\001\210\001\001B\016\n\014_pla"
-  "yer_infoB\t\n\007_map_id\"@\n\023GameServerAddPlay"
-  "er\022)\n\013player_info\030\001 \001(\0132\024.protocol.Playe"
-  "rInfo\"%\n\023GameServerChangeMap\022\016\n\006map_id\030\001"
-  " \001(\005b\006proto3"
+  "yer_infoB\t\n\007_map_id\"E\n\023GameServerAddPlay"
+  "er\022.\n\013player_info\030\001 \001(\0132\031.protocol.Other"
+  "PlayerInfo\"%\n\023GameServerChangeMap\022\016\n\006map"
+  "_id\030\001 \001(\005b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_game_5fprotocol_2eproto_deps[2] = {
   &::descriptor_table_game_5fenum_2eproto,
@@ -137,7 +137,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_5fprotocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fprotocol_2eproto = {
-  false, false, 372, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
+  false, false, 377, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
   &descriptor_table_game_5fprotocol_2eproto_once, descriptor_table_game_5fprotocol_2eproto_deps, 2, 4,
   schemas, file_default_instances, TableStruct_game_5fprotocol_2eproto::offsets,
   file_level_metadata_game_5fprotocol_2eproto, file_level_enum_descriptors_game_5fprotocol_2eproto, file_level_service_descriptors_game_5fprotocol_2eproto,
@@ -660,10 +660,10 @@ void GameServerEnter::InternalSwap(GameServerEnter* other) {
 
 class GameServerAddPlayer::_Internal {
  public:
-  static const ::protocol::PlayerInfo& player_info(const GameServerAddPlayer* msg);
+  static const ::protocol::OtherPlayerInfo& player_info(const GameServerAddPlayer* msg);
 };
 
-const ::protocol::PlayerInfo&
+const ::protocol::OtherPlayerInfo&
 GameServerAddPlayer::_Internal::player_info(const GameServerAddPlayer* msg) {
   return *msg->player_info_;
 }
@@ -683,7 +683,7 @@ GameServerAddPlayer::GameServerAddPlayer(const GameServerAddPlayer& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   if (from._internal_has_player_info()) {
-    player_info_ = new ::protocol::PlayerInfo(*from.player_info_);
+    player_info_ = new ::protocol::OtherPlayerInfo(*from.player_info_);
   } else {
     player_info_ = nullptr;
   }
@@ -734,7 +734,7 @@ const char* GameServerAddPlayer::_InternalParse(const char* ptr, ::PROTOBUF_NAME
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .protocol.PlayerInfo player_info = 1;
+      // .protocol.OtherPlayerInfo player_info = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
           ptr = ctx->ParseMessage(_internal_mutable_player_info(), ptr);
@@ -770,7 +770,7 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .protocol.PlayerInfo player_info = 1;
+  // .protocol.OtherPlayerInfo player_info = 1;
   if (this->has_player_info()) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
@@ -794,7 +794,7 @@ size_t GameServerAddPlayer::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .protocol.PlayerInfo player_info = 1;
+  // .protocol.OtherPlayerInfo player_info = 1;
   if (this->has_player_info()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
@@ -833,7 +833,7 @@ void GameServerAddPlayer::MergeFrom(const GameServerAddPlayer& from) {
   (void) cached_has_bits;
 
   if (from.has_player_info()) {
-    _internal_mutable_player_info()->::protocol::PlayerInfo::MergeFrom(from._internal_player_info());
+    _internal_mutable_player_info()->::protocol::OtherPlayerInfo::MergeFrom(from._internal_player_info());
   }
 }
 

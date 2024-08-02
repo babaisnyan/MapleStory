@@ -134,7 +134,7 @@ void AMsPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 void AMsPlayer::Tick(const float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
-
+	
 	const UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
 
 	if (MovementComponent->Velocity.Length() > 0) {

@@ -7,6 +7,16 @@
 #include "game/player_manager.h"
 
 
+int32_t GameSession::GetSessionId() const { return _session_id; }
+
+std::shared_ptr<Player> GameSession::GetPlayer() {
+  return _player;
+}
+
+void GameSession::SetPlayer(const std::shared_ptr<Player>& player) {
+  _player = player;
+}
+
 void GameSession::OnConnected() {
   GameSessionManager::GetInstance().Add(std::static_pointer_cast<GameSession>(shared_from_this()));
   std::cout << "GameSession Connected\n";
