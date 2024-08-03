@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "game_struct.pb.h"
 #include "Data/Enum/EAvatarType.h"
 
 #include "GameFramework/GameModeBase.h"
@@ -21,12 +22,15 @@ public:
 
 protected:
 	virtual void BeginPlay() override;
-	
-	
+	void AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo);
+
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Avatar")
 	EAvatarType AvatarType = EAvatarType::GoTalk;
 
 private:
 	TMap<EAvatarType, TSubclassOf<AMsPlayer>> PlayerClasses = {};
+
+	UPROPERTY(VisibleAnywhere, Category = "Player")
+	TMap<int32, TObjectPtr<AMsPlayer>> OtherPlayers = {};
 };

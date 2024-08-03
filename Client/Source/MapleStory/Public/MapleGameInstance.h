@@ -49,8 +49,10 @@ public:
 public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeLoginState(ELoginState NewState);
-
+	
 	void ChangeMap(int32 NewMapId);
+
+	void AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo);
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)

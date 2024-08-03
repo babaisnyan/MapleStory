@@ -6,6 +6,7 @@
 #include "Sockets.h"
 #include "Characters/MsPlayer.h"
 #include "Common/TcpSocketBuilder.h"
+#include "GameModes/MapleGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Network/GameServerPacketHandler.h"
 #include "Network/LoginServerPacketHandler.h"
@@ -143,4 +144,12 @@ void UMapleGameInstance::ChangeLoginState(const ELoginState NewState) {
 void UMapleGameInstance::ChangeMap(const int32 NewMapId) {
 	MapId = NewMapId;
 	UGameplayStatics::OpenLevel(GetWorld(), *FString::Printf(TEXT("/Game/Maps/MAP_%d"), NewMapId));
+}
+
+void UMapleGameInstance::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo) {
+	const AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (GameMode) {
+		GameMode->AddPlayer(OtherPlayerInfo);
+	}
 }

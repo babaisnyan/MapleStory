@@ -44,3 +44,10 @@ void AMapleGameMode::BeginPlay() {
 	GEngine->GameUserSettings->SetScreenResolution(NewResolution);
 	GEngine->GameUserSettings->ApplyResolutionSettings(false);
 }
+
+void AMapleGameMode::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo) {
+	const auto OtherPlayer = GetWorld()->SpawnActorDeferred<AMsPlayer>(PlayerClasses[static_cast<EAvatarType>(OtherPlayerInfo.type())], FTransform::Identity);
+	OtherPlayer->Setup(OtherPlayerInfo);
+	OtherPlayer->FinishSpawning(FTransform::Identity);
+	OtherPlayers.Emplace(OtherPlayerInfo.id(), OtherPlayer);
+}

@@ -4,12 +4,15 @@
 #include "database/db_bind.h"
 #include "database/db_connection_pool.h"
 #include "game/player_stat.h"
+#include "game/map/map_instance.h"
+#include "game/map/map_manager.h"
 
 
 Player::Player(const int32_t id): _id(id), _player_stat(std::make_shared<PlayerStat>()) {}
 
 void Player::OnEnter() {
   // TODO: 기타 정보 보내주기
+
 }
 
 void Player::Update(float delta_time) {}
