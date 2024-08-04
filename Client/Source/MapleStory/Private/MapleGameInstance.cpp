@@ -4,7 +4,6 @@
 
 #include "SocketSubsystem.h"
 #include "Sockets.h"
-#include "Characters/MsPlayer.h"
 #include "Common/TcpSocketBuilder.h"
 #include "GameModes/MapleGameMode.h"
 #include "Kismet/GameplayStatics.h"
@@ -147,7 +146,7 @@ void UMapleGameInstance::ChangeMap(const int32 NewMapId) {
 }
 
 void UMapleGameInstance::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo) {
-	const AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	 AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 
 	if (GameMode) {
 		GameMode->AddPlayer(OtherPlayerInfo);

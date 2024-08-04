@@ -177,6 +177,11 @@
 			"Name": "RenameTool",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/c6e227383f754209ab1eeb294aa0f6d6"
+		},
+		{
+			"Name": "ViewportWidget",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/be8d734ad69c4bf286e9d190e3b4ca3e"
 		}
 	],
 	"TargetPlatforms": [

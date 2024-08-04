@@ -1,8 +1,8 @@
 
 #include "Characters/PlayerCamera.h"
-#include "Characters/MsPlayer.h"
 
 #include "Camera/CameraComponent.h"
+#include "Characters/MsLocalPlayer.h"
 
 #include "GameFramework/SpringArmComponent.h"
 
@@ -24,6 +24,7 @@ APlayerCamera::APlayerCamera() {
 	Camera->SetProjectionMode(ECameraProjectionMode::Orthographic);
 	Camera->SetOrthoWidth(1304);
 	Camera->SetAutoCalculateOrthoPlanes(false);
+	Camera->SetOrthoNearClipPlane(-10000.0f);
 
 	const ConstructorHelpers::FObjectFinder<UCurveFloat> CurveFinder(TEXT("/Script/Engine.CurveFloat'/Game/Misc/C_CameraPosition.C_CameraPosition'"));
 

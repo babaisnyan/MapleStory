@@ -10,6 +10,7 @@
 
 #include "MapleGameInstance.generated.h"
 
+class AMsLocalPlayer;
 class AMsPlayer;
 class FPacketSession;
 
@@ -65,7 +66,7 @@ public:
 	int32 MapId = 0;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	TObjectPtr<AMsPlayer> CurrentPlayer;
+	TObjectPtr<AMsLocalPlayer> CurrentPlayer;
 	
 	TOptional<protocol::PlayerInfo> PlayerInfoTemp = TOptional<protocol::PlayerInfo>();
 	

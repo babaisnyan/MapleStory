@@ -1,26 +1,21 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "PaperZDAnimInstance.h"
 #include "MsAnimInstance.generated.h"
 
+class AMsPlayerBase;
 class UPawnMovementComponent;
-class AMsPlayer;
-/**
- * 
- */
+
 UCLASS()
 class MAPLESTORY_API UMsAnimInstance : public UPaperZDAnimInstance {
 	GENERATED_BODY()
 
 public:
 	virtual void Tick(float DeltaTime) override;
-	
 
 	UPROPERTY(BlueprintReadWrite)
-	TObjectPtr<AMsPlayer> Player;
+	TObjectPtr<AMsPlayerBase> Player;
 
 	UPROPERTY(BlueprintReadWrite, Category = Movement)
 	TObjectPtr<UPawnMovementComponent> MovementComponent;
