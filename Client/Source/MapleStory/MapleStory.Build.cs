@@ -14,7 +14,7 @@ public class MapleStory : ModuleRules
 			"Core", "CoreUObject", "Engine", "InputCore", "Paper2D",
 			"GameplayAbilities", "GameplayTags", "GameplayTasks", "Json", "JsonUtilities",
 			"EnhancedInput", "UMG", "Slate", "SlateCore", "PaperZD",
-			"Sockets", "Networking"
+			"Sockets", "Networking", "TcpSocketPlugin"
 		});
 
 		PrivateDependencyModuleNames.AddRange(new[] {"ProtobufCore", "PaperFlipbookWidget"});

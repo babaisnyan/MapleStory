@@ -49,18 +49,18 @@ void ALoginGameMode::Delete() {
 }
 
 void ALoginGameMode::CreateCharacter(const FString Name, EAvatarType Avatar) {
-	const UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
+	const TObjectPtr<UMapleGameInstance> GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
 	if (!GameInstance) return;
 	
 	if (Name.IsEmpty()) {
-		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
+		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(GameInstance, WindowClass);
 		Window->ErrorCode = 5;
 		Window->AddToViewport();
 		return;
 	}
 
 	if (Name.Len() > 8) {
-		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
+		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(GameInstance, WindowClass);
 		Window->ErrorCode = 5;
 		Window->AddToViewport();
 		return;

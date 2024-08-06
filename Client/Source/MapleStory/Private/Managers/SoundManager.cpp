@@ -7,6 +7,7 @@
 
 
 USoundManager::USoundManager() {
+	#if WITH_EDITOR
 	TObjectPtr<UEnum> SoundEffectEnum = StaticEnum<ESoundEffectType>();
 
 	if (SoundEffectEnum) {
@@ -20,6 +21,7 @@ USoundManager::USoundManager() {
 			}
 		}
 	}
+	#endif
 }
 
 

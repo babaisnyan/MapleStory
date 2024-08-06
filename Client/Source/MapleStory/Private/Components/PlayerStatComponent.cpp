@@ -9,6 +9,8 @@ void UPlayerStatComponent::BeginPlay() {
 }
 
 void UPlayerStatComponent::Setup(const protocol::PlayerInfo& Info) {
+	bIsLocalPlayer = true;
+
 	Level = Info.level();
 	Hp = Info.hp();
 	MaxHp = Info.max_hp();
@@ -19,4 +21,10 @@ void UPlayerStatComponent::Setup(const protocol::PlayerInfo& Info) {
 	Int = Info.int_();
 	Luk = Info.luk();
 	Exp = Info.exp();
+}
+
+void UPlayerStatComponent::Setup(const protocol::OtherPlayerInfo& Info) {
+	Level = Info.level();
+	Hp = Info.hp();
+	MaxHp = Info.max_hp();
 }

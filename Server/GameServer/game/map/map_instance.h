@@ -16,6 +16,7 @@ namespace game {
     bool AddPlayer(const std::shared_ptr<GameSession>& session);
     bool RemovePlayer(int32_t player_id);
     std::optional<std::shared_ptr<GameSession>> GetPlayer(int32_t player_id) const;
+    std::unordered_map<int32_t, std::shared_ptr<GameSession>> GetPlayers() const;
 
     template <typename T> requires std::is_base_of_v<google::protobuf::Message, T>
     void BroadCast(T message, const int32_t self_player_id);

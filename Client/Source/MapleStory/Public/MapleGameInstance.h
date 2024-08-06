@@ -3,13 +3,13 @@
 #include "CoreMinimal.h"
 #include "MapleStory.h"
 #include "game_struct.pb.h"
-#include "Data/Enum/EAvatarType.h"
 
 #include "Data/Enum/ELoginState.h"
 #include "Engine/GameInstance.h"
 
 #include "MapleGameInstance.generated.h"
 
+class UTCPClientComponent;
 class AMsLocalPlayer;
 class AMsPlayer;
 class FPacketSession;
@@ -25,35 +25,45 @@ public:
 			PlayerInfoTemp = TOptional<protocol::PlayerInfo>();
 		}
 	}
+
+	virtual void Init() override;
+	virtual void BeginDestroy() override;
 	
 public:
 	UFUNCTION(BlueprintCallable)
-	bool ConnectToLoginServer();
+	void ConnectToLoginServer();
 
 	UFUNCTION(BlueprintCallable)
 	void DisconnectFromServer();
 
-	bool ConnectToGameServer(const FString& IpAddress, int16 Port);
+	void ConnectToGameServer(const FString& IpAddress, int16 Port);
 
-	UFUNCTION(BlueprintCallable)
-	void DisconnectFromGameServer();
-
+	void EnqueueSendPacket(const FSendBufferRef& SendBuffer);
+	void ClearSendQueue();
 	void SendPacket(const FSendBufferRef& SendBuffer) const;
-
-	UFUNCTION(BlueprintCallable)
-	void HandleRecvPackets() const;
-
+	
 	virtual void Shutdown() override;
 
-	void QuitGame();
+	void QuitGame() const;
 
 public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeLoginState(ELoginState NewState);
-	
 	void ChangeMap(int32 NewMapId);
+	void AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo) const;
 
-	void AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo);
+private:
+	UFUNCTION()
+	void OnLoginServerConnected();
+
+	UFUNCTION()
+	void OnReceivedBytesLogin(const TArray<uint8>& Bytes);
+
+	UFUNCTION()
+	void OnGameServerConnected();
+
+	UFUNCTION()
+	void OnReceivedBytesGame(const TArray<uint8>& Bytes);
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -64,16 +74,18 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	int32 MapId = 0;
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<AMsLocalPlayer> CurrentPlayer;
 	
 	TOptional<protocol::PlayerInfo> PlayerInfoTemp = TOptional<protocol::PlayerInfo>();
-	
+
 private:
-	FSocket* Socket = nullptr;
+	UPROPERTY()
+	TObjectPtr<UTCPClientComponent> Client;
+
+	TQueue<FSendBufferRef> SendQueue;
+
 	FString LoginIpAddress = TEXT("127.0.0.1");
 	int16 LoginPort = 7777;
-
-	TSharedPtr<FPacketSession> Session;
 };

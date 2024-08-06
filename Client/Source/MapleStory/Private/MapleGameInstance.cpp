@@ -1,113 +1,68 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #include "MapleGameInstance.h"
 
-#include "SocketSubsystem.h"
-#include "Sockets.h"
-#include "Common/TcpSocketBuilder.h"
 #include "GameModes/MapleGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Network/GameServerPacketHandler.h"
 #include "Network/LoginServerPacketHandler.h"
-#include "Network/PacketSession.h"
+#include "Network/TCPClientComponent.h"
 
-bool UMapleGameInstance::ConnectToLoginServer() {
-	Socket = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateSocket(TEXT("Stream"), TEXT("Login Client Socket"));
-	Socket->SetNoDelay(true);
+void UMapleGameInstance::Init() {
+	Super::Init();
 
-	FIPv4Address Ip;
-	FIPv4Address::Parse(LoginIpAddress, Ip);
+	const auto WeakThis = MakeWeakObjectPtr(this);
+	FLoginServerPacketHandler::Init(WeakThis);
+	FGameServerPacketHandler::Init(WeakThis);
+}
 
-	const TSharedRef<FInternetAddr> Address = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
-	Address->SetIp(Ip.Value);
-	Address->SetPort(LoginPort);
+void UMapleGameInstance::BeginDestroy() {
+	Super::BeginDestroy();
 
-	const bool bConnected = Socket->Connect(*Address);
-
-	if (bConnected) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Connected to Login Server"));
-
-		FLoginServerPacketHandler::Init(this);
-		FGameServerPacketHandler::Init(this);
-
-		Session = MakeShared<FPacketSession>(Socket, EServerType::Login);
-		Session->Run();
-	} else {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Failed to connect to Login Server"));
+	if (bIsConnected) {
+		DisconnectFromServer();
 	}
+}
 
-	bIsConnected = bConnected;
-
-	return bConnected;
+void UMapleGameInstance::ConnectToLoginServer() {
+	Client = NewObject<UTCPClientComponent>();
+	Client->bAutoReconnectOnSendFailure = false;
+	Client->bReceiveDataOnGameThread = true;
+	Client->bShouldAutoConnectOnBeginPlay = false;
+	Client->OnConnected.AddDynamic(this, &UMapleGameInstance::OnLoginServerConnected);
+	Client->OnReceivedBytes.AddDynamic(this, &UMapleGameInstance::OnReceivedBytesLogin);
+	Client->ConnectToSocketAsClient(LoginIpAddress, LoginPort);
 }
 
 void UMapleGameInstance::DisconnectFromServer() {
 	bIsConnected = false;
-
-	if (Session) {
-		Session->Disconnect();
-		Session.Reset();
-		Session = nullptr;
-	}
-
-	if (Socket) {
-		Socket->Close();
-
-		ISocketSubsystem* SocketSubsystem = ISocketSubsystem::Get();
-		SocketSubsystem->DestroySocket(Socket);
-		Socket = nullptr;
-	}
+	Client->CloseSocket();
 }
 
-bool UMapleGameInstance::ConnectToGameServer(const FString& IpAddress, const int16 Port) {
+void UMapleGameInstance::ConnectToGameServer(const FString& IpAddress, const int16 Port) {
 	DisconnectFromServer();
-	
-	Socket = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateSocket(TEXT("Stream"), TEXT("Game Client Socket"));
-	Socket->SetNoDelay(true);
 
-	FIPv4Address Ip;
-	FIPv4Address::Parse(IpAddress, Ip);
-
-	const TSharedRef<FInternetAddr> Address = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
-	Address->SetIp(Ip.Value);
-	Address->SetPort(Port);
-
-	const bool bConnected = Socket->Connect(*Address);
-
-	if (bConnected) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, TEXT("Connected to Game Server"));
-		
-		Session = MakeShared<FPacketSession>(Socket, EServerType::Game);
-		Session->Run();
-	} else {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Failed to connect to Game Server"));
-	}
-
-	bIsConnected = bConnected;
-
-	return bConnected;
+	Client = NewObject<UTCPClientComponent>();
+	Client->bAutoReconnectOnSendFailure = false;
+	Client->bReceiveDataOnGameThread = true;
+	Client->bShouldAutoConnectOnBeginPlay = false;
+	Client->OnConnected.AddDynamic(this, &UMapleGameInstance::OnGameServerConnected);
+	Client->OnReceivedBytes.AddDynamic(this, &UMapleGameInstance::OnReceivedBytesGame);
+	Client->ConnectToSocketAsClient(IpAddress, Port);
 }
 
-void UMapleGameInstance::DisconnectFromGameServer() {
-	if (Socket) {
-		ISocketSubsystem* SocketSubsystem = ISocketSubsystem::Get();
-		SocketSubsystem->DestroySocket(Socket);
-		Socket = nullptr;
-		Session = nullptr;
-	}
+void UMapleGameInstance::EnqueueSendPacket(const FSendBufferRef& SendBuffer) {
+	SendQueue.Enqueue(SendBuffer);
+}
+
+void UMapleGameInstance::ClearSendQueue() {
+	SendQueue.Empty();
 }
 
 void UMapleGameInstance::SendPacket(const FSendBufferRef& SendBuffer) const {
-	if (Socket == nullptr || Session == nullptr)
+	if (Client == nullptr || !SendBuffer.IsValid() || !Client->IsConnected()) {
 		return;
+	}
 
-	Session->SendPacket(SendBuffer);
-}
-
-void UMapleGameInstance::HandleRecvPackets() const {
-	if (!Socket || !Session) return;
-
-	Session->HandleRecvPackets();
+	Client->Emit(SendBuffer->GetBufferArray());
 }
 
 void UMapleGameInstance::Shutdown() {
@@ -116,7 +71,7 @@ void UMapleGameInstance::Shutdown() {
 	Super::Shutdown();
 }
 
-void UMapleGameInstance::QuitGame() {
+void UMapleGameInstance::QuitGame() const {
 	const UWorld* World = GetWorld();
 	if (World) {
 		APlayerController* PlayerController = World->GetFirstPlayerController();
@@ -128,16 +83,6 @@ void UMapleGameInstance::QuitGame() {
 
 void UMapleGameInstance::ChangeLoginState(const ELoginState NewState) {
 	LoginState = NewState;
-
-	// switch (NewState) {
-	// 	case ELoginState::Login:
-	// 		break;
-	// 	case ELoginState::CharacterSelection:
-	// 		break;
-	// 	case ELoginState::InGame:
-	// 		UGameplayStatics::OpenLevel(GetWorld(), TEXT("/Game/Maps/MAP_Test"));
-	// 		break;
-	// }
 }
 
 void UMapleGameInstance::ChangeMap(const int32 NewMapId) {
@@ -145,10 +90,40 @@ void UMapleGameInstance::ChangeMap(const int32 NewMapId) {
 	UGameplayStatics::OpenLevel(GetWorld(), *FString::Printf(TEXT("/Game/Maps/MAP_%d"), NewMapId));
 }
 
-void UMapleGameInstance::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo) {
-	 AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+void UMapleGameInstance::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo) const {
+	AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 
 	if (GameMode) {
 		GameMode->AddPlayer(OtherPlayerInfo);
 	}
+}
+
+void UMapleGameInstance::OnLoginServerConnected() {
+	Client->OnConnected.RemoveDynamic(this, &UMapleGameInstance::OnLoginServerConnected);
+	bIsConnected = true;
+
+	while (!SendQueue.IsEmpty()) {
+		FSendBufferRef SendBuffer;
+		SendQueue.Dequeue(SendBuffer);
+		SendPacket(SendBuffer);
+	}
+}
+
+void UMapleGameInstance::OnReceivedBytesLogin(const TArray<uint8>& Bytes) {
+	FLoginServerPacketHandler::HandlePacket(Client, Bytes.GetData(), Bytes.Num());
+}
+
+void UMapleGameInstance::OnGameServerConnected() {
+	Client->OnConnected.RemoveDynamic(this, &UMapleGameInstance::OnGameServerConnected);
+	bIsConnected = true;
+
+	while (!SendQueue.IsEmpty()) {
+		FSendBufferRef SendBuffer;
+		SendQueue.Dequeue(SendBuffer);
+		SendPacket(SendBuffer);
+	}
+}
+
+void UMapleGameInstance::OnReceivedBytesGame(const TArray<uint8>& Bytes) {
+	FGameServerPacketHandler::HandlePacket(Client, Bytes.GetData(), Bytes.Num());
 }

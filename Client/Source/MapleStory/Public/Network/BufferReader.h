@@ -16,7 +16,7 @@ public:
   template <typename T>
   bool Peek(T* Dest) { return Peek(Dest, sizeof(T)); }
 
-  bool Peek(void* Dest, uint32_t Len);
+  bool Peek(void* Dest, uint32_t Len) const;
 
   template <typename T>
   bool Read(T* Dest) { return Read(Dest, sizeof(T)); }

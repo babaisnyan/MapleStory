@@ -17,7 +17,6 @@ namespace login {
     PKT_LOGINCLIENTCREATECHARACTER = 2007,
     PKT_LOGINSERVERCREATECHARACTER = 2008,
     PKT_LOGINSERVERCHARSELECTRESULT = 2009,
-    PKT_LOGINSERVERCHAT = 2010,
   };
 
   bool HandleLoginInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
@@ -79,9 +78,6 @@ namespace login {
     }
     static SendBufferRef MakeSendBuffer(const protocol::LoginServerCharSelectResult& packet) { 
       return MakeSendBufferInternal(packet, PKT_LOGINSERVERCHARSELECTRESULT); 
-    }
-    static SendBufferRef MakeSendBuffer(const protocol::LoginServerChat& packet) { 
-      return MakeSendBufferInternal(packet, PKT_LOGINSERVERCHAT); 
     }
 
   private:

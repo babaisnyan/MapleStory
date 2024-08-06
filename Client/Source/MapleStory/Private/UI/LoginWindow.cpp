@@ -1,13 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "UI/LoginWindow.h"
 
 #include "MapleGameInstance.h"
-#include "login_protocol.pb.h"
 #include "Components/EditableTextBox.h"
 #include "Kismet/GameplayStatics.h"
-#include "Network/LoginServerPacketHandler.h"
 #include "Network/PacketCreator.h"
 
 bool ULoginWindow::TryLogin() {
@@ -15,14 +10,6 @@ bool ULoginWindow::TryLogin() {
 
 	if (!GameInstance) {
 		return false;
-	}
-
-	if (!GameInstance->bIsConnected) {
-		const bool bConnected = GameInstance->ConnectToLoginServer();
-
-		if (!bConnected) {
-			return false;
-		}
 	}
 
 	if (!UsernameTextBox || !PasswordTextBox) {
@@ -36,9 +23,14 @@ bool ULoginWindow::TryLogin() {
 		return false;
 	}
 
-	const auto SendBuffer = FPacketCreator::GetLoginRequest(Username, Password);
-	GameInstance->SendPacket(SendBuffer);
+	if (GameInstance->bIsConnected) {
+		GameInstance->DisconnectFromServer();
+	}
 
+	const auto SendBuffer = FPacketCreator::GetLoginRequest(Username, Password);
+	GameInstance->ClearSendQueue();
+	GameInstance->EnqueueSendPacket(SendBuffer);
+	GameInstance->ConnectToLoginServer();
 	PasswordTextBox->SetText(FText::FromString(TEXT("")));
 	return true;
 }

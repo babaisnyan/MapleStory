@@ -11,12 +11,12 @@
 #include "UI/ChooseCharNameWindow.h"
 #include "UI/LoginMessageWindow.h"
 
-bool HandleLoginInvalid(FPacketSessionRef& Session, uint8* Buffer, const int32 Len) {
+bool FLoginServerPacketHandler::HandleLoginInvalid(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
 	GEngine->AddOnScreenDebugMessage(-1, 3.f, FColor::Red, TEXT("Invalid packet received"));
 	return false;
 }
 
-bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::LoginServerLogin& Packet) {
+bool FLoginServerPacketHandler::HandleLoginServerLogin(const TObjectPtr<UTCPClientComponent>& Client, const protocol::LoginServerLogin& Packet) {
 	static auto WindowClass = StaticLoadClass(ULoginMessageWindow::StaticClass(), nullptr, TEXT("/Game/UI/Login/WB_LoginNotice.WB_LoginNotice_C"));
 
 	if (!WindowClass) {
@@ -24,19 +24,15 @@ bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::Lo
 	}
 
 	if (Packet.result() == protocol::LOGIN_RESULT_SUCCESS) {
-		if (!FLoginServerPacketHandler::GameInstance) {
-			return false;
-		}
-
-		const UWorld* World = FLoginServerPacketHandler::GameInstance->GetWorld();
+		const UWorld* World = GameInstance->GetWorld();
 		if (!World) {
 			return false;
 		}
 
 		const auto SendBuffer = FPacketCreator::GetCharacterListRequest();
-		FLoginServerPacketHandler::GameInstance->SendPacket(SendBuffer);
+		GameInstance->SendPacket(SendBuffer);
 	} else {
-		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
+		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(GameInstance.Get(), WindowClass);
 
 		switch (Packet.result()) {
 			case protocol::LOGIN_RESULT_INVALID_USERNAME:
@@ -59,12 +55,8 @@ bool HandleLoginServerLogin(const FPacketSessionRef& Session, const protocol::Lo
 	return true;
 }
 
-bool HandleLoginServerCharacterList(const FPacketSessionRef& Session, const protocol::LoginServerCharacterList& Packet) {
-	if (!FLoginServerPacketHandler::GameInstance) {
-		return false;
-	}
-
-	const UWorld* World = FLoginServerPacketHandler::GameInstance->GetWorld();
+bool FLoginServerPacketHandler::HandleLoginServerCharacterList(const TObjectPtr<UTCPClientComponent>& Client, const protocol::LoginServerCharacterList& Packet) {
+	const UWorld* World = GameInstance->GetWorld();
 	if (!World) {
 		return false;
 	}
@@ -85,7 +77,7 @@ bool HandleLoginServerCharacterList(const FPacketSessionRef& Session, const prot
 	}
 
 	LoginController->LoginWindow->SetVisibility(ESlateVisibility::Hidden);
-	FLoginServerPacketHandler::GameInstance->ChangeLoginState(ELoginState::CharacterSelection);
+	GameInstance->ChangeLoginState(ELoginState::CharacterSelection);
 
 	if (Packet.characters_size() == 0) return true;
 
@@ -107,14 +99,10 @@ bool HandleLoginServerCharacterList(const FPacketSessionRef& Session, const prot
 	return true;
 }
 
-bool HandleLoginServerDeleteCharacter(const FPacketSessionRef& Session, const protocol::LoginServerDeleteCharacter& Packet) {
+bool FLoginServerPacketHandler::HandleLoginServerDeleteCharacter(const TObjectPtr<UTCPClientComponent>& Client, const protocol::LoginServerDeleteCharacter& Packet) {
 	static auto WindowClass = StaticLoadClass(ULoginMessageWindow::StaticClass(), nullptr, TEXT("/Game/UI/Login/WB_LoginNotice.WB_LoginNotice_C"));
 
-	if (!FLoginServerPacketHandler::GameInstance) {
-		return false;
-	}
-
-	const UWorld* World = FLoginServerPacketHandler::GameInstance->GetWorld();
+	const UWorld* World = GameInstance->GetWorld();
 	if (!World) {
 		return false;
 	}
@@ -127,7 +115,7 @@ bool HandleLoginServerDeleteCharacter(const FPacketSessionRef& Session, const pr
 	if (Packet.success()) {
 		GameMode->DeleteCharacter(Packet.character_id());
 	} else {
-		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
+		ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(GameInstance.Get(), WindowClass);
 		Window->ErrorCode = 4;
 		Window->AddToViewport();
 	}
@@ -135,12 +123,8 @@ bool HandleLoginServerDeleteCharacter(const FPacketSessionRef& Session, const pr
 	return true;
 }
 
-bool HandleLoginServerCreateCharacter(const FPacketSessionRef& Session, const protocol::LoginServerCreateCharacter& Packet) {
-	if (!FLoginServerPacketHandler::GameInstance) {
-		return false;
-	}
-
-	UWorld* World = FLoginServerPacketHandler::GameInstance->GetWorld();
+bool FLoginServerPacketHandler::HandleLoginServerCreateCharacter(const TObjectPtr<UTCPClientComponent>& Client, const protocol::LoginServerCreateCharacter& Packet) {
+	UWorld* World = GameInstance->GetWorld();
 	if (!World) {
 		return false;
 	}
@@ -151,7 +135,7 @@ bool HandleLoginServerCreateCharacter(const FPacketSessionRef& Session, const pr
 	}
 
 	static auto WindowClass = StaticLoadClass(ULoginMessageWindow::StaticClass(), nullptr, TEXT("/Game/UI/Login/WB_LoginNotice.WB_LoginNotice_C"));
-	ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
+	ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(GameInstance.Get(), WindowClass);
 
 	switch (Packet.result()) {
 		case protocol::CREATE_CHAR_RESULT_SUCCESS:
@@ -166,7 +150,7 @@ bool HandleLoginServerCreateCharacter(const FPacketSessionRef& Session, const pr
 					GameMode->LoginCharacters.Add(Packet.character());
 
 					FoundWidgets[0]->RemoveFromParent();
-					FLoginServerPacketHandler::GameInstance->ChangeLoginState(ELoginState::CharacterSelection);
+					GameInstance->ChangeLoginState(ELoginState::CharacterSelection);
 				}
 			}
 			break;
@@ -189,13 +173,9 @@ bool HandleLoginServerCreateCharacter(const FPacketSessionRef& Session, const pr
 	return true;
 }
 
-bool HandleLoginServerCharSelectResult(const FPacketSessionRef& Session, const protocol::LoginServerCharSelectResult& Packet) {
-	if (!FLoginServerPacketHandler::GameInstance) {
-		return false;
-	}
-
+bool FLoginServerPacketHandler::HandleLoginServerCharSelectResult(const TObjectPtr<UTCPClientComponent>& Client, const protocol::LoginServerCharSelectResult& Packet) {
 	static auto WindowClass = StaticLoadClass(ULoginMessageWindow::StaticClass(), nullptr, TEXT("/Game/UI/Login/WB_LoginNotice.WB_LoginNotice_C"));
-	ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(FLoginServerPacketHandler::GameInstance, WindowClass);
+	ULoginMessageWindow* Window = CreateWidget<ULoginMessageWindow>(GameInstance.Get(), WindowClass);
 
 	if (Packet.result() == protocol::SELECT_CHAR_RESULT_SUCCESS) {
 		if (!Packet.has_ip() || !Packet.has_port() || !Packet.has_auth_key()) {
@@ -205,20 +185,11 @@ bool HandleLoginServerCharSelectResult(const FPacketSessionRef& Session, const p
 		}
 
 		const FString IpAddress = UTF8_TO_TCHAR(Packet.ip().c_str());
-
-		if (!FLoginServerPacketHandler::GameInstance->ConnectToGameServer(IpAddress, Packet.port())) {
-			FLoginServerPacketHandler::GameInstance->QuitGame();
-		} else {
-			const auto SendBuffer = FPacketCreator::GetClientEnterRequest(Packet.character_id(), Packet.auth_key());
-			FLoginServerPacketHandler::GameInstance->SendPacket(SendBuffer);
-		}
+		const auto SendBuffer = FPacketCreator::GetClientEnterRequest(Packet.character_id(), Packet.auth_key());
+		GameInstance->ClearSendQueue();
+		GameInstance->EnqueueSendPacket(SendBuffer);
+		GameInstance->ConnectToGameServer(IpAddress, Packet.port());
 	}
 
-	return true;
-}
-
-bool HandleLoginServerChat(const FPacketSessionRef& Session, const protocol::LoginServerChat& Packet) {
-	const auto Message = Packet.message();
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Green, FString::Printf(TEXT("Chat: %s"), *FString(Message.c_str())));
 	return true;
 }

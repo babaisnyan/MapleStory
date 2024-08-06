@@ -50,7 +50,3 @@ message LoginServerCharSelectResult {
   optional int32 auth_key = 4;
   optional int32 character_id = 5;
 }
-
-message LoginServerChat {
-  string message = 1;
-}

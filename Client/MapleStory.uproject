@@ -182,6 +182,11 @@
 			"Name": "ViewportWidget",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/be8d734ad69c4bf286e9d190e3b4ca3e"
+		},
+		{
+			"Name": "TcpSocketPlugin",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/462c2952e71c4548ae324cb624c74aa6"
 		}
 	],
 	"TargetPlatforms": [

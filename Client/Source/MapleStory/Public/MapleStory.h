@@ -8,6 +8,7 @@ public:
 	~FSendBuffer() = default;
 
 	uint8* GetBuffer() { return Buffer.GetData(); }
+	TArray<uint8>& GetBufferArray() { return Buffer; }
 	int32 GetWriteSize() const { return WriteSize; }
 	int32 GetCapacity() const { return Buffer.Num(); }
 
@@ -20,8 +21,6 @@ private:
 
 #define DECLARE_SHARED_PTR(name) using name##Ref = TSharedPtr<class name>;
 
-DECLARE_SHARED_PTR(FSession);
-DECLARE_SHARED_PTR(FPacketSession);
 DECLARE_SHARED_PTR(FSendBuffer);
 
 #define SEND_LOGIN_PACKET(Packet) \

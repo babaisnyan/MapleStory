@@ -25,16 +25,18 @@ AMsPlayerBase::AMsPlayerBase() {
 		NameTagWidget->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
 		NameTagWidget->SetRelativeLocation(FVector(0.0f, 10.0f, -50.0f));
 		NameTagWidget->SetCollisionProfileName(TEXT("NoCollision"));
+		NameTagWidget->SetSimulatePhysics(false);
 		NameTagWidget->SetBlendMode(EWidgetBlendMode::Transparent);
+		NameTagWidget->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		NameTagWidget->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	}
 
 	const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
 	if (Capsule) {
 		Capsule->SetCapsuleSize(16.0f, 33.0f);
-
 		Capsule->SetCollisionProfileName(TEXT("Player"));
 		Capsule->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+		Capsule->SetSimulatePhysics(true);
 	}
 
 	const TObjectPtr<UCharacterMovementComponent> Movement = GetCharacterMovement();
@@ -75,7 +77,7 @@ void AMsPlayerBase::Setup(const protocol::PlayerInfo& Info) {
 }
 
 void AMsPlayerBase::Setup(const protocol::OtherPlayerInfo& Info) {
-	// PlayerStat->Setup(Info);
+	PlayerStat->Setup(Info);
 	AvatarType = static_cast<EAvatarType>(Info.type());
 	Name = UTF8_TO_TCHAR(Info.name().c_str());
 	InitAnimation();

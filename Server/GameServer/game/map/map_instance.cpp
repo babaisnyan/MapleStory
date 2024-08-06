@@ -43,4 +43,8 @@ std::optional<std::shared_ptr<GameSession>> MapInstance::GetPlayer(const int32_t
   return std::nullopt;
 }
 
+std::unordered_map<int32_t, std::shared_ptr<GameSession>> MapInstance::GetPlayers() const {
+  return _players;
+}
+
 int32_t MapInstance::GetMapId() const noexcept { return _map_id; }

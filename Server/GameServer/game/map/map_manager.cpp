@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 #include "map_manager.h"
 
+#include "map_instance.h"
+
 MapManager::MapManager() {
   LoadMaps();
 }
@@ -19,4 +21,6 @@ std::unordered_map<int32_t, std::shared_ptr<MapInstance>> MapManager::GetAllMapI
   return _map_instances;
 }
 
-void MapManager::LoadMaps() {}
+void MapManager::LoadMaps() {
+  _map_instances.emplace(0, std::make_shared<MapInstance>(0));
+}

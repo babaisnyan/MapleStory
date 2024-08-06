@@ -5,6 +5,7 @@
 #include "InputActionValue.h"
 #include "InputMappingContext.h"
 #include "Characters/PlayerCamera.h"
+#include "Components/CapsuleComponent.h"
 #include "Components/PlayerStatComponent.h"
 #include "Data/Enum/ESoundEffectType.h"
 #include "GameFramework/PawnMovementComponent.h"
@@ -35,6 +36,11 @@ AMsLocalPlayer::AMsLocalPlayer() {
 	static ConstructorHelpers::FClassFinder<UStatusBarHud> StatusBarHudFinder(TEXT("/Game/UI/HUD/WB_StatusBar.WB_StatusBar_C"));
 	if (StatusBarHudFinder.Succeeded()) {
 		StatusBarHudClass = StatusBarHudFinder.Class;
+	}
+	
+	const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
+	if (Capsule) {
+		Capsule->SetSimulatePhysics(false);
 	}
 }
 

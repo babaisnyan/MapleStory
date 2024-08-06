@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "game_handler.h"
 
+#include "game/player_stat.h"
 #include "game/map/map_instance.h"
 #include "game/map/map_manager.h"
 #include "game/objects/player/player.h"
@@ -43,7 +44,36 @@ void GameHandler::HandleClientEnter(PacketSessionRef session, protocol::GameClie
       return;
     }
 
-    map.value()->AddPlayer(game_session);
+    for (auto&& value : map.value()->GetPlayers()) {
+      const auto info = value.second->GetPlayer();
+      protocol::GameServerAddPlayer add_player;
+      const auto player_info = add_player.mutable_player_info();
+      player_info->set_id(info->GetId());
+      player_info->set_name(utils::ConvertToUtf8(info->GetName()).value());
+      player_info->set_type(info->GetType());
+      player_info->set_level(info->GetStat()->GetLevel());
+      player_info->set_hp(info->GetStat()->GetHp());
+      player_info->set_max_hp(info->GetStat()->GetMaxHp());
+      player_info->set_x(0);
+      player_info->set_y(0);
+
+      const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(add_player);
+      game_session->Send(send_buffer);
+    }
+
+    if (map.value()->AddPlayer(game_session)) {
+      protocol::GameServerAddPlayer add_player;
+      const auto info = add_player.mutable_player_info();
+      info->set_id(player->GetId());
+      info->set_name(utils::ConvertToUtf8(player->GetName()).value());
+      info->set_type(player->GetType());
+      info->set_level(player->GetStat()->GetLevel());
+      info->set_hp(player->GetStat()->GetHp());
+      info->set_max_hp(player->GetStat()->GetMaxHp());
+      info->set_x(0);
+      info->set_y(0);
+      map.value()->BroadCast(add_player, player->GetId());
+    }
   } else {
     // TODO: 오류 메시지 전송
   }

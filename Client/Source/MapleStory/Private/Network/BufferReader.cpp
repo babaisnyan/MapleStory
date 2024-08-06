@@ -7,7 +7,7 @@ BufferReader::BufferReader(std::byte* Buffer, const uint32_t Size, const uint32_
 
 BufferReader::~BufferReader() {}
 
-bool BufferReader::Peek(void* Dest, const uint32_t Len) {
+bool BufferReader::Peek(void* Dest, const uint32_t Len) const {
   if (GetRemainSize() < Len) {
     return false;
   }

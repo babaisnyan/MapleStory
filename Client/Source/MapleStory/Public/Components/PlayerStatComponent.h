@@ -17,11 +17,15 @@ public:
 	UPlayerStatComponent();
 
 	void Setup(const protocol::PlayerInfo& Info);
+	void Setup(const protocol::OtherPlayerInfo& Info);
 
 protected:
 	virtual void BeginPlay() override;
 
 public:
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Info")
+	bool bIsLocalPlayer = false;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
 	int32 Str = 0;
 
