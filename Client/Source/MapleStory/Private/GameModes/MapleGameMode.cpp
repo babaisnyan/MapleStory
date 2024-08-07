@@ -20,6 +20,18 @@ void AMapleGameMode::BeginPlay() {
 	GameInstance->CurrentPlayer->FinishSpawning(FTransform::Identity);
 	GameInstance->PlayerInfoTemp.Reset();
 
+	while (!GameInstance->OtherPlayersQueue.IsEmpty()) {
+		protocol::OtherPlayerInfo OtherPlayerInfo;
+		GameInstance->OtherPlayersQueue.Dequeue(OtherPlayerInfo);
+		AddPlayer(OtherPlayerInfo);
+	}
+
+	while (!GameInstance->RemovePlayerQueue.IsEmpty()) {
+		int32 PlayerId;
+		GameInstance->RemovePlayerQueue.Dequeue(PlayerId);
+		RemovePlayer(PlayerId);
+	}
+
 	// const FIntPoint NewResolution(1920, 1080);
 	// GEngine->GameUserSettings->SetScreenResolution(NewResolution);
 	// GEngine->GameUserSettings->ApplyResolutionSettings(false);
@@ -30,4 +42,11 @@ void AMapleGameMode::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo)
 	OtherPlayer->Setup(OtherPlayerInfo);
 	OtherPlayer->FinishSpawning(FTransform::Identity);
 	OtherPlayers.Emplace(OtherPlayerInfo.id(), OtherPlayer);
+}
+
+void AMapleGameMode::RemovePlayer(const int32 PlayerId) {
+	if (OtherPlayers.Contains(PlayerId)) {
+		OtherPlayers[PlayerId]->Destroy();
+		OtherPlayers.Remove(PlayerId);
+	}
 }

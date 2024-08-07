@@ -15,12 +15,16 @@ class FGameServerPacketHandler {
 		PKT_GAMECLIENTENTER = 3000,
 		PKT_GAMESERVERENTER = 3001,
 		PKT_GAMESERVERADDPLAYER = 3002,
-		PKT_GAMESERVERCHANGEMAP = 3003,
+		PKT_GAMESERVERREMOVEPLAYER = 3003,
+		PKT_GAMESERVERREMOVEOBJECT = 3004,
+		PKT_GAMESERVERCHANGEMAP = 3005,
 	};
 
 	static bool HandleGameInvalid(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len);
 	static bool HandleGameServerEnter(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerEnter& Packet);
 	static bool HandleGameServerAddPlayer(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerAddPlayer& Packet);
+	static bool HandleGameServerRemovePlayer(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerRemovePlayer& Packet);
+	static bool HandleGameServerRemoveObject(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerRemoveObject& Packet);
 	static bool HandleGameServerChangeMap(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerChangeMap& Packet);
 
 public:
@@ -36,6 +40,12 @@ public:
 		};
 		PacketHandlers[PKT_GAMESERVERADDPLAYER] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
 			return HandlePacket<protocol::GameServerAddPlayer>(HandleGameServerAddPlayer, Client, Buffer, Len);
+		};
+		PacketHandlers[PKT_GAMESERVERREMOVEPLAYER] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
+			return HandlePacket<protocol::GameServerRemovePlayer>(HandleGameServerRemovePlayer, Client, Buffer, Len);
+		};
+		PacketHandlers[PKT_GAMESERVERREMOVEOBJECT] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
+			return HandlePacket<protocol::GameServerRemoveObject>(HandleGameServerRemoveObject, Client, Buffer, Len);
 		};
 		PacketHandlers[PKT_GAMESERVERCHANGEMAP] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
 			return HandlePacket<protocol::GameServerChangeMap>(HandleGameServerChangeMap, Client, Buffer, Len);

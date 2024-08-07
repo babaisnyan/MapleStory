@@ -48,3 +48,11 @@ SendBufferRef GamePacketCreator::GetClientEnterSuccessResponse(const std::shared
   const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(packet);
   return send_buffer;
 }
+
+SendBufferRef GamePacketCreator::GetPlayerLeaveResponse(const int32_t int32) {
+  protocol::GameServerRemovePlayer packet;
+  packet.set_player_id(int32);
+
+  const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(packet);
+  return send_buffer;
+}

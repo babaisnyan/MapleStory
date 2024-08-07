@@ -18,7 +18,8 @@ public:
 	AMapleGameMode();
 
 	void AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo);
-	
+	void RemovePlayer(int32 PlayerId);
+
 protected:
 	virtual void BeginPlay() override;
 

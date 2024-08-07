@@ -3,6 +3,8 @@
 
 #include "game/objects/player/player.h"
 
+#include "network/game/game_packet_creator.h"
+
 MapInstance::MapInstance(const int32_t map_id) : _map_id(map_id) {}
 
 bool MapInstance::AddPlayer(const std::shared_ptr<GameSession>& session) {
@@ -27,7 +29,9 @@ bool MapInstance::RemovePlayer(const int32_t player_id) {
   if (removed) {
     _objects.erase(player.value()->GetPlayer()->GetObjectId());
 
-    //TODO: 패킷 전송
+    protocol::GameServerRemovePlayer message;
+    message.set_player_id(player_id);
+    BroadCast(message, player_id);
   }
 
   return removed;

@@ -49,7 +49,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Animation")
 	EPlayerAnimationType AnimationType;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category = "Avatar")
 	EAvatarType AvatarType;
 
@@ -58,6 +58,12 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stat")
 	TObjectPtr<UPlayerStatComponent> PlayerStat;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Info")
+	int32 X;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Info")
+	int32 Y;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")

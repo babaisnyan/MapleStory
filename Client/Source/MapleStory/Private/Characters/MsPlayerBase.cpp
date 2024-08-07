@@ -55,11 +55,12 @@ AMsPlayerBase::AMsPlayerBase() {
 void AMsPlayerBase::BeginPlay() {
 	Super::BeginPlay();
 
-	// TODO: 서버에서 보내준 플레이어 스폰 위치로 이동
 	const TObjectPtr<AActor> PlayerStart = UGameplayStatics::GetActorOfClass(GetWorld(), APlayerStart::StaticClass());
 
 	if (PlayerStart) {
-		SetActorLocation(PlayerStart->GetActorLocation());
+		const FVector SpawnPointLocation = PlayerStart->GetActorLocation();
+		const FVector SpawnLocation = FVector(SpawnPointLocation.X + X, SpawnPointLocation.Y, SpawnPointLocation.Z + Y + 5);
+		SetActorLocation(SpawnLocation);
 	}
 
 	if (NameTagWidget) {
@@ -73,6 +74,8 @@ void AMsPlayerBase::Setup(const protocol::PlayerInfo& Info) {
 	PlayerStat->Setup(Info);
 	AvatarType = static_cast<EAvatarType>(Info.type());
 	Name = UTF8_TO_TCHAR(Info.name().c_str());
+	X = Info.x();
+	Y = Info.y();
 	InitAnimation();
 }
 
@@ -80,6 +83,8 @@ void AMsPlayerBase::Setup(const protocol::OtherPlayerInfo& Info) {
 	PlayerStat->Setup(Info);
 	AvatarType = static_cast<EAvatarType>(Info.type());
 	Name = UTF8_TO_TCHAR(Info.name().c_str());
+	X = Info.x();
+	Y = Info.y();
 	InitAnimation();
 }
 

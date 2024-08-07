@@ -9,7 +9,9 @@ namespace game {
     PKT_GAMECLIENTENTER = 3000,
     PKT_GAMESERVERENTER = 3001,
     PKT_GAMESERVERADDPLAYER = 3002,
-    PKT_GAMESERVERCHANGEMAP = 3003,
+    PKT_GAMESERVERREMOVEPLAYER = 3003,
+    PKT_GAMESERVERREMOVEOBJECT = 3004,
+    PKT_GAMESERVERCHANGEMAP = 3005,
   };
 
   bool HandleGameInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
@@ -46,6 +48,12 @@ namespace game {
     }
     static SendBufferRef MakeSendBuffer(const protocol::GameServerAddPlayer& packet) { 
       return MakeSendBufferInternal(packet, PKT_GAMESERVERADDPLAYER); 
+    }
+    static SendBufferRef MakeSendBuffer(const protocol::GameServerRemovePlayer& packet) { 
+      return MakeSendBufferInternal(packet, PKT_GAMESERVERREMOVEPLAYER); 
+    }
+    static SendBufferRef MakeSendBuffer(const protocol::GameServerRemoveObject& packet) { 
+      return MakeSendBufferInternal(packet, PKT_GAMESERVERREMOVEOBJECT); 
     }
     static SendBufferRef MakeSendBuffer(const protocol::GameServerChangeMap& packet) { 
       return MakeSendBufferInternal(packet, PKT_GAMESERVERCHANGEMAP); 

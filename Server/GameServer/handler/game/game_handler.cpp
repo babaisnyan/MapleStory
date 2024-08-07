@@ -54,8 +54,8 @@ void GameHandler::HandleClientEnter(PacketSessionRef session, protocol::GameClie
       player_info->set_level(info->GetStat()->GetLevel());
       player_info->set_hp(info->GetStat()->GetHp());
       player_info->set_max_hp(info->GetStat()->GetMaxHp());
-      player_info->set_x(0);
-      player_info->set_y(0);
+      player_info->set_x(info->GetPosition().x);
+      player_info->set_y(info->GetPosition().y);
 
       const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(add_player);
       game_session->Send(send_buffer);
@@ -70,8 +70,8 @@ void GameHandler::HandleClientEnter(PacketSessionRef session, protocol::GameClie
       info->set_level(player->GetStat()->GetLevel());
       info->set_hp(player->GetStat()->GetHp());
       info->set_max_hp(player->GetStat()->GetMaxHp());
-      info->set_x(0);
-      info->set_y(0);
+      info->set_x(player->GetPosition().x);
+      info->set_y(player->GetPosition().y);
       map.value()->BroadCast(add_player, player->GetId());
     }
   } else {

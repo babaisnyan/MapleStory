@@ -24,11 +24,13 @@ public:
 			PlayerInfoTemp.Reset();
 			PlayerInfoTemp = TOptional<protocol::PlayerInfo>();
 		}
+
+		OtherPlayersQueue.Empty();
 	}
 
 	virtual void Init() override;
 	virtual void BeginDestroy() override;
-	
+
 public:
 	UFUNCTION(BlueprintCallable)
 	void ConnectToLoginServer();
@@ -41,7 +43,7 @@ public:
 	void EnqueueSendPacket(const FSendBufferRef& SendBuffer);
 	void ClearSendQueue();
 	void SendPacket(const FSendBufferRef& SendBuffer) const;
-	
+
 	virtual void Shutdown() override;
 
 	void QuitGame() const;
@@ -50,7 +52,8 @@ public:
 	UFUNCTION(BlueprintCallable)
 	void ChangeLoginState(ELoginState NewState);
 	void ChangeMap(int32 NewMapId);
-	void AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo) const;
+	void AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo);
+	void RemovePlayer(int32 PlayerId);
 
 private:
 	UFUNCTION()
@@ -77,8 +80,11 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<AMsLocalPlayer> CurrentPlayer;
-	
+
 	TOptional<protocol::PlayerInfo> PlayerInfoTemp = TOptional<protocol::PlayerInfo>();
+
+	TQueue<protocol::OtherPlayerInfo> OtherPlayersQueue;
+	TQueue<int32> RemovePlayerQueue;
 
 private:
 	UPROPERTY()

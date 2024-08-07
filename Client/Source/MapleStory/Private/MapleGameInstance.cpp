@@ -66,8 +66,6 @@ void UMapleGameInstance::SendPacket(const FSendBufferRef& SendBuffer) const {
 }
 
 void UMapleGameInstance::Shutdown() {
-	DisconnectFromServer();
-
 	Super::Shutdown();
 }
 
@@ -90,11 +88,24 @@ void UMapleGameInstance::ChangeMap(const int32 NewMapId) {
 	UGameplayStatics::OpenLevel(GetWorld(), *FString::Printf(TEXT("/Game/Maps/MAP_%d"), NewMapId));
 }
 
-void UMapleGameInstance::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo) const {
+void UMapleGameInstance::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo) {
 	AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 
 	if (GameMode) {
 		GameMode->AddPlayer(OtherPlayerInfo);
+	} else {
+		protocol::OtherPlayerInfo OtherPlayerInfoCopy = OtherPlayerInfo;
+		OtherPlayersQueue.Enqueue(OtherPlayerInfoCopy);
+	}
+}
+
+void UMapleGameInstance::RemovePlayer(const int32 PlayerId) {
+	AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (GameMode) {
+		GameMode->RemovePlayer(PlayerId);
+	} else {
+		RemovePlayerQueue.Enqueue(PlayerId);
 	}
 }
 

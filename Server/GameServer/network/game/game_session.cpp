@@ -5,6 +5,9 @@
 #include "game_session_manager.h"
 
 #include "game/player_manager.h"
+#include "game/map/map_instance.h"
+#include "game/map/map_manager.h"
+#include "game/objects/player/player.h"
 
 
 int32_t GameSession::GetSessionId() const { return _session_id; }
@@ -15,6 +18,7 @@ std::shared_ptr<Player> GameSession::GetPlayer() {
 
 void GameSession::SetPlayer(const std::shared_ptr<Player>& player) {
   _player = player;
+  _player_id = player->GetId();
 }
 
 void GameSession::OnConnected() {
@@ -28,6 +32,11 @@ void GameSession::OnDisconnected() {
   }
 
   GameSessionManager::GetInstance().Remove(std::static_pointer_cast<GameSession>(shared_from_this()));
+
+  const auto map = MapManager::GetInstance().GetMapInstance(_player->GetMap());
+  if (map.has_value()) {
+    map.value()->RemovePlayer(_player_id);
+  }
 
   std::cout << "GameSession Disconnected\n";
 }

@@ -37,7 +37,7 @@ AMsLocalPlayer::AMsLocalPlayer() {
 	if (StatusBarHudFinder.Succeeded()) {
 		StatusBarHudClass = StatusBarHudFinder.Class;
 	}
-	
+
 	const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
 	if (Capsule) {
 		Capsule->SetSimulatePhysics(false);
@@ -48,6 +48,7 @@ void AMsLocalPlayer::BeginPlay() {
 	Super::BeginPlay();
 
 	SoundManager = GetGameInstance()->GetSubsystem<USoundManager>();
+	AddActorWorldOffset(FVector(0.0f, 1.0f, 0.0f));
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetWorld()->GetFirstPlayerController())) {
 		auto* InputSystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer());
@@ -81,7 +82,7 @@ void AMsLocalPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	}
 }
 
-void AMsLocalPlayer::Tick(float DeltaSeconds) {
+void AMsLocalPlayer::Tick(const float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
 }
 
@@ -89,6 +90,9 @@ void AMsLocalPlayer::EnhancedMoveHorizontal(const FInputActionValue& Value) {
 	const FVector2D AxisValue = Value.Get<FVector2D>();
 	AnimationType = EPlayerAnimationType::Run;
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), AxisValue.X);
+
+	const FVector ActorLocation = GetActorLocation();
+	UE_LOG(LogTemp, Display, TEXT("X: %f, Z(Y): %f"), ActorLocation.X, ActorLocation.Z);
 }
 
 void AMsLocalPlayer::EnhancedMoveVertical(const FInputActionValue& Value) {
