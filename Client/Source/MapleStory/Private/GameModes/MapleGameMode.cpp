@@ -35,6 +35,7 @@ void AMapleGameMode::BeginPlay() {
 	// const FIntPoint NewResolution(1920, 1080);
 	// GEngine->GameUserSettings->SetScreenResolution(NewResolution);
 	// GEngine->GameUserSettings->ApplyResolutionSettings(false);
+	GEngine->Exec(GetWorld(), TEXT("r.setRes 1920x1080w"));
 }
 
 void AMapleGameMode::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo) {

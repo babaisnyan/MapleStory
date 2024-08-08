@@ -16,7 +16,7 @@ message GameServerEnter {
 }
 
 message GameServerAddPlayer {
-  OtherPlayerInfo player_info = 1;
+  repeated OtherPlayerInfo player_infos = 1;
 }
 
 message GameServerRemovePlayer {
@@ -29,4 +29,11 @@ message GameServerRemoveObject {
 
 message GameServerChangeMap {
   int32 map_id = 1;
+}
+
+message GameClientPlayerMove {
+}
+
+message GameServerPlayerMove {
+
 }

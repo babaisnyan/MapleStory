@@ -46,7 +46,7 @@ struct GameServerEnterDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameServerEnterDefaultTypeInternal _GameServerEnter_default_instance_;
 constexpr GameServerAddPlayer::GameServerAddPlayer(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : player_info_(nullptr){}
+  : player_infos_(){}
 struct GameServerAddPlayerDefaultTypeInternal {
   constexpr GameServerAddPlayerDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -121,7 +121,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fprotocol_2eproto::offse
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::protocol::GameServerAddPlayer, player_info_),
+  PROTOBUF_FIELD_OFFSET(::protocol::GameServerAddPlayer, player_infos_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::protocol::GameServerRemovePlayer, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -166,12 +166,12 @@ const char descriptor_table_protodef_game_5fprotocol_2eproto[] PROTOBUF_SECTION_
   "\030\002 \001(\005\"\202\001\n\017GameServerEnter\022\017\n\007success\030\001 "
   "\001(\010\022.\n\013player_info\030\002 \001(\0132\024.protocol.Play"
   "erInfoH\000\210\001\001\022\023\n\006map_id\030\003 \001(\005H\001\210\001\001B\016\n\014_pla"
-  "yer_infoB\t\n\007_map_id\"E\n\023GameServerAddPlay"
-  "er\022.\n\013player_info\030\001 \001(\0132\031.protocol.Other"
-  "PlayerInfo\"+\n\026GameServerRemovePlayer\022\021\n\t"
-  "player_id\030\001 \001(\005\"+\n\026GameServerRemoveObjec"
-  "t\022\021\n\tobject_id\030\001 \001(\003\"%\n\023GameServerChange"
-  "Map\022\016\n\006map_id\030\001 \001(\005b\006proto3"
+  "yer_infoB\t\n\007_map_id\"F\n\023GameServerAddPlay"
+  "er\022/\n\014player_infos\030\001 \003(\0132\031.protocol.Othe"
+  "rPlayerInfo\"+\n\026GameServerRemovePlayer\022\021\n"
+  "\tplayer_id\030\001 \001(\005\"+\n\026GameServerRemoveObje"
+  "ct\022\021\n\tobject_id\030\001 \001(\003\"%\n\023GameServerChang"
+  "eMap\022\016\n\006map_id\030\001 \001(\005b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_game_5fprotocol_2eproto_deps[2] = {
   &::descriptor_table_game_5fenum_2eproto,
@@ -179,7 +179,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_5fprotocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fprotocol_2eproto = {
-  false, false, 467, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
+  false, false, 468, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
   &descriptor_table_game_5fprotocol_2eproto_once, descriptor_table_game_5fprotocol_2eproto_deps, 2, 6,
   schemas, file_default_instances, TableStruct_game_5fprotocol_2eproto::offsets,
   file_level_metadata_game_5fprotocol_2eproto, file_level_enum_descriptors_game_5fprotocol_2eproto, file_level_service_descriptors_game_5fprotocol_2eproto,
@@ -702,38 +702,26 @@ void GameServerEnter::InternalSwap(GameServerEnter* other) {
 
 class GameServerAddPlayer::_Internal {
  public:
-  static const ::protocol::OtherPlayerInfo& player_info(const GameServerAddPlayer* msg);
 };
 
-const ::protocol::OtherPlayerInfo&
-GameServerAddPlayer::_Internal::player_info(const GameServerAddPlayer* msg) {
-  return *msg->player_info_;
-}
-void GameServerAddPlayer::clear_player_info() {
-  if (GetArenaForAllocation() == nullptr && player_info_ != nullptr) {
-    delete player_info_;
-  }
-  player_info_ = nullptr;
+void GameServerAddPlayer::clear_player_infos() {
+  player_infos_.Clear();
 }
 GameServerAddPlayer::GameServerAddPlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  player_infos_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
   // @@protoc_insertion_point(arena_constructor:protocol.GameServerAddPlayer)
 }
 GameServerAddPlayer::GameServerAddPlayer(const GameServerAddPlayer& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      player_infos_(from.player_infos_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_player_info()) {
-    player_info_ = new ::protocol::OtherPlayerInfo(*from.player_info_);
-  } else {
-    player_info_ = nullptr;
-  }
   // @@protoc_insertion_point(copy_constructor:protocol.GameServerAddPlayer)
 }
 
 void GameServerAddPlayer::SharedCtor() {
-player_info_ = nullptr;
 }
 
 GameServerAddPlayer::~GameServerAddPlayer() {
@@ -744,7 +732,6 @@ GameServerAddPlayer::~GameServerAddPlayer() {
 
 void GameServerAddPlayer::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete player_info_;
 }
 
 void GameServerAddPlayer::ArenaDtor(void* object) {
@@ -763,10 +750,7 @@ void GameServerAddPlayer::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && player_info_ != nullptr) {
-    delete player_info_;
-  }
-  player_info_ = nullptr;
+  player_infos_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -776,11 +760,16 @@ const char* GameServerAddPlayer::_InternalParse(const char* ptr, ::PROTOBUF_NAME
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .protocol.OtherPlayerInfo player_info = 1;
+      // repeated .protocol.OtherPlayerInfo player_infos = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
-          ptr = ctx->ParseMessage(_internal_mutable_player_info(), ptr);
-          CHK_(ptr);
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_player_infos(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
         } else goto handle_unusual;
         continue;
       default: {
@@ -812,12 +801,12 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .protocol.OtherPlayerInfo player_info = 1;
-  if (this->has_player_info()) {
+  // repeated .protocol.OtherPlayerInfo player_infos = 1;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_player_infos_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(
-        1, _Internal::player_info(this), target, stream);
+      InternalWriteMessage(1, this->_internal_player_infos(i), target, stream);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -836,11 +825,11 @@ size_t GameServerAddPlayer::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .protocol.OtherPlayerInfo player_info = 1;
-  if (this->has_player_info()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *player_info_);
+  // repeated .protocol.OtherPlayerInfo player_infos = 1;
+  total_size += 1UL * this->_internal_player_infos_size();
+  for (const auto& msg : this->player_infos_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -874,9 +863,7 @@ void GameServerAddPlayer::MergeFrom(const GameServerAddPlayer& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.has_player_info()) {
-    _internal_mutable_player_info()->::protocol::OtherPlayerInfo::MergeFrom(from._internal_player_info());
-  }
+  player_infos_.MergeFrom(from.player_infos_);
 }
 
 void GameServerAddPlayer::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -900,7 +887,7 @@ bool GameServerAddPlayer::IsInitialized() const {
 void GameServerAddPlayer::InternalSwap(GameServerAddPlayer* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(player_info_, other->player_info_);
+  player_infos_.InternalSwap(&other->player_infos_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GameServerAddPlayer::GetMetadata() const {

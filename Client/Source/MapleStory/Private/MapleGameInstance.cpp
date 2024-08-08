@@ -94,8 +94,7 @@ void UMapleGameInstance::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerI
 	if (GameMode) {
 		GameMode->AddPlayer(OtherPlayerInfo);
 	} else {
-		protocol::OtherPlayerInfo OtherPlayerInfoCopy = OtherPlayerInfo;
-		OtherPlayersQueue.Enqueue(OtherPlayerInfoCopy);
+		OtherPlayersQueue.Enqueue(OtherPlayerInfo);
 	}
 }
 

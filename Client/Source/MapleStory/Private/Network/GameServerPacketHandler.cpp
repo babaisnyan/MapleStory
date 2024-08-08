@@ -17,8 +17,10 @@ bool FGameServerPacketHandler::HandleGameServerEnter(const TObjectPtr<UTCPClient
 }
 
 bool FGameServerPacketHandler::HandleGameServerAddPlayer(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerAddPlayer& Packet) {
-	if (Packet.has_player_info()) {
-		GameInstance->AddPlayer(Packet.player_info());
+	if (Packet.player_infos_size() > 0) {
+		for (const protocol::OtherPlayerInfo& PlayerInfo : Packet.player_infos()) {
+			GameInstance->AddPlayer(PlayerInfo);
+		}
 	}
 	return true;
 }

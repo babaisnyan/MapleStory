@@ -44,10 +44,11 @@ void GameHandler::HandleClientEnter(PacketSessionRef session, protocol::GameClie
       return;
     }
 
-    for (auto&& value : map.value()->GetPlayers()) {
-      const auto info = value.second->GetPlayer();
-      protocol::GameServerAddPlayer add_player;
-      const auto player_info = add_player.mutable_player_info();
+    protocol::GameServerAddPlayer add_players;
+
+    for (auto&& other_session : map.value()->GetPlayers() | std::views::values) {
+      const auto info = other_session->GetPlayer();
+      const auto player_info = add_players.add_player_infos();
       player_info->set_id(info->GetId());
       player_info->set_name(utils::ConvertToUtf8(info->GetName()).value());
       player_info->set_type(info->GetType());
@@ -56,14 +57,16 @@ void GameHandler::HandleClientEnter(PacketSessionRef session, protocol::GameClie
       player_info->set_max_hp(info->GetStat()->GetMaxHp());
       player_info->set_x(info->GetPosition().x);
       player_info->set_y(info->GetPosition().y);
+    }
 
-      const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(add_player);
+    if (add_players.player_infos_size() > 0) {
+      const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(add_players);
       game_session->Send(send_buffer);
     }
 
     if (map.value()->AddPlayer(game_session)) {
       protocol::GameServerAddPlayer add_player;
-      const auto info = add_player.mutable_player_info();
+      const auto info = add_player.add_player_infos();
       info->set_id(player->GetId());
       info->set_name(utils::ConvertToUtf8(player->GetName()).value());
       info->set_type(player->GetType());
