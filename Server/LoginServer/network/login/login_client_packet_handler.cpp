@@ -14,7 +14,7 @@ namespace login {
   }
 
   bool HandleLoginClientRequestCharacterList(const PacketSessionRef& session, const protocol::LoginClientRequestCharacterList& packet) {
-    LoginManager::GetInstance().HandleCharacterListRequest(session, packet);
+    LoginManager::GetInstance().HandleCharacterListRequest(session);
     return true;
   }
 

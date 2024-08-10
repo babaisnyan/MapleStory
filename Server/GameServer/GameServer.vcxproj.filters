@@ -45,10 +45,7 @@
     <ClCompile Include="network\protocol\game_struct.pb.cc">
       <Filter>network\protocol</Filter>
     </ClCompile>
-    <ClCompile Include="handler\game\game_handler.cpp">
-      <Filter>handler\game</Filter>
-    </ClCompile>
-    <ClCompile Include="handler\game\game_manager.cpp">
+    <ClCompile Include="handler\game\player_handler.cpp">
       <Filter>handler\game</Filter>
     </ClCompile>
     <ClCompile Include="handler\center\center_handler.cpp">
@@ -56,9 +53,6 @@
     </ClCompile>
     <ClCompile Include="handler\center\center_manager.cpp">
       <Filter>handler\center</Filter>
-    </ClCompile>
-    <ClCompile Include="migration\auth_storage.cpp">
-      <Filter>migration</Filter>
     </ClCompile>
     <ClCompile Include="network\game\game_packet_creator.cpp">
       <Filter>network\game</Filter>
@@ -89,6 +83,15 @@
     </ClCompile>
     <ClCompile Include="game\map\map_manager.cpp">
       <Filter>game\map</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\migration\auth_storage.cpp">
+      <Filter>manager\migration</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\job_queue\game_tick.cpp">
+      <Filter>manager\job_queue</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\job_queue\player_db_queue.cpp">
+      <Filter>manager\job_queue</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -135,10 +138,7 @@
     <ClInclude Include="network\protocol\game_struct.pb.h">
       <Filter>network\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="handler\game\game_handler.h">
-      <Filter>handler\game</Filter>
-    </ClInclude>
-    <ClInclude Include="handler\game\game_manager.h">
+    <ClInclude Include="handler\game\player_handler.h">
       <Filter>handler\game</Filter>
     </ClInclude>
     <ClInclude Include="handler\center\center_handler.h">
@@ -146,9 +146,6 @@
     </ClInclude>
     <ClInclude Include="handler\center\center_manager.h">
       <Filter>handler\center</Filter>
-    </ClInclude>
-    <ClInclude Include="migration\auth_storage.h">
-      <Filter>migration</Filter>
     </ClInclude>
     <ClInclude Include="network\game\game_packet_creator.h">
       <Filter>network\game</Filter>
@@ -183,6 +180,15 @@
     <ClInclude Include="game\map\map_manager.h">
       <Filter>game\map</Filter>
     </ClInclude>
+    <ClInclude Include="manager\migration\auth_storage.h">
+      <Filter>manager\migration</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\job_queue\game_tick.h">
+      <Filter>manager\job_queue</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\job_queue\player_db_queue.h">
+      <Filter>manager\job_queue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="network">
@@ -196,9 +202,6 @@
     </Filter>
     <Filter Include="network\game">
       <UniqueIdentifier>{9c5c3a3c-1db4-4f7f-8a76-36268d65d840}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="migration">
-      <UniqueIdentifier>{b7e0bda9-d82f-48bd-a5b6-a4a9ec58a5aa}</UniqueIdentifier>
     </Filter>
     <Filter Include="handler">
       <UniqueIdentifier>{7d021d63-4eb7-4d71-a0a4-60730e219125}</UniqueIdentifier>
@@ -226,6 +229,15 @@
     </Filter>
     <Filter Include="game\map">
       <UniqueIdentifier>{d94d5c81-46e7-421e-8b32-75661aaa0cb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="manager">
+      <UniqueIdentifier>{45b850f7-5f06-49e9-bb90-9c94269dae30}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="manager\migration">
+      <UniqueIdentifier>{b7e0bda9-d82f-48bd-a5b6-a4a9ec58a5aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="manager\job_queue">
+      <UniqueIdentifier>{153027cd-1d69-461c-afc8-a54512190390}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

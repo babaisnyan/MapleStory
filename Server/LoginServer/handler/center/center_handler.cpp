@@ -6,7 +6,7 @@
 #include "network/login/login_packet_creator.h"
 #include "network/login/login_session.h"
 
-void CenterHandler::HandleMigrationResponse(PacketSessionRef session, protocol::CenterServerMigrationResponse packet) {
+void CenterHandler::HandleMigrationResponse(const PacketSessionRef& session, const protocol::CenterServerMigrationResponse& packet) {
   const auto login_session_weak = MigrationStorage::GetInstance().Find(packet.character_id());
 
   if (!login_session_weak.has_value()) {
@@ -29,4 +29,4 @@ void CenterHandler::HandleMigrationResponse(PacketSessionRef session, protocol::
   }
 }
 
-void CenterHandler::HandleMigrationRequest(PacketSessionRef session, protocol::CenterServerMigrationRequest packet) {}
+void CenterHandler::HandleMigrationRequest(const PacketSessionRef& session, const protocol::CenterServerMigrationRequest& packet) {}

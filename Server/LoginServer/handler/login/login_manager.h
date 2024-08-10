@@ -14,7 +14,7 @@ namespace login {
     }
 
     void HandleLoginRequest(const PacketSessionRef& session, const protocol::LoginClientLogin& request);
-    void HandleCharacterListRequest(const PacketSessionRef& session, const protocol::LoginClientRequestCharacterList& request);
+    void HandleCharacterListRequest(const PacketSessionRef& session);
     void HandleSelectCharacterRequest(const PacketSessionRef& session, const protocol::LoginClientSelectCharacter& request);
     void HandleDeleteCharacterRequest(const PacketSessionRef& session, const protocol::LoginClientDeleteCharacter& request);
     void HandleCreateCharacterRequest(const PacketSessionRef& session, const protocol::LoginClientCreateCharacter& request);

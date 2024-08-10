@@ -4,15 +4,12 @@
 #include "database/db_bind.h"
 #include "database/db_connection_pool.h"
 #include "game/player_stat.h"
-#include "game/map/map_instance.h"
-#include "game/map/map_manager.h"
 
 
-Player::Player(const int32_t id): _id(id), _player_stat(std::make_shared<PlayerStat>()) {}
+Player::Player(const int32_t player_id): GameObject(GetNextObjectId()), _id(player_id), _player_stat(std::make_shared<PlayerStat>()) {}
 
 void Player::OnEnter() {
   // TODO: 기타 정보 보내주기
-
 }
 
 void Player::Update(float delta_time) {}
@@ -156,4 +153,9 @@ bool Player::TryLoadFromDb() {
 
 bool Player::TrySaveToDb() {
   return false;
+}
+
+int64_t Player::GetNextObjectId() {
+  static std::atomic<int64_t> next_object_id = kObjectRange * static_cast<int32_t>(ObjectType::kPlayer);
+  return next_object_id.fetch_add(1);
 }

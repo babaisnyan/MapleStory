@@ -25,9 +25,8 @@ extern "C" {
 
 namespace game {
   using CenterSessionRef = std::shared_ptr<class CenterServerSession>;
+  using GameSessionRef = std::shared_ptr<class GameSession>;
 }
 
 using namespace game;
 using namespace nlohmann;
-
-inline std::atomic<int64_t> next_object_id;

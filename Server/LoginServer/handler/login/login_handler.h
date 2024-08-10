@@ -9,11 +9,11 @@
 namespace login {
   class LoginHandler final : public JobQueue {
   public:
-    void HandleLogin(PacketSessionRef session, protocol::LoginClientLogin request);
-    void HandleCharacterList(PacketSessionRef session, protocol::LoginClientRequestCharacterList request);
-    void HandleSelectCharacter(PacketSessionRef session, protocol::LoginClientSelectCharacter request);
-    void HandleDeleteCharacter(PacketSessionRef session, protocol::LoginClientDeleteCharacter request);
-    void HandleCreateCharacter(PacketSessionRef session, protocol::LoginClientCreateCharacter request);
+    void HandleLogin(const PacketSessionRef& session, const protocol::LoginClientLogin& request);
+    void HandleCharacterList(const PacketSessionRef& session);
+    void HandleSelectCharacter(const PacketSessionRef& session, const protocol::LoginClientSelectCharacter& request);
+    void HandleDeleteCharacter(const PacketSessionRef& session, const protocol::LoginClientDeleteCharacter& request);
+    void HandleCreateCharacter(const PacketSessionRef& session, const protocol::LoginClientCreateCharacter& request);
 
   private:
     std::optional<std::shared_ptr<LoginCharacter>> LoadSingleCharacter(int32_t character_id);

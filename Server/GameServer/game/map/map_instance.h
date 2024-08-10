@@ -14,7 +14,8 @@ namespace game {
 
   public:
     bool AddPlayer(const std::shared_ptr<GameSession>& session);
-    bool RemovePlayer(int32_t player_id);
+    bool RemoveObject(const int64_t object_id);
+    std::optional<std::shared_ptr<GameSession>> GetPlayer(int64_t object_id) const;
     std::optional<std::shared_ptr<GameSession>> GetPlayer(int32_t player_id) const;
     std::unordered_map<int32_t, std::shared_ptr<GameSession>> GetPlayers() const;
 

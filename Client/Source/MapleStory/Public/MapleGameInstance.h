@@ -53,7 +53,7 @@ public:
 	void ChangeLoginState(ELoginState NewState);
 	void ChangeMap(int32 NewMapId);
 	void AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo);
-	void RemovePlayer(int32 PlayerId);
+	void RemoveObject(int64 ObjectId);
 
 private:
 	UFUNCTION()

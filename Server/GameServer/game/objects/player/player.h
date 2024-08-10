@@ -6,8 +6,7 @@ namespace game {
 
   class Player final : public GameObject {
   public:
-    explicit Player(const int32_t id);
-    ~Player() override = default;
+    explicit Player(const int32_t player_id);
 
     void OnEnter() override;
     void Update(float delta_time) override;
@@ -32,6 +31,9 @@ namespace game {
   public:
     bool TryLoadFromDb();
     bool TrySaveToDb();
+
+  protected:
+    int64_t GetNextObjectId() override;
 
   private:
     int32_t _id = 0;

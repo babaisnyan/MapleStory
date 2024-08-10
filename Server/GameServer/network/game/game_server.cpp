@@ -43,9 +43,13 @@ void GameServer::StartGameServer() {
       while (true) {
         LEndTickCount = GetTickCount64() + kWorkerTick;
 
+        // 네트워크 처리
         _game_service->GetCore()->Dispatch(10);
 
+        // 예약 작업 분배
         ThreadManager::DistributeReservedJobs();
+
+        // 글로벌 잡큐 처리
         ThreadManager::FlushGlobalQueue();
       }
     });

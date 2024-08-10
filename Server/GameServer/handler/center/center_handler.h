@@ -11,7 +11,7 @@ namespace game {
   class CenterHandler final : public JobQueue {
   public:
     void HandleMigrationResponse( PacketSessionRef session,  protocol::CenterServerMigrationResponse packet);
-    void HandleMigrationRequest( PacketSessionRef session,  protocol::CenterServerMigrationRequest packet);
+    void HandleMigrationRequest(const PacketSessionRef& session, const protocol::CenterServerMigrationRequest& packet);
 
   public:
     template <typename T> requires std::is_base_of_v<google::protobuf::Message, T>

@@ -13,7 +13,7 @@
 #include "network/center/center_session_manager.h"
 #include "network/login/login_packet_creator.h"
 
-void LoginHandler::HandleLogin(PacketSessionRef session, protocol::LoginClientLogin request) {
+void LoginHandler::HandleLogin(const PacketSessionRef& session, const protocol::LoginClientLogin& request) {
   const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
   protocol::LoginServerLogin response;
   response.set_result(protocol::LOGIN_RESULT_SERVER_ERROR);
@@ -57,7 +57,7 @@ void LoginHandler::HandleLogin(PacketSessionRef session, protocol::LoginClientLo
   SendPacket(login_session, response);
 }
 
-void LoginHandler::HandleCharacterList(PacketSessionRef session, protocol::LoginClientRequestCharacterList request) {
+void LoginHandler::HandleCharacterList(const PacketSessionRef& session) {
   const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
   protocol::LoginServerCharacterList response;
 
@@ -121,7 +121,7 @@ void LoginHandler::HandleCharacterList(PacketSessionRef session, protocol::Login
   SendPacket(login_session, response);
 }
 
-void LoginHandler::HandleSelectCharacter(PacketSessionRef session, protocol::LoginClientSelectCharacter request) {
+void LoginHandler::HandleSelectCharacter(const PacketSessionRef& session, const protocol::LoginClientSelectCharacter& request) {
   const auto login_session = std::static_pointer_cast<LoginSession>(session);
 
   bool found = false;
@@ -152,7 +152,7 @@ void LoginHandler::HandleSelectCharacter(PacketSessionRef session, protocol::Log
   CenterSessionManager::GetInstance().Send(migration_request);
 }
 
-void LoginHandler::HandleDeleteCharacter(PacketSessionRef session, protocol::LoginClientDeleteCharacter request) {
+void LoginHandler::HandleDeleteCharacter(const PacketSessionRef& session, const protocol::LoginClientDeleteCharacter& request) {
   const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
   protocol::LoginServerDeleteCharacter response;
   response.set_success(false);
@@ -198,7 +198,7 @@ void LoginHandler::HandleDeleteCharacter(PacketSessionRef session, protocol::Log
   SendPacket(login_session, response);
 }
 
-void LoginHandler::HandleCreateCharacter(PacketSessionRef session, protocol::LoginClientCreateCharacter request) {
+void LoginHandler::HandleCreateCharacter(const PacketSessionRef& session, const protocol::LoginClientCreateCharacter& request) {
   const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
   protocol::LoginServerCreateCharacter response;
   response.set_result(protocol::CREATE_CHAR_RESULT_SERVER_ERROR);

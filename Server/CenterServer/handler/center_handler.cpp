@@ -12,7 +12,7 @@
 
 using namespace protocol;
 
-void CenterHandler::HandleServerRegisterRequest(PacketSessionRef session, CenterClientRegisterRequest request) {
+void CenterHandler::HandleServerRegisterRequest(const PacketSessionRef& session, const CenterClientRegisterRequest& request) {
   const auto center_session = std::static_pointer_cast<CenterSession>(session);
   CenterServerRegisterResponse response;
   response.set_result(SERVER_REGISTER_RESULT_ERROR);
@@ -73,7 +73,7 @@ void CenterHandler::HandleServerRegisterRequest(PacketSessionRef session, Center
   SendResponse(center_session, response);
 }
 
-void CenterHandler::HandleServerMigrationRequest(PacketSessionRef session, protocol::CenterClientMigrationRequest request) {
+void CenterHandler::HandleServerMigrationRequest(const PacketSessionRef& session, const CenterClientMigrationRequest& request) {
   const auto center_session = std::static_pointer_cast<CenterSession>(session);
   CenterServerMigrationResponse response;
   response.set_character_id(request.character_id());
@@ -100,7 +100,7 @@ void CenterHandler::HandleServerMigrationRequest(PacketSessionRef session, proto
   game_server.value()->Send(send_buffer);
 }
 
-void CenterHandler::HandleServerMigrationResponse(PacketSessionRef session, CenterClientMigrationResponse response) {
+void CenterHandler::HandleServerMigrationResponse(const PacketSessionRef& session, const CenterClientMigrationResponse& response) {
   const auto success = response.success();
   const auto character_id = response.character_id();
   const auto migration_data = MigrationStorage::GetInstance().Find(character_id);

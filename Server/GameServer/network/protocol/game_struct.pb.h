@@ -182,27 +182,28 @@ class PlayerInfo final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kItemsFieldNumber = 19,
-    kNameFieldNumber = 2,
-    kIdFieldNumber = 1,
-    kTypeFieldNumber = 3,
-    kLevelFieldNumber = 4,
-    kExpFieldNumber = 5,
-    kMesoFieldNumber = 6,
-    kHpFieldNumber = 7,
-    kMpFieldNumber = 8,
-    kMaxHpFieldNumber = 9,
-    kMaxMpFieldNumber = 10,
-    kStrFieldNumber = 11,
-    kDexFieldNumber = 12,
-    kLukFieldNumber = 13,
-    kIntFieldNumber = 14,
-    kXFieldNumber = 15,
-    kYFieldNumber = 16,
-    kApFieldNumber = 17,
-    kSpFieldNumber = 18,
+    kItemsFieldNumber = 20,
+    kNameFieldNumber = 3,
+    kObjectIdFieldNumber = 1,
+    kIdFieldNumber = 2,
+    kTypeFieldNumber = 4,
+    kLevelFieldNumber = 5,
+    kExpFieldNumber = 6,
+    kMesoFieldNumber = 7,
+    kHpFieldNumber = 8,
+    kMpFieldNumber = 9,
+    kMaxHpFieldNumber = 10,
+    kMaxMpFieldNumber = 11,
+    kStrFieldNumber = 12,
+    kDexFieldNumber = 13,
+    kLukFieldNumber = 14,
+    kIntFieldNumber = 15,
+    kXFieldNumber = 16,
+    kYFieldNumber = 17,
+    kApFieldNumber = 18,
+    kSpFieldNumber = 19,
   };
-  // repeated .protocol.ItemInfo items = 19;
+  // repeated .protocol.ItemInfo items = 20;
   int items_size() const;
   private:
   int _internal_items_size() const;
@@ -220,7 +221,7 @@ class PlayerInfo final :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::ItemInfo >&
       items() const;
 
-  // string name = 2;
+  // string name = 3;
   void clear_name();
   const std::string& name() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -234,7 +235,16 @@ class PlayerInfo final :
   std::string* _internal_mutable_name();
   public:
 
-  // int32 id = 1;
+  // int64 object_id = 1;
+  void clear_object_id();
+  ::PROTOBUF_NAMESPACE_ID::int64 object_id() const;
+  void set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_object_id() const;
+  void _internal_set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // int32 id = 2;
   void clear_id();
   ::PROTOBUF_NAMESPACE_ID::int32 id() const;
   void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -243,7 +253,7 @@ class PlayerInfo final :
   void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 type = 3;
+  // int32 type = 4;
   void clear_type();
   ::PROTOBUF_NAMESPACE_ID::int32 type() const;
   void set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -252,7 +262,7 @@ class PlayerInfo final :
   void _internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 level = 4;
+  // int32 level = 5;
   void clear_level();
   ::PROTOBUF_NAMESPACE_ID::int32 level() const;
   void set_level(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -261,7 +271,7 @@ class PlayerInfo final :
   void _internal_set_level(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 exp = 5;
+  // int32 exp = 6;
   void clear_exp();
   ::PROTOBUF_NAMESPACE_ID::int32 exp() const;
   void set_exp(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -270,7 +280,7 @@ class PlayerInfo final :
   void _internal_set_exp(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 meso = 6;
+  // int32 meso = 7;
   void clear_meso();
   ::PROTOBUF_NAMESPACE_ID::int32 meso() const;
   void set_meso(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -279,7 +289,7 @@ class PlayerInfo final :
   void _internal_set_meso(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 hp = 7;
+  // int32 hp = 8;
   void clear_hp();
   ::PROTOBUF_NAMESPACE_ID::int32 hp() const;
   void set_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -288,7 +298,7 @@ class PlayerInfo final :
   void _internal_set_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 mp = 8;
+  // int32 mp = 9;
   void clear_mp();
   ::PROTOBUF_NAMESPACE_ID::int32 mp() const;
   void set_mp(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -297,7 +307,7 @@ class PlayerInfo final :
   void _internal_set_mp(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 max_hp = 9;
+  // int32 max_hp = 10;
   void clear_max_hp();
   ::PROTOBUF_NAMESPACE_ID::int32 max_hp() const;
   void set_max_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -306,7 +316,7 @@ class PlayerInfo final :
   void _internal_set_max_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 max_mp = 10;
+  // int32 max_mp = 11;
   void clear_max_mp();
   ::PROTOBUF_NAMESPACE_ID::int32 max_mp() const;
   void set_max_mp(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -315,7 +325,7 @@ class PlayerInfo final :
   void _internal_set_max_mp(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 str = 11;
+  // int32 str = 12;
   void clear_str();
   ::PROTOBUF_NAMESPACE_ID::int32 str() const;
   void set_str(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -324,7 +334,7 @@ class PlayerInfo final :
   void _internal_set_str(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 dex = 12;
+  // int32 dex = 13;
   void clear_dex();
   ::PROTOBUF_NAMESPACE_ID::int32 dex() const;
   void set_dex(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -333,7 +343,7 @@ class PlayerInfo final :
   void _internal_set_dex(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 luk = 13;
+  // int32 luk = 14;
   void clear_luk();
   ::PROTOBUF_NAMESPACE_ID::int32 luk() const;
   void set_luk(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -342,7 +352,7 @@ class PlayerInfo final :
   void _internal_set_luk(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 int = 14;
+  // int32 int = 15;
   void clear_int_();
   ::PROTOBUF_NAMESPACE_ID::int32 int_() const;
   void set_int_(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -351,7 +361,7 @@ class PlayerInfo final :
   void _internal_set_int_(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 x = 15;
+  // int32 x = 16;
   void clear_x();
   ::PROTOBUF_NAMESPACE_ID::int32 x() const;
   void set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -360,7 +370,7 @@ class PlayerInfo final :
   void _internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 y = 16;
+  // int32 y = 17;
   void clear_y();
   ::PROTOBUF_NAMESPACE_ID::int32 y() const;
   void set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -369,7 +379,7 @@ class PlayerInfo final :
   void _internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 ap = 17;
+  // int32 ap = 18;
   void clear_ap();
   ::PROTOBUF_NAMESPACE_ID::int32 ap() const;
   void set_ap(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -378,7 +388,7 @@ class PlayerInfo final :
   void _internal_set_ap(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 sp = 18;
+  // int32 sp = 19;
   void clear_sp();
   ::PROTOBUF_NAMESPACE_ID::int32 sp() const;
   void set_sp(::PROTOBUF_NAMESPACE_ID::int32 value);
@@ -396,6 +406,7 @@ class PlayerInfo final :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::ItemInfo > items_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
+  ::PROTOBUF_NAMESPACE_ID::int64 object_id_;
   ::PROTOBUF_NAMESPACE_ID::int32 id_;
   ::PROTOBUF_NAMESPACE_ID::int32 type_;
   ::PROTOBUF_NAMESPACE_ID::int32 level_;
@@ -527,7 +538,7 @@ class OtherPlayerInfo final :
 
   enum : int {
     kNameFieldNumber = 2,
-    kIdFieldNumber = 1,
+    kObjectIdFieldNumber = 1,
     kTypeFieldNumber = 3,
     kLevelFieldNumber = 4,
     kHpFieldNumber = 5,
@@ -549,13 +560,13 @@ class OtherPlayerInfo final :
   std::string* _internal_mutable_name();
   public:
 
-  // int32 id = 1;
-  void clear_id();
-  ::PROTOBUF_NAMESPACE_ID::int32 id() const;
-  void set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  // int64 object_id = 1;
+  void clear_object_id();
+  ::PROTOBUF_NAMESPACE_ID::int64 object_id() const;
+  void set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_id() const;
-  void _internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_object_id() const;
+  void _internal_set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value);
   public:
 
   // int32 type = 3;
@@ -620,7 +631,7 @@ class OtherPlayerInfo final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
-  ::PROTOBUF_NAMESPACE_ID::int32 id_;
+  ::PROTOBUF_NAMESPACE_ID::int64 object_id_;
   ::PROTOBUF_NAMESPACE_ID::int32 type_;
   ::PROTOBUF_NAMESPACE_ID::int32 level_;
   ::PROTOBUF_NAMESPACE_ID::int32 hp_;
@@ -806,7 +817,27 @@ class ItemInfo final :
 #endif  // __GNUC__
 // PlayerInfo
 
-// int32 id = 1;
+// int64 object_id = 1;
+inline void PlayerInfo::clear_object_id() {
+  object_id_ = int64_t{0};
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 PlayerInfo::_internal_object_id() const {
+  return object_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 PlayerInfo::object_id() const {
+  // @@protoc_insertion_point(field_get:protocol.PlayerInfo.object_id)
+  return _internal_object_id();
+}
+inline void PlayerInfo::_internal_set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  object_id_ = value;
+}
+inline void PlayerInfo::set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_object_id(value);
+  // @@protoc_insertion_point(field_set:protocol.PlayerInfo.object_id)
+}
+
+// int32 id = 2;
 inline void PlayerInfo::clear_id() {
   id_ = 0;
 }
@@ -826,7 +857,7 @@ inline void PlayerInfo::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.id)
 }
 
-// string name = 2;
+// string name = 3;
 inline void PlayerInfo::clear_name() {
   name_.ClearToEmpty();
 }
@@ -871,7 +902,7 @@ inline void PlayerInfo::set_allocated_name(std::string* name) {
   // @@protoc_insertion_point(field_set_allocated:protocol.PlayerInfo.name)
 }
 
-// int32 type = 3;
+// int32 type = 4;
 inline void PlayerInfo::clear_type() {
   type_ = 0;
 }
@@ -891,7 +922,7 @@ inline void PlayerInfo::set_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.type)
 }
 
-// int32 level = 4;
+// int32 level = 5;
 inline void PlayerInfo::clear_level() {
   level_ = 0;
 }
@@ -911,7 +942,7 @@ inline void PlayerInfo::set_level(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.level)
 }
 
-// int32 exp = 5;
+// int32 exp = 6;
 inline void PlayerInfo::clear_exp() {
   exp_ = 0;
 }
@@ -931,7 +962,7 @@ inline void PlayerInfo::set_exp(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.exp)
 }
 
-// int32 meso = 6;
+// int32 meso = 7;
 inline void PlayerInfo::clear_meso() {
   meso_ = 0;
 }
@@ -951,7 +982,7 @@ inline void PlayerInfo::set_meso(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.meso)
 }
 
-// int32 hp = 7;
+// int32 hp = 8;
 inline void PlayerInfo::clear_hp() {
   hp_ = 0;
 }
@@ -971,7 +1002,7 @@ inline void PlayerInfo::set_hp(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.hp)
 }
 
-// int32 mp = 8;
+// int32 mp = 9;
 inline void PlayerInfo::clear_mp() {
   mp_ = 0;
 }
@@ -991,7 +1022,7 @@ inline void PlayerInfo::set_mp(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.mp)
 }
 
-// int32 max_hp = 9;
+// int32 max_hp = 10;
 inline void PlayerInfo::clear_max_hp() {
   max_hp_ = 0;
 }
@@ -1011,7 +1042,7 @@ inline void PlayerInfo::set_max_hp(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.max_hp)
 }
 
-// int32 max_mp = 10;
+// int32 max_mp = 11;
 inline void PlayerInfo::clear_max_mp() {
   max_mp_ = 0;
 }
@@ -1031,7 +1062,7 @@ inline void PlayerInfo::set_max_mp(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.max_mp)
 }
 
-// int32 str = 11;
+// int32 str = 12;
 inline void PlayerInfo::clear_str() {
   str_ = 0;
 }
@@ -1051,7 +1082,7 @@ inline void PlayerInfo::set_str(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.str)
 }
 
-// int32 dex = 12;
+// int32 dex = 13;
 inline void PlayerInfo::clear_dex() {
   dex_ = 0;
 }
@@ -1071,7 +1102,7 @@ inline void PlayerInfo::set_dex(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.dex)
 }
 
-// int32 luk = 13;
+// int32 luk = 14;
 inline void PlayerInfo::clear_luk() {
   luk_ = 0;
 }
@@ -1091,7 +1122,7 @@ inline void PlayerInfo::set_luk(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.luk)
 }
 
-// int32 int = 14;
+// int32 int = 15;
 inline void PlayerInfo::clear_int_() {
   int__ = 0;
 }
@@ -1111,7 +1142,7 @@ inline void PlayerInfo::set_int_(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.int)
 }
 
-// int32 x = 15;
+// int32 x = 16;
 inline void PlayerInfo::clear_x() {
   x_ = 0;
 }
@@ -1131,7 +1162,7 @@ inline void PlayerInfo::set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.x)
 }
 
-// int32 y = 16;
+// int32 y = 17;
 inline void PlayerInfo::clear_y() {
   y_ = 0;
 }
@@ -1151,7 +1182,7 @@ inline void PlayerInfo::set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.y)
 }
 
-// int32 ap = 17;
+// int32 ap = 18;
 inline void PlayerInfo::clear_ap() {
   ap_ = 0;
 }
@@ -1171,7 +1202,7 @@ inline void PlayerInfo::set_ap(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.ap)
 }
 
-// int32 sp = 18;
+// int32 sp = 19;
 inline void PlayerInfo::clear_sp() {
   sp_ = 0;
 }
@@ -1191,7 +1222,7 @@ inline void PlayerInfo::set_sp(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.sp)
 }
 
-// repeated .protocol.ItemInfo items = 19;
+// repeated .protocol.ItemInfo items = 20;
 inline int PlayerInfo::_internal_items_size() const {
   return items_.size();
 }
@@ -1234,24 +1265,24 @@ PlayerInfo::items() const {
 
 // OtherPlayerInfo
 
-// int32 id = 1;
-inline void OtherPlayerInfo::clear_id() {
-  id_ = 0;
+// int64 object_id = 1;
+inline void OtherPlayerInfo::clear_object_id() {
+  object_id_ = int64_t{0};
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 OtherPlayerInfo::_internal_id() const {
-  return id_;
+inline ::PROTOBUF_NAMESPACE_ID::int64 OtherPlayerInfo::_internal_object_id() const {
+  return object_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 OtherPlayerInfo::id() const {
-  // @@protoc_insertion_point(field_get:protocol.OtherPlayerInfo.id)
-  return _internal_id();
+inline ::PROTOBUF_NAMESPACE_ID::int64 OtherPlayerInfo::object_id() const {
+  // @@protoc_insertion_point(field_get:protocol.OtherPlayerInfo.object_id)
+  return _internal_object_id();
 }
-inline void OtherPlayerInfo::_internal_set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void OtherPlayerInfo::_internal_set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
   
-  id_ = value;
+  object_id_ = value;
 }
-inline void OtherPlayerInfo::set_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_id(value);
-  // @@protoc_insertion_point(field_set:protocol.OtherPlayerInfo.id)
+inline void OtherPlayerInfo::set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_object_id(value);
+  // @@protoc_insertion_point(field_set:protocol.OtherPlayerInfo.object_id)
 }
 
 // string name = 2;

@@ -10,7 +10,7 @@ public:
   }
 
   template <typename T, typename Ret, typename... Args>
-  void DoAsync(Ret (T::*func)(Args...), Args... args) {
+  void DoAsync(Ret (T::*func)(Args...), Args&&... args) {
     std::shared_ptr<T> shared_obj = std::static_pointer_cast<T>(shared_from_this());
     JobQueue::Push(ObjectPool<Job>::MakeShared(shared_obj, func, std::forward<Args>(args)...));
   }
@@ -21,9 +21,9 @@ public:
   }
 
   template <typename T, typename Ret, typename... Args>
-  void DoTimer(const uint64_t tick_after, Ret (T::*func)(Args...), Args... args) {
+  void DoTimer(const uint64_t tick_after, Ret (T::*func)(Args...), Args&&... args) {
     std::shared_ptr<T> shared_obj = std::static_pointer_cast<T>(shared_from_this());
-    const JobRef       job = ObjectPool<Job>::MakeShared(shared_obj, func, std::forward<Args>(args)...);
+    const JobRef job = ObjectPool<Job>::MakeShared(shared_obj, func, std::forward<Args>(args)...);
 
     JobTimer::GetInstance().Reserve(tick_after, shared_from_this(), job);
   }
@@ -38,5 +38,5 @@ public:
 
 protected:
   LockQueue<JobRef> _job_queue;
-  Atomic<int32_t>   _job_count = 0;
+  Atomic<int32_t> _job_count = 0;
 };

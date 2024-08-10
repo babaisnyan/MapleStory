@@ -3,7 +3,7 @@
 
 #include "game/player_manager.h"
 
-#include "migration/auth_storage.h"
+#include "manager/migration/auth_storage.h"
 
 #include "network/center/center_packet_creator.h"
 
@@ -11,7 +11,7 @@
 
 void CenterHandler::HandleMigrationResponse(PacketSessionRef session, protocol::CenterServerMigrationResponse packet) {}
 
-void CenterHandler::HandleMigrationRequest(PacketSessionRef session, protocol::CenterServerMigrationRequest packet) {
+void CenterHandler::HandleMigrationRequest(const PacketSessionRef& session, const protocol::CenterServerMigrationRequest& packet) {
   if (PlayerManager::GetInstance().Find(packet.character_id()).has_value()) {
     const auto response = CenterPacketCreator::GetMigrationFailedResponse(packet.character_id());
     session->Send(response);

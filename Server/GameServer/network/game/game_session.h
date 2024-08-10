@@ -28,8 +28,6 @@ namespace game {
     std::shared_ptr<Player> _player = nullptr;
 
   private:
-    inline static Atomic<int32_t> _session_id_generator = 0;
+    inline static std::atomic<int32_t> _session_id_generator = 0;
   };
-
-  using GameSessionRef = std::shared_ptr<GameSession>;
 }

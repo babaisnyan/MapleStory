@@ -3,8 +3,6 @@
 
 #include "game/objects/player/player.h"
 
-#include "network/game/game_packet_creator.h"
-
 MapInstance::MapInstance(const int32_t map_id) : _map_id(map_id) {}
 
 bool MapInstance::AddPlayer(const std::shared_ptr<GameSession>& session) {
@@ -17,24 +15,48 @@ bool MapInstance::AddPlayer(const std::shared_ptr<GameSession>& session) {
   return inserted;
 }
 
-bool MapInstance::RemovePlayer(const int32_t player_id) {
-  const auto player = GetPlayer(player_id);
+bool MapInstance::RemoveObject(const int64_t object_id) {
+  const auto type = static_cast<GameObject::ObjectType>(object_id / GameObject::kObjectRange);
+  int32_t player_id = -1;
 
-  if (!player.has_value()) {
-    return false;
+  if (type == GameObject::ObjectType::kPlayer) {
+    const auto player = GetPlayer(object_id);
+
+    if (!player.has_value()) {
+      return false;
+    }
+
+    player_id = player.value()->GetPlayer()->GetId();
+
+    if (_players.erase(player_id) <= 0) {
+      return false;
+    }
   }
 
-  const auto removed = _players.erase(player_id) > 0;
+  const auto removed = _objects.erase(object_id) > 0;
 
-  if (removed) {
-    _objects.erase(player.value()->GetPlayer()->GetObjectId());
+  protocol::GameServerRemoveObject message;
+  message.set_object_id(object_id);
 
-    protocol::GameServerRemovePlayer message;
-    message.set_player_id(player_id);
-    BroadCast(message, player_id);
-  }
+  BroadCast(message, player_id);
 
   return removed;
+}
+
+std::optional<std::shared_ptr<GameSession>> MapInstance::GetPlayer(const int64_t object_id) const {
+  const auto type = static_cast<GameObject::ObjectType>(object_id / GameObject::kObjectRange);
+
+  if (type != GameObject::ObjectType::kPlayer) {
+    return std::nullopt;
+  }
+
+  if (!_objects.contains(object_id)) {
+    return std::nullopt;
+  }
+
+  const auto player = std::static_pointer_cast<Player>(_objects.at(object_id));
+
+  return std::nullopt;
 }
 
 std::optional<std::shared_ptr<GameSession>> MapInstance::GetPlayer(const int32_t player_id) const {

@@ -25,16 +25,16 @@ bool FGameServerPacketHandler::HandleGameServerAddPlayer(const TObjectPtr<UTCPCl
 	return true;
 }
 
-bool FGameServerPacketHandler::HandleGameServerRemovePlayer(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerRemovePlayer& Packet) {
-	GameInstance->RemovePlayer(Packet.player_id());
-	return true;
-}
-
 bool FGameServerPacketHandler::HandleGameServerRemoveObject(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerRemoveObject& Packet) {
+	GameInstance->RemoveObject(Packet.object_id());
 	return false;
 }
 
 bool FGameServerPacketHandler::HandleGameServerChangeMap(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerChangeMap& Packet) {
 	GameInstance->ChangeMap(Packet.map_id());
+	return true;
+}
+
+bool FGameServerPacketHandler::HandleGameServerPlayerMove(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerPlayerMove& Packet) {
 	return true;
 }

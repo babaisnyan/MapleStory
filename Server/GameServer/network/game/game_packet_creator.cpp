@@ -25,6 +25,7 @@ SendBufferRef GamePacketCreator::GetClientEnterSuccessResponse(const std::shared
   if (name.has_value()) {
     const auto player_info = packet.mutable_player_info();
 
+    player_info->set_object_id(player->GetObjectId());
     player_info->set_id(player->GetId());
     player_info->set_name(name.value());
     player_info->set_type(player->GetType());
@@ -44,14 +45,6 @@ SendBufferRef GamePacketCreator::GetClientEnterSuccessResponse(const std::shared
     player_info->set_ap(player->GetStat()->GetAp());
     player_info->set_sp(player->GetStat()->GetSp());
   }
-
-  const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(packet);
-  return send_buffer;
-}
-
-SendBufferRef GamePacketCreator::GetPlayerLeaveResponse(const int32_t int32) {
-  protocol::GameServerRemovePlayer packet;
-  packet.set_player_id(int32);
 
   const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(packet);
   return send_buffer;

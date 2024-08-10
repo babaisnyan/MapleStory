@@ -9,13 +9,15 @@ namespace game {
     PKT_GAMECLIENTENTER = 3000,
     PKT_GAMESERVERENTER = 3001,
     PKT_GAMESERVERADDPLAYER = 3002,
-    PKT_GAMESERVERREMOVEPLAYER = 3003,
-    PKT_GAMESERVERREMOVEOBJECT = 3004,
-    PKT_GAMESERVERCHANGEMAP = 3005,
+    PKT_GAMESERVERREMOVEOBJECT = 3003,
+    PKT_GAMESERVERCHANGEMAP = 3004,
+    PKT_GAMECLIENTPLAYERMOVE = 3005,
+    PKT_GAMESERVERPLAYERMOVE = 3006,
   };
 
   bool HandleGameInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
   bool HandleGameClientEnter(const PacketSessionRef& session, const protocol::GameClientEnter& packet);
+  bool HandleGameClientPlayerMove(const PacketSessionRef& session, const protocol::GameClientPlayerMove& packet);
 
   class GameClientPacketHandler {
   public:
@@ -29,6 +31,9 @@ namespace game {
   
       _packet_handler_map[PKT_GAMECLIENTENTER] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
         return HandlePacket<protocol::GameClientEnter>(HandleGameClientEnter, session, buffer, len);
+      };
+      _packet_handler_map[PKT_GAMECLIENTPLAYERMOVE] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+        return HandlePacket<protocol::GameClientPlayerMove>(HandleGameClientPlayerMove, session, buffer, len);
       };
     }
 
@@ -49,14 +54,14 @@ namespace game {
     static SendBufferRef MakeSendBuffer(const protocol::GameServerAddPlayer& packet) { 
       return MakeSendBufferInternal(packet, PKT_GAMESERVERADDPLAYER); 
     }
-    static SendBufferRef MakeSendBuffer(const protocol::GameServerRemovePlayer& packet) { 
-      return MakeSendBufferInternal(packet, PKT_GAMESERVERREMOVEPLAYER); 
-    }
     static SendBufferRef MakeSendBuffer(const protocol::GameServerRemoveObject& packet) { 
       return MakeSendBufferInternal(packet, PKT_GAMESERVERREMOVEOBJECT); 
     }
     static SendBufferRef MakeSendBuffer(const protocol::GameServerChangeMap& packet) { 
       return MakeSendBufferInternal(packet, PKT_GAMESERVERCHANGEMAP); 
+    }
+    static SendBufferRef MakeSendBuffer(const protocol::GameServerPlayerMove& packet) { 
+      return MakeSendBufferInternal(packet, PKT_GAMESERVERPLAYERMOVE); 
     }
 
   private:

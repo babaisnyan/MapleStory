@@ -5,8 +5,8 @@ void LoginManager::HandleLoginRequest(const PacketSessionRef& session, const pro
   _login_handler->DoAsync(&LoginHandler::HandleLogin, session, request);
 }
 
-void LoginManager::HandleCharacterListRequest(const PacketSessionRef& session, const protocol::LoginClientRequestCharacterList& request) {
-  _login_handler->DoAsync(&LoginHandler::HandleCharacterList, session, request);
+void LoginManager::HandleCharacterListRequest(const PacketSessionRef& session) {
+  _login_handler->DoAsync(&LoginHandler::HandleCharacterList, session);
 }
 
 void LoginManager::HandleSelectCharacterRequest(const PacketSessionRef& session, const protocol::LoginClientSelectCharacter& request) {

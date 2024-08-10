@@ -17,8 +17,9 @@ void UMapleGameInstance::Init() {
 void UMapleGameInstance::BeginDestroy() {
 	Super::BeginDestroy();
 
-	if (bIsConnected) {
-		DisconnectFromServer();
+	if (Client) {
+		bIsConnected = false;
+		Client->CloseSocket();
 	}
 }
 
@@ -98,13 +99,16 @@ void UMapleGameInstance::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerI
 	}
 }
 
-void UMapleGameInstance::RemovePlayer(const int32 PlayerId) {
+void UMapleGameInstance::RemoveObject(const int64 ObjectId) {
 	AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+	const int8 Type = ObjectId / 1000000;
 
-	if (GameMode) {
-		GameMode->RemovePlayer(PlayerId);
-	} else {
-		RemovePlayerQueue.Enqueue(PlayerId);
+	if (Type == 0) {
+		if (GameMode) {
+			GameMode->RemovePlayer(ObjectId);
+		} else {
+			RemovePlayerQueue.Enqueue(ObjectId);
+		}
 	}
 }
 

@@ -9,6 +9,9 @@
 #include "game/map/map_manager.h"
 #include "game/objects/player/player.h"
 
+#include "manager/job_queue/game_tick.h"
+#include "manager/job_queue/player_db_queue.h"
+
 
 int32_t GameSession::GetSessionId() const { return _session_id; }
 
@@ -27,15 +30,23 @@ void GameSession::OnConnected() {
 }
 
 void GameSession::OnDisconnected() {
+  const auto game_session = std::static_pointer_cast<GameSession>(shared_from_this());
+  const auto packet_session = GetPacketSession();
+
+  GameSessionManager::GetInstance().Remove(game_session);
+
   if (_player_id != 0) {
     PlayerManager::GetInstance().RemovePlayer(_player_id);
   }
 
-  GameSessionManager::GetInstance().Remove(std::static_pointer_cast<GameSession>(shared_from_this()));
+  if (_player) {
+    const auto map = MapManager::GetInstance().GetMapInstance(_player->GetMap());
 
-  const auto map = MapManager::GetInstance().GetMapInstance(_player->GetMap());
-  if (map.has_value()) {
-    map.value()->RemovePlayer(_player_id);
+    if (map.has_value()) {
+      GameTick::GetInstance()->DoAsync(&GameTick::RemovePlayer, map.value(), _player->GetObjectId());
+    }
+
+    PlayerDbQueue::GetInstance()->DoAsync(&PlayerDbQueue::SavePlayer, packet_session);
   }
 
   std::cout << "GameSession Disconnected\n";

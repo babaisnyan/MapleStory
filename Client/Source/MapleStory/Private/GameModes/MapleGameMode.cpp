@@ -42,12 +42,12 @@ void AMapleGameMode::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo)
 	const auto OtherPlayer = GetWorld()->SpawnActorDeferred<AMsPlayerBase>(AMsPlayerBase::StaticClass(), FTransform::Identity);
 	OtherPlayer->Setup(OtherPlayerInfo);
 	OtherPlayer->FinishSpawning(FTransform::Identity);
-	OtherPlayers.Emplace(OtherPlayerInfo.id(), OtherPlayer);
+	OtherPlayers.Emplace(OtherPlayerInfo.object_id(), OtherPlayer);
 }
 
-void AMapleGameMode::RemovePlayer(const int32 PlayerId) {
-	if (OtherPlayers.Contains(PlayerId)) {
-		OtherPlayers[PlayerId]->Destroy();
-		OtherPlayers.Remove(PlayerId);
+void AMapleGameMode::RemovePlayer(const int64 ObjectId) {
+	if (OtherPlayers.Contains(ObjectId)) {
+		OtherPlayers[ObjectId]->Destroy();
+		OtherPlayers.Remove(ObjectId);
 	}
 }

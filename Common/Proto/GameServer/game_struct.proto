@@ -4,29 +4,30 @@ package protocol;
 import "game_enum.proto";
 
 message PlayerInfo {
-  int32 id = 1;
-  string name = 2;
-  int32 type = 3;
-  int32 level = 4;
-  int32 exp = 5;
-  int32 meso = 6;
-  int32 hp = 7;
-  int32 mp = 8;
-  int32 max_hp = 9;
-  int32 max_mp = 10;
-  int32 str = 11;
-  int32 dex = 12;
-  int32 luk = 13;
-  int32 int = 14;
-  int32 x = 15;
-  int32 y = 16;
-  int32 ap = 17;
-  int32 sp = 18;
-  repeated ItemInfo items = 19;
+  int64 object_id = 1;
+  int32 id = 2;
+  string name = 3;
+  int32 type = 4;
+  int32 level = 5;
+  int32 exp = 6;
+  int32 meso = 7;
+  int32 hp = 8;
+  int32 mp = 9;
+  int32 max_hp = 10;
+  int32 max_mp = 11;
+  int32 str = 12;
+  int32 dex = 13;
+  int32 luk = 14;
+  int32 int = 15;
+  int32 x = 16;
+  int32 y = 17;
+  int32 ap = 18;
+  int32 sp = 19;
+  repeated ItemInfo items = 20;
 }
 
 message OtherPlayerInfo {
-  int32 id = 1;
+  int64 object_id = 1;
   string name = 2;
   int32 type = 3;
   int32 level = 4;

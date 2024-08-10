@@ -18,7 +18,7 @@ public:
 	AMapleGameMode();
 
 	void AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo);
-	void RemovePlayer(int32 PlayerId);
+	void RemovePlayer(int64 ObjectId);
 
 protected:
 	virtual void BeginPlay() override;
@@ -29,5 +29,5 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Player")
-	TMap<int32, TObjectPtr<AMsPlayerBase>> OtherPlayers = {};
+	TMap<int64, TObjectPtr<AMsPlayerBase>> OtherPlayers = {};
 };
