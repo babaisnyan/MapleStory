@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "game_client_packet_handler.h"
 
+#include "manager/job_queue/object_move_queue.h"
 #include "manager/job_queue/player_db_queue.h"
 
 namespace game {
@@ -14,6 +15,7 @@ namespace game {
   }
 
   bool HandleGameClientPlayerMove(const PacketSessionRef& session, const protocol::GameClientPlayerMove& packet) {
+    ObjectMoveQueue::GetInstance()->DoAsync(&ObjectMoveQueue::MovePlayer, session, packet);
     return true;
   }
 }

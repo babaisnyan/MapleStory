@@ -14,11 +14,11 @@ void Player::OnEnter() {
 
 void Player::Update(float delta_time) {}
 
-void Player::UpdatePosition(const int16_t x, const int16_t y) {
+void Player::UpdatePosition(const double x, const double y) {
   _position.x = x;
   _position.y = y;
-  _position.grid_x = x / _position.grid_size;
-  _position.grid_y = y / _position.grid_size;
+  _position.grid_x = static_cast<int32_t>(x) / _position.grid_size;
+  _position.grid_y = static_cast<int32_t>(y) / _position.grid_size;
 }
 
 int32_t Player::GetId() const {

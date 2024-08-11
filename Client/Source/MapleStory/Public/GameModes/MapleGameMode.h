@@ -7,6 +7,10 @@
 #include "MapleGameMode.generated.h"
 
 
+namespace protocol {
+	class GameServerPlayerMove;
+}
+
 class AMsPlayerBase;
 class AMsPlayer;
 
@@ -19,6 +23,7 @@ public:
 
 	void AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo);
 	void RemovePlayer(int64 ObjectId);
+	void UpdatePlayerPosition(const protocol::GameServerPlayerMove& MovePacket);
 
 protected:
 	virtual void BeginPlay() override;

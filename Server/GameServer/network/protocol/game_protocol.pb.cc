@@ -83,7 +83,10 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameServerChangeMapDefaultTypeI
 constexpr GameClientPlayerMove::GameClientPlayerMove(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : x_(0)
-  , y_(0){}
+  , y_(0)
+  , is_right_(false)
+  , animation_(0)
+{}
 struct GameClientPlayerMoveDefaultTypeInternal {
   constexpr GameClientPlayerMoveDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -97,7 +100,10 @@ constexpr GameServerPlayerMove::GameServerPlayerMove(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : object_id_(int64_t{0})
   , x_(0)
-  , y_(0){}
+  , y_(0)
+  , is_right_(false)
+  , animation_(0)
+{}
 struct GameServerPlayerMoveDefaultTypeInternal {
   constexpr GameServerPlayerMoveDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -156,6 +162,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fprotocol_2eproto::offse
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::protocol::GameClientPlayerMove, x_),
   PROTOBUF_FIELD_OFFSET(::protocol::GameClientPlayerMove, y_),
+  PROTOBUF_FIELD_OFFSET(::protocol::GameClientPlayerMove, is_right_),
+  PROTOBUF_FIELD_OFFSET(::protocol::GameClientPlayerMove, animation_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::protocol::GameServerPlayerMove, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -164,6 +172,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fprotocol_2eproto::offse
   PROTOBUF_FIELD_OFFSET(::protocol::GameServerPlayerMove, object_id_),
   PROTOBUF_FIELD_OFFSET(::protocol::GameServerPlayerMove, x_),
   PROTOBUF_FIELD_OFFSET(::protocol::GameServerPlayerMove, y_),
+  PROTOBUF_FIELD_OFFSET(::protocol::GameServerPlayerMove, is_right_),
+  PROTOBUF_FIELD_OFFSET(::protocol::GameServerPlayerMove, animation_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::protocol::GameClientEnter)},
@@ -172,7 +182,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 24, -1, sizeof(::protocol::GameServerRemoveObject)},
   { 30, -1, sizeof(::protocol::GameServerChangeMap)},
   { 36, -1, sizeof(::protocol::GameClientPlayerMove)},
-  { 43, -1, sizeof(::protocol::GameServerPlayerMove)},
+  { 45, -1, sizeof(::protocol::GameServerPlayerMove)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -196,10 +206,13 @@ const char descriptor_table_protodef_game_5fprotocol_2eproto[] PROTOBUF_SECTION_
   "er\022/\n\014player_infos\030\001 \003(\0132\031.protocol.Othe"
   "rPlayerInfo\"+\n\026GameServerRemoveObject\022\021\n"
   "\tobject_id\030\001 \001(\003\"%\n\023GameServerChangeMap\022"
-  "\016\n\006map_id\030\001 \001(\005\",\n\024GameClientPlayerMove\022"
-  "\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 \001(\005\"\?\n\024GameServerPlaye"
-  "rMove\022\021\n\tobject_id\030\001 \001(\003\022\t\n\001x\030\002 \001(\005\022\t\n\001y"
-  "\030\003 \001(\005b\006proto3"
+  "\016\n\006map_id\030\001 \001(\005\"l\n\024GameClientPlayerMove\022"
+  "\t\n\001x\030\001 \001(\001\022\t\n\001y\030\002 \001(\001\022\020\n\010is_right\030\003 \001(\010\022"
+  ",\n\tanimation\030\004 \001(\0162\031.protocol.PlayerAnim"
+  "ation\"\177\n\024GameServerPlayerMove\022\021\n\tobject_"
+  "id\030\001 \001(\003\022\t\n\001x\030\002 \001(\001\022\t\n\001y\030\003 \001(\001\022\020\n\010is_rig"
+  "ht\030\004 \001(\010\022,\n\tanimation\030\005 \001(\0162\031.protocol.P"
+  "layerAnimationb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_game_5fprotocol_2eproto_deps[2] = {
   &::descriptor_table_game_5fenum_2eproto,
@@ -207,7 +220,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_5fprotocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fprotocol_2eproto = {
-  false, false, 534, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
+  false, false, 662, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
   &descriptor_table_game_5fprotocol_2eproto_once, descriptor_table_game_5fprotocol_2eproto_deps, 2, 7,
   schemas, file_default_instances, TableStruct_game_5fprotocol_2eproto::offsets,
   file_level_metadata_game_5fprotocol_2eproto, file_level_enum_descriptors_game_5fprotocol_2eproto, file_level_service_descriptors_game_5fprotocol_2eproto,
@@ -1320,16 +1333,16 @@ GameClientPlayerMove::GameClientPlayerMove(const GameClientPlayerMove& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&x_, &from.x_,
-    static_cast<size_t>(reinterpret_cast<char*>(&y_) -
-    reinterpret_cast<char*>(&x_)) + sizeof(y_));
+    static_cast<size_t>(reinterpret_cast<char*>(&animation_) -
+    reinterpret_cast<char*>(&x_)) + sizeof(animation_));
   // @@protoc_insertion_point(copy_constructor:protocol.GameClientPlayerMove)
 }
 
 void GameClientPlayerMove::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&x_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&y_) -
-    reinterpret_cast<char*>(&x_)) + sizeof(y_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&animation_) -
+    reinterpret_cast<char*>(&x_)) + sizeof(animation_));
 }
 
 GameClientPlayerMove::~GameClientPlayerMove() {
@@ -1359,8 +1372,8 @@ void GameClientPlayerMove::Clear() {
   (void) cached_has_bits;
 
   ::memset(&x_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&y_) -
-      reinterpret_cast<char*>(&x_)) + sizeof(y_));
+      reinterpret_cast<char*>(&animation_) -
+      reinterpret_cast<char*>(&x_)) + sizeof(animation_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1370,18 +1383,33 @@ const char* GameClientPlayerMove::_InternalParse(const char* ptr, ::PROTOBUF_NAM
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int32 x = 1;
+      // double x = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 9)) {
+          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else goto handle_unusual;
+        continue;
+      // double y = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 17)) {
+          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else goto handle_unusual;
+        continue;
+      // bool is_right = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          is_right_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 y = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+      // .protocol.PlayerAnimation animation = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+          _internal_set_animation(static_cast<::protocol::PlayerAnimation>(val));
         } else goto handle_unusual;
         continue;
       default: {
@@ -1413,16 +1441,29 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 x = 1;
-  if (this->x() != 0) {
+  // double x = 1;
+  if (!(this->x() <= 0 && this->x() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_x(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(1, this->_internal_x(), target);
   }
 
-  // int32 y = 2;
-  if (this->y() != 0) {
+  // double y = 2;
+  if (!(this->y() <= 0 && this->y() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_y(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(2, this->_internal_y(), target);
+  }
+
+  // bool is_right = 3;
+  if (this->is_right() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(3, this->_internal_is_right(), target);
+  }
+
+  // .protocol.PlayerAnimation animation = 4;
+  if (this->animation() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      4, this->_internal_animation(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1441,18 +1482,25 @@ size_t GameClientPlayerMove::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int32 x = 1;
-  if (this->x() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_x());
+  // double x = 1;
+  if (!(this->x() <= 0 && this->x() >= 0)) {
+    total_size += 1 + 8;
   }
 
-  // int32 y = 2;
-  if (this->y() != 0) {
+  // double y = 2;
+  if (!(this->y() <= 0 && this->y() >= 0)) {
+    total_size += 1 + 8;
+  }
+
+  // bool is_right = 3;
+  if (this->is_right() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // .protocol.PlayerAnimation animation = 4;
+  if (this->animation() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_y());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_animation());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1486,11 +1534,17 @@ void GameClientPlayerMove::MergeFrom(const GameClientPlayerMove& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from.x() != 0) {
+  if (!(from.x() <= 0 && from.x() >= 0)) {
     _internal_set_x(from._internal_x());
   }
-  if (from.y() != 0) {
+  if (!(from.y() <= 0 && from.y() >= 0)) {
     _internal_set_y(from._internal_y());
+  }
+  if (from.is_right() != 0) {
+    _internal_set_is_right(from._internal_is_right());
+  }
+  if (from.animation() != 0) {
+    _internal_set_animation(from._internal_animation());
   }
 }
 
@@ -1516,8 +1570,8 @@ void GameClientPlayerMove::InternalSwap(GameClientPlayerMove* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(GameClientPlayerMove, y_)
-      + sizeof(GameClientPlayerMove::y_)
+      PROTOBUF_FIELD_OFFSET(GameClientPlayerMove, animation_)
+      + sizeof(GameClientPlayerMove::animation_)
       - PROTOBUF_FIELD_OFFSET(GameClientPlayerMove, x_)>(
           reinterpret_cast<char*>(&x_),
           reinterpret_cast<char*>(&other->x_));
@@ -1545,16 +1599,16 @@ GameServerPlayerMove::GameServerPlayerMove(const GameServerPlayerMove& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&object_id_, &from.object_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&y_) -
-    reinterpret_cast<char*>(&object_id_)) + sizeof(y_));
+    static_cast<size_t>(reinterpret_cast<char*>(&animation_) -
+    reinterpret_cast<char*>(&object_id_)) + sizeof(animation_));
   // @@protoc_insertion_point(copy_constructor:protocol.GameServerPlayerMove)
 }
 
 void GameServerPlayerMove::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&object_id_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&y_) -
-    reinterpret_cast<char*>(&object_id_)) + sizeof(y_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&animation_) -
+    reinterpret_cast<char*>(&object_id_)) + sizeof(animation_));
 }
 
 GameServerPlayerMove::~GameServerPlayerMove() {
@@ -1584,8 +1638,8 @@ void GameServerPlayerMove::Clear() {
   (void) cached_has_bits;
 
   ::memset(&object_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&y_) -
-      reinterpret_cast<char*>(&object_id_)) + sizeof(y_));
+      reinterpret_cast<char*>(&animation_) -
+      reinterpret_cast<char*>(&object_id_)) + sizeof(animation_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1602,18 +1656,33 @@ const char* GameServerPlayerMove::_InternalParse(const char* ptr, ::PROTOBUF_NAM
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 x = 2;
+      // double x = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
-          x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 17)) {
+          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else goto handle_unusual;
+        continue;
+      // double y = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 25)) {
+          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
+          ptr += sizeof(double);
+        } else goto handle_unusual;
+        continue;
+      // bool is_right = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          is_right_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // int32 y = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
-          y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+      // .protocol.PlayerAnimation animation = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 40)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+          _internal_set_animation(static_cast<::protocol::PlayerAnimation>(val));
         } else goto handle_unusual;
         continue;
       default: {
@@ -1651,16 +1720,29 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_object_id(), target);
   }
 
-  // int32 x = 2;
-  if (this->x() != 0) {
+  // double x = 2;
+  if (!(this->x() <= 0 && this->x() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_x(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(2, this->_internal_x(), target);
   }
 
-  // int32 y = 3;
-  if (this->y() != 0) {
+  // double y = 3;
+  if (!(this->y() <= 0 && this->y() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_y(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(3, this->_internal_y(), target);
+  }
+
+  // bool is_right = 4;
+  if (this->is_right() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(4, this->_internal_is_right(), target);
+  }
+
+  // .protocol.PlayerAnimation animation = 5;
+  if (this->animation() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      5, this->_internal_animation(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1686,18 +1768,25 @@ size_t GameServerPlayerMove::ByteSizeLong() const {
         this->_internal_object_id());
   }
 
-  // int32 x = 2;
-  if (this->x() != 0) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_x());
+  // double x = 2;
+  if (!(this->x() <= 0 && this->x() >= 0)) {
+    total_size += 1 + 8;
   }
 
-  // int32 y = 3;
-  if (this->y() != 0) {
+  // double y = 3;
+  if (!(this->y() <= 0 && this->y() >= 0)) {
+    total_size += 1 + 8;
+  }
+
+  // bool is_right = 4;
+  if (this->is_right() != 0) {
+    total_size += 1 + 1;
+  }
+
+  // .protocol.PlayerAnimation animation = 5;
+  if (this->animation() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-        this->_internal_y());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_animation());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1734,11 +1823,17 @@ void GameServerPlayerMove::MergeFrom(const GameServerPlayerMove& from) {
   if (from.object_id() != 0) {
     _internal_set_object_id(from._internal_object_id());
   }
-  if (from.x() != 0) {
+  if (!(from.x() <= 0 && from.x() >= 0)) {
     _internal_set_x(from._internal_x());
   }
-  if (from.y() != 0) {
+  if (!(from.y() <= 0 && from.y() >= 0)) {
     _internal_set_y(from._internal_y());
+  }
+  if (from.is_right() != 0) {
+    _internal_set_is_right(from._internal_is_right());
+  }
+  if (from.animation() != 0) {
+    _internal_set_animation(from._internal_animation());
   }
 }
 
@@ -1764,8 +1859,8 @@ void GameServerPlayerMove::InternalSwap(GameServerPlayerMove* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(GameServerPlayerMove, y_)
-      + sizeof(GameServerPlayerMove::y_)
+      PROTOBUF_FIELD_OFFSET(GameServerPlayerMove, animation_)
+      + sizeof(GameServerPlayerMove::animation_)
       - PROTOBUF_FIELD_OFFSET(GameServerPlayerMove, object_id_)>(
           reinterpret_cast<char*>(&object_id_),
           reinterpret_cast<char*>(&other->object_id_));

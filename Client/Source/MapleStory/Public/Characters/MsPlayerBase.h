@@ -1,12 +1,10 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
 #include "PaperZDCharacter.h"
+#include "game_protocol.pb.h"
 #include "game_struct.pb.h"
 #include "Data/Enum/EAvatarType.h"
-#include "Data/Enum/EPlayerAnimationType.h"
 #include "MsPlayerBase.generated.h"
 
 
@@ -29,13 +27,15 @@ public:
 
 	/*다른 플레이어용 */
 	void Setup(const protocol::OtherPlayerInfo& Info);
+	void Move(const protocol::GameServerPlayerMove& MovePacket);
 
 protected:
 	virtual void Tick(float DeltaSeconds) override;
-
+	void UpdatePosition();
+	void UpdateAnimation() const;
+	
 private:
 	void InitAnimation();
-	void UpdateAnimation() const;
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
@@ -46,9 +46,8 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
 	TObjectPtr<UPaperFlipbook> JumpAnimation;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Animation")
-	EPlayerAnimationType AnimationType;
+	
+	protocol::PlayerAnimation AnimationType = protocol::PlayerAnimation::PLAYER_ANIMATION_IDLE;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Avatar")
 	EAvatarType AvatarType;
@@ -60,14 +59,17 @@ public:
 	TObjectPtr<UPlayerStatComponent> PlayerStat;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Info")
-	int32 X;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Info")
-	int32 Y;
+	bool bIsLocalPlayer;
 
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UWidgetComponent> NameTagWidget;
+	
+	bool bIsRight = true;
+	int32 StartX;
+	int32 StartY;
+	double BaseX;
+	double BaseY;
 
 private:
 	UPROPERTY()

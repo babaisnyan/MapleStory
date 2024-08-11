@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "MapleStory.h"
+#include "game_protocol.pb.h"
 #include "game_struct.pb.h"
 
 #include "Data/Enum/ELoginState.h"
@@ -54,6 +55,7 @@ public:
 	void ChangeMap(int32 NewMapId);
 	void AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo);
 	void RemoveObject(int64 ObjectId);
+	void UpdatePlayerPosition(const protocol::GameServerPlayerMove& Packet) const;
 
 private:
 	UFUNCTION()
@@ -83,7 +85,7 @@ public:
 
 	TOptional<protocol::PlayerInfo> PlayerInfoTemp = TOptional<protocol::PlayerInfo>();
 
-	TQueue<protocol::OtherPlayerInfo> OtherPlayersQueue;
+	TQueue<TOptional<protocol::OtherPlayerInfo>> OtherPlayersQueue;
 	TQueue<int32> RemovePlayerQueue;
 
 private:

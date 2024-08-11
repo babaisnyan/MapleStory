@@ -56,4 +56,6 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<USoundManager> SoundManager;
+
+	float MovePacketSendTimer = 0.05f;
 };

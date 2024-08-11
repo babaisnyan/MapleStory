@@ -1,6 +1,7 @@
 #include "GameModes/MapleGameMode.h"
 
 #include "MapleGameInstance.h"
+#include "game_protocol.pb.h"
 #include "Characters/MaplePlayerController.h"
 #include "Characters/MsLocalPlayer.h"
 #include "GameFramework/GameUserSettings.h"
@@ -21,9 +22,12 @@ void AMapleGameMode::BeginPlay() {
 	GameInstance->PlayerInfoTemp.Reset();
 
 	while (!GameInstance->OtherPlayersQueue.IsEmpty()) {
-		protocol::OtherPlayerInfo OtherPlayerInfo;
+		TOptional<protocol::OtherPlayerInfo> OtherPlayerInfo;
 		GameInstance->OtherPlayersQueue.Dequeue(OtherPlayerInfo);
-		AddPlayer(OtherPlayerInfo);
+
+		if (OtherPlayerInfo.IsSet()) {
+			AddPlayer(OtherPlayerInfo.GetValue());
+		}
 	}
 
 	while (!GameInstance->RemovePlayerQueue.IsEmpty()) {
@@ -42,12 +46,18 @@ void AMapleGameMode::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo)
 	const auto OtherPlayer = GetWorld()->SpawnActorDeferred<AMsPlayerBase>(AMsPlayerBase::StaticClass(), FTransform::Identity);
 	OtherPlayer->Setup(OtherPlayerInfo);
 	OtherPlayer->FinishSpawning(FTransform::Identity);
-	OtherPlayers.Emplace(OtherPlayerInfo.object_id(), OtherPlayer);
+	OtherPlayers.Add(OtherPlayerInfo.object_id(), OtherPlayer);
 }
 
 void AMapleGameMode::RemovePlayer(const int64 ObjectId) {
 	if (OtherPlayers.Contains(ObjectId)) {
 		OtherPlayers[ObjectId]->Destroy();
 		OtherPlayers.Remove(ObjectId);
+	}
+}
+
+void AMapleGameMode::UpdatePlayerPosition(const protocol::GameServerPlayerMove& MovePacket) {
+	if (OtherPlayers.Contains(MovePacket.object_id())) {
+		OtherPlayers[MovePacket.object_id()]->Move(MovePacket);
 	}
 }

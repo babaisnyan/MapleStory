@@ -8,6 +8,8 @@
 
 #include "database/db_connection_pool.h"
 
+#include "manager/job_queue/game_tick.h"
+
 #include "memory/memory.h"
 
 #include "network/service.h"
@@ -37,6 +39,8 @@ void GameServer::StartGameServer() {
                                             300);
 
   ASSERT_CRASH(_game_service->Start());
+
+  GameTick::GetInstance()->Start();
 
   for (int i = 0; i < 10; i++) {
     ThreadManager::GetInstance().Launch([this] {

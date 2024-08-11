@@ -10,7 +10,7 @@ namespace game {
 
     void OnEnter() override;
     void Update(float delta_time) override;
-    void UpdatePosition(int16_t x, int16_t y);
+    void UpdatePosition(double x, double y);
 
   public:
     int32_t GetId() const;

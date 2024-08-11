@@ -1,6 +1,7 @@
 ﻿#include "Network/GameServerPacketHandler.h"
 
 #include "MapleGameInstance.h"
+#include "GameModes/MapleGameMode.h"
 
 
 bool FGameServerPacketHandler::HandleGameInvalid(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
@@ -36,5 +37,6 @@ bool FGameServerPacketHandler::HandleGameServerChangeMap(const TObjectPtr<UTCPCl
 }
 
 bool FGameServerPacketHandler::HandleGameServerPlayerMove(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerPlayerMove& Packet) {
+	GameInstance->UpdatePlayerPosition(Packet);
 	return true;
 }

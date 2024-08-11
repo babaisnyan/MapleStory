@@ -18,18 +18,22 @@
 PROTOBUF_PRAGMA_INIT_SEG
 namespace protocol {
 }  // namespace protocol
-static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_game_5fenum_2eproto = nullptr;
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_game_5fenum_2eproto[1];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_game_5fenum_2eproto = nullptr;
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fenum_2eproto::offsets[1] = {};
 static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::Message* const* file_default_instances = nullptr;
 
 const char descriptor_table_protodef_game_5fenum_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\017game_enum.proto\022\010protocolb\006proto3"
+  "\n\017game_enum.proto\022\010protocol*\203\001\n\017PlayerAn"
+  "imation\022 \n\034PLAYER_ANIMATION_UNSPECIFIED\020"
+  "\000\022\031\n\025PLAYER_ANIMATION_IDLE\020\001\022\030\n\024PLAYER_A"
+  "NIMATION_RUN\020\002\022\031\n\025PLAYER_ANIMATION_JUMP\020"
+  "\003b\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_5fenum_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fenum_2eproto = {
-  false, false, 35, descriptor_table_protodef_game_5fenum_2eproto, "game_enum.proto", 
+  false, false, 169, descriptor_table_protodef_game_5fenum_2eproto, "game_enum.proto", 
   &descriptor_table_game_5fenum_2eproto_once, nullptr, 0, 0,
   schemas, file_default_instances, TableStruct_game_5fenum_2eproto::offsets,
   nullptr, file_level_enum_descriptors_game_5fenum_2eproto, file_level_service_descriptors_game_5fenum_2eproto,
@@ -41,6 +45,22 @@ PROTOBUF_ATTRIBUTE_WEAK const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY static ::PROTOBUF_NAMESPACE_ID::internal::AddDescriptorsRunner dynamic_init_dummy_game_5fenum_2eproto(&descriptor_table_game_5fenum_2eproto);
 namespace protocol {
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PlayerAnimation_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_game_5fenum_2eproto);
+  return file_level_enum_descriptors_game_5fenum_2eproto[0];
+}
+bool PlayerAnimation_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+      return true;
+    default:
+      return false;
+  }
+}
+
 
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace protocol

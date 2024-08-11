@@ -4,12 +4,16 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "InputMappingContext.h"
+#include "MapleGameInstance.h"
+#include "PaperFlipbookComponent.h"
 #include "Characters/PlayerCamera.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/PlayerStatComponent.h"
 #include "Data/Enum/ESoundEffectType.h"
+#include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "Managers/SoundManager.h"
+#include "Network/PacketCreator.h"
 #include "UI/StatusBarHud.h"
 
 AMsLocalPlayer::AMsLocalPlayer() {
@@ -40,6 +44,7 @@ AMsLocalPlayer::AMsLocalPlayer() {
 
 	const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
 	if (Capsule) {
+		Capsule->SetEnableGravity(true);
 		Capsule->SetSimulatePhysics(false);
 	}
 }
@@ -84,15 +89,43 @@ void AMsLocalPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void AMsLocalPlayer::Tick(const float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
+
+	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
+
+	if (MovementComponent->Velocity.Length() > 0) {
+		AnimationType = protocol::PLAYER_ANIMATION_RUN;
+	} else {
+		AnimationType = protocol::PLAYER_ANIMATION_IDLE;
+	}
+
+	if (MovementComponent->IsFalling()) {
+		AnimationType = protocol::PLAYER_ANIMATION_JUMP;
+	}
+
+	if (MovementComponent->Velocity.X > 0) {
+		GetSprite()->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
+	} else if (MovementComponent->Velocity.X < 0) {
+		GetSprite()->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
+	}
+
+	MovePacketSendTimer -= DeltaSeconds;
+
+	if (MovePacketSendTimer <= 0.0f) {
+		const FVector Location = GetActorLocation();
+		const FVector NewLocation = {Location.X - BaseX, Location.Y, Location.Z - BaseY};
+		MovePacketSendTimer = 0.05f;
+		UpdatePosition();
+		const auto SendBuffer = FPacketCreator::GetClientMove(NewLocation.X, NewLocation.Z, bIsRight, AnimationType);
+		SEND_PACKET(SendBuffer);
+	}
+
+	UpdateAnimation();
 }
 
 void AMsLocalPlayer::EnhancedMoveHorizontal(const FInputActionValue& Value) {
 	const FVector2D AxisValue = Value.Get<FVector2D>();
-	AnimationType = EPlayerAnimationType::Run;
+	AnimationType = protocol::PLAYER_ANIMATION_RUN;
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), AxisValue.X);
-
-	const FVector ActorLocation = GetActorLocation();
-	UE_LOG(LogTemp, Display, TEXT("X: %f, Z(Y): %f"), ActorLocation.X, ActorLocation.Z);
 }
 
 void AMsLocalPlayer::EnhancedMoveVertical(const FInputActionValue& Value) {
@@ -114,8 +147,7 @@ void AMsLocalPlayer::EnhancedJump(const FInputActionValue& Value) {
 		UpdateStatusBar();
 
 		Jump();
-		AnimationType = EPlayerAnimationType::Jump;
-
+		AnimationType = protocol::PLAYER_ANIMATION_JUMP;
 		SoundManager->PlaySoundEffect(ESoundEffectType::Jump, GetWorld());
 	}
 }

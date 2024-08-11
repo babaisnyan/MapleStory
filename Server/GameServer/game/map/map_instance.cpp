@@ -55,8 +55,8 @@ std::optional<std::shared_ptr<GameSession>> MapInstance::GetPlayer(const int64_t
   }
 
   const auto player = std::static_pointer_cast<Player>(_objects.at(object_id));
-
-  return std::nullopt;
+  const auto session = GetPlayer(player->GetId());
+  return session;
 }
 
 std::optional<std::shared_ptr<GameSession>> MapInstance::GetPlayer(const int32_t player_id) const {

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "MapleStory.h"
+#include "game_protocol.pb.h"
 
 
 class MAPLESTORY_API FPacketCreator {
@@ -15,4 +16,5 @@ public:
 	static FSendBufferRef GetCreateCharacterRequest(const FString& Name, int32 Avatar);
 
 	static FSendBufferRef GetClientEnterRequest(int32 CharacterId, int32 AuthKey);
+	static FSendBufferRef GetClientMove(double X, double Y, bool bIsRight, protocol::PlayerAnimation AnimationType);
 };

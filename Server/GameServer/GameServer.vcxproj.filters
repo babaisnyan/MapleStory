@@ -93,6 +93,15 @@
     <ClCompile Include="manager\job_queue\player_db_queue.cpp">
       <Filter>manager\job_queue</Filter>
     </ClCompile>
+    <ClCompile Include="util\timer\timer.cpp">
+      <Filter>util\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="util\timer\timer_manager.cpp">
+      <Filter>util\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="manager\job_queue\object_move_queue.cpp">
+      <Filter>manager\job_queue</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -189,6 +198,15 @@
     <ClInclude Include="manager\job_queue\player_db_queue.h">
       <Filter>manager\job_queue</Filter>
     </ClInclude>
+    <ClInclude Include="util\timer\timer.h">
+      <Filter>util\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="util\timer\timer_manager.h">
+      <Filter>util\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="manager\job_queue\object_move_queue.h">
+      <Filter>manager\job_queue</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="network">
@@ -238,6 +256,12 @@
     </Filter>
     <Filter Include="manager\job_queue">
       <UniqueIdentifier>{153027cd-1d69-461c-afc8-a54512190390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util">
+      <UniqueIdentifier>{67d25c31-490e-4f85-9486-a734a1d72378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="util\timer">
+      <UniqueIdentifier>{a96ff5da-e5b9-4099-91c5-26e7c982ffc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1,2 +1,9 @@
 syntax = "proto3";
 package protocol;
+
+enum PlayerAnimation {
+  PLAYER_ANIMATION_UNSPECIFIED = 0;
+  PLAYER_ANIMATION_IDLE = 1;
+  PLAYER_ANIMATION_RUN = 2;
+  PLAYER_ANIMATION_JUMP = 3;
+}

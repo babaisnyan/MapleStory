@@ -185,6 +185,7 @@
     <ClCompile Include="handler\game\player_handler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager\job_queue\game_tick.cpp" />
+    <ClCompile Include="manager\job_queue\object_move_queue.cpp" />
     <ClCompile Include="manager\job_queue\player_db_queue.cpp" />
     <ClCompile Include="manager\migration\auth_storage.cpp" />
     <ClCompile Include="network\center\center_packet_creator.cpp" />
@@ -238,6 +239,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="util\timer\timer.cpp" />
+    <ClCompile Include="util\timer\timer_manager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
@@ -259,6 +262,7 @@
     <ClInclude Include="handler\center\center_manager.h" />
     <ClInclude Include="handler\game\player_handler.h" />
     <ClInclude Include="manager\job_queue\game_tick.h" />
+    <ClInclude Include="manager\job_queue\object_move_queue.h" />
     <ClInclude Include="manager\job_queue\player_db_queue.h" />
     <ClInclude Include="manager\migration\auth_storage.h" />
     <ClInclude Include="network\center\center_packet_creator.h" />
@@ -277,6 +281,8 @@
     <ClInclude Include="network\protocol\game_protocol.pb.h" />
     <ClInclude Include="network\protocol\game_struct.pb.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="util\timer\timer.h" />
+    <ClInclude Include="util\timer\timer_manager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

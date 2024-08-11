@@ -917,23 +917,43 @@ class GameClientPlayerMove final :
   enum : int {
     kXFieldNumber = 1,
     kYFieldNumber = 2,
+    kIsRightFieldNumber = 3,
+    kAnimationFieldNumber = 4,
   };
-  // int32 x = 1;
+  // double x = 1;
   void clear_x();
-  ::PROTOBUF_NAMESPACE_ID::int32 x() const;
-  void set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
+  double x() const;
+  void set_x(double value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_x() const;
-  void _internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
+  double _internal_x() const;
+  void _internal_set_x(double value);
   public:
 
-  // int32 y = 2;
+  // double y = 2;
   void clear_y();
-  ::PROTOBUF_NAMESPACE_ID::int32 y() const;
-  void set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
+  double y() const;
+  void set_y(double value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_y() const;
-  void _internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
+  double _internal_y() const;
+  void _internal_set_y(double value);
+  public:
+
+  // bool is_right = 3;
+  void clear_is_right();
+  bool is_right() const;
+  void set_is_right(bool value);
+  private:
+  bool _internal_is_right() const;
+  void _internal_set_is_right(bool value);
+  public:
+
+  // .protocol.PlayerAnimation animation = 4;
+  void clear_animation();
+  ::protocol::PlayerAnimation animation() const;
+  void set_animation(::protocol::PlayerAnimation value);
+  private:
+  ::protocol::PlayerAnimation _internal_animation() const;
+  void _internal_set_animation(::protocol::PlayerAnimation value);
   public:
 
   // @@protoc_insertion_point(class_scope:protocol.GameClientPlayerMove)
@@ -943,8 +963,10 @@ class GameClientPlayerMove final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::int32 x_;
-  ::PROTOBUF_NAMESPACE_ID::int32 y_;
+  double x_;
+  double y_;
+  bool is_right_;
+  int animation_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fprotocol_2eproto;
 };
@@ -1061,6 +1083,8 @@ class GameServerPlayerMove final :
     kObjectIdFieldNumber = 1,
     kXFieldNumber = 2,
     kYFieldNumber = 3,
+    kIsRightFieldNumber = 4,
+    kAnimationFieldNumber = 5,
   };
   // int64 object_id = 1;
   void clear_object_id();
@@ -1071,22 +1095,40 @@ class GameServerPlayerMove final :
   void _internal_set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value);
   public:
 
-  // int32 x = 2;
+  // double x = 2;
   void clear_x();
-  ::PROTOBUF_NAMESPACE_ID::int32 x() const;
-  void set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
+  double x() const;
+  void set_x(double value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_x() const;
-  void _internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
+  double _internal_x() const;
+  void _internal_set_x(double value);
   public:
 
-  // int32 y = 3;
+  // double y = 3;
   void clear_y();
-  ::PROTOBUF_NAMESPACE_ID::int32 y() const;
-  void set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
+  double y() const;
+  void set_y(double value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_y() const;
-  void _internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
+  double _internal_y() const;
+  void _internal_set_y(double value);
+  public:
+
+  // bool is_right = 4;
+  void clear_is_right();
+  bool is_right() const;
+  void set_is_right(bool value);
+  private:
+  bool _internal_is_right() const;
+  void _internal_set_is_right(bool value);
+  public:
+
+  // .protocol.PlayerAnimation animation = 5;
+  void clear_animation();
+  ::protocol::PlayerAnimation animation() const;
+  void set_animation(::protocol::PlayerAnimation value);
+  private:
+  ::protocol::PlayerAnimation _internal_animation() const;
+  void _internal_set_animation(::protocol::PlayerAnimation value);
   public:
 
   // @@protoc_insertion_point(class_scope:protocol.GameServerPlayerMove)
@@ -1097,8 +1139,10 @@ class GameServerPlayerMove final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::int64 object_id_;
-  ::PROTOBUF_NAMESPACE_ID::int32 x_;
-  ::PROTOBUF_NAMESPACE_ID::int32 y_;
+  double x_;
+  double y_;
+  bool is_right_;
+  int animation_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fprotocol_2eproto;
 };
@@ -1378,44 +1422,84 @@ inline void GameServerChangeMap::set_map_id(::PROTOBUF_NAMESPACE_ID::int32 value
 
 // GameClientPlayerMove
 
-// int32 x = 1;
+// double x = 1;
 inline void GameClientPlayerMove::clear_x() {
   x_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameClientPlayerMove::_internal_x() const {
+inline double GameClientPlayerMove::_internal_x() const {
   return x_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameClientPlayerMove::x() const {
+inline double GameClientPlayerMove::x() const {
   // @@protoc_insertion_point(field_get:protocol.GameClientPlayerMove.x)
   return _internal_x();
 }
-inline void GameClientPlayerMove::_internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameClientPlayerMove::_internal_set_x(double value) {
   
   x_ = value;
 }
-inline void GameClientPlayerMove::set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameClientPlayerMove::set_x(double value) {
   _internal_set_x(value);
   // @@protoc_insertion_point(field_set:protocol.GameClientPlayerMove.x)
 }
 
-// int32 y = 2;
+// double y = 2;
 inline void GameClientPlayerMove::clear_y() {
   y_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameClientPlayerMove::_internal_y() const {
+inline double GameClientPlayerMove::_internal_y() const {
   return y_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameClientPlayerMove::y() const {
+inline double GameClientPlayerMove::y() const {
   // @@protoc_insertion_point(field_get:protocol.GameClientPlayerMove.y)
   return _internal_y();
 }
-inline void GameClientPlayerMove::_internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameClientPlayerMove::_internal_set_y(double value) {
   
   y_ = value;
 }
-inline void GameClientPlayerMove::set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameClientPlayerMove::set_y(double value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:protocol.GameClientPlayerMove.y)
+}
+
+// bool is_right = 3;
+inline void GameClientPlayerMove::clear_is_right() {
+  is_right_ = false;
+}
+inline bool GameClientPlayerMove::_internal_is_right() const {
+  return is_right_;
+}
+inline bool GameClientPlayerMove::is_right() const {
+  // @@protoc_insertion_point(field_get:protocol.GameClientPlayerMove.is_right)
+  return _internal_is_right();
+}
+inline void GameClientPlayerMove::_internal_set_is_right(bool value) {
+  
+  is_right_ = value;
+}
+inline void GameClientPlayerMove::set_is_right(bool value) {
+  _internal_set_is_right(value);
+  // @@protoc_insertion_point(field_set:protocol.GameClientPlayerMove.is_right)
+}
+
+// .protocol.PlayerAnimation animation = 4;
+inline void GameClientPlayerMove::clear_animation() {
+  animation_ = 0;
+}
+inline ::protocol::PlayerAnimation GameClientPlayerMove::_internal_animation() const {
+  return static_cast< ::protocol::PlayerAnimation >(animation_);
+}
+inline ::protocol::PlayerAnimation GameClientPlayerMove::animation() const {
+  // @@protoc_insertion_point(field_get:protocol.GameClientPlayerMove.animation)
+  return _internal_animation();
+}
+inline void GameClientPlayerMove::_internal_set_animation(::protocol::PlayerAnimation value) {
+  
+  animation_ = value;
+}
+inline void GameClientPlayerMove::set_animation(::protocol::PlayerAnimation value) {
+  _internal_set_animation(value);
+  // @@protoc_insertion_point(field_set:protocol.GameClientPlayerMove.animation)
 }
 
 // -------------------------------------------------------------------
@@ -1442,44 +1526,84 @@ inline void GameServerPlayerMove::set_object_id(::PROTOBUF_NAMESPACE_ID::int64 v
   // @@protoc_insertion_point(field_set:protocol.GameServerPlayerMove.object_id)
 }
 
-// int32 x = 2;
+// double x = 2;
 inline void GameServerPlayerMove::clear_x() {
   x_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerPlayerMove::_internal_x() const {
+inline double GameServerPlayerMove::_internal_x() const {
   return x_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerPlayerMove::x() const {
+inline double GameServerPlayerMove::x() const {
   // @@protoc_insertion_point(field_get:protocol.GameServerPlayerMove.x)
   return _internal_x();
 }
-inline void GameServerPlayerMove::_internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameServerPlayerMove::_internal_set_x(double value) {
   
   x_ = value;
 }
-inline void GameServerPlayerMove::set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameServerPlayerMove::set_x(double value) {
   _internal_set_x(value);
   // @@protoc_insertion_point(field_set:protocol.GameServerPlayerMove.x)
 }
 
-// int32 y = 3;
+// double y = 3;
 inline void GameServerPlayerMove::clear_y() {
   y_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerPlayerMove::_internal_y() const {
+inline double GameServerPlayerMove::_internal_y() const {
   return y_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerPlayerMove::y() const {
+inline double GameServerPlayerMove::y() const {
   // @@protoc_insertion_point(field_get:protocol.GameServerPlayerMove.y)
   return _internal_y();
 }
-inline void GameServerPlayerMove::_internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameServerPlayerMove::_internal_set_y(double value) {
   
   y_ = value;
 }
-inline void GameServerPlayerMove::set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameServerPlayerMove::set_y(double value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:protocol.GameServerPlayerMove.y)
+}
+
+// bool is_right = 4;
+inline void GameServerPlayerMove::clear_is_right() {
+  is_right_ = false;
+}
+inline bool GameServerPlayerMove::_internal_is_right() const {
+  return is_right_;
+}
+inline bool GameServerPlayerMove::is_right() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerPlayerMove.is_right)
+  return _internal_is_right();
+}
+inline void GameServerPlayerMove::_internal_set_is_right(bool value) {
+  
+  is_right_ = value;
+}
+inline void GameServerPlayerMove::set_is_right(bool value) {
+  _internal_set_is_right(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerPlayerMove.is_right)
+}
+
+// .protocol.PlayerAnimation animation = 5;
+inline void GameServerPlayerMove::clear_animation() {
+  animation_ = 0;
+}
+inline ::protocol::PlayerAnimation GameServerPlayerMove::_internal_animation() const {
+  return static_cast< ::protocol::PlayerAnimation >(animation_);
+}
+inline ::protocol::PlayerAnimation GameServerPlayerMove::animation() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerPlayerMove.animation)
+  return _internal_animation();
+}
+inline void GameServerPlayerMove::_internal_set_animation(::protocol::PlayerAnimation value) {
+  
+  animation_ = value;
+}
+inline void GameServerPlayerMove::set_animation(::protocol::PlayerAnimation value) {
+  _internal_set_animation(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerPlayerMove.animation)
 }
 
 #ifdef __GNUC__

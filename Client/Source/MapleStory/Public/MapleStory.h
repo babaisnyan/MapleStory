@@ -23,10 +23,4 @@ private:
 
 DECLARE_SHARED_PTR(FSendBuffer);
 
-#define SEND_LOGIN_PACKET(Packet) \
-	FSendBufferRef SendBuffer = FLoginServerPacketHandler::MakeSendBuffer(Packet); \
-	Cast<UMapleGameInstance>(GWorld->GetGameInstance())->SendPacket(SendBuffer);
-
-#define SEND_GAME_PACKET(Packet) \
-	FSendBufferRef SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet); \
-	Cast<UMapleGameInstance>(GWorld->GetGameInstance())->SendPacket(SendBuffer);
+#define SEND_PACKET(SendBuffer) Cast<UMapleGameInstance>(GWorld->GetGameInstance())->SendPacket(SendBuffer);

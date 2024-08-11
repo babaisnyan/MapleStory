@@ -12,9 +12,23 @@
 #include "UI/NameTag.h"
 
 AMsPlayerBase::AMsPlayerBase() {
+	AutoPossessPlayer = EAutoReceiveInput::Disabled;
+
 	static ConstructorHelpers::FObjectFinder<UDataTable> AvatarTableFinder(TEXT("/Script/Engine.DataTable'/Game/Data/DT_Avatar.DT_Avatar'"));
 	if (AvatarTableFinder.Succeeded()) {
 		AvatarTable = AvatarTableFinder.Object;
+	}
+
+	const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
+	if (Capsule) {
+		Capsule->SetCapsuleSize(16.0f, 33.0f);
+		Capsule->SetCollisionProfileName(TEXT("Player"));
+		Capsule->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+		Capsule->SetSimulatePhysics(true);
+		Capsule->SetEnableGravity(false);
+		Capsule->BodyInstance.bLockXRotation = true;
+		Capsule->BodyInstance.bLockYRotation = true;
+		RootComponent = Capsule;
 	}
 
 	static ConstructorHelpers::FClassFinder<UNameTag> NameTagFinder(TEXT("/Game/UI/Common/WBP_NameTag.WBP_NameTag_C"));
@@ -29,14 +43,6 @@ AMsPlayerBase::AMsPlayerBase() {
 		NameTagWidget->SetBlendMode(EWidgetBlendMode::Transparent);
 		NameTagWidget->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		NameTagWidget->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	}
-
-	const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
-	if (Capsule) {
-		Capsule->SetCapsuleSize(16.0f, 33.0f);
-		Capsule->SetCollisionProfileName(TEXT("Player"));
-		Capsule->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
-		Capsule->SetSimulatePhysics(true);
 	}
 
 	const TObjectPtr<UCharacterMovementComponent> Movement = GetCharacterMovement();
@@ -59,7 +65,9 @@ void AMsPlayerBase::BeginPlay() {
 
 	if (PlayerStart) {
 		const FVector SpawnPointLocation = PlayerStart->GetActorLocation();
-		const FVector SpawnLocation = FVector(SpawnPointLocation.X + X, SpawnPointLocation.Y, SpawnPointLocation.Z + Y + 5);
+		BaseX = SpawnPointLocation.X;
+		BaseY = SpawnPointLocation.Z;
+		const FVector SpawnLocation = FVector(BaseX + StartX, SpawnPointLocation.Y, BaseY + StartY);
 		SetActorLocation(SpawnLocation);
 	}
 
@@ -74,8 +82,9 @@ void AMsPlayerBase::Setup(const protocol::PlayerInfo& Info) {
 	PlayerStat->Setup(Info);
 	AvatarType = static_cast<EAvatarType>(Info.type());
 	Name = UTF8_TO_TCHAR(Info.name().c_str());
-	X = Info.x();
-	Y = Info.y();
+	StartX = Info.x();
+	StartY = Info.y();
+	bIsLocalPlayer = true;
 	InitAnimation();
 }
 
@@ -83,33 +92,30 @@ void AMsPlayerBase::Setup(const protocol::OtherPlayerInfo& Info) {
 	PlayerStat->Setup(Info);
 	AvatarType = static_cast<EAvatarType>(Info.type());
 	Name = UTF8_TO_TCHAR(Info.name().c_str());
-	X = Info.x();
-	Y = Info.y();
+	StartX = Info.x();
+	StartY = Info.y();
+	bIsLocalPlayer = false;
 	InitAnimation();
 }
 
-void AMsPlayerBase::Tick(float DeltaSeconds) {
-	Super::Tick(DeltaSeconds);
+void AMsPlayerBase::Move(const protocol::GameServerPlayerMove& MovePacket) {
+	const FVector Location = GetActorLocation();
+	const FVector NewLocation = {MovePacket.x() + BaseX, Location.Y, MovePacket.y() + BaseY};
+	bIsRight = MovePacket.is_right();
+	AnimationType = MovePacket.animation();
+	SetActorLocation(NewLocation);
 
-	const UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
-
-	if (MovementComponent->Velocity.Length() > 0) {
-		AnimationType = EPlayerAnimationType::Run;
+	if (bIsRight) {
+		GetSprite()->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 	} else {
-		AnimationType = EPlayerAnimationType::Idle;
-	}
-
-	if (MovementComponent->IsFalling()) {
-		AnimationType = EPlayerAnimationType::Fall;
+		GetSprite()->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
 	}
 
 	UpdateAnimation();
+}
 
-	if (MovementComponent->Velocity.X > 0) {
-		GetSprite()->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
-	} else if (MovementComponent->Velocity.X < 0) {
-		GetSprite()->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
-	}
+void AMsPlayerBase::Tick(const float DeltaSeconds) {
+	Super::Tick(DeltaSeconds);
 
 	if (!NameTagWidget) return;
 	if (NameTagWidget->GetDrawSize().X != 500) return;
@@ -121,6 +127,11 @@ void AMsPlayerBase::Tick(float DeltaSeconds) {
 			NameTagWidget->SetDrawSize(Size);
 		}
 	}
+}
+
+void AMsPlayerBase::UpdatePosition() {
+	const FRotator SpriteRotation = GetSprite()->GetRelativeRotation();
+	bIsRight = SpriteRotation.Yaw == 0.0f;
 }
 
 void AMsPlayerBase::InitAnimation() {
@@ -137,15 +148,14 @@ void AMsPlayerBase::InitAnimation() {
 
 void AMsPlayerBase::UpdateAnimation() const {
 	switch (AnimationType) {
-		case EPlayerAnimationType::Idle:
-			GetSprite()->SetFlipbook(IdleAnimation);
-			break;
-		case EPlayerAnimationType::Run:
+		case protocol::PLAYER_ANIMATION_RUN:
 			GetSprite()->SetFlipbook(RunAnimation);
 			break;
-		case EPlayerAnimationType::Jump: [[fallthrough]];
-		case EPlayerAnimationType::Fall:
+		case protocol::PLAYER_ANIMATION_JUMP:
 			GetSprite()->SetFlipbook(JumpAnimation);
+			break;
+		default:
+			GetSprite()->SetFlipbook(IdleAnimation);
 			break;
 	}
 }
