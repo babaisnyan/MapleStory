@@ -32,7 +32,7 @@ public:
 
   bool Fetch() const { return _connection.Fetch(); }
 
-  void      GetResultColumnCount(SQLSMALLINT* count) const { _connection.GetResultColumnCount(count); }
+  void GetResultColumnCount(SQLSMALLINT* count) const { _connection.GetResultColumnCount(count); }
   SQLRETURN GetMoreResult() const { return _connection.GetMoreResult(); }
 
 public:
@@ -84,10 +84,10 @@ public:
 
 protected
 :
-  DbConnection&  _connection;
+  DbConnection& _connection;
   const wchar_t* _query = nullptr;
-  SQLLEN         _param_index[ParamCount > 0 ? ParamCount : 1] = {};
-  SQLLEN         _col_index[ColumnCount > 0 ? ColumnCount : 1] = {};
-  uint64_t       _param_flag = 0;
-  uint64_t       _col_flag = 0;
+  SQLLEN _param_index[ParamCount > 0 ? ParamCount : 1] = {};
+  SQLLEN _col_index[ColumnCount > 0 ? ColumnCount : 1] = {};
+  uint64_t _param_flag = 0;
+  uint64_t _col_flag = 0;
 };

@@ -53,4 +53,11 @@ void PlayerDbQueue::HandleClientEnter(const PacketSessionRef& session, const pro
   }
 }
 
-void PlayerDbQueue::SavePlayer(const PacketSessionRef& session) {}
+void PlayerDbQueue::SavePlayer(const PacketSessionRef& session) {
+  const auto game_session = std::static_pointer_cast<GameSession>(session);
+  const auto player = game_session->GetPlayer();
+
+  if (!player->TrySaveToDb()) {
+    // TODO: Log
+  }
+}
