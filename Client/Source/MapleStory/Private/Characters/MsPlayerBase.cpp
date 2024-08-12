@@ -1,6 +1,8 @@
 #include "Characters/MsPlayerBase.h"
 
 #include "PaperFlipbookComponent.h"
+#include "PaperZDAnimationComponent.h"
+#include "Characters/MsAnimInstance.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/PlayerStatComponent.h"
 #include "Components/TextBlock.h"
@@ -24,8 +26,8 @@ AMsPlayerBase::AMsPlayerBase() {
 		Capsule->SetCapsuleSize(16.0f, 33.0f);
 		Capsule->SetCollisionProfileName(TEXT("Player"));
 		Capsule->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
-		Capsule->SetSimulatePhysics(true);
-		Capsule->SetEnableGravity(false);
+		Capsule->SetSimulatePhysics(false);
+		Capsule->SetEnableGravity(true);
 		Capsule->BodyInstance.bLockXRotation = true;
 		Capsule->BodyInstance.bLockYRotation = true;
 		RootComponent = Capsule;
@@ -54,7 +56,6 @@ AMsPlayerBase::AMsPlayerBase() {
 
 	GetSprite()->SetRelativeLocation(FVector(0.0f, 1.0f, 0.0f));
 	GetSprite()->SetFlipbook(IdleAnimation);
-
 	PlayerStat = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("PlayerStat"));
 }
 
@@ -103,7 +104,9 @@ void AMsPlayerBase::Move(const protocol::GameServerPlayerMove& MovePacket) {
 	const FVector NewLocation = {MovePacket.x() + BaseX, Location.Y, MovePacket.y() + BaseY};
 	bIsRight = MovePacket.is_right();
 	AnimationType = MovePacket.animation();
-	SetActorLocation(NewLocation);
+	DestX = MovePacket.x();
+	DestY = MovePacket.y();
+	// SetActorLocation(NewLocation);
 
 	if (bIsRight) {
 		GetSprite()->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
@@ -117,14 +120,22 @@ void AMsPlayerBase::Move(const protocol::GameServerPlayerMove& MovePacket) {
 void AMsPlayerBase::Tick(const float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
 
-	if (!NameTagWidget) return;
-	if (NameTagWidget->GetDrawSize().X != 500) return;
+	if (NameTagWidget && NameTagWidget->GetDrawSize().X == 500) {
+		if (const auto Widget = Cast<UNameTag>(NameTagWidget->GetUserWidgetObject())) {
+			const auto Size = Widget->GetDesiredSize();
 
-	if (const auto Widget = Cast<UNameTag>(NameTagWidget->GetUserWidgetObject())) {
-		const auto Size = Widget->GetDesiredSize();
+			if (Size.X > 0 && Size.Y > 0) {
+				NameTagWidget->SetDrawSize(Size);
+			}
+		}
+	}
 
-		if (Size.X > 0 && Size.Y > 0) {
-			NameTagWidget->SetDrawSize(Size);
+	if (!bIsLocalPlayer) {
+		const FVector DestVector = {DestX + BaseX, 0.0f, DestY + BaseY};
+
+		if (DestVector != GetActorLocation()) {
+			const FVector TargetVector = FMath::VInterpTo(GetActorLocation(), DestVector, DeltaSeconds, 50.0f);
+			SetActorLocation(TargetVector);
 		}
 	}
 }

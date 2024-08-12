@@ -61,7 +61,7 @@ FSendBufferRef FPacketCreator::GetClientEnterRequest(const int32 CharacterId, co
 	return SendBuffer;
 }
 
-FSendBufferRef FPacketCreator::GetClientMove(const double X, const double Y, const bool bIsRight, const PlayerAnimation AnimationType) {
+FSendBufferRef FPacketCreator::GetClientMove(const float X, const float Y, const bool bIsRight, const PlayerAnimation AnimationType) {
 	GameClientPlayerMove Packet;
 	Packet.set_x(X);
 	Packet.set_y(Y);

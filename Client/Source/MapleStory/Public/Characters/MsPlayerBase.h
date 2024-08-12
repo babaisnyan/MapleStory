@@ -13,7 +13,7 @@ class UPlayerStatComponent;
 class UPaperFlipbook;
 
 UCLASS()
-class MAPLESTORY_API AMsPlayerBase : public APaperZDCharacter {
+class MAPLESTORY_API AMsPlayerBase : public APaperCharacter {
 	GENERATED_BODY()
 
 public:
@@ -68,10 +68,13 @@ protected:
 	bool bIsRight = true;
 	int32 StartX;
 	int32 StartY;
-	double BaseX;
-	double BaseY;
+	float BaseX;
+	float BaseY;
 
 private:
 	UPROPERTY()
 	TObjectPtr<UDataTable> AvatarTable;
+
+	float DestX;
+	float DestY;
 };

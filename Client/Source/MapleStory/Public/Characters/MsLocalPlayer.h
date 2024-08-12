@@ -57,5 +57,7 @@ private:
 	UPROPERTY()
 	TObjectPtr<USoundManager> SoundManager;
 
-	float MovePacketSendTimer = 0.05f;
+	float MovePacketSendTimer = 0.1f;
+	FVector LastMovePacketLocation;
+	protocol::PlayerAnimation LastAnimationType;
 };

@@ -42,11 +42,11 @@ AMsLocalPlayer::AMsLocalPlayer() {
 		StatusBarHudClass = StatusBarHudFinder.Class;
 	}
 
-	const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
-	if (Capsule) {
-		Capsule->SetEnableGravity(true);
-		Capsule->SetSimulatePhysics(false);
-	}
+	// const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
+	// if (Capsule) {
+	// 	Capsule->SetEnableGravity(true);
+	// 	Capsule->SetSimulatePhysics(false);
+	// }
 }
 
 void AMsLocalPlayer::BeginPlay() {
@@ -113,7 +113,14 @@ void AMsLocalPlayer::Tick(const float DeltaSeconds) {
 	if (MovePacketSendTimer <= 0.0f) {
 		const FVector Location = GetActorLocation();
 		const FVector NewLocation = {Location.X - BaseX, Location.Y, Location.Z - BaseY};
-		MovePacketSendTimer = 0.05f;
+
+		if (LastMovePacketLocation == NewLocation && LastAnimationType == protocol::PLAYER_ANIMATION_IDLE) {
+			return;
+		}
+
+		LastMovePacketLocation = NewLocation;
+		LastAnimationType = AnimationType;
+		MovePacketSendTimer = 0.1f;
 		UpdatePosition();
 		const auto SendBuffer = FPacketCreator::GetClientMove(NewLocation.X, NewLocation.Z, bIsRight, AnimationType);
 		SEND_PACKET(SendBuffer);

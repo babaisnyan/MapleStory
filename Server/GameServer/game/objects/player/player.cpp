@@ -14,7 +14,7 @@ void Player::OnEnter() {
 
 void Player::Update(float delta_time) {}
 
-void Player::UpdatePosition(const double x, const double y) {
+void Player::UpdatePosition(const float x, const float y) {
   _position.x = x;
   _position.y = y;
   _position.grid_x = static_cast<int32_t>(x) / _position.grid_size;

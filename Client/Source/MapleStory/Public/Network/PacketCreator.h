@@ -16,5 +16,5 @@ public:
 	static FSendBufferRef GetCreateCharacterRequest(const FString& Name, int32 Avatar);
 
 	static FSendBufferRef GetClientEnterRequest(int32 CharacterId, int32 AuthKey);
-	static FSendBufferRef GetClientMove(double X, double Y, bool bIsRight, protocol::PlayerAnimation AnimationType);
+	static FSendBufferRef GetClientMove(float X, float Y, bool bIsRight, protocol::PlayerAnimation AnimationType);
 };

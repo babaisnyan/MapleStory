@@ -207,10 +207,10 @@ const char descriptor_table_protodef_game_5fprotocol_2eproto[] PROTOBUF_SECTION_
   "rPlayerInfo\"+\n\026GameServerRemoveObject\022\021\n"
   "\tobject_id\030\001 \001(\003\"%\n\023GameServerChangeMap\022"
   "\016\n\006map_id\030\001 \001(\005\"l\n\024GameClientPlayerMove\022"
-  "\t\n\001x\030\001 \001(\001\022\t\n\001y\030\002 \001(\001\022\020\n\010is_right\030\003 \001(\010\022"
+  "\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\020\n\010is_right\030\003 \001(\010\022"
   ",\n\tanimation\030\004 \001(\0162\031.protocol.PlayerAnim"
   "ation\"\177\n\024GameServerPlayerMove\022\021\n\tobject_"
-  "id\030\001 \001(\003\022\t\n\001x\030\002 \001(\001\022\t\n\001y\030\003 \001(\001\022\020\n\010is_rig"
+  "id\030\001 \001(\003\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\022\020\n\010is_rig"
   "ht\030\004 \001(\010\022,\n\tanimation\030\005 \001(\0162\031.protocol.P"
   "layerAnimationb\006proto3"
   ;
@@ -1383,18 +1383,18 @@ const char* GameClientPlayerMove::_InternalParse(const char* ptr, ::PROTOBUF_NAM
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // double x = 1;
+      // float x = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 9)) {
-          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
-          ptr += sizeof(double);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 13)) {
+          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // double y = 2;
+      // float y = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 17)) {
-          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
-          ptr += sizeof(double);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 21)) {
+          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
       // bool is_right = 3;
@@ -1441,16 +1441,16 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // double x = 1;
+  // float x = 1;
   if (!(this->x() <= 0 && this->x() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(1, this->_internal_x(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(1, this->_internal_x(), target);
   }
 
-  // double y = 2;
+  // float y = 2;
   if (!(this->y() <= 0 && this->y() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(2, this->_internal_y(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(2, this->_internal_y(), target);
   }
 
   // bool is_right = 3;
@@ -1482,14 +1482,14 @@ size_t GameClientPlayerMove::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // double x = 1;
+  // float x = 1;
   if (!(this->x() <= 0 && this->x() >= 0)) {
-    total_size += 1 + 8;
+    total_size += 1 + 4;
   }
 
-  // double y = 2;
+  // float y = 2;
   if (!(this->y() <= 0 && this->y() >= 0)) {
-    total_size += 1 + 8;
+    total_size += 1 + 4;
   }
 
   // bool is_right = 3;
@@ -1656,18 +1656,18 @@ const char* GameServerPlayerMove::_InternalParse(const char* ptr, ::PROTOBUF_NAM
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // double x = 2;
+      // float x = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 17)) {
-          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
-          ptr += sizeof(double);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 21)) {
+          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
-      // double y = 3;
+      // float y = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 25)) {
-          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<double>(ptr);
-          ptr += sizeof(double);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 29)) {
+          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
+          ptr += sizeof(float);
         } else goto handle_unusual;
         continue;
       // bool is_right = 4;
@@ -1720,16 +1720,16 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_object_id(), target);
   }
 
-  // double x = 2;
+  // float x = 2;
   if (!(this->x() <= 0 && this->x() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(2, this->_internal_x(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(2, this->_internal_x(), target);
   }
 
-  // double y = 3;
+  // float y = 3;
   if (!(this->y() <= 0 && this->y() >= 0)) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteDoubleToArray(3, this->_internal_y(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(3, this->_internal_y(), target);
   }
 
   // bool is_right = 4;
@@ -1768,14 +1768,14 @@ size_t GameServerPlayerMove::ByteSizeLong() const {
         this->_internal_object_id());
   }
 
-  // double x = 2;
+  // float x = 2;
   if (!(this->x() <= 0 && this->x() >= 0)) {
-    total_size += 1 + 8;
+    total_size += 1 + 4;
   }
 
-  // double y = 3;
+  // float y = 3;
   if (!(this->y() <= 0 && this->y() >= 0)) {
-    total_size += 1 + 8;
+    total_size += 1 + 4;
   }
 
   // bool is_right = 4;
