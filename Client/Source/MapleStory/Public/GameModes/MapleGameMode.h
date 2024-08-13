@@ -25,7 +25,7 @@ public:
 	void RemovePlayer(int64 ObjectId);
 	void UpdatePlayerPosition(const protocol::GameServerPlayerMove& MovePacket);
 
-	uint64_t GetExpForLevel(int32 Level);
+	uint64_t GetExpForLevel(int32 Level) const;
 
 protected:
 	virtual void BeginPlay() override;

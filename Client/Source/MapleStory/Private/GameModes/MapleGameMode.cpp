@@ -62,7 +62,7 @@ void AMapleGameMode::UpdatePlayerPosition(const protocol::GameServerPlayerMove& 
 	}
 }
 
-uint64_t AMapleGameMode::GetExpForLevel(const int32 Level) {
+uint64_t AMapleGameMode::GetExpForLevel(const int32 Level) const {
 	if (Level < 0 || Level >= 300) {
 		return 1;
 	}
