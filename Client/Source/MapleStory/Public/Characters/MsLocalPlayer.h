@@ -4,6 +4,7 @@
 #include "Characters/MsPlayerBase.h"
 #include "MsLocalPlayer.generated.h"
 
+class UQuickSlotWidget;
 class UInputMappingContext;
 class UInputAction;
 class USoundManager;
@@ -34,13 +35,19 @@ private:
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	TObjectPtr<APlayerCamera> PlayerCamera;
-	
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UStatusBarHud> StatusBarHudClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UQuickSlotWidget> QuickSlotWidgetClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UStatusBarHud> StatusBarHud;
-	
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TObjectPtr<UQuickSlotWidget> QuickSlotWidget;
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	TObjectPtr<UInputMappingContext> DefaultContext;
@@ -59,5 +66,5 @@ private:
 
 	float MovePacketSendTimer = 0.1f;
 	FVector LastMovePacketLocation;
-	protocol::PlayerAnimation LastAnimationType;
+	protocol::PlayerAnimation LastAnimationType = protocol::PLAYER_ANIMATION_UNSPECIFIED;
 };

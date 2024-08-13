@@ -25,8 +25,13 @@ public:
 	void RemovePlayer(int64 ObjectId);
 	void UpdatePlayerPosition(const protocol::GameServerPlayerMove& MovePacket);
 
+	uint64_t GetExpForLevel(int32 Level);
+
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	void InitExpTables();
 
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Avatar")
@@ -35,4 +40,6 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Player")
 	TMap<int64, TObjectPtr<AMsPlayerBase>> OtherPlayers = {};
+
+	uint64 ExpTable[300];
 };

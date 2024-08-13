@@ -7,13 +7,14 @@
 #include "MapleGameInstance.h"
 #include "PaperFlipbookComponent.h"
 #include "Characters/PlayerCamera.h"
-#include "Components/CapsuleComponent.h"
 #include "Components/PlayerStatComponent.h"
 #include "Data/Enum/ESoundEffectType.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
+#include "GameModes/MapleGameMode.h"
 #include "Managers/SoundManager.h"
 #include "Network/PacketCreator.h"
+#include "UI/QuickSlotWidget.h"
 #include "UI/StatusBarHud.h"
 
 AMsLocalPlayer::AMsLocalPlayer() {
@@ -40,6 +41,11 @@ AMsLocalPlayer::AMsLocalPlayer() {
 	static ConstructorHelpers::FClassFinder<UStatusBarHud> StatusBarHudFinder(TEXT("/Game/UI/HUD/WB_StatusBar.WB_StatusBar_C"));
 	if (StatusBarHudFinder.Succeeded()) {
 		StatusBarHudClass = StatusBarHudFinder.Class;
+	}
+
+	static ConstructorHelpers::FClassFinder<UQuickSlotWidget> QuickSlotWidgetFinder(TEXT("/Game/UI/HUD/WBP_QuickSlot.WBP_QuickSlot_C"));
+	if (QuickSlotWidgetFinder.Succeeded()) {
+		QuickSlotWidgetClass = QuickSlotWidgetFinder.Class;
 	}
 
 	// const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
@@ -72,8 +78,14 @@ void AMsLocalPlayer::BeginPlay() {
 	if (StatusBarHudClass) {
 		UStatusBarHud* Window = CreateWidget<UStatusBarHud>(GetWorld(), StatusBarHudClass);
 		StatusBarHud = Window;
-		Window->AddToViewport();
+		Window->AddToViewport(1);
 		UpdateStatusBar();
+	}
+
+	if (QuickSlotWidgetClass) {
+		UQuickSlotWidget* Window = CreateWidget<UQuickSlotWidget>(GetWorld(), QuickSlotWidgetClass);
+		QuickSlotWidget = Window;
+		Window->AddToViewport(2);
 	}
 }
 
@@ -149,10 +161,6 @@ void AMsLocalPlayer::EnhancedMoveVertical(const FInputActionValue& Value) {
 
 void AMsLocalPlayer::EnhancedJump(const FInputActionValue& Value) {
 	if (Value.Get<bool>() && !GetMovementComponent()->IsFalling()) {
-		PlayerStat->Hp = FMath::RandRange(1, PlayerStat->MaxHp);
-		PlayerStat->Mp = FMath::RandRange(1, PlayerStat->MaxMp);
-		UpdateStatusBar();
-
 		Jump();
 		AnimationType = protocol::PLAYER_ANIMATION_JUMP;
 		SoundManager->PlaySoundEffect(ESoundEffectType::Jump, GetWorld());
@@ -164,10 +172,13 @@ void AMsLocalPlayer::UpdateStatusBar() const {
 		return;
 	}
 
-	const int32 Temp = FMath::RandRange(1000, 10000);
-	PlayerStat->Exp = FMath::RandRange(100, Temp);
-	StatusBarHud->UpdateGauge(PlayerStat->Hp, PlayerStat->MaxHp, PlayerStat->Mp, PlayerStat->MaxMp, PlayerStat->Exp, Temp);
-
-	StatusBarHud->UpdateLevel(FMath::RandRange(1, 300));
+	auto* GameMode = GetWorld()->GetAuthGameMode<AMapleGameMode>();
+	uint64_t Exp = 1;
+	if (GameMode) {
+		Exp = GameMode->GetExpForLevel(PlayerStat->Level);
+	}
+	
+	StatusBarHud->UpdateGauge(PlayerStat->Hp, PlayerStat->MaxHp, PlayerStat->Mp, PlayerStat->MaxMp, PlayerStat->Exp, Exp);
+	StatusBarHud->UpdateLevel(PlayerStat->Level);
 	StatusBarHud->SetName(Name);
 }
