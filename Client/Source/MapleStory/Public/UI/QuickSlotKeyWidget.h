@@ -2,6 +2,7 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/Enum/EKeyCode.h"
 #include "Data/Enum/EKeyType.h"
 #include "QuickSlotKeyWidget.generated.h"
 
@@ -11,19 +12,34 @@ UCLASS()
 class MAPLESTORY_API UQuickSlotKeyWidget : public UUserWidget {
 	GENERATED_BODY()
 
+
+	virtual bool Initialize() override;
+
 protected:
 	UFUNCTION(BlueprintCallable)
-	TSoftObjectPtr<UTexture2D> LoadKeyTexture();
+	void LoadKeyTexture();
+
+	UFUNCTION(BlueprintCallable)
+	void LoadKeyCodeTexture();
 
 public:
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EKeyType KeyType = EKeyType::None;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	EKeyCode KeyCode = EKeyCode::Esc;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 ItemId = 0;
 
-	UPROPERTY(BlueprintReadWrite)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 SkillId = 0;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (DisplayThumbnail = "true"))
+	TObjectPtr<UTexture2D> KeyTexture;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (DisplayThumbnail = "true"))
+	TObjectPtr<UTexture2D> KeyCodeTexture;
 
 protected:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
@@ -31,4 +47,18 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UImage> KeyCodeImage;
+
+private:
+	const TMap<EKeyType, FString> KeyTexturePaths = {
+		{EKeyType::CharInfo, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_CharInfo.T_KeyIcon_CharInfo'")},
+		{EKeyType::Equipment, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_Eqp.T_KeyIcon_Eqp'")},
+		{EKeyType::Inventory, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_Item.T_KeyIcon_Item'")},
+		{EKeyType::SkillWindow, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_Skill.T_KeyIcon_Skill'")},
+		{EKeyType::Attack, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_Attack.T_KeyIcon_Attack'")},
+		{EKeyType::Jump, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_Jump.T_KeyIcon_Jump'")},
+		{EKeyType::KeyConfig, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_Jump.T_KeyIcon_Jump'")},
+		{EKeyType::Menu, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_Menu.T_KeyIcon_Menu'")},
+		{EKeyType::NpcTalk, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_Npc.T_KeyIcon_Npc'")},
+		{EKeyType::PickUp, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_Pick.T_KeyIcon_Pick'")}
+	};
 };
