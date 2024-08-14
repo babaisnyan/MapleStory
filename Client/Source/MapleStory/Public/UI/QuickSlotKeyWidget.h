@@ -12,8 +12,9 @@ UCLASS()
 class MAPLESTORY_API UQuickSlotKeyWidget : public UUserWidget {
 	GENERATED_BODY()
 
-
+public:
 	virtual bool Initialize() override;
+	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 
 protected:
 	UFUNCTION(BlueprintCallable)

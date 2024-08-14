@@ -8,16 +8,26 @@ bool UQuickSlotKeyWidget::Initialize() {
 	return Super::Initialize();
 }
 
+void UQuickSlotKeyWidget::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) {
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+	LoadKeyCodeTexture();
+	LoadKeyTexture();
+}
+
 void UQuickSlotKeyWidget::LoadKeyTexture() {
+	if (KeyImage) {
+		KeyImage->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
+	}
+
 	if (KeyType == EKeyType::None) {
+		if (KeyImage) {
+			KeyImage->SetBrushFromTexture(nullptr, false);
+			KeyImage->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 0.0f));
+		}
 		return;
 	}
 
-	if (KeyType == EKeyType::Item) {
-		
-	} else if (KeyType == EKeyType::Skill) {
-		
-	} else {
+	if (KeyType == EKeyType::Item) {} else if (KeyType == EKeyType::Skill) {} else {
 		if (!KeyTexturePaths.Contains(KeyType)) {
 			return;
 		}
