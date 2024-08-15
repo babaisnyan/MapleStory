@@ -1,6 +1,7 @@
 #include "UI/QuickSlotKeyWidget.h"
 
 #include "Components/Image.h"
+#include "Components/TextBlock.h"
 
 bool UQuickSlotKeyWidget::Initialize() {
 	LoadKeyCodeTexture();
@@ -19,6 +20,10 @@ void UQuickSlotKeyWidget::LoadKeyTexture() {
 		KeyImage->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
 	}
 
+	if (ItemCountText) {
+		ItemCountText->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 0.0f));
+	}
+
 	if (KeyType == EKeyType::None) {
 		if (KeyImage) {
 			KeyImage->SetBrushFromTexture(nullptr, false);
@@ -27,7 +32,19 @@ void UQuickSlotKeyWidget::LoadKeyTexture() {
 		return;
 	}
 
-	if (KeyType == EKeyType::Item) {} else if (KeyType == EKeyType::Skill) {} else {
+	if (KeyType == EKeyType::Item) {
+		const FString Path = FString::Printf(TEXT("Texture2D'/Game/Item/Texture/T_%d_icon.T_%d_icon'"), ItemId, ItemId);
+		KeyTexture = Cast<UTexture2D>(StaticLoadObject(UTexture2D::StaticClass(), nullptr, *Path));
+
+		if (KeyTexture && KeyImage) {
+			KeyImage->SetBrushFromTexture(KeyTexture, false);
+		}
+
+		if (ItemCountText) {
+			ItemCountText->SetText(FText::FromString(FString::Printf(TEXT("%d"), ItemCount)));
+			ItemCountText->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
+		}
+	} else if (KeyType == EKeyType::Skill) {} else {
 		if (!KeyTexturePaths.Contains(KeyType)) {
 			return;
 		}

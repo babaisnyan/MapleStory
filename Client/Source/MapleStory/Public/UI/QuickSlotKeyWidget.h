@@ -6,6 +6,7 @@
 #include "Data/Enum/EKeyType.h"
 #include "QuickSlotKeyWidget.generated.h"
 
+class UTextBlock;
 class UImage;
 
 UCLASS()
@@ -34,6 +35,9 @@ public:
 	int32 ItemId = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	int32 ItemCount = 0;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 SkillId = 0;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (DisplayThumbnail = "true"))
@@ -48,6 +52,9 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UImage> KeyCodeImage;
+
+	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	TObjectPtr<UTextBlock> ItemCountText;
 
 private:
 	const TMap<EKeyType, FString> KeyTexturePaths = {
