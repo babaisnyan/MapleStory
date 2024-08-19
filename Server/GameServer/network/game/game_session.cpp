@@ -13,7 +13,9 @@
 #include "manager/job_queue/player_db_queue.h"
 
 
-int32_t GameSession::GetSessionId() const { return _session_id; }
+int32_t GameSession::GetSessionId() const {
+  return _session_id;
+}
 
 std::shared_ptr<Player> GameSession::GetPlayer() {
   return _player;
@@ -35,18 +37,15 @@ void GameSession::OnDisconnected() {
 
   GameSessionManager::GetInstance().Remove(game_session);
 
-  if (_player_id != 0) {
-    PlayerManager::GetInstance().RemovePlayer(_player_id);
-  }
-
   if (_player) {
+    PlayerManager::GetInstance().RemovePlayer(_player_id);
+    PlayerDbQueue::GetInstance()->DoAsync(&PlayerDbQueue::SavePlayer, packet_session);
+
     const auto map = MapManager::GetInstance().GetMapInstance(_player->GetMap());
 
     if (map.has_value()) {
-      GameTick::GetInstance()->DoAsync(&GameTick::RemovePlayer, map.value(), _player->GetObjectId());
+      map.value()->DoAsync(&MapInstance::RemoveObject, _player->GetObjectId());
     }
-
-    PlayerDbQueue::GetInstance()->DoAsync(&PlayerDbQueue::SavePlayer, packet_session);
   }
 
   std::cout << "GameSession Disconnected\n";

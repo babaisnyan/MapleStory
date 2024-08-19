@@ -16,10 +16,6 @@ namespace game {
     template <typename T, typename Ret, typename... Args>
     void DoAsync(Ret (T::*func)(Args...), Args&&... args);
 
-  public:
-    void AddPlayer(const std::shared_ptr<MapInstance>& map, const GameSessionRef& session);
-    void RemovePlayer(const std::shared_ptr<MapInstance>& map, int64_t object_id);
-
   private:
     std::atomic<bool> _is_running = true;
     tbb::concurrent_queue<JobRef> _job_queue;

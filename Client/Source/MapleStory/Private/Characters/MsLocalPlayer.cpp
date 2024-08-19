@@ -47,7 +47,7 @@ AMsLocalPlayer::AMsLocalPlayer() {
 	if (QuickSlotWidgetFinder.Succeeded()) {
 		QuickSlotWidgetClass = QuickSlotWidgetFinder.Class;
 	}
-
+	
 	// const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
 	// if (Capsule) {
 	// 	Capsule->SetEnableGravity(true);

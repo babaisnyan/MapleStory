@@ -185,7 +185,6 @@
     <ClCompile Include="handler\game\player_handler.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="manager\job_queue\game_tick.cpp" />
-    <ClCompile Include="manager\job_queue\object_move_queue.cpp" />
     <ClCompile Include="manager\job_queue\player_db_queue.cpp" />
     <ClCompile Include="manager\migration\auth_storage.cpp" />
     <ClCompile Include="network\center\center_packet_creator.cpp" />
@@ -262,7 +261,6 @@
     <ClInclude Include="handler\center\center_manager.h" />
     <ClInclude Include="handler\game\player_handler.h" />
     <ClInclude Include="manager\job_queue\game_tick.h" />
-    <ClInclude Include="manager\job_queue\object_move_queue.h" />
     <ClInclude Include="manager\job_queue\player_db_queue.h" />
     <ClInclude Include="manager\migration\auth_storage.h" />
     <ClInclude Include="network\center\center_packet_creator.h" />

@@ -37,9 +37,9 @@ void PlayerDbQueue::HandleClientEnter(const PacketSessionRef& session, const pro
     game_session->SetPlayer(player);
     const auto response = GamePacketCreator::GetClientEnterSuccessResponse(player);
     game_session->Send(response);
-    player->OnEnter();
 
-    //TODO: 게임 로직 업데이트 함수에서 처리하도록 변경
+    player->OnEnter(); // TODO: 뭔가 이상함
+
     const auto map = MapManager::GetInstance().GetMapInstance(player->GetMap());
 
     if (!map.has_value()) {
@@ -47,7 +47,7 @@ void PlayerDbQueue::HandleClientEnter(const PacketSessionRef& session, const pro
       return;
     }
 
-    GameTick::GetInstance()->DoAsync(&GameTick::AddPlayer, map.value(), game_session);
+    map.value()->DoAsync(&MapInstance::AddPlayer, game_session);
   } else {
     // TODO: 오류 메시지 전송
   }
