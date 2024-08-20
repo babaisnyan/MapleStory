@@ -1,7 +1,10 @@
 #include "UI/QuickSlotKeyWidget.h"
 
+#include "Blueprint/WidgetBlueprintLibrary.h"
+#include "Components/Button.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "UI/MsCursor.h"
 
 bool UQuickSlotKeyWidget::Initialize() {
 	LoadKeyCodeTexture();
@@ -16,6 +19,11 @@ void UQuickSlotKeyWidget::PostEditChangeProperty(FPropertyChangedEvent& Property
 }
 
 void UQuickSlotKeyWidget::LoadKeyTexture() {
+	if (DummyButton && !bInitialized) {
+		DummyButton->OnClicked.AddDynamic(this, &UQuickSlotKeyWidget::OnClicked);
+		bInitialized = true;
+	}
+
 	if (KeyImage) {
 		KeyImage->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
 	}
@@ -65,5 +73,19 @@ void UQuickSlotKeyWidget::LoadKeyCodeTexture() {
 
 	if (KeyCodeTexture && KeyCodeImage) {
 		KeyCodeImage->SetBrushFromTexture(KeyCodeTexture, true);
+	}
+}
+
+void UQuickSlotKeyWidget::OnClicked() {
+	if (KeyType == EKeyType::None) {
+		return;
+	}
+	
+	TArray<UUserWidget*> Cursors;
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), Cursors, UMsCursor::StaticClass(), false);
+	
+	for (const auto Object : Cursors) {
+		UMsCursor* MsCursor = Cast<UMsCursor>(Object);
+		MsCursor->Attach(KeyTexture);
 	}
 }

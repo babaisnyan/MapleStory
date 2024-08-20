@@ -6,6 +6,7 @@
 #include "Data/Enum/EKeyType.h"
 #include "QuickSlotKeyWidget.generated.h"
 
+class UButton;
 class UTextBlock;
 class UImage;
 
@@ -24,6 +25,10 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	void LoadKeyCodeTexture();
 
+private:
+	UFUNCTION()
+	void OnClicked();
+	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	EKeyType KeyType = EKeyType::None;
@@ -56,6 +61,9 @@ protected:
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UTextBlock> ItemCountText;
 
+    UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
+	TObjectPtr<UButton> DummyButton;
+
 private:
 	const TMap<EKeyType, FString> KeyTexturePaths = {
 		{EKeyType::CharInfo, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_CharInfo.T_KeyIcon_CharInfo'")},
@@ -69,4 +77,6 @@ private:
 		{EKeyType::NpcTalk, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_Npc.T_KeyIcon_Npc'")},
 		{EKeyType::PickUp, TEXT("Texture2D'/Game/UI/Keys/Asset/T_KeyIcon_Pick.T_KeyIcon_Pick'")}
 	};
+
+	bool bInitialized = false;
 };
