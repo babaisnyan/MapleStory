@@ -77,15 +77,89 @@ void UQuickSlotKeyWidget::LoadKeyCodeTexture() {
 }
 
 void UQuickSlotKeyWidget::OnClicked() {
-	if (KeyType == EKeyType::None) {
-		return;
-	}
-	
 	TArray<UUserWidget*> Cursors;
+	UMsCursor* TempCursor = nullptr;
 	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), Cursors, UMsCursor::StaticClass(), false);
-	
-	for (const auto Object : Cursors) {
-		UMsCursor* MsCursor = Cast<UMsCursor>(Object);
-		MsCursor->Attach(KeyTexture);
+
+	if (KeyType == EKeyType::None) {
+		for (const auto Object : Cursors) {
+			UMsCursor* MsCursor = Cast<UMsCursor>(Object);
+			MsCursor->ClearImage();
+			MsCursor->PrevKeyWidget = nullptr;
+
+			if (TempCursor == nullptr) {
+				TempCursor = MsCursor;
+			}
+		}
+
+		if (TempCursor) {
+			KeyType = TempCursor->KeyType;
+			ItemId = TempCursor->ItemId;
+			ItemCount = TempCursor->ItemCount;
+			SkillId = TempCursor->SkillId;
+
+			LoadKeyTexture();
+
+			SetCursor(EMouseCursor::GrabHand);
+		}
+
+		for (const auto Object : Cursors) {
+			UMsCursor* MsCursor = Cast<UMsCursor>(Object);
+			MsCursor->Clear();
+		}
+	} else {
+		for (const auto Object : Cursors) {
+			UMsCursor* MsCursor = Cast<UMsCursor>(Object);
+
+			if (TempCursor == nullptr) {
+				TempCursor = MsCursor;
+				break;
+			}
+		}
+
+		if (TempCursor) {
+			if (TempCursor->PrevKeyWidget) {
+				SetCursor(EMouseCursor::GrabHand);
+
+				Swap(KeyType, TempCursor->KeyType);
+				Swap(ItemId, TempCursor->ItemId);
+				Swap(ItemCount, TempCursor->ItemCount);
+				Swap(SkillId, TempCursor->SkillId);
+
+				TempCursor->PrevKeyWidget->KeyType = TempCursor->KeyType;
+				TempCursor->PrevKeyWidget->ItemId = TempCursor->ItemId;
+				TempCursor->PrevKeyWidget->ItemCount = TempCursor->ItemCount;
+				TempCursor->PrevKeyWidget->SkillId = TempCursor->SkillId;
+
+				LoadKeyTexture();
+				TempCursor->PrevKeyWidget->LoadKeyTexture();
+
+				for (const auto Object : Cursors) {
+					UMsCursor* MsCursor = Cast<UMsCursor>(Object);
+					MsCursor->ClearImage();
+					MsCursor->Clear();
+				}
+			} else {
+				for (const auto Object : Cursors) {
+					UMsCursor* MsCursor = Cast<UMsCursor>(Object);
+
+					MsCursor->Attach(KeyTexture);
+					MsCursor->KeyType = KeyType;
+					MsCursor->ItemId = ItemId;
+					MsCursor->ItemCount = ItemCount;
+					MsCursor->SkillId = SkillId;
+				}
+
+				SetCursor(EMouseCursor::Default);
+				TempCursor->PrevKeyWidget = this;
+
+				KeyType = EKeyType::None;
+				ItemId = 0;
+				ItemCount = 0;
+				SkillId = 0;
+
+				LoadKeyTexture();
+			}
+		}
 	}
 }

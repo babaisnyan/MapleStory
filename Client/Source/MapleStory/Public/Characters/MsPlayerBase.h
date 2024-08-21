@@ -23,7 +23,7 @@ public:
 	virtual void BeginPlay() override;
 
 	/*로컬 플레이어용 */
-	void Setup(const protocol::PlayerInfo& Info);
+	virtual void Setup(const protocol::PlayerInfo& Info);
 
 	/*다른 플레이어용 */
 	void Setup(const protocol::OtherPlayerInfo& Info);

@@ -83,6 +83,136 @@ inline bool PlayerAnimation_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<PlayerAnimation>(
     PlayerAnimation_descriptor(), name, value);
 }
+enum KeyCode : int {
+  KEY_CODE_UNSPECIFIED = 0,
+  KEY_CODE_ESC = 1,
+  KEY_CODE_ONE = 2,
+  KEY_CODE_TWO = 3,
+  KEY_CODE_THREE = 4,
+  KEY_CODE_FOUR = 5,
+  KEY_CODE_FIVE = 6,
+  KEY_CODE_SIX = 7,
+  KEY_CODE_SEVEN = 8,
+  KEY_CODE_EIGHT = 9,
+  KEY_CODE_NINE = 10,
+  KEY_CODE_ZERO = 11,
+  KEY_CODE_MINUS = 12,
+  KEY_CODE_EQUAL = 13,
+  KEY_CODE_Q = 16,
+  KEY_CODE_W = 17,
+  KEY_CODE_E = 18,
+  KEY_CODE_R = 19,
+  KEY_CODE_T = 20,
+  KEY_CODE_Y = 21,
+  KEY_CODE_U = 22,
+  KEY_CODE_I = 23,
+  KEY_CODE_O = 24,
+  KEY_CODE_P = 25,
+  KEY_CODE_OPEN_BRACKET = 26,
+  KEY_CODE_CLOSE_BRACKET = 27,
+  KEY_CODE_CTRL = 29,
+  KEY_CODE_A = 30,
+  KEY_CODE_S = 31,
+  KEY_CODE_D = 32,
+  KEY_CODE_F = 33,
+  KEY_CODE_G = 34,
+  KEY_CODE_H = 35,
+  KEY_CODE_J = 36,
+  KEY_CODE_K = 37,
+  KEY_CODE_L = 38,
+  KEY_CODE_SEMICOLON = 39,
+  KEY_CODE_QUOTE = 40,
+  KEY_CODE_TILDE = 41,
+  KEY_CODE_SHIFT = 42,
+  KEY_CODE_BACK_SLASH = 43,
+  KEY_CODE_Z = 44,
+  KEY_CODE_X = 45,
+  KEY_CODE_C = 46,
+  KEY_CODE_V = 47,
+  KEY_CODE_B = 48,
+  KEY_CODE_N = 49,
+  KEY_CODE_M = 50,
+  KEY_CODE_COMMA = 51,
+  KEY_CODE_PERIOD = 52,
+  KEY_CODE_ALT = 56,
+  KEY_CODE_SPACE = 57,
+  KEY_CODE_F1 = 59,
+  KEY_CODE_F2 = 60,
+  KEY_CODE_F3 = 61,
+  KEY_CODE_F4 = 62,
+  KEY_CODE_F5 = 63,
+  KEY_CODE_F6 = 64,
+  KEY_CODE_F7 = 65,
+  KEY_CODE_F8 = 66,
+  KEY_CODE_F9 = 67,
+  KEY_CODE_F10 = 68,
+  KEY_CODE_SCROLL_LOCK = 70,
+  KEY_CODE_HOME = 71,
+  KEY_CODE_PAGE_UP = 73,
+  KEY_CODE_END = 79,
+  KEY_CODE_PAGE_DOWN = 81,
+  KEY_CODE_INSERT = 82,
+  KEY_CODE_DELETE = 83,
+  KEY_CODE_F11 = 87,
+  KEY_CODE_F12 = 88,
+  KeyCode_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  KeyCode_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool KeyCode_IsValid(int value);
+constexpr KeyCode KeyCode_MIN = KEY_CODE_UNSPECIFIED;
+constexpr KeyCode KeyCode_MAX = KEY_CODE_F12;
+constexpr int KeyCode_ARRAYSIZE = KeyCode_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* KeyCode_descriptor();
+template<typename T>
+inline const std::string& KeyCode_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, KeyCode>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function KeyCode_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    KeyCode_descriptor(), enum_t_value);
+}
+inline bool KeyCode_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, KeyCode* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<KeyCode>(
+    KeyCode_descriptor(), name, value);
+}
+enum KeyType : int {
+  KEY_TYPE_UNSPECIFIED = 0,
+  KEY_TYPE_ITEM = 1,
+  KEY_TYPE_SKILL = 2,
+  KEY_TYPE_CHAR_INFO = 3,
+  KEY_TYPE_EQUIPMENT = 4,
+  KEY_TYPE_INVENTORY = 5,
+  KEY_TYPE_SKILL_WINDOW = 6,
+  KEY_TYPE_ATTACK = 7,
+  KEY_TYPE_JUMP = 8,
+  KEY_TYPE_KEY_CONFIG = 9,
+  KEY_TYPE_MENU = 10,
+  KEY_TYPE_NPC_TALK = 11,
+  KEY_TYPE_PICK_UP = 12,
+  KeyType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  KeyType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool KeyType_IsValid(int value);
+constexpr KeyType KeyType_MIN = KEY_TYPE_UNSPECIFIED;
+constexpr KeyType KeyType_MAX = KEY_TYPE_PICK_UP;
+constexpr int KeyType_ARRAYSIZE = KeyType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* KeyType_descriptor();
+template<typename T>
+inline const std::string& KeyType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, KeyType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function KeyType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    KeyType_descriptor(), enum_t_value);
+}
+inline bool KeyType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, KeyType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<KeyType>(
+    KeyType_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -109,6 +239,16 @@ template <> struct is_proto_enum< ::protocol::PlayerAnimation> : ::std::true_typ
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::protocol::PlayerAnimation>() {
   return ::protocol::PlayerAnimation_descriptor();
+}
+template <> struct is_proto_enum< ::protocol::KeyCode> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::protocol::KeyCode>() {
+  return ::protocol::KeyCode_descriptor();
+}
+template <> struct is_proto_enum< ::protocol::KeyType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::protocol::KeyType>() {
+  return ::protocol::KeyType_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

@@ -23,7 +23,8 @@ message PlayerInfo {
   int32 y = 17;
   int32 ap = 18;
   int32 sp = 19;
-  repeated ItemInfo items = 20;
+  repeated KeySetting key_settings = 20;
+  repeated ItemInfo items = 21;
 }
 
 message OtherPlayerInfo {
@@ -42,4 +43,11 @@ message ItemInfo {
   int32 type = 2;
   int32 count = 3;
   int32 sub_type = 4;
+}
+
+message KeySetting {
+  KeyCode key_code = 1;
+  KeyType key_type = 2;
+  optional int32 item_id = 3;
+  optional int32 skill_id = 4;
 }

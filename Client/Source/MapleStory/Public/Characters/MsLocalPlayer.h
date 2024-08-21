@@ -4,6 +4,7 @@
 #include "Characters/MsPlayerBase.h"
 #include "MsLocalPlayer.generated.h"
 
+class UKeySettingManager;
 class UQuickSlotWidget;
 class UInputMappingContext;
 class UInputAction;
@@ -24,6 +25,8 @@ public:
 	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 	virtual void Tick(float DeltaSeconds) override;
 
+	virtual void Setup(const protocol::PlayerInfo& Info) override;
+	
 protected:
 	void EnhancedMoveHorizontal(const FInputActionValue& Value);
 	void EnhancedMoveVertical(const FInputActionValue& Value);
@@ -63,6 +66,9 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<USoundManager> SoundManager;
+
+	UPROPERTY()
+	TObjectPtr<UKeySettingManager> KeySettingManager;
 
 	float MovePacketSendTimer = 0.1f;
 	FVector LastMovePacketLocation;

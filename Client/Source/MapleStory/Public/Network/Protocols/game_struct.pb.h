@@ -47,7 +47,7 @@ struct TableStruct_game_5fstruct_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[3]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[4]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -58,6 +58,9 @@ namespace protocol {
 class ItemInfo;
 struct ItemInfoDefaultTypeInternal;
 extern ItemInfoDefaultTypeInternal _ItemInfo_default_instance_;
+class KeySetting;
+struct KeySettingDefaultTypeInternal;
+extern KeySettingDefaultTypeInternal _KeySetting_default_instance_;
 class OtherPlayerInfo;
 struct OtherPlayerInfoDefaultTypeInternal;
 extern OtherPlayerInfoDefaultTypeInternal _OtherPlayerInfo_default_instance_;
@@ -67,6 +70,7 @@ extern PlayerInfoDefaultTypeInternal _PlayerInfo_default_instance_;
 }  // namespace protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::protocol::ItemInfo* Arena::CreateMaybeMessage<::protocol::ItemInfo>(Arena*);
+template<> ::protocol::KeySetting* Arena::CreateMaybeMessage<::protocol::KeySetting>(Arena*);
 template<> ::protocol::OtherPlayerInfo* Arena::CreateMaybeMessage<::protocol::OtherPlayerInfo>(Arena*);
 template<> ::protocol::PlayerInfo* Arena::CreateMaybeMessage<::protocol::PlayerInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -182,7 +186,8 @@ class PlayerInfo final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kItemsFieldNumber = 20,
+    kKeySettingsFieldNumber = 20,
+    kItemsFieldNumber = 21,
     kNameFieldNumber = 3,
     kObjectIdFieldNumber = 1,
     kIdFieldNumber = 2,
@@ -203,7 +208,25 @@ class PlayerInfo final :
     kApFieldNumber = 18,
     kSpFieldNumber = 19,
   };
-  // repeated .protocol.ItemInfo items = 20;
+  // repeated .protocol.KeySetting key_settings = 20;
+  int key_settings_size() const;
+  private:
+  int _internal_key_settings_size() const;
+  public:
+  void clear_key_settings();
+  ::protocol::KeySetting* mutable_key_settings(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::KeySetting >*
+      mutable_key_settings();
+  private:
+  const ::protocol::KeySetting& _internal_key_settings(int index) const;
+  ::protocol::KeySetting* _internal_add_key_settings();
+  public:
+  const ::protocol::KeySetting& key_settings(int index) const;
+  ::protocol::KeySetting* add_key_settings();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::KeySetting >&
+      key_settings() const;
+
+  // repeated .protocol.ItemInfo items = 21;
   int items_size() const;
   private:
   int _internal_items_size() const;
@@ -404,6 +427,7 @@ class PlayerInfo final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::KeySetting > key_settings_;
   ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::ItemInfo > items_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::int64 object_id_;
@@ -804,6 +828,180 @@ class ItemInfo final :
   ::PROTOBUF_NAMESPACE_ID::int32 count_;
   ::PROTOBUF_NAMESPACE_ID::int32 sub_type_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_game_5fstruct_2eproto;
+};
+// -------------------------------------------------------------------
+
+class KeySetting final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.KeySetting) */ {
+ public:
+  inline KeySetting() : KeySetting(nullptr) {}
+  ~KeySetting() override;
+  explicit constexpr KeySetting(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  KeySetting(const KeySetting& from);
+  KeySetting(KeySetting&& from) noexcept
+    : KeySetting() {
+    *this = ::std::move(from);
+  }
+
+  inline KeySetting& operator=(const KeySetting& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline KeySetting& operator=(KeySetting&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const KeySetting& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const KeySetting* internal_default_instance() {
+    return reinterpret_cast<const KeySetting*>(
+               &_KeySetting_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(KeySetting& a, KeySetting& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(KeySetting* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(KeySetting* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline KeySetting* New() const final {
+    return new KeySetting();
+  }
+
+  KeySetting* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<KeySetting>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const KeySetting& from);
+  void MergeFrom(const KeySetting& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(KeySetting* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.KeySetting";
+  }
+  protected:
+  explicit KeySetting(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kKeyCodeFieldNumber = 1,
+    kKeyTypeFieldNumber = 2,
+    kItemIdFieldNumber = 3,
+    kSkillIdFieldNumber = 4,
+  };
+  // .protocol.KeyCode key_code = 1;
+  void clear_key_code();
+  ::protocol::KeyCode key_code() const;
+  void set_key_code(::protocol::KeyCode value);
+  private:
+  ::protocol::KeyCode _internal_key_code() const;
+  void _internal_set_key_code(::protocol::KeyCode value);
+  public:
+
+  // .protocol.KeyType key_type = 2;
+  void clear_key_type();
+  ::protocol::KeyType key_type() const;
+  void set_key_type(::protocol::KeyType value);
+  private:
+  ::protocol::KeyType _internal_key_type() const;
+  void _internal_set_key_type(::protocol::KeyType value);
+  public:
+
+  // optional int32 item_id = 3;
+  bool has_item_id() const;
+  private:
+  bool _internal_has_item_id() const;
+  public:
+  void clear_item_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 item_id() const;
+  void set_item_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_item_id() const;
+  void _internal_set_item_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // optional int32 skill_id = 4;
+  bool has_skill_id() const;
+  private:
+  bool _internal_has_skill_id() const;
+  public:
+  void clear_skill_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 skill_id() const;
+  void set_skill_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_skill_id() const;
+  void _internal_set_skill_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protocol.KeySetting)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  int key_code_;
+  int key_type_;
+  ::PROTOBUF_NAMESPACE_ID::int32 item_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 skill_id_;
   friend struct ::TableStruct_game_5fstruct_2eproto;
 };
 // ===================================================================
@@ -1222,7 +1420,46 @@ inline void PlayerInfo::set_sp(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.sp)
 }
 
-// repeated .protocol.ItemInfo items = 20;
+// repeated .protocol.KeySetting key_settings = 20;
+inline int PlayerInfo::_internal_key_settings_size() const {
+  return key_settings_.size();
+}
+inline int PlayerInfo::key_settings_size() const {
+  return _internal_key_settings_size();
+}
+inline void PlayerInfo::clear_key_settings() {
+  key_settings_.Clear();
+}
+inline ::protocol::KeySetting* PlayerInfo::mutable_key_settings(int index) {
+  // @@protoc_insertion_point(field_mutable:protocol.PlayerInfo.key_settings)
+  return key_settings_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::KeySetting >*
+PlayerInfo::mutable_key_settings() {
+  // @@protoc_insertion_point(field_mutable_list:protocol.PlayerInfo.key_settings)
+  return &key_settings_;
+}
+inline const ::protocol::KeySetting& PlayerInfo::_internal_key_settings(int index) const {
+  return key_settings_.Get(index);
+}
+inline const ::protocol::KeySetting& PlayerInfo::key_settings(int index) const {
+  // @@protoc_insertion_point(field_get:protocol.PlayerInfo.key_settings)
+  return _internal_key_settings(index);
+}
+inline ::protocol::KeySetting* PlayerInfo::_internal_add_key_settings() {
+  return key_settings_.Add();
+}
+inline ::protocol::KeySetting* PlayerInfo::add_key_settings() {
+  // @@protoc_insertion_point(field_add:protocol.PlayerInfo.key_settings)
+  return _internal_add_key_settings();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::KeySetting >&
+PlayerInfo::key_settings() const {
+  // @@protoc_insertion_point(field_list:protocol.PlayerInfo.key_settings)
+  return key_settings_;
+}
+
+// repeated .protocol.ItemInfo items = 21;
 inline int PlayerInfo::_internal_items_size() const {
   return items_.size();
 }
@@ -1534,9 +1771,111 @@ inline void ItemInfo::set_sub_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.ItemInfo.sub_type)
 }
 
+// -------------------------------------------------------------------
+
+// KeySetting
+
+// .protocol.KeyCode key_code = 1;
+inline void KeySetting::clear_key_code() {
+  key_code_ = 0;
+}
+inline ::protocol::KeyCode KeySetting::_internal_key_code() const {
+  return static_cast< ::protocol::KeyCode >(key_code_);
+}
+inline ::protocol::KeyCode KeySetting::key_code() const {
+  // @@protoc_insertion_point(field_get:protocol.KeySetting.key_code)
+  return _internal_key_code();
+}
+inline void KeySetting::_internal_set_key_code(::protocol::KeyCode value) {
+  
+  key_code_ = value;
+}
+inline void KeySetting::set_key_code(::protocol::KeyCode value) {
+  _internal_set_key_code(value);
+  // @@protoc_insertion_point(field_set:protocol.KeySetting.key_code)
+}
+
+// .protocol.KeyType key_type = 2;
+inline void KeySetting::clear_key_type() {
+  key_type_ = 0;
+}
+inline ::protocol::KeyType KeySetting::_internal_key_type() const {
+  return static_cast< ::protocol::KeyType >(key_type_);
+}
+inline ::protocol::KeyType KeySetting::key_type() const {
+  // @@protoc_insertion_point(field_get:protocol.KeySetting.key_type)
+  return _internal_key_type();
+}
+inline void KeySetting::_internal_set_key_type(::protocol::KeyType value) {
+  
+  key_type_ = value;
+}
+inline void KeySetting::set_key_type(::protocol::KeyType value) {
+  _internal_set_key_type(value);
+  // @@protoc_insertion_point(field_set:protocol.KeySetting.key_type)
+}
+
+// optional int32 item_id = 3;
+inline bool KeySetting::_internal_has_item_id() const {
+  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool KeySetting::has_item_id() const {
+  return _internal_has_item_id();
+}
+inline void KeySetting::clear_item_id() {
+  item_id_ = 0;
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 KeySetting::_internal_item_id() const {
+  return item_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 KeySetting::item_id() const {
+  // @@protoc_insertion_point(field_get:protocol.KeySetting.item_id)
+  return _internal_item_id();
+}
+inline void KeySetting::_internal_set_item_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _has_bits_[0] |= 0x00000001u;
+  item_id_ = value;
+}
+inline void KeySetting::set_item_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_item_id(value);
+  // @@protoc_insertion_point(field_set:protocol.KeySetting.item_id)
+}
+
+// optional int32 skill_id = 4;
+inline bool KeySetting::_internal_has_skill_id() const {
+  bool value = (_has_bits_[0] & 0x00000002u) != 0;
+  return value;
+}
+inline bool KeySetting::has_skill_id() const {
+  return _internal_has_skill_id();
+}
+inline void KeySetting::clear_skill_id() {
+  skill_id_ = 0;
+  _has_bits_[0] &= ~0x00000002u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 KeySetting::_internal_skill_id() const {
+  return skill_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 KeySetting::skill_id() const {
+  // @@protoc_insertion_point(field_get:protocol.KeySetting.skill_id)
+  return _internal_skill_id();
+}
+inline void KeySetting::_internal_set_skill_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _has_bits_[0] |= 0x00000002u;
+  skill_id_ = value;
+}
+inline void KeySetting::set_skill_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_skill_id(value);
+  // @@protoc_insertion_point(field_set:protocol.KeySetting.skill_id)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

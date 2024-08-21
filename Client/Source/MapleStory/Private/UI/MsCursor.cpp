@@ -16,6 +16,14 @@ void UMsCursor::Attach(UTexture2D* InSprite) {
 	}
 }
 
+void UMsCursor::Clear() {
+	PrevKeyWidget = nullptr;
+	KeyType = EKeyType::None;
+	ItemId = 0;
+	ItemCount = 0;
+	SkillId = 0;
+}
+
 void UMsCursor::ApplyCursorFlipbook() const {
 	if (CursorFlipbook && CursorImage) {
 		CursorImage->SetFlipbook(CursorFlipbook);

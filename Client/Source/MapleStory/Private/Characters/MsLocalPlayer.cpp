@@ -12,6 +12,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "GameModes/MapleGameMode.h"
+#include "Managers/KeySettingManager.h"
 #include "Managers/SoundManager.h"
 #include "Network/PacketCreator.h"
 #include "UI/QuickSlotWidget.h"
@@ -47,7 +48,7 @@ AMsLocalPlayer::AMsLocalPlayer() {
 	if (QuickSlotWidgetFinder.Succeeded()) {
 		QuickSlotWidgetClass = QuickSlotWidgetFinder.Class;
 	}
-	
+
 	// const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
 	// if (Capsule) {
 	// 	Capsule->SetEnableGravity(true);
@@ -59,6 +60,7 @@ void AMsLocalPlayer::BeginPlay() {
 	Super::BeginPlay();
 
 	SoundManager = GetGameInstance()->GetSubsystem<USoundManager>();
+	
 	AddActorWorldOffset(FVector(0.0f, 1.0f, 0.0f));
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetWorld()->GetFirstPlayerController())) {
@@ -141,6 +143,17 @@ void AMsLocalPlayer::Tick(const float DeltaSeconds) {
 	UpdateAnimation();
 }
 
+void AMsLocalPlayer::Setup(const protocol::PlayerInfo& Info) {
+	Super::Setup(Info);
+
+	KeySettingManager = GetGameInstance()->GetSubsystem<UKeySettingManager>();
+
+	for (protocol::KeySetting Key_Setting : Info.key_settings()) {
+		const EKeyCode KeyCode = static_cast<EKeyCode>(Key_Setting.key_code());
+		KeySettingManager->Set(KeyCode, Key_Setting);
+	}
+}
+
 void AMsLocalPlayer::EnhancedMoveHorizontal(const FInputActionValue& Value) {
 	const FVector2D AxisValue = Value.Get<FVector2D>();
 	AnimationType = protocol::PLAYER_ANIMATION_RUN;
@@ -177,7 +190,7 @@ void AMsLocalPlayer::UpdateStatusBar() const {
 	if (GameMode) {
 		Exp = GameMode->GetExpForLevel(PlayerStat->Level);
 	}
-	
+
 	StatusBarHud->UpdateGauge(PlayerStat->Hp, PlayerStat->MaxHp, PlayerStat->Mp, PlayerStat->MaxMp, PlayerStat->Exp, Exp);
 	StatusBarHud->UpdateLevel(PlayerStat->Level);
 	StatusBarHud->SetName(Name);

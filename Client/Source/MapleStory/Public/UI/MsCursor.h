@@ -2,8 +2,10 @@
 
 #include "CoreMinimal.h"
 #include "Blueprint/UserWidget.h"
+#include "Data/Enum/EKeyType.h"
 #include "MsCursor.generated.h"
 
+class UQuickSlotKeyWidget;
 class UImage;
 class UPaperFlipbookUserWidget;
 class UPaperFlipbook;
@@ -18,12 +20,29 @@ public:
 
 	UFUNCTION(BlueprintCallable)
 	void Attach(UTexture2D* InSprite);
+
+	void Clear();
 	
 protected:
 	UFUNCTION(BlueprintCallable)
 	void ApplyCursorFlipbook() const;
 
 public:
+	UPROPERTY()
+	EKeyType KeyType = EKeyType::None;
+
+	UPROPERTY()
+	int32 ItemId = 0;
+
+	UPROPERTY()
+	int32 ItemCount = 0;
+	
+	UPROPERTY()
+	int32 SkillId = 0;
+
+	UPROPERTY()
+	TObjectPtr<UQuickSlotKeyWidget> PrevKeyWidget;
+	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UPaperFlipbookUserWidget> CursorImage;
 
