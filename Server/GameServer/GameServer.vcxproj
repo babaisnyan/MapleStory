@@ -177,6 +177,7 @@
     <ClCompile Include="game\map\map_instance.cpp" />
     <ClCompile Include="game\map\map_manager.cpp" />
     <ClCompile Include="game\objects\game_object.cpp" />
+    <ClCompile Include="game\objects\player\key_map.cpp" />
     <ClCompile Include="game\objects\player\player.cpp" />
     <ClCompile Include="game\player_manager.cpp" />
     <ClCompile Include="game\player_stat.cpp" />
@@ -254,6 +255,7 @@
     <ClInclude Include="game\map\map_manager.h" />
     <ClInclude Include="game\ms_coordinate.h" />
     <ClInclude Include="game\objects\game_object.h" />
+    <ClInclude Include="game\objects\player\key_map.h" />
     <ClInclude Include="game\objects\player\player.h" />
     <ClInclude Include="game\player_manager.h" />
     <ClInclude Include="game\player_stat.h" />

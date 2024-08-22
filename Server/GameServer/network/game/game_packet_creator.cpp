@@ -3,6 +3,7 @@
 #include "game_client_packet_handler.h"
 
 #include "game/player_stat.h"
+#include "game/objects/player/key_map.h"
 #include "game/objects/player/player.h"
 
 #include "network/protocol/game_protocol.pb.h"
@@ -44,6 +45,20 @@ SendBufferRef GamePacketCreator::GetClientEnterSuccessResponse(const std::shared
     player_info->set_y(player->GetPosition().y);
     player_info->set_ap(player->GetStat()->GetAp());
     player_info->set_sp(player->GetStat()->GetSp());
+
+    const auto key_map = player->GetKeyMap()->GetAll();
+
+    for (const auto& [code, entry] : key_map) {
+      const auto key = player_info->add_key_settings();
+      key->set_key_code(code);
+      key->set_key_type(entry->type);
+
+      if (entry->type == protocol::KEY_TYPE_ITEM) {
+        key->set_item_id(entry->data);
+      } else if (entry->type == protocol::KEY_TYPE_SKILL) {
+        key->set_skill_id(entry->data);
+      }
+    }
   }
 
   const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(packet);

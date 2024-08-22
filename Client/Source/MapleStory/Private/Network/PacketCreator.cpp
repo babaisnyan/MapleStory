@@ -71,3 +71,19 @@ FSendBufferRef FPacketCreator::GetClientMove(const float X, const float Y, const
 	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
 	return SendBuffer;
 }
+
+FSendBufferRef FPacketCreator::GetChangeKeySetting(EKeyCode KeyCode, EKeyType KeyType, const int32 ItemId, const int32 SkillId) {
+	GameClientChangeKeySetting Packet;
+	KeySetting* KeySetting = Packet.mutable_key_setting();
+	KeySetting->set_key_code(static_cast<protocol::KeyCode>(KeyCode));
+	KeySetting->set_key_type(static_cast<protocol::KeyType>(KeyType));
+
+	if (KeyType == EKeyType::Item) {
+		KeySetting->set_item_id(ItemId);
+	} else if (KeyType == EKeyType::Skill) {
+		KeySetting->set_skill_id(SkillId);
+	}
+
+	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
+	return SendBuffer;
+}

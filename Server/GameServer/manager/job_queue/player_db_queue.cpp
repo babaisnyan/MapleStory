@@ -60,4 +60,6 @@ void PlayerDbQueue::SavePlayer(const PacketSessionRef& session) {
   if (!player->TrySaveToDb()) {
     // TODO: Log
   }
+
+
 }

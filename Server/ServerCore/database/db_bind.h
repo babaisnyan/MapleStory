@@ -42,6 +42,11 @@ public:
     _param_flag |= (1 << param_index);
   }
 
+  void BindParam(int32_t param_index, const String& value) {
+    _connection.BindParam(param_index + 1, value.data(), &_param_index[param_index]);
+    _param_flag |= (1 << param_index);
+  }
+
   void BindParam(int32_t param_index, const wchar_t* str) {
     _connection.BindParam(param_index + 1, str, &_param_index[param_index]);
     _param_flag |= (1 << param_index);

@@ -41,3 +41,7 @@ message GameServerPlayerMove {
   bool is_right = 4;
   PlayerAnimation animation = 5;
 }
+
+message GameClientChangeKeySetting {
+  KeySetting key_setting = 1;
+}

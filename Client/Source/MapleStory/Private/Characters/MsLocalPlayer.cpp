@@ -60,7 +60,7 @@ void AMsLocalPlayer::BeginPlay() {
 	Super::BeginPlay();
 
 	SoundManager = GetGameInstance()->GetSubsystem<USoundManager>();
-	
+
 	AddActorWorldOffset(FVector(0.0f, 1.0f, 0.0f));
 
 	if (APlayerController* PlayerController = Cast<APlayerController>(GetWorld()->GetFirstPlayerController())) {
@@ -147,8 +147,9 @@ void AMsLocalPlayer::Setup(const protocol::PlayerInfo& Info) {
 	Super::Setup(Info);
 
 	KeySettingManager = GetGameInstance()->GetSubsystem<UKeySettingManager>();
+	KeySettingManager->Clear();
 
-	for (protocol::KeySetting Key_Setting : Info.key_settings()) {
+	for (const protocol::KeySetting& Key_Setting : Info.key_settings()) {
 		const EKeyCode KeyCode = static_cast<EKeyCode>(Key_Setting.key_code());
 		KeySettingManager->Set(KeyCode, Key_Setting);
 	}

@@ -19,6 +19,7 @@ class FGameServerPacketHandler {
 		PKT_GAMESERVERCHANGEMAP = 3004,
 		PKT_GAMECLIENTPLAYERMOVE = 3005,
 		PKT_GAMESERVERPLAYERMOVE = 3006,
+		PKT_GAMECLIENTCHANGEKEYSETTING = 3007,
 	};
 
 	static bool HandleGameInvalid(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len);
@@ -72,6 +73,9 @@ public:
 	}
 	static FSendBufferRef MakeSendBuffer(const protocol::GameClientPlayerMove& Packet) { 
 		return MakeSendBufferInternal(Packet, PKT_GAMECLIENTPLAYERMOVE); 
+	}
+	static FSendBufferRef MakeSendBuffer(const protocol::GameClientChangeKeySetting& Packet) { 
+		return MakeSendBufferInternal(Packet, PKT_GAMECLIENTCHANGEKEYSETTING); 
 	}
 
 private:

@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "MapleStory.h"
 #include "game_protocol.pb.h"
+#include "Data/Enum/EKeyCode.h"
+#include "Data/Enum/EKeyType.h"
 
 
 class MAPLESTORY_API FPacketCreator {
@@ -17,4 +19,6 @@ public:
 
 	static FSendBufferRef GetClientEnterRequest(int32 CharacterId, int32 AuthKey);
 	static FSendBufferRef GetClientMove(float X, float Y, bool bIsRight, protocol::PlayerAnimation AnimationType);
+
+	static FSendBufferRef GetChangeKeySetting(EKeyCode KeyCode, EKeyType KeyType, int32 ItemId = 0, int32 SkillId = 0);
 };

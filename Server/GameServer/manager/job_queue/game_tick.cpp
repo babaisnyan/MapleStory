@@ -7,6 +7,8 @@
 #include "game/map/map_manager.h"
 #include "game/objects/player/player.h"
 
+#include "handler/game/player_handler.h"
+
 #include "job/job.h"
 
 #include "network/game/game_client_packet_handler.h"
@@ -32,4 +34,8 @@ void GameTick::Start() {
       }
     }
   });
+}
+
+void GameTick::HandleKeySettingChange(const GameSessionRef& session, const protocol::GameClientChangeKeySetting& packet) {
+  PlayerHandler::HandleKeySettingChange(session, packet);
 }

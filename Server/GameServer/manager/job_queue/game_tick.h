@@ -1,6 +1,8 @@
 ﻿#pragma once
 #include <tbb/concurrent_queue.h>
 
+#include "network/protocol/game_protocol.pb.h"
+
 namespace game {
   class MapInstance;
 
@@ -15,6 +17,9 @@ namespace game {
 
     template <typename T, typename Ret, typename... Args>
     void DoAsync(Ret (T::*func)(Args...), Args&&... args);
+
+  public:
+    void HandleKeySettingChange(const GameSessionRef& session, const protocol::GameClientChangeKeySetting& packet);
 
   private:
     std::atomic<bool> _is_running = true;

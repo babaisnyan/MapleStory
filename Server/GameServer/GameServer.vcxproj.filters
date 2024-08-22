@@ -99,6 +99,9 @@
     <ClCompile Include="util\timer\timer_manager.cpp">
       <Filter>util\timer</Filter>
     </ClCompile>
+    <ClCompile Include="game\objects\player\key_map.cpp">
+      <Filter>game\objects\player</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -200,6 +203,9 @@
     </ClInclude>
     <ClInclude Include="util\timer\timer_manager.h">
       <Filter>util\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="game\objects\player\key_map.h">
+      <Filter>game\objects\player</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

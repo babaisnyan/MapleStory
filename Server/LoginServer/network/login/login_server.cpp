@@ -40,6 +40,7 @@ void LoginServer::StartLoginServer() {
   std::cout << "Login Server Start" << std::endl;
 
   ASSERT_CRASH(_login_service->Start());
+  const int32_t error = WSAGetLastError();
 
   for (int i = 0; i < 5; i++) {
     ThreadManager::GetInstance().Launch([this] {

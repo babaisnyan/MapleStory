@@ -1,9 +1,12 @@
 #include "UI/QuickSlotKeyWidget.h"
 
+#include "MapleGameInstance.h"
+#include "MapleStory.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Network/PacketCreator.h"
 #include "UI/MsCursor.h"
 
 bool UQuickSlotKeyWidget::Initialize() {
@@ -85,7 +88,6 @@ void UQuickSlotKeyWidget::OnClicked() {
 		for (const auto Object : Cursors) {
 			UMsCursor* MsCursor = Cast<UMsCursor>(Object);
 			MsCursor->ClearImage();
-			MsCursor->PrevKeyWidget = nullptr;
 
 			if (TempCursor == nullptr) {
 				TempCursor = MsCursor;
@@ -99,8 +101,12 @@ void UQuickSlotKeyWidget::OnClicked() {
 			SkillId = TempCursor->SkillId;
 
 			LoadKeyTexture();
-
 			SetCursor(EMouseCursor::GrabHand);
+			SEND_PACKET(FPacketCreator::GetChangeKeySetting(KeyCode, KeyType, ItemId, SkillId));
+
+			if (TempCursor->PrevKeyWidget) {
+				SEND_PACKET(FPacketCreator::GetChangeKeySetting(TempCursor->PrevKeyWidget->KeyCode, EKeyType::None, 0, 0));
+			}
 		}
 
 		for (const auto Object : Cursors) {
@@ -125,11 +131,13 @@ void UQuickSlotKeyWidget::OnClicked() {
 				Swap(ItemId, TempCursor->ItemId);
 				Swap(ItemCount, TempCursor->ItemCount);
 				Swap(SkillId, TempCursor->SkillId);
+				SEND_PACKET(FPacketCreator::GetChangeKeySetting(KeyCode, KeyType, ItemId, SkillId));
 
 				TempCursor->PrevKeyWidget->KeyType = TempCursor->KeyType;
 				TempCursor->PrevKeyWidget->ItemId = TempCursor->ItemId;
 				TempCursor->PrevKeyWidget->ItemCount = TempCursor->ItemCount;
 				TempCursor->PrevKeyWidget->SkillId = TempCursor->SkillId;
+				SEND_PACKET(FPacketCreator::GetChangeKeySetting(TempCursor->PrevKeyWidget->KeyCode, TempCursor->PrevKeyWidget->KeyType, TempCursor->PrevKeyWidget->ItemId, TempCursor->PrevKeyWidget->SkillId));
 
 				LoadKeyTexture();
 				TempCursor->PrevKeyWidget->LoadKeyTexture();

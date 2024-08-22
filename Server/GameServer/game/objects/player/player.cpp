@@ -1,12 +1,16 @@
 ﻿#include "pch.h"
 #include "player.h"
 
+#include "key_map.h"
+
 #include "database/db_bind.h"
 #include "database/db_connection_pool.h"
 #include "game/player_stat.h"
 
 
-Player::Player(const int32_t player_id): GameObject(GetNextObjectId()), _id(player_id), _player_stat(std::make_shared<PlayerStat>()) {}
+Player::Player(const int32_t player_id): GameObject(GetNextObjectId()),
+                                         _id(player_id), _player_stat(std::make_shared<PlayerStat>()),
+                                         _key_map(std::make_shared<KeyMap>()) {}
 
 void Player::OnEnter() {
   // TODO: 기타 정보 보내주기
@@ -69,7 +73,13 @@ std::shared_ptr<PlayerStat> Player::GetStat() const {
   return _player_stat;
 }
 
+std::shared_ptr<KeyMap> Player::GetKeyMap() const {
+  return _key_map;
+}
+
 bool Player::TryLoadFromDb() {
+  bool success = true;
+
   if (const auto connection = DbConnectionPool::GetInstance().GetConnection()) {
     DbBind<1, 21> bind(*connection, L"{CALL dbo.spLoadCharacter(?)}");
     bind.BindParam(0, _id);
@@ -142,22 +152,26 @@ bool Player::TryLoadFromDb() {
       GetStat()->SetAp(ap);
       GetStat()->SetSp(sp);
     } else {
-      return false;
+      success = false;
     }
 
     DbConnectionPool::GetInstance().ReleaseConnection(connection);
-    return true;
   }
 
-  return false;
+  if (success) {
+    success = _key_map->TryLoadFromDb(_id);
+  }
+
+  return success;
 }
 
 bool Player::TrySaveToDb() {
   //TODO: 다른 정보들도 체크하기 (인벤, 스킬, 기타등등)
-  if (_player_stat == nullptr) {
+  if (_player_stat == nullptr || _key_map == nullptr) {
     return false;
   }
 
+  bool success = false;
 
   if (const auto connection = DbConnectionPool::GetInstance().GetConnection()) {
     DbBind<18, 1> bind(*connection, L"{CALL dbo.spSaveCharacter(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}");
@@ -196,18 +210,21 @@ bool Player::TrySaveToDb() {
     int32_t sp = _player_stat->GetSp();
     bind.BindParam(index++, sp);
 
-    int success = 0;
-    bind.BindCol(0, success);
+    int temp = 0;
+    bind.BindCol(0, temp);
 
     if (bind.Execute() && bind.Fetch()) {
-      DbConnectionPool::GetInstance().ReleaseConnection(connection);
-      return success != 0;
+      success = temp != 0;
     }
 
     DbConnectionPool::GetInstance().ReleaseConnection(connection);
   }
 
-  return false;
+  if (success) {
+    success = _key_map->TrySaveToDb(_id);
+  }
+
+  return success;
 }
 
 int64_t Player::GetNextObjectId() {

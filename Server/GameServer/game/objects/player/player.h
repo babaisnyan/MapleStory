@@ -2,6 +2,7 @@
 #include "game/objects/game_object.h"
 
 namespace game {
+  class KeyMap;
   class PlayerStat;
 
   class Player final : public GameObject {
@@ -27,6 +28,7 @@ namespace game {
     const MsCoordinate& GetPosition() const;
 
     std::shared_ptr<PlayerStat> GetStat() const;
+    std::shared_ptr<KeyMap> GetKeyMap() const;
 
   public:
     bool TryLoadFromDb();
@@ -45,5 +47,6 @@ namespace game {
     int32_t _map = 0;
     MsCoordinate _position = {};
     std::shared_ptr<PlayerStat> _player_stat = nullptr;
+    std::shared_ptr<KeyMap> _key_map = nullptr;
   };
 }

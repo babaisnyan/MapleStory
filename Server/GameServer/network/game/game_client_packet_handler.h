@@ -13,11 +13,13 @@ namespace game {
     PKT_GAMESERVERCHANGEMAP = 3004,
     PKT_GAMECLIENTPLAYERMOVE = 3005,
     PKT_GAMESERVERPLAYERMOVE = 3006,
+    PKT_GAMECLIENTCHANGEKEYSETTING = 3007,
   };
 
   bool HandleGameInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
   bool HandleGameClientEnter(const PacketSessionRef& session, const protocol::GameClientEnter& packet);
   bool HandleGameClientPlayerMove(const PacketSessionRef& session, const protocol::GameClientPlayerMove& packet);
+  bool HandleGameClientChangeKeySetting(const PacketSessionRef& session, const protocol::GameClientChangeKeySetting& packet);
 
   class GameClientPacketHandler {
   public:
@@ -34,6 +36,9 @@ namespace game {
       };
       _packet_handler_map[PKT_GAMECLIENTPLAYERMOVE] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
         return HandlePacket<protocol::GameClientPlayerMove>(HandleGameClientPlayerMove, session, buffer, len);
+      };
+      _packet_handler_map[PKT_GAMECLIENTCHANGEKEYSETTING] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+        return HandlePacket<protocol::GameClientChangeKeySetting>(HandleGameClientChangeKeySetting, session, buffer, len);
       };
     }
 

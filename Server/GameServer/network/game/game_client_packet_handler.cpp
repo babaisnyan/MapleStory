@@ -5,8 +5,12 @@
 
 #include "game/map/map_instance.h"
 #include "game/map/map_manager.h"
+#include "game/objects/player/key_map.h"
 #include "game/objects/player/player.h"
 
+#include "handler/game/player_handler.h"
+
+#include "manager/job_queue/game_tick.h"
 #include "manager/job_queue/player_db_queue.h"
 
 namespace game {
@@ -34,6 +38,17 @@ namespace game {
     }
 
     map.value()->DoAsync(&MapInstance::MovePlayer, game_session, packet);
+    return true;
+  }
+
+  bool HandleGameClientChangeKeySetting(const PacketSessionRef& session, const protocol::GameClientChangeKeySetting& packet) {
+    if (!packet.has_key_setting()) {
+      return false;
+    }
+
+    const auto game_session = std::static_pointer_cast<GameSession>(session);
+    GameTick::GetInstance()->DoAsync(&GameTick::HandleKeySettingChange, game_session, packet);
+
     return true;
   }
 }

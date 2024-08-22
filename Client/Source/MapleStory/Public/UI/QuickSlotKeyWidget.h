@@ -18,10 +18,10 @@ public:
 	virtual bool Initialize() override;
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 
-protected:
 	UFUNCTION(BlueprintCallable)
 	void LoadKeyTexture();
-
+	
+protected:
 	UFUNCTION(BlueprintCallable)
 	void LoadKeyCodeTexture();
 
