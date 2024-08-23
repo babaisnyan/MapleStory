@@ -24,3 +24,4 @@ private:
 DECLARE_SHARED_PTR(FSendBuffer);
 
 #define SEND_PACKET(SendBuffer) Cast<UMapleGameInstance>(GWorld->GetGameInstance())->SendPacket(SendBuffer);
+DECLARE_STATS_GROUP(TEXT("MapleStory"), STATGROUP_MapleStory, STATCAT_Advanced);
