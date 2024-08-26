@@ -11,9 +11,14 @@ class MAPLESTORY_API UMsSpriteComponent : public UPaperSpriteComponent {
 	GENERATED_BODY()
 
 public:
+	UMsSpriteComponent();
+	
 	void Setup(const UDataTable* SpriteTable, bool bAutoStart = true, bool bLoop = true);
 
+	UFUNCTION(BlueprintCallable)
 	void Reset();
+
+    UFUNCTION(BlueprintCallable)
 	void Play();
 
 	virtual void BeginPlay() override;

@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "Monster.generated.h"
 
+class UBoxComponent;
 struct FAnimationData;
 struct FMobTemplate;
 class UMsSpriteComponent;
@@ -20,8 +21,10 @@ public:
 	void Init(int32 Id);
 
 	EMobActionType GetCurrentAction() const { return CurrentAction; }
-	void SetCurrentAction(EMobActionType ActionType);
-
+	void SetCurrentAction(EMobActionType ActionType, bool bForce = false);
+	
+	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -35,6 +38,9 @@ private:
 	void AddAnimation(EMobActionType ActionType, const FString& ActionName);
 	
 public:
+	UPROPERTY(VisibleAnywhere, Category = "Mob")
+	TObjectPtr<UBoxComponent> BoxComponent;
+	
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TMap<EMobActionType, TObjectPtr<UMsSpriteComponent>> SpriteComponents;
 
@@ -79,8 +85,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	int32 Exp = 0;
-
-private:
-	UPROPERTY()
-	EMobActionType CurrentAction = EMobActionType::Stand;
+	
+	UPROPERTY(EditAnywhere, Category = "Mob")
+	EMobActionType CurrentAction = EMobActionType::Regen;
 };

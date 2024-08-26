@@ -40,7 +40,7 @@ for subdir, dirs, files in os.walk(source_directory):
                         assetImportData.replace_existing = True
                         assetImportData.automated = True
                         assetImportData.save = True
-                        assetImportData.destination_name = f'DT_{file.split(".")[0]}'
+                        assetImportData.destination_name = f'{file.split(".")[0]}'
                         csv_factory = unreal.CSVImportFactory()
                         csv_factory.automated_import_settings.import_row_struct = asset_factory.struct
                         assetImportData.factory = csv_factory

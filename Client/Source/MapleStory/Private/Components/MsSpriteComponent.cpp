@@ -2,6 +2,13 @@
 
 #include "Data/Table/AnimationData.h"
 
+UMsSpriteComponent::UMsSpriteComponent() {
+	PrimaryComponentTick.bCanEverTick = true;
+	PrimaryComponentTick.bStartWithTickEnabled = true;
+
+	
+}
+
 void UMsSpriteComponent::Setup(const UDataTable* SpriteTable, const bool bAutoStart, const bool bLoop) {
 	if (!SpriteTable) {
 		return;
@@ -48,7 +55,7 @@ void UMsSpriteComponent::Setup(const UDataTable* SpriteTable, const bool bAutoSt
 	bStarted = bAutoStart;
 
 	SetSprite(Sprites[0]);
-	SetRelativeLocation(FVector(BaseOffset.X + Offsets[0].X, BaseOffset.Y + ZOrders[0], BaseOffset.Z + Offsets[0].Y), false, nullptr, ETeleportType::ResetPhysics);
+	SetRelativeLocation(FVector(BaseOffset.X - Offsets[0].X, BaseOffset.Y + ZOrders[0], BaseOffset.Z - Offsets[0].Y), false, nullptr, ETeleportType::ResetPhysics);
 }
 
 void UMsSpriteComponent::Reset() {
@@ -60,6 +67,8 @@ void UMsSpriteComponent::Reset() {
 }
 
 void UMsSpriteComponent::Play() {
+	SetSprite(Sprites[0]);
+	SetRelativeLocation(FVector(BaseOffset.X - Offsets[0].X, BaseOffset.Y + ZOrders[0], BaseOffset.Z - Offsets[0].Y), false, nullptr, ETeleportType::ResetPhysics);
 	bStarted = true;
 }
 
@@ -90,7 +99,7 @@ void UMsSpriteComponent::TickComponent(const float DeltaTime, const ELevelTick T
 				TimeElapsed = 0.0f;
 				CurrentIndex = (CurrentIndex + 1) % Sprites.Num();
 				SetSprite(Sprites[CurrentIndex]);
-				SetRelativeLocation(FVector(BaseOffset.X + Offsets[CurrentIndex].X, BaseOffset.Y + ZOrders[CurrentIndex], BaseOffset.Z + Offsets[CurrentIndex].Y), false, nullptr, ETeleportType::ResetPhysics);
+				SetRelativeLocation(FVector(BaseOffset.X - Offsets[CurrentIndex].X, BaseOffset.Y + ZOrders[CurrentIndex], BaseOffset.Z - Offsets[CurrentIndex].Y), false, nullptr, ETeleportType::ResetPhysics);
 			}
 
 			if (HasAlpha[CurrentIndex]) {

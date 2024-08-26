@@ -1,11 +1,15 @@
 #include "Actors/Monster.h"
 
+#include "Components/BoxComponent.h"
 #include "Components/MsSpriteComponent.h"
 #include "Data/Table/MobTemplate.h"
 #include "Managers/MobManager.h"
 
 AMonster::AMonster() {
 	PrimaryActorTick.bCanEverTick = true;
+
+	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
+	RootComponent = BoxComponent;
 }
 
 void AMonster::Init(const int32 Id) {
@@ -45,14 +49,21 @@ void AMonster::Init(const int32 Id) {
 	}
 }
 
-void AMonster::SetCurrentAction(const EMobActionType ActionType) {
-	if (CurrentAction == ActionType) {
+void AMonster::SetCurrentAction(const EMobActionType ActionType, const bool bForce) {
+	if (CurrentAction == ActionType && !bForce) {
 		return;
 	}
 
-	if (SpriteComponents.Contains(CurrentAction)) {
-		SpriteComponents[CurrentAction]->Reset();
-		SpriteComponents[CurrentAction]->SetVisibility(false, true);
+	if (bForce) {
+		for (const auto& Pair : SpriteComponents) {
+			Pair.Value->Reset();
+			Pair.Value->SetVisibility(false, true);
+		}
+	} else {
+		if (SpriteComponents.Contains(CurrentAction)) {
+			SpriteComponents[CurrentAction]->Reset();
+			SpriteComponents[CurrentAction]->SetVisibility(false, true);
+		}
 	}
 
 	CurrentAction = ActionType;
@@ -64,11 +75,25 @@ void AMonster::SetCurrentAction(const EMobActionType ActionType) {
 	}
 }
 
+void AMonster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) {
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+
+	#if WITH_EDITOR
+	if (PropertyChangedEvent.Property) {
+		const FName PropertyName = PropertyChangedEvent.Property->GetFName();
+
+		if (PropertyName == GET_MEMBER_NAME_CHECKED(AMonster, CurrentAction)) {
+			SetCurrentAction(CurrentAction, true);
+		}
+	}
+	#endif
+}
+
 void AMonster::BeginPlay() {
 	Super::BeginPlay();
 
 	check(SpriteComponents.Contains(EMobActionType::Stand));
-	SpriteComponents[EMobActionType::Stand]->Play();
+	SetCurrentAction(EMobActionType::Stand);
 }
 
 
@@ -105,5 +130,8 @@ void AMonster::AddAnimation(const EMobActionType ActionType, const FString& Acti
 
 	UMsSpriteComponent* SpriteComponent = NewObject<UMsSpriteComponent>(this);
 	SpriteComponent->Setup(SpriteTable, false, ActionType == EMobActionType::Stand || ActionType == EMobActionType::Move);
+	SpriteComponent->RegisterComponent();
+	SpriteComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	SpriteComponent->SetVisibility(false, true);
 	SpriteComponents.Add(ActionType, SpriteComponent);
 }

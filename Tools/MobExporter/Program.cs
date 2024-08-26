@@ -150,8 +150,8 @@ namespace MobExporter
                         frameInfo.Add(new FrameInfo(id, action, frame)
                         {
                             Delay = delay,
-                            OffsetX = newOrigin.X,
-                            OffsetY = newOrigin.Y,
+                            OffsetX = origin.X,
+                            OffsetY = origin.Y,
                             ZOrder = z,
                             ZigZag = zigzag,
                             HasAlpha = a1 != -1,
@@ -190,15 +190,15 @@ namespace MobExporter
                         frame.Name = index++;
                     }
 
-                    await using (var write = new StreamWriter($"./Exported/{id}/{action}/frames.csv"))
+                    await using (var write = new StreamWriter($"./Exported/{id}/{action}/DT_Frames.csv"))
                     {
                         await using var csv = new CsvWriter(write, CultureInfo.InvariantCulture);
                         await csv.WriteRecordsAsync(frameInfo.OrderBy(x => x.Name)).ConfigureAwait(false);
                     }
 
-                    var content = await File.ReadAllTextAsync($"./Exported/{id}/{action}/frames.csv").ConfigureAwait(false);
+                    var content = await File.ReadAllTextAsync($"./Exported/{id}/{action}/DT_Frames.csv").ConfigureAwait(false);
                     var changed = content.Replace("\"\"\"", "\"");
-                    await File.WriteAllTextAsync($"./Exported/{id}/{action}/frames.csv", changed).ConfigureAwait(false);
+                    await File.WriteAllTextAsync($"./Exported/{id}/{action}/DT_Frames.csv", changed).ConfigureAwait(false);
                 }
             }
 

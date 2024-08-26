@@ -6,6 +6,7 @@
 #include "InputMappingContext.h"
 #include "MapleGameInstance.h"
 #include "PaperFlipbookComponent.h"
+#include "Actors/Monster.h"
 #include "Characters/PlayerCamera.h"
 #include "Components/PlayerStatComponent.h"
 #include "Data/Enum/ESoundEffectType.h"
@@ -89,6 +90,11 @@ void AMsLocalPlayer::BeginPlay() {
 		QuickSlotWidget = Window;
 		Window->AddToViewport(2);
 	}
+
+	const auto Temp = GetWorld()->SpawnActorDeferred<AMonster>(AMonster::StaticClass(), FTransform::Identity);
+	Temp->Init(2400203);
+	Temp->FinishSpawning(FTransform::Identity);
+	Temp->SetActorLocation(GetActorLocation());
 }
 
 void AMsLocalPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
