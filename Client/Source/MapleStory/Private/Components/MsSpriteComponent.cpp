@@ -5,14 +5,15 @@
 UMsSpriteComponent::UMsSpriteComponent() {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = true;
-
-	
 }
 
 void UMsSpriteComponent::Setup(const UDataTable* SpriteTable, const bool bAutoStart, const bool bLoop) {
 	if (!SpriteTable) {
 		return;
 	}
+
+	SetCollisionProfileName(TEXT("NoCollision"));
+	CanCharacterStepUpOn = ECB_No;
 
 	Sprites.Empty();
 	Delays.Empty();
@@ -55,7 +56,7 @@ void UMsSpriteComponent::Setup(const UDataTable* SpriteTable, const bool bAutoSt
 	bStarted = bAutoStart;
 
 	SetSprite(Sprites[0]);
-	SetRelativeLocation(FVector(BaseOffset.X - Offsets[0].X, BaseOffset.Y + ZOrders[0], BaseOffset.Z - Offsets[0].Y), false, nullptr, ETeleportType::ResetPhysics);
+	SetRelativeLocation(FVector(-(Offsets[0].X / 2), BaseOffset.Y + ZOrders[0], -(Offsets[0].Y / 2)), false, nullptr, ETeleportType::ResetPhysics);
 }
 
 void UMsSpriteComponent::Reset() {
@@ -68,7 +69,7 @@ void UMsSpriteComponent::Reset() {
 
 void UMsSpriteComponent::Play() {
 	SetSprite(Sprites[0]);
-	SetRelativeLocation(FVector(BaseOffset.X - Offsets[0].X, BaseOffset.Y + ZOrders[0], BaseOffset.Z - Offsets[0].Y), false, nullptr, ETeleportType::ResetPhysics);
+	SetRelativeLocation(FVector(-(Offsets[0].X / 2), BaseOffset.Y + ZOrders[0], -(Offsets[0].Y / 2)), false, nullptr, ETeleportType::ResetPhysics);
 	bStarted = true;
 }
 
@@ -99,12 +100,16 @@ void UMsSpriteComponent::TickComponent(const float DeltaTime, const ELevelTick T
 				TimeElapsed = 0.0f;
 				CurrentIndex = (CurrentIndex + 1) % Sprites.Num();
 				SetSprite(Sprites[CurrentIndex]);
-				SetRelativeLocation(FVector(BaseOffset.X - Offsets[CurrentIndex].X, BaseOffset.Y + ZOrders[CurrentIndex], BaseOffset.Z - Offsets[CurrentIndex].Y), false, nullptr, ETeleportType::ResetPhysics);
+				SetRelativeLocation(FVector(-(Offsets[CurrentIndex].X / 2), BaseOffset.Y + ZOrders[CurrentIndex], -(Offsets[CurrentIndex].Y / 2)), false, nullptr, ETeleportType::ResetPhysics);
 			}
 
 			if (HasAlpha[CurrentIndex]) {
 				const float Alpha = FMath::Lerp(AlphaStarts[CurrentIndex], AlphaEnds[CurrentIndex], TimeElapsed / Delays[CurrentIndex]);
 				SetSpriteColor(FLinearColor(1.0f, 1.0f, 1.0f, Alpha / 255.0f));
+				
+				if (Alpha < 10.0f) {
+					bEnded = true;
+				}
 			} else {
 				SetSpriteColor(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
 			}
@@ -114,6 +119,14 @@ void UMsSpriteComponent::TickComponent(const float DeltaTime, const ELevelTick T
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
 	if (bEnded) {
-		OnFinishedPlaying.Broadcast();
+		OnFinishedPlaying.Broadcast(this);
 	}
+}
+
+FVector2D UMsSpriteComponent::GetSpriteSize()  {
+	if (const UPaperSprite* Sprite = GetSprite()) {
+		return FVector2D(Sprite->GetSourceSize().X / 2, Sprite->GetSourceSize().Y / 2);
+	}
+
+	return FVector2D::ZeroVector;
 }

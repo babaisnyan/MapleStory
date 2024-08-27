@@ -4,7 +4,7 @@
 #include "PaperSpriteComponent.h"
 #include "MsSpriteComponent.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FMsSpriteFinishedPlaySignature);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMsSpriteFinishedPlaySignature, UMsSpriteComponent*, SpriteComponent);
 
 UCLASS(ShowCategories=(Mobility), meta=(BlueprintSpawnableComponent))
 class MAPLESTORY_API UMsSpriteComponent : public UPaperSpriteComponent {
@@ -12,7 +12,8 @@ class MAPLESTORY_API UMsSpriteComponent : public UPaperSpriteComponent {
 
 public:
 	UMsSpriteComponent();
-	
+
+	UFUNCTION(BlueprintCallable)
 	void Setup(const UDataTable* SpriteTable, bool bAutoStart = true, bool bLoop = true);
 
 	UFUNCTION(BlueprintCallable)
@@ -23,6 +24,8 @@ public:
 
 	virtual void BeginPlay() override;
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	FVector2D GetSpriteSize();
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sprite")

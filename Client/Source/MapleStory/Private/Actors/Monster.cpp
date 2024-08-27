@@ -9,6 +9,16 @@ AMonster::AMonster() {
 	PrimaryActorTick.bCanEverTick = true;
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
+	BoxComponent->SetCollisionProfileName(TEXT("Monster"));
+	BoxComponent->SetSimulatePhysics(true);
+	BoxComponent->SetEnableGravity(true);
+	BoxComponent->CanCharacterStepUpOn = ECB_No;
+	BoxComponent->BodyInstance.bLockXRotation = true;
+	BoxComponent->BodyInstance.bLockYRotation = true;
+	BoxComponent->BodyInstance.bLockZRotation = true;
+	BoxComponent->BodyInstance.bLockYTranslation = true;
+	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AMonster::OnBeginOverlap);
+	
 	RootComponent = BoxComponent;
 }
 
@@ -30,10 +40,10 @@ void AMonster::Init(const int32 Id) {
 	Setup(MobTemplate);
 
 	check(MobTemplate->HasStand);
-	AddAnimation(EMobActionType::Stand, TEXT("stand"));
+	AddAnimation(EMobActionType::Stand, TEXT("stand"), false);
 
 	if (MobTemplate->HasMove) {
-		AddAnimation(EMobActionType::Move, TEXT("move"));
+		AddAnimation(EMobActionType::Move, TEXT("move"), false);
 	}
 
 	if (MobTemplate->HasDie) {
@@ -69,9 +79,10 @@ void AMonster::SetCurrentAction(const EMobActionType ActionType, const bool bFor
 	CurrentAction = ActionType;
 
 	if (SpriteComponents.Contains(CurrentAction)) {
-		SpriteComponents[CurrentAction]->Reset();
-		SpriteComponents[CurrentAction]->Play();
-		SpriteComponents[CurrentAction]->SetVisibility(true, true);
+		TObjectPtr<UMsSpriteComponent> SpriteComponent = SpriteComponents[CurrentAction];
+		SpriteComponent->Reset();
+		SpriteComponent->Play();
+		SpriteComponent->SetVisibility(true, true);
 	}
 }
 
@@ -99,6 +110,12 @@ void AMonster::BeginPlay() {
 
 void AMonster::Tick(const float DeltaTime) {
 	Super::Tick(DeltaTime);
+	
+	if (SpriteComponents.Contains(CurrentAction)) {
+		UMsSpriteComponent* SpriteComponent = SpriteComponents[CurrentAction];
+		const FVector2D Size = SpriteComponent->GetSpriteSize();
+		BoxComponent->SetBoxExtent(FVector(Size.X, 5.0f, Size.Y));
+	}
 
 	if (Hp <= 0) {
 		SetCurrentAction(EMobActionType::Die);
@@ -121,7 +138,7 @@ void AMonster::Setup(const FMobTemplate* MobTemplate) {
 	Exp = MobTemplate->Exp;
 }
 
-void AMonster::AddAnimation(const EMobActionType ActionType, const FString& ActionName) {
+void AMonster::AddAnimation(const EMobActionType ActionType, const FString& ActionName, const bool bRegisterEvent) {
 	const UDataTable* SpriteTable = LoadObject<UDataTable>(nullptr, *FString::Printf(TEXT("/Game/Mob/%d/%s/DT_Frames.DT_Frames"), MobId, *ActionName));
 
 	if (!SpriteTable) {
@@ -134,4 +151,31 @@ void AMonster::AddAnimation(const EMobActionType ActionType, const FString& Acti
 	SpriteComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	SpriteComponent->SetVisibility(false, true);
 	SpriteComponents.Add(ActionType, SpriteComponent);
+
+	if (bRegisterEvent) {
+		SpriteComponent->OnFinishedPlaying.AddDynamic(this, &AMonster::OnFinishedPlaying);
+	}
+}
+
+void AMonster::OnFinishedPlaying(UMsSpriteComponent* SpriteComponent) {
+	if (!SpriteComponent) {
+		return;
+	}
+
+	// TODO: 몹 ai 적용
+	switch (CurrentAction) {
+		case EMobActionType::Hit:
+			SetCurrentAction(EMobActionType::Stand);
+			break;
+		case EMobActionType::Die:
+			Destroy();
+			break;
+		case EMobActionType::Regen:
+			SetCurrentAction(EMobActionType::Stand);
+			break;
+	}
+}
+
+void AMonster::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+   UE_LOG(LogTemp, Warning, TEXT("AMonster::OnBeginOverlap"));
 }

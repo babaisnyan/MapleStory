@@ -130,8 +130,7 @@ namespace MobExporter
 
                     var frameInfo = new List<FrameInfo>();
                     var zigzag = await node.GetAsync("zigzag", 0).ConfigureAwait(false) > 0;
-                    Point? basePos = null;
-
+ 
                     foreach (var frameNode in node.Children)
                     {
                         if (!int.TryParse(frameNode._name, out var frame)) continue;
@@ -144,8 +143,6 @@ namespace MobExporter
                         var z = await frameNode.GetAsync("z", 0).ConfigureAwait(false);
                         var a0 = await frameNode.GetAsync("a0", 255).ConfigureAwait(false);
                         var a1 = await frameNode.GetAsync("a1", -1).ConfigureAwait(false);
-                        basePos ??= origin;
-                        var newOrigin = new Point(basePos.Value.X - origin.X, basePos.Value.Y - origin.Y);
 
                         frameInfo.Add(new FrameInfo(id, action, frame)
                         {

@@ -15,7 +15,6 @@ class MAPLESTORY_API AMonster : public AActor {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
 	AMonster();
 
 	void Init(int32 Id);
@@ -26,7 +25,6 @@ public:
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 	
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
@@ -35,7 +33,13 @@ public:
 
 private:
 	void Setup(const FMobTemplate* MobTemplate);
-	void AddAnimation(EMobActionType ActionType, const FString& ActionName);
+	void AddAnimation(EMobActionType ActionType, const FString& ActionName, bool bRegisterEvent = true);
+
+	UFUNCTION()
+	void OnFinishedPlaying( UMsSpriteComponent* SpriteComponent);
+
+		UFUNCTION()
+    	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 	
 public:
 	UPROPERTY(VisibleAnywhere, Category = "Mob")

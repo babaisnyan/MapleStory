@@ -92,9 +92,10 @@ void AMsLocalPlayer::BeginPlay() {
 	}
 
 	const auto Temp = GetWorld()->SpawnActorDeferred<AMonster>(AMonster::StaticClass(), FTransform::Identity);
-	Temp->Init(2400203);
+	const auto Temp2 = GetActorLocation();
+	Temp->Init(2400202);
 	Temp->FinishSpawning(FTransform::Identity);
-	Temp->SetActorLocation(GetActorLocation());
+	Temp->SetActorLocation(FVector(Temp2.X + 50, Temp2.Y - 1, Temp2.Z + 50));
 }
 
 void AMsLocalPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {

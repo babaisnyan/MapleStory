@@ -24,8 +24,8 @@ AMsPlayerBase::AMsPlayerBase() {
 	const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
 	if (Capsule) {
 		Capsule->SetCapsuleSize(16.0f, 33.0f);
-		Capsule->SetCollisionProfileName(TEXT("Player"));
-		Capsule->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+		Capsule->SetCollisionProfileName(TEXT("Pawn"));
+		// Capsule->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
 		Capsule->SetSimulatePhysics(false);
 		Capsule->SetEnableGravity(true);
 		Capsule->BodyInstance.bLockXRotation = true;

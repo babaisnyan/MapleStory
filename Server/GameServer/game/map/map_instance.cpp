@@ -20,10 +20,6 @@ bool MapInstance::AddPlayer(const std::shared_ptr<GameSession>& session) {
 bool MapInstance::RemoveObject(const int64_t object_id) {
   const auto type = static_cast<GameObject::ObjectType>(object_id / GameObject::kObjectRange);
 
-  if (_objects.erase(object_id) <= 0) {
-    return false;
-  }
-
   if (type == GameObject::ObjectType::kPlayer) {
     const auto player_session = GetPlayer(object_id);
 
@@ -39,6 +35,10 @@ bool MapInstance::RemoveObject(const int64_t object_id) {
     }
 
     OnPlayerLeave(player);
+  }
+
+  if (_objects.erase(object_id) <= 0) {
+    return false;
   }
 
   return true;
