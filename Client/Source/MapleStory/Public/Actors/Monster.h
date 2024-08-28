@@ -17,18 +17,20 @@ class MAPLESTORY_API AMonster : public AActor {
 public:
 	AMonster();
 
-	void Init(int32 Id);
+	bool Init(int32 Id);
 
-	EMobActionType GetCurrentAction() const { return CurrentAction; }
+	EMobActionType GetCurrentAction() const {
+		return CurrentAction;
+	}
+
 	void SetCurrentAction(EMobActionType ActionType, bool bForce = false);
-	
+
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
-	
+
 protected:
 	virtual void BeginPlay() override;
 
 public:
-	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
 private:
@@ -36,15 +38,15 @@ private:
 	void AddAnimation(EMobActionType ActionType, const FString& ActionName, bool bRegisterEvent = true);
 
 	UFUNCTION()
-	void OnFinishedPlaying( UMsSpriteComponent* SpriteComponent);
+	void OnFinishedPlaying(UMsSpriteComponent* SpriteComponent);
 
-		UFUNCTION()
-    	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	
+	UFUNCTION()
+	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 public:
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TObjectPtr<UBoxComponent> BoxComponent;
-	
+
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TMap<EMobActionType, TObjectPtr<UMsSpriteComponent>> SpriteComponents;
 
@@ -89,7 +91,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	int32 Exp = 0;
-	
+
 	UPROPERTY(EditAnywhere, Category = "Mob")
 	EMobActionType CurrentAction = EMobActionType::Regen;
+
+	UPROPERTY(EditAnywhere, Category = "Mob")
+	bool bCanDamaged = true;
 };

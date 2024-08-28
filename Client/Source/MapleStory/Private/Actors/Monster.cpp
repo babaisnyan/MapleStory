@@ -22,19 +22,19 @@ AMonster::AMonster() {
 	RootComponent = BoxComponent;
 }
 
-void AMonster::Init(const int32 Id) {
+bool AMonster::Init(const int32 Id) {
 	MobId = Id;
 
 	const UMobManager* MobManager = GetGameInstance()->GetSubsystem<UMobManager>();
 
 	if (!MobManager) {
-		return;
+		return false;
 	}
 
 	const FMobTemplate* MobTemplate = MobManager->GetMobTemplate(Id);
 
 	if (!MobTemplate) {
-		return;
+		return false;
 	}
 
 	Setup(MobTemplate);
@@ -57,6 +57,8 @@ void AMonster::Init(const int32 Id) {
 	if (MobTemplate->HasRegen) {
 		AddAnimation(EMobActionType::Regen, TEXT("regen"));
 	}
+
+	return true;
 }
 
 void AMonster::SetCurrentAction(const EMobActionType ActionType, const bool bForce) {
@@ -79,7 +81,7 @@ void AMonster::SetCurrentAction(const EMobActionType ActionType, const bool bFor
 	CurrentAction = ActionType;
 
 	if (SpriteComponents.Contains(CurrentAction)) {
-		TObjectPtr<UMsSpriteComponent> SpriteComponent = SpriteComponents[CurrentAction];
+		const TObjectPtr<UMsSpriteComponent> SpriteComponent = SpriteComponents[CurrentAction];
 		SpriteComponent->Reset();
 		SpriteComponent->Play();
 		SpriteComponent->SetVisibility(true, true);
@@ -177,5 +179,7 @@ void AMonster::OnFinishedPlaying(UMsSpriteComponent* SpriteComponent) {
 }
 
 void AMonster::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-   UE_LOG(LogTemp, Warning, TEXT("AMonster::OnBeginOverlap"));
+	if (CurrentAction == EMobActionType::Die || CurrentAction == EMobActionType::Regen) {
+		return;
+	}
 }

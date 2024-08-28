@@ -56,7 +56,8 @@ void UMsSpriteComponent::Setup(const UDataTable* SpriteTable, const bool bAutoSt
 	bStarted = bAutoStart;
 
 	SetSprite(Sprites[0]);
-	SetRelativeLocation(FVector(-(Offsets[0].X / 2), BaseOffset.Y + ZOrders[0], -(Offsets[0].Y / 2)), false, nullptr, ETeleportType::ResetPhysics);
+	const FVector2D Offset = GetAdjustOffset();
+	SetRelativeLocation(FVector(Offset.X, BaseOffset.Y + ZOrders[CurrentIndex], Offset.Y), false, nullptr, ETeleportType::ResetPhysics);
 }
 
 void UMsSpriteComponent::Reset() {
@@ -69,7 +70,8 @@ void UMsSpriteComponent::Reset() {
 
 void UMsSpriteComponent::Play() {
 	SetSprite(Sprites[0]);
-	SetRelativeLocation(FVector(-(Offsets[0].X / 2), BaseOffset.Y + ZOrders[0], -(Offsets[0].Y / 2)), false, nullptr, ETeleportType::ResetPhysics);
+	const FVector2D Offset = GetAdjustOffset();
+	SetRelativeLocation(FVector(Offset.X, BaseOffset.Y + ZOrders[CurrentIndex], Offset.Y), false, nullptr, ETeleportType::ResetPhysics);
 	bStarted = true;
 }
 
@@ -100,19 +102,22 @@ void UMsSpriteComponent::TickComponent(const float DeltaTime, const ELevelTick T
 				TimeElapsed = 0.0f;
 				CurrentIndex = (CurrentIndex + 1) % Sprites.Num();
 				SetSprite(Sprites[CurrentIndex]);
-				SetRelativeLocation(FVector(-(Offsets[CurrentIndex].X / 2), BaseOffset.Y + ZOrders[CurrentIndex], -(Offsets[CurrentIndex].Y / 2)), false, nullptr, ETeleportType::ResetPhysics);
+
+				// const FVector2D Offset = GetAdjustOffset();
+				// UE_LOG(LogTemp, Warning, TEXT("Offset: %s"), *Offset.ToString());
+				// SetRelativeLocation(FVector(Offset.X, BaseOffset.Y + ZOrders[CurrentIndex], Offset.Y), false, nullptr, ETeleportType::ResetPhysics);
 			}
 
-			if (HasAlpha[CurrentIndex]) {
-				const float Alpha = FMath::Lerp(AlphaStarts[CurrentIndex], AlphaEnds[CurrentIndex], TimeElapsed / Delays[CurrentIndex]);
-				SetSpriteColor(FLinearColor(1.0f, 1.0f, 1.0f, Alpha / 255.0f));
-				
-				if (Alpha < 10.0f) {
-					bEnded = true;
-				}
-			} else {
-				SetSpriteColor(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
-			}
+			// if (HasAlpha[CurrentIndex]) {
+			// 	const float Alpha = FMath::Lerp(AlphaStarts[CurrentIndex], AlphaEnds[CurrentIndex], TimeElapsed / Delays[CurrentIndex]);
+			// 	SetSpriteColor(FLinearColor(1.0f, 1.0f, 1.0f, Alpha / 255.0f));
+			// 	
+			// 	if (Alpha < 10.0f) {
+			// 		bEnded = true;
+			// 	}
+			// } else {
+			// 	SetSpriteColor(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
+			// }
 		}
 	}
 
@@ -129,4 +134,13 @@ FVector2D UMsSpriteComponent::GetSpriteSize()  {
 	}
 
 	return FVector2D::ZeroVector;
+}
+
+FVector2D UMsSpriteComponent::GetAdjustOffset() {
+	const FVector2D Size = GetSpriteSize();
+	const FVector2D Offset = Offsets[CurrentIndex];
+	const int32 X = Offset.X > Size.X ? Offset.X - Size.X : Size.X - Offset.X;
+	const int32 Y = Offset.Y > Size.Y ? Offset.Y - Size.Y : Size.Y - Offset.Y;
+
+    return FVector2D(X, -Y);
 }

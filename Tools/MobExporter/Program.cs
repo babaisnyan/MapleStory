@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 using CsvHelper;
 using Newtonsoft.Json;
 using PKG1;
@@ -67,7 +66,7 @@ namespace MobExporter
         private static async Task FillMobInfoAsync(WzProperty collection)
         {
             var removeList = new List<int>();
-            var actions = new[] {"move", "stand", "hit1", "die1", "regen"};
+            var actions = new[] {"move", "stand", "hit1", "die1", "regen", "attack1"};
 
             foreach (var (id, mobInfo) in _mobInfos)
             {
@@ -130,7 +129,7 @@ namespace MobExporter
 
                     var frameInfo = new List<FrameInfo>();
                     var zigzag = await node.GetAsync("zigzag", 0).ConfigureAwait(false) > 0;
- 
+
                     foreach (var frameNode in node.Children)
                     {
                         if (!int.TryParse(frameNode._name, out var frame)) continue;
@@ -144,7 +143,7 @@ namespace MobExporter
                         var a0 = await frameNode.GetAsync("a0", 255).ConfigureAwait(false);
                         var a1 = await frameNode.GetAsync("a1", -1).ConfigureAwait(false);
 
-                        frameInfo.Add(new FrameInfo(id, action, frame)
+                        frameInfo.Add(new FrameInfo(id, $"\"/Paper2D.PaperSprite'/Game/Mob/{id}/{action}/S_{frame}.S_{frame}'\"")
                         {
                             Delay = delay,
                             OffsetX = origin.X,
@@ -178,6 +177,9 @@ namespace MobExporter
                         case "regen":
                             mobInfo.HasRegen = frameInfo.Count > 0;
                             break;
+                        case "attack1":
+                            mobInfo.HasAttack = frameInfo.Count > 0;
+                            break;
                     }
 
                     var index = 1;
@@ -196,6 +198,94 @@ namespace MobExporter
                     var content = await File.ReadAllTextAsync($"./Exported/{id}/{action}/DT_Frames.csv").ConfigureAwait(false);
                     var changed = content.Replace("\"\"\"", "\"");
                     await File.WriteAllTextAsync($"./Exported/{id}/{action}/DT_Frames.csv", changed).ConfigureAwait(false);
+
+                    if (action == "attack1" && frameInfo.Count > 0)
+                    {
+                        var attackInfo = await node.Resolve("info").ConfigureAwait(false);
+
+                        if (attackInfo == null)
+                        {
+                            Directory.Delete($"./Exported/{id}/{action}", true);
+                            mobInfo.HasAttack = false;
+                            continue;
+                        }
+
+                        var attackAfter = await attackInfo.GetAsync("attackAfter", 0).ConfigureAwait(false);
+                        var range = await attackInfo.Resolve("range").ConfigureAwait(false);
+
+                        if (range == null || attackAfter == 0 || !await attackInfo.HasChildAsync("range").ConfigureAwait(false))
+                        {
+                            Directory.Delete($"./Exported/{id}/{action}", true);
+                            mobInfo.HasAttack = false;
+                            continue;
+                        }
+
+                        var lt = await range.GetAsync("lt", new Point(1557, 1557)).ConfigureAwait(false);
+                        var rb = await range.GetAsync("rb", new Point(1557, 1557)).ConfigureAwait(false);
+
+                        if (lt.X == 1557 || rb.X == 1557)
+                        {
+                            Directory.Delete($"./Exported/{id}/{action}", true);
+                            mobInfo.HasAttack = false;
+                            continue;
+                        }
+
+                        var hit = await attackInfo.Resolve("hit").ConfigureAwait(false);
+
+                        if (hit != null)
+                        {
+                            var hitFrameInfo = new List<FrameInfo>();
+                            mobInfo.AttackAfter = attackAfter;
+                            mobInfo.LtX = lt.X;
+                            mobInfo.LtY = lt.Y;
+                            mobInfo.RbX = rb.X;
+                            mobInfo.RbY = rb.Y;
+
+                            foreach (var hitNode in hit.Children)
+                            {
+                                if (!int.TryParse(hitNode._name, out var frame)) continue;
+
+                                var image = await hitNode.ResolveForOrNull<Image<Rgba32>>().ConfigureAwait(false);
+                                if (image == null) break;
+
+                                var origin = await hitNode.GetAsync("origin", new Point()).ConfigureAwait(false);
+                                var delay = await hitNode.GetAsync("delay", 100).ConfigureAwait(false);
+                                var z = await hitNode.GetAsync("z", 0).ConfigureAwait(false);
+
+                                hitFrameInfo.Add(new FrameInfo(id, $"\"/Paper2D.PaperSprite'/Game/Mob/{id}/hit/S_{frame}.S_{frame}'\"")
+                                {
+                                    Delay = delay,
+                                    OffsetX = origin.X,
+                                    OffsetY = origin.Y,
+                                    ZOrder = z,
+                                    ZigZag = false,
+                                    HasAlpha = false,
+                                    AlphaStart = 0,
+                                    AlphaEnd = 0
+                                });
+
+                                Directory.CreateDirectory($"./Exported/{id}/hit");
+                                await image.SaveAsPngAsync($"./Exported/{id}/hit/T_{frame}.png").ConfigureAwait(false);
+                            }
+
+                            index = 1;
+
+                            foreach (var frame in hitFrameInfo)
+                            {
+                                frame.Name = index++;
+                            }
+
+                            await using (var write = new StreamWriter($"./Exported/{id}/hit/DT_Frames.csv"))
+                            {
+                                await using var csv = new CsvWriter(write, CultureInfo.InvariantCulture);
+                                await csv.WriteRecordsAsync(hitFrameInfo.OrderBy(x => x.Name)).ConfigureAwait(false);
+                            }
+
+                            var hitContent = await File.ReadAllTextAsync($"./Exported/{id}/hit/DT_Frames.csv").ConfigureAwait(false);
+                            var hitChanged = hitContent.Replace("\"\"\"", "\"");
+                            await File.WriteAllTextAsync($"./Exported/{id}/hit/DT_Frames.csv", hitChanged).ConfigureAwait(false);
+                        }
+                    }
                 }
             }
 

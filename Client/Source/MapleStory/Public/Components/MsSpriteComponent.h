@@ -27,6 +27,9 @@ public:
 
 	FVector2D GetSpriteSize();
 
+private:
+	FVector2D GetAdjustOffset();
+	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Sprite")
 	TArray<TObjectPtr<UPaperSprite>> Sprites;
