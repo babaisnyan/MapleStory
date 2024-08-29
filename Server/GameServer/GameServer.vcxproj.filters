@@ -237,6 +237,9 @@
     <ClInclude Include="data\map_provider.h">
       <Filter>data</Filter>
     </ClInclude>
+    <ClInclude Include="data\spawn_point.h">
+      <Filter>data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="network">

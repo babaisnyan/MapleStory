@@ -1,12 +1,7 @@
 ﻿#pragma once
+#include "data/spawn_point.h"
 
 namespace game {
-  struct MobSpawnInfo {
-    uint32_t id;
-    float x;
-    float y;
-  };
-
   class MapTemplate {
   public:
     MapTemplate() = default;
@@ -16,12 +11,11 @@ namespace game {
   public:
     uint32_t GetId() const;
     const String& GetName() const;
-    const std::vector<MobSpawnInfo>& GetMobs() const;
+    const std::vector<SpawnPoint>& GetMobs() const;
 
   private:
     uint32_t _id;
     String _name;
-    std::vector<MobSpawnInfo> _mobs;
+    std::vector<SpawnPoint> _mobs;
   };
-  
 }

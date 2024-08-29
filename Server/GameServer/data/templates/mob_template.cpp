@@ -4,8 +4,8 @@
 void MobTemplate::Load(const json& data) {
   std::string name;
 
-  data.at("Id").get_to(_id);
-  data.at("Name").get_to(name);
+  data.at("MobId").get_to(_id);
+  data.at("MobName").get_to(name);
   _name = utils::ConvertToWide(name).value_or(L"");
   data.at("Level").get_to(_level);
   data.at("MaxHp").get_to(_max_hp);
@@ -25,7 +25,6 @@ void MobTemplate::Load(const json& data) {
   data.at("AttackCool").get_to(_attack_cool);
   data.at("AttackWidth").get_to(_attack_width);
   data.at("AttackHeight").get_to(_attack_height);
-
 }
 
 uint32_t MobTemplate::GetId() const {

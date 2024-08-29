@@ -13,13 +13,17 @@ namespace game {
   public:
     void Init();
 
-    std::optional<std::shared_ptr<MapTemplate>> GetItem(const uint32_t id) const {
+    std::optional<std::shared_ptr<MapTemplate>> GetMap(const uint32_t id) const {
       const auto it = _maps.find(id);
       if (it == _maps.end()) {
         return std::nullopt;
       }
 
       return it->second;
+    }
+
+    const std::unordered_map<uint32_t, std::shared_ptr<MapTemplate>>& GetAllMaps() const {
+      return _maps;
     }
 
   private:

@@ -3,6 +3,8 @@
 
 #include "map_instance.h"
 
+#include "data/map_provider.h"
+
 MapManager::MapManager() {
   LoadMaps();
 }
@@ -22,5 +24,7 @@ std::unordered_map<int32_t, std::shared_ptr<MapInstance>> MapManager::GetAllMapI
 }
 
 void MapManager::LoadMaps() {
-  _map_instances.emplace(0, std::make_shared<MapInstance>(0));
+  for (const auto& map : MapProvider::GetInstance().GetAllMaps() | std::views::values) {
+    _map_instances.emplace(map->GetId(), std::make_shared<MapInstance>(map->GetId()));
+  }
 }

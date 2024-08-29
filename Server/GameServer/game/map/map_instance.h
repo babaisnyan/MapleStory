@@ -1,12 +1,15 @@
 ﻿#pragma once
 #include <google/protobuf/message.h>
 
+#include "data/templates/map_template.h"
+
 #include "job/job_queue.h"
 
 #include "network/game/game_client_packet_handler.h"
 #include "network/game/game_session.h"
 
 namespace game {
+  class MobTemplate;
   class GameObject;
 
   class MapInstance final : public JobQueue {
@@ -41,9 +44,10 @@ namespace game {
   private:
     const int32_t _map_id;
 
+    std::vector<std::shared_ptr<SpawnPoint>> _mob_spawn_locations;
+    std::unordered_map<std::shared_ptr<SpawnPoint>, std::shared_ptr<MobTemplate>> _mob_spawn_infos;
     std::unordered_map<int64_t, std::shared_ptr<GameObject>> _objects;
     std::unordered_map<int32_t, std::shared_ptr<GameSession>> _players;
-    
   };
 
   template <typename T> requires std::is_base_of_v<google::protobuf::Message, T>

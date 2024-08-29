@@ -5,15 +5,11 @@ void MapTemplate::Load(const json& data) {
   std::string name;
 
   data.at("Name").get_to(name);
-  _id = data["id"].get<int>();
+  _id = data["Id"].get<int>();
   _name = utils::ConvertToWide(name).value_or(L"");
 
   for (const auto& mob : data["Mobs"]) {
-    MobSpawnInfo info;
-    info.id = mob["Id"].get<uint32_t>();
-    info.x = mob["X"].get<float>();
-    info.y = mob["Y"].get<float>();
-    _mobs.push_back(info);
+    _mobs.emplace_back(mob["Id"].get<uint32_t>(), mob["X"].get<float>(), mob["Y"].get<float>());
   }
 }
 
@@ -25,6 +21,6 @@ const String& MapTemplate::GetName() const {
   return _name;
 }
 
-const std::vector<MobSpawnInfo>& MapTemplate::GetMobs() const {
+const std::vector<SpawnPoint>& MapTemplate::GetMobs() const {
   return _mobs;
 }

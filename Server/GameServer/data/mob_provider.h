@@ -13,7 +13,7 @@ namespace game {
   public:
     void Init();
 
-    std::optional<std::shared_ptr<MobTemplate>> GetItem(const uint32_t id) const {
+    std::optional<std::shared_ptr<MobTemplate>> GetMob(const uint32_t id) const {
       const auto it = _mobs.find(id);
       if (it == _mobs.end()) {
         return std::nullopt;

@@ -256,6 +256,7 @@
     <ClInclude Include="data\item_provider.h" />
     <ClInclude Include="data\map_provider.h" />
     <ClInclude Include="data\mob_provider.h" />
+    <ClInclude Include="data\spawn_point.h" />
     <ClInclude Include="data\templates\item_template.h" />
     <ClInclude Include="data\templates\map_template.h" />
     <ClInclude Include="data\templates\mob_template.h" />
