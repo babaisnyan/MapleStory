@@ -3,6 +3,8 @@
 #include <iostream>
 
 #include "data/item_provider.h"
+#include "data/map_provider.h"
+#include "data/mob_provider.h"
 #include "data/server_config.h"
 
 #include "network/socket_utils.h"
@@ -13,15 +15,25 @@
 int _tmain(const int argc, TCHAR* argv[]) {
   std::wcout.imbue(std::locale("kor"));
 
-  if(argc < 2) {
+  if (argc < 2) {
     std::wcout << L"서버 설정 파일을 지정해주세요\n";
     return 0;
   }
 
-  ThreadManager::GetInstance().Launch([] { ItemProvider::GetInstance().Init(); });
+  ServerConfig::GetInstance().Init(argv[1]);
+
+  ThreadManager::GetInstance().Launch([] {
+    ItemProvider::GetInstance().Init();
+  });
+  ThreadManager::GetInstance().Launch([] {
+    MobProvider::GetInstance().Init();
+  });
+  ThreadManager::GetInstance().Launch([] {
+    MapProvider::GetInstance().Init();
+  });
+
   ThreadManager::GetInstance().Join();
 
-  ServerConfig::GetInstance().Init(argv[1]);
   GameServer::GetInstance().Init();
   ThreadManager::GetInstance().Join();
 

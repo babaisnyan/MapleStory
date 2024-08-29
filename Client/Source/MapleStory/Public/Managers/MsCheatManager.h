@@ -12,4 +12,10 @@ class MAPLESTORY_API UMsCheatManager : public UCheatManager
 public:
 	UFUNCTION(Exec)
 	void SpawnMob(int32 MobId) const;
+
+	UFUNCTION(Exec)
+	void LogMobList() const;
+
+	UFUNCTION(Exec)
+	void MobSpawnTest() const;
 };

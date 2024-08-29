@@ -102,6 +102,21 @@
     <ClCompile Include="game\objects\player\key_map.cpp">
       <Filter>game\objects\player</Filter>
     </ClCompile>
+    <ClCompile Include="game\objects\mob\monster.cpp">
+      <Filter>game\objects\mob</Filter>
+    </ClCompile>
+    <ClCompile Include="data\templates\mob_template.cpp">
+      <Filter>data\templates</Filter>
+    </ClCompile>
+    <ClCompile Include="data\mob_provider.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
+    <ClCompile Include="data\templates\map_template.cpp">
+      <Filter>data\templates</Filter>
+    </ClCompile>
+    <ClCompile Include="data\map_provider.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -207,6 +222,21 @@
     <ClInclude Include="game\objects\player\key_map.h">
       <Filter>game\objects\player</Filter>
     </ClInclude>
+    <ClInclude Include="game\objects\mob\monster.h">
+      <Filter>game\objects\mob</Filter>
+    </ClInclude>
+    <ClInclude Include="data\templates\mob_template.h">
+      <Filter>data\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="data\mob_provider.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="data\templates\map_template.h">
+      <Filter>data\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="data\map_provider.h">
+      <Filter>data</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="network">
@@ -262,6 +292,9 @@
     </Filter>
     <Filter Include="util\timer">
       <UniqueIdentifier>{a96ff5da-e5b9-4099-91c5-26e7c982ffc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\objects\mob">
+      <UniqueIdentifier>{26acb677-f1e2-4014-a022-ca3563e9e1a5}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

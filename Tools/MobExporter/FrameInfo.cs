@@ -2,7 +2,7 @@
 
 namespace MobExporter;
 
-public class FrameInfo(int mobId, string path)
+public class FrameInfo(string path)
 {
     public int Name { get; set; }
     public string Sprite { get; } = path;

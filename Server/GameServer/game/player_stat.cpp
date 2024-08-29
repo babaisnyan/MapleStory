@@ -56,3 +56,19 @@ int32_t PlayerStat::GetSp() const {
 void PlayerStat::SetSp(const int32_t sp) {
   _sp = sp;
 }
+
+int32_t PlayerStat::GetMp() const {
+  return _mp;
+}
+
+void PlayerStat::SetMp(const int32_t mp) {
+  _mp = mp;
+}
+
+int32_t PlayerStat::GetMaxMp() const {
+  return _max_mp;
+}
+
+void PlayerStat::SetMaxMp(const int32_t max_mp) {
+  _max_mp = max_mp;
+}

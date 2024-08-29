@@ -1,6 +1,7 @@
 #include "Actors/Monster.h"
 
 #include "Components/BoxComponent.h"
+#include "Components/MobStatComponent.h"
 #include "Components/MsSpriteComponent.h"
 #include "Data/Table/MobTemplate.h"
 #include "Managers/MobManager.h"
@@ -18,8 +19,10 @@ AMonster::AMonster() {
 	BoxComponent->BodyInstance.bLockZRotation = true;
 	BoxComponent->BodyInstance.bLockYTranslation = true;
 	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AMonster::OnBeginOverlap);
-	
+
 	RootComponent = BoxComponent;
+
+	StatComponent = CreateDefaultSubobject<UMobStatComponent>(TEXT("StatComponent"));
 }
 
 bool AMonster::Init(const int32 Id) {
@@ -56,6 +59,10 @@ bool AMonster::Init(const int32 Id) {
 
 	if (MobTemplate->HasRegen) {
 		AddAnimation(EMobActionType::Regen, TEXT("regen"));
+	}
+
+	if (MobTemplate->HasAttack) {
+		AddAnimation(EMobActionType::Attack, TEXT("attack1"));
 	}
 
 	return true;
@@ -106,38 +113,53 @@ void AMonster::BeginPlay() {
 	Super::BeginPlay();
 
 	check(SpriteComponents.Contains(EMobActionType::Stand));
-	SetCurrentAction(EMobActionType::Stand);
+
+	if (SpriteComponents.Contains(EMobActionType::Regen)) {
+		SetCurrentAction(EMobActionType::Regen);
+	} else {
+		SetCurrentAction(EMobActionType::Stand);
+	}
 }
 
 
 void AMonster::Tick(const float DeltaTime) {
 	Super::Tick(DeltaTime);
-	
+
 	if (SpriteComponents.Contains(CurrentAction)) {
 		UMsSpriteComponent* SpriteComponent = SpriteComponents[CurrentAction];
 		const FVector2D Size = SpriteComponent->GetSpriteSize();
 		BoxComponent->SetBoxExtent(FVector(Size.X, 5.0f, Size.Y));
 	}
 
-	if (Hp <= 0) {
+	// if (AttackWidth > 0 && AttackHeight > 0) {
+	// 	const FVector Location = GetActorLocation();
+	// 	const FVector Start = Location + FVector(-AttackWidth / 2, 0, -AttackHeight / 2);
+	// 	const FVector End = Location + FVector(AttackWidth / 2, 0, AttackHeight / 2);
+	// 	DrawDebugBox(GetWorld(), Location, FVector(AttackWidth / 2, 0, AttackHeight / 2), FColor::Red, false, 0.1f, 0, 3);
+	// }
+
+	if (StatComponent->Hp <= 0) {
 		SetCurrentAction(EMobActionType::Die);
 	}
 }
 
 void AMonster::Setup(const FMobTemplate* MobTemplate) {
 	MobName = MobTemplate->MobName;
-	Level = MobTemplate->Level;
-	Hp = MobTemplate->MaxHp;
+	StatComponent->Level = MobTemplate->Level;
+	StatComponent->Hp = MobTemplate->MaxHp;
 	BodyAttack = MobTemplate->BodyAttack;
 	FirstAttack = MobTemplate->FirstAttack;
-	Speed = MobTemplate->Speed;
-	PaDamage = MobTemplate->PaDamage;
-	MaDamage = MobTemplate->MaDamage;
-	PdDamage = MobTemplate->PdDamage;
-	MdDamage = MobTemplate->MdDamage;
-	PdRate = MobTemplate->PdRate;
-	MdRate = MobTemplate->MdRate;
+	StatComponent->Speed = MobTemplate->Speed + 100 < 0 ? 0 : MobTemplate->Speed + 100;
+	StatComponent->PhysicalAttack = MobTemplate->PaDamage;
+	StatComponent->MagicalAttack = MobTemplate->MaDamage;
+	StatComponent->PhysicalDefense = MobTemplate->PdDamage;
+	StatComponent->MagicalDefense = MobTemplate->MdDamage;
+	StatComponent->PhysicalDefenseRate = MobTemplate->PdRate;
+	StatComponent->MagicalDefenseRate = MobTemplate->MdRate;
 	Exp = MobTemplate->Exp;
+	AttackCool = MobTemplate->AttackCool;
+	AttackWidth = MobTemplate->AttackWidth;
+	AttackHeight = MobTemplate->AttackHeight;
 }
 
 void AMonster::AddAnimation(const EMobActionType ActionType, const FString& ActionName, const bool bRegisterEvent) {
@@ -167,13 +189,12 @@ void AMonster::OnFinishedPlaying(UMsSpriteComponent* SpriteComponent) {
 	// TODO: 몹 ai 적용
 	switch (CurrentAction) {
 		case EMobActionType::Hit:
+		case EMobActionType::Regen:
+		case EMobActionType::Attack:
 			SetCurrentAction(EMobActionType::Stand);
 			break;
 		case EMobActionType::Die:
 			Destroy();
-			break;
-		case EMobActionType::Regen:
-			SetCurrentAction(EMobActionType::Stand);
 			break;
 	}
 }

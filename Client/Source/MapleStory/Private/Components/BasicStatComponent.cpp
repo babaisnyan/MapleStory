@@ -7,14 +7,3 @@ UBasicStatComponent::UBasicStatComponent()
 
 }
 
-
-
-void UBasicStatComponent::BeginPlay()
-{
-	Super::BeginPlay();
-
-
-	
-}
-
-

@@ -19,6 +19,7 @@ namespace game {
     bool AddPlayer(const std::shared_ptr<GameSession>& session);
     bool RemoveObject(const int64_t object_id);
     void MovePlayer(const std::shared_ptr<GameSession>& session, const protocol::GameClientPlayerMove& packet);
+    void RespawnMobs();
 
     std::optional<std::shared_ptr<GameSession>> GetPlayer(int64_t object_id) const;
     std::optional<std::shared_ptr<GameSession>> GetPlayer(int32_t player_id) const;
@@ -42,6 +43,7 @@ namespace game {
 
     std::unordered_map<int64_t, std::shared_ptr<GameObject>> _objects;
     std::unordered_map<int32_t, std::shared_ptr<GameSession>> _players;
+    
   };
 
   template <typename T> requires std::is_base_of_v<google::protobuf::Message, T>

@@ -25,7 +25,15 @@ namespace game {
     int32_t GetSp() const;
     void SetSp(int32_t sp);
 
+    int32_t GetMp() const;
+    void SetMp(int32_t mp);
+
+    int32_t GetMaxMp() const;
+    void SetMaxMp(int32_t max_mp);
+
   private:
+    int32_t _mp = 0;
+    int32_t _max_mp = 0;
     int32_t _str = 0;
     int32_t _dex = 0;
     int32_t _int = 0;

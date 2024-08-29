@@ -1,7 +1,8 @@
 ﻿#pragma once
-#include "templates/item_template.h"
 
 namespace game {
+  class ItemTemplate;
+
   class ItemProvider {
   public:
     static ItemProvider& GetInstance() {

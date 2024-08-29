@@ -5,6 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "Monster.generated.h"
 
+class UMobStatComponent;
 class UBoxComponent;
 struct FAnimationData;
 struct FMobTemplate;
@@ -50,17 +51,14 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TMap<EMobActionType, TObjectPtr<UMsSpriteComponent>> SpriteComponents;
 
+	UPROPERTY(VisibleAnywhere, Category = "Mob")
+	TObjectPtr<UMobStatComponent> StatComponent;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	int32 MobId = 100100;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	FName MobName = TEXT("None");
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
-	int32 Level = 1;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
-	int32 Hp = 1;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	bool BodyAttack = true;
@@ -69,31 +67,19 @@ public:
 	bool FirstAttack = false;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
-	int32 Speed = -50;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
-	int32 PaDamage = 1;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
-	int32 MaDamage = 1;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
-	int32 PdDamage = 1;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
-	int32 MdDamage = 01;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
-	int32 PdRate = 0;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
-	int32 MdRate = 0;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	int32 Exp = 0;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	int32 AttackCool;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	int32 AttackWidth;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	int32 AttackHeight;
+
 	UPROPERTY(EditAnywhere, Category = "Mob")
-	EMobActionType CurrentAction = EMobActionType::Regen;
+	EMobActionType CurrentAction = EMobActionType::None;
 
 	UPROPERTY(EditAnywhere, Category = "Mob")
 	bool bCanDamaged = true;

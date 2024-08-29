@@ -24,7 +24,7 @@ APlayerCamera::APlayerCamera() {
 	Camera->SetProjectionMode(ECameraProjectionMode::Orthographic);
 	Camera->SetOrthoWidth(1304);
 	Camera->SetAutoCalculateOrthoPlanes(false);
-	Camera->SetOrthoNearClipPlane(-10000.0f);
+	Camera->SetOrthoNearClipPlane(-100000.0f);
 
 	const ConstructorHelpers::FObjectFinder<UCurveFloat> CurveFinder(TEXT("/Script/Engine.CurveFloat'/Game/Misc/C_CameraPosition.C_CameraPosition'"));
 

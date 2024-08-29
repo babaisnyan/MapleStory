@@ -25,6 +25,12 @@ protected:
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Info")
 	bool bIsLocalPlayer = false;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
+	int32 Mp = 1;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
+	int32 MaxMp = 1;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
 	int32 Str = 0;
@@ -40,4 +46,10 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
 	int32 Exp = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
+	int32 Accuracy = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
+	int32 Evasion = 0;
 };

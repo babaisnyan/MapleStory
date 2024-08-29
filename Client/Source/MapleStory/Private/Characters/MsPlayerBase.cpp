@@ -1,8 +1,6 @@
 #include "Characters/MsPlayerBase.h"
 
 #include "PaperFlipbookComponent.h"
-#include "PaperZDAnimationComponent.h"
-#include "Characters/MsAnimInstance.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/PlayerStatComponent.h"
 #include "Components/TextBlock.h"
@@ -28,6 +26,7 @@ AMsPlayerBase::AMsPlayerBase() {
 		// Capsule->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
 		Capsule->SetSimulatePhysics(false);
 		Capsule->SetEnableGravity(true);
+		Capsule->CanCharacterStepUpOn = ECB_No;
 		Capsule->BodyInstance.bLockXRotation = true;
 		Capsule->BodyInstance.bLockYRotation = true;
 		RootComponent = Capsule;
@@ -41,7 +40,9 @@ AMsPlayerBase::AMsPlayerBase() {
 		NameTagWidget->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
 		NameTagWidget->SetRelativeLocation(FVector(0.0f, 10.0f, -50.0f));
 		NameTagWidget->SetCollisionProfileName(TEXT("NoCollision"));
+		NameTagWidget->SetGenerateOverlapEvents(false);
 		NameTagWidget->SetSimulatePhysics(false);
+		NameTagWidget->CanCharacterStepUpOn = ECB_No;
 		NameTagWidget->SetBlendMode(EWidgetBlendMode::Transparent);
 		NameTagWidget->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		NameTagWidget->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
@@ -54,6 +55,9 @@ AMsPlayerBase::AMsPlayerBase() {
 		Movement->JumpZVelocity = 500.0f;
 	}
 
+	GetSprite()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	GetSprite()->SetGenerateOverlapEvents(false);
+	GetSprite()->CanCharacterStepUpOn = ECB_No;
 	GetSprite()->SetRelativeLocation(FVector(0.0f, 1.0f, 0.0f));
 	GetSprite()->SetFlipbook(IdleAnimation);
 	PlayerStat = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("PlayerStat"));

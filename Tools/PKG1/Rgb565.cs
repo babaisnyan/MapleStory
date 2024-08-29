@@ -258,6 +258,11 @@ public struct Rgb565 : IPixel<Rgb565>, IPackedVector<ushort>
         PackedValue = Pack(source.R, source.G, source.B);
     }
 
+    public void FromAbgr32(Abgr32 source)
+    {
+        PackedValue = Pack(source.R, source.G, source.B);
+    }
+
     public void FromRgb24(Rgb24 source)
     {
         PackedValue = Pack(source.R, source.G, source.B);

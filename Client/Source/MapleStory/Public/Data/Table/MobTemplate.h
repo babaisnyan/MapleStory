@@ -64,4 +64,16 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	bool HasRegen;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	bool HasAttack;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	int32 AttackCool;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	int32 AttackWidth;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	int32 AttackHeight;
 };

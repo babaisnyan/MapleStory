@@ -102,8 +102,9 @@ namespace MobExporter
                 var link = await info.GetAsync("link", 0).ConfigureAwait(false) > 0;
                 var fly = await info.GetAsync("flySpeed", 0).ConfigureAwait(false) > 0;
                 var skeleton = await info.GetAsync("skeleton", 0).ConfigureAwait(false) > 0;
+                var changeable = await info.GetAsync("changeableMob", 0).ConfigureAwait(false) > 0;
 
-                if (link || boss || fly || skeleton)
+                if (link || boss || fly || skeleton || changeable)
                 {
                     removeList.Add(id);
                     continue;
@@ -143,7 +144,7 @@ namespace MobExporter
                         var a0 = await frameNode.GetAsync("a0", 255).ConfigureAwait(false);
                         var a1 = await frameNode.GetAsync("a1", -1).ConfigureAwait(false);
 
-                        frameInfo.Add(new FrameInfo(id, $"\"/Paper2D.PaperSprite'/Game/Mob/{id}/{action}/S_{frame}.S_{frame}'\"")
+                        frameInfo.Add(new FrameInfo($"\"/Paper2D.PaperSprite'/Game/Mob/{id}/{action}/S_{frame}.S_{frame}'\"")
                         {
                             Delay = delay,
                             OffsetX = origin.X,
@@ -235,11 +236,9 @@ namespace MobExporter
                         if (hit != null)
                         {
                             var hitFrameInfo = new List<FrameInfo>();
-                            mobInfo.AttackAfter = attackAfter;
-                            mobInfo.LtX = lt.X;
-                            mobInfo.LtY = lt.Y;
-                            mobInfo.RbX = rb.X;
-                            mobInfo.RbY = rb.Y;
+                            mobInfo.AttackCool = attackAfter;
+                            mobInfo.AttackWidth = Math.Abs(lt.X - rb.X);
+                            mobInfo.AttackHeight = Math.Abs(lt.Y - rb.Y);
 
                             foreach (var hitNode in hit.Children)
                             {
@@ -252,7 +251,7 @@ namespace MobExporter
                                 var delay = await hitNode.GetAsync("delay", 100).ConfigureAwait(false);
                                 var z = await hitNode.GetAsync("z", 0).ConfigureAwait(false);
 
-                                hitFrameInfo.Add(new FrameInfo(id, $"\"/Paper2D.PaperSprite'/Game/Mob/{id}/hit/S_{frame}.S_{frame}'\"")
+                                hitFrameInfo.Add(new FrameInfo($"\"/Paper2D.PaperSprite'/Game/Mob/{id}/hit/S_{frame}.S_{frame}'\"")
                                 {
                                     Delay = delay,
                                     OffsetX = origin.X,

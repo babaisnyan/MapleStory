@@ -62,6 +62,10 @@ void MapInstance::MovePlayer(const std::shared_ptr<GameSession>& session, const 
   BroadCast(response, session);
 }
 
+void MapInstance::RespawnMobs() {
+  
+}
+
 std::optional<std::shared_ptr<GameSession>> MapInstance::GetPlayer(const int64_t object_id) const {
   const auto type = static_cast<GameObject::ObjectType>(object_id / GameObject::kObjectRange);
 

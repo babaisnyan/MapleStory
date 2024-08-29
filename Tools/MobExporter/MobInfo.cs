@@ -27,9 +27,7 @@ public class MobInfo(int mobId, string name)
     public bool HasDie { get; set; }
     public bool HasRegen { get; set; }
     public bool HasAttack { get; set; }
-    public int AttackAfter { get; set; }
-    public int LtX { get; set; }
-    public int LtY { get; set; }
-    public int RbX { get; set; }
-    public int RbY { get; set; }
+    public int AttackCool { get; set; }
+    public int AttackWidth { get; set; }
+    public int AttackHeight { get; set; }
 }

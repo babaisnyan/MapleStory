@@ -21,6 +21,7 @@ void UPlayerStatComponent::Setup(const protocol::PlayerInfo& Info) {
 	Int = Info.int_();
 	Luk = Info.luk();
 	Exp = Info.exp();
+	Speed = 100;
 }
 
 void UPlayerStatComponent::Setup(const protocol::OtherPlayerInfo& Info) {

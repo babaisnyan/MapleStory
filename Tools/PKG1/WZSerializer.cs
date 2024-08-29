@@ -507,15 +507,15 @@ public class WzSerializer
         if (NormalWz)
             using (var tmp = img.CloneAs<Bgra32>())
             {
-                if (tmp.TryGetSinglePixelSpan(out var span))
+                if (tmp.DangerousTryGetSinglePixelMemory(out var memory))
                 {
-                    pixelData = span.ToArray().SelectMany(c => BitConverter.GetBytes(c.PackedValue)).ToArray();
+                    pixelData = memory.Span.ToArray().SelectMany(c => BitConverter.GetBytes(c.PackedValue)).ToArray();
                     format = 2;
                 }
                 else throw new Exception("Something went wrong");
             }
-        else if (img.TryGetSinglePixelSpan(out var span))
-            pixelData = span.ToArray().SelectMany(c => BitConverter.GetBytes(c.PackedValue)).ToArray();
+        else if (img.DangerousTryGetSinglePixelMemory(out var memory))
+            pixelData = memory.Span.ToArray().SelectMany(c => BitConverter.GetBytes(c.PackedValue)).ToArray();
         else throw new Exception("Something went wrong");
 
         if (pixelData.Length != img.Width * img.Height * 4)

@@ -6,12 +6,8 @@
 #include "InputMappingContext.h"
 #include "MapleGameInstance.h"
 #include "PaperFlipbookComponent.h"
-#include "PaperTileLayer.h"
-#include "PaperTileMap.h"
-#include "Actors/Monster.h"
 #include "Characters/PlayerCamera.h"
 #include "Components/PlayerStatComponent.h"
-#include "Data/Enum/ESoundEffectType.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "GameModes/MapleGameMode.h"
@@ -52,6 +48,9 @@ AMsLocalPlayer::AMsLocalPlayer() {
 		QuickSlotWidgetClass = QuickSlotWidgetFinder.Class;
 	}
 	
+	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
+	MovementComponent->bEnablePhysicsInteraction = false;
+	
 	// const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
 	// if (Capsule) {
 	// 	Capsule->SetEnableGravity(true);
@@ -73,7 +72,7 @@ void AMsLocalPlayer::BeginPlay() {
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 		PlayerCamera = GetWorld()->SpawnActor<APlayerCamera>(APlayerCamera::StaticClass(), GetActorLocation(), FRotator::ZeroRotator, SpawnParameters);
-
+		
 		PlayerController->SetViewTargetWithBlend(PlayerCamera);
 		PlayerController->bAutoManageActiveCameraTarget = false;
 		PlayerController->Possess(this);
@@ -108,7 +107,7 @@ void AMsLocalPlayer::Tick(const float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
 	
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
-
+	
 	if (MovementComponent->Velocity.Length() > 0) {
 		AnimationType = protocol::PLAYER_ANIMATION_RUN;
 	} else {
@@ -156,6 +155,9 @@ void AMsLocalPlayer::Setup(const protocol::PlayerInfo& Info) {
 		const EKeyCode KeyCode = static_cast<EKeyCode>(Key_Setting.key_code());
 		KeySettingManager->Set(KeyCode, Key_Setting);
 	}
+
+	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
+	MovementComponent->MaxWalkSpeed *= PlayerStat->Speed / 100;
 }
 
 void AMsLocalPlayer::EnhancedMoveHorizontal(const FInputActionValue& Value) {
@@ -178,13 +180,9 @@ void AMsLocalPlayer::EnhancedMoveVertical(const FInputActionValue& Value) {
 
 void AMsLocalPlayer::EnhancedJump(const FInputActionValue& Value) {
 	if (Value.Get<bool>() && !GetMovementComponent()->IsFalling()) {
-		// Jump();
-		// AnimationType = protocol::PLAYER_ANIMATION_JUMP;
-		// SoundManager->PlaySoundEffect(ESoundEffectType::Jump, GetWorld());
-		// log x, y
-		const FVector Location = GetActorLocation();
-		const FVector NewLocation = {Location.X - BaseX, Location.Y, Location.Z - BaseY};
-		UE_LOG(LogTemp, Warning, TEXT("X: %f, Y: %f"), NewLocation.X, NewLocation.Z);
+		Jump();
+		AnimationType = protocol::PLAYER_ANIMATION_JUMP;
+		SoundManager->PlaySoundEffect(ESoundEffectType::Jump, GetWorld());
 	}
 }
 
