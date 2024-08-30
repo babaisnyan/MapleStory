@@ -2,7 +2,10 @@
 #include "map_instance.h"
 
 #include "game/player_stat.h"
+#include "game/objects/mob/monster.h"
 #include "game/objects/player/player.h"
+
+#include "network/game/game_packet_creator.h"
 
 MapInstance::MapInstance(const int32_t map_id) : _map_id(map_id) {}
 
@@ -62,8 +65,59 @@ void MapInstance::MovePlayer(const std::shared_ptr<GameSession>& session, const 
   BroadCast(response, session);
 }
 
-void MapInstance::RespawnMobs() {
+void MapInstance::Update(const float delta) {
+  RespawnMobs();
 
+  for (const auto& object : _objects | std::ranges::views::values) {
+    object->Update(delta);
+  }
+
+  SecondUpdate(delta);
+}
+
+void MapInstance::SecondUpdate(const float delta) {
+  for (const auto& object : _objects | std::ranges::views::values) {
+    object->SecondUpdate(delta);
+  }
+}
+
+void MapInstance::RespawnMobs() {
+  if (_players.empty() || _last_respawn_tick + 5000 > GetTickCount64()) {
+    return;
+  }
+
+  auto map = std::static_pointer_cast<MapInstance>(shared_from_this());
+  std::vector<std::shared_ptr<Monster>> temp_mobs;
+  protocol::GameServerAddMonster packet;
+
+  for (const auto& [spawn, mob_template] : _mob_spawn_locations) {
+    const auto it = _mobs.find(spawn);
+
+    if (it == _mobs.end()) {
+      auto mob = std::make_shared<Monster>(spawn, map);
+      mob->Init(mob_template);
+
+      const auto entry = packet.add_mob_infos();
+      entry->set_id(spawn->GetId());
+      entry->set_object_id(mob->GetObjectId());
+      entry->set_x(spawn->GetX());
+      entry->set_y(spawn->GetY());
+
+      _mobs.emplace(spawn, mob);
+      _objects.emplace(mob->GetObjectId(), mob);
+      temp_mobs.push_back(mob);
+    }
+  }
+
+  if (!temp_mobs.empty()) {
+    BroadCast(packet, nullptr);
+
+    for (const auto& mob : temp_mobs) {
+      mob->OnEnter();
+    }
+
+    _last_respawn_tick = GetTickCount64();
+  }
 }
 
 std::optional<std::shared_ptr<GameSession>> MapInstance::GetPlayer(const int64_t object_id) const {
@@ -112,12 +166,27 @@ void MapInstance::OnPlayerEnter(const std::shared_ptr<GameSession>& session) {
     player_info->set_level(info->GetStat()->GetLevel());
     player_info->set_hp(info->GetStat()->GetHp());
     player_info->set_max_hp(info->GetStat()->GetMaxHp());
-    player_info->set_x(static_cast<int32_t>(info->GetPosition().x));
-    player_info->set_y(static_cast<int32_t>(info->GetPosition().y));
+    player_info->set_x(info->GetPosition().x);
+    player_info->set_y(info->GetPosition().y);
   }
 
   if (add_players.player_infos_size() > 0) {
     const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(add_players);
+    session->Send(send_buffer);
+  }
+
+  protocol::GameServerAddMonster mobs;
+
+  for (const auto& mob : _mobs | std::views::values) {
+    const auto entry = mobs.add_mob_infos();
+    entry->set_id(mob->GetId());
+    entry->set_object_id(mob->GetObjectId());
+    entry->set_x(mob->GetX());
+    entry->set_y(mob->GetY());
+  }
+
+  if (mobs.mob_infos_size() > 0) {
+    const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(mobs);
     session->Send(send_buffer);
   }
 
@@ -130,8 +199,8 @@ void MapInstance::OnPlayerEnter(const std::shared_ptr<GameSession>& session) {
   info->set_level(player->GetStat()->GetLevel());
   info->set_hp(player->GetStat()->GetHp());
   info->set_max_hp(player->GetStat()->GetMaxHp());
-  info->set_x(static_cast<int32_t>(player->GetPosition().x));
-  info->set_y(static_cast<int32_t>(player->GetPosition().y));
+  info->set_x(player->GetPosition().x);
+  info->set_y(player->GetPosition().y);
 
   BroadCast(add_player, player->GetId());
 }
@@ -145,4 +214,8 @@ void MapInstance::OnPlayerLeave(const std::shared_ptr<Player>& player) {
 
 int32_t MapInstance::GetMapId() const noexcept {
   return _map_id;
+}
+
+void MapInstance::AddSpawnLocation(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shared_ptr<MobTemplate>& mob_template) {
+  _mob_spawn_locations.emplace(spawn_point, mob_template);
 }

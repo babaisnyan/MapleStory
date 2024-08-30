@@ -16,6 +16,10 @@ namespace game {
 
   public:
     bool AddTimer(const String& name);
+    float GetDeltaTime(const String& name);
+
+  private:
+    std::optional<std::shared_ptr<Timer>> GetTimer(const String& name);
 
   private:
     std::unordered_map<String, std::shared_ptr<Timer>> _timers;

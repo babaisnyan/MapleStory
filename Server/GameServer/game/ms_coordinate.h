@@ -6,5 +6,5 @@ struct MsCoordinate {
   float y;
   int16_t grid_x;
   int16_t grid_y;
-  int16_t grid_size = 1;
+  int16_t grid_size = 10;
 };

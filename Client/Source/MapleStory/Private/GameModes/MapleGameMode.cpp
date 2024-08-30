@@ -2,8 +2,11 @@
 
 #include "MapleGameInstance.h"
 #include "game_protocol.pb.h"
+#include "Actors/Monster.h"
 #include "Characters/MaplePlayerController.h"
 #include "Characters/MsLocalPlayer.h"
+#include "GameFramework/PlayerStart.h"
+#include "Kismet/GameplayStatics.h"
 
 
 AMapleGameMode::AMapleGameMode() {
@@ -15,6 +18,12 @@ AMapleGameMode::AMapleGameMode() {
 void AMapleGameMode::BeginPlay() {
 	Super::BeginPlay();
 	const auto GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
+
+	const TObjectPtr<AActor> PlayerStart = UGameplayStatics::GetActorOfClass(GetWorld(), APlayerStart::StaticClass());
+
+	if (PlayerStart) {
+		PlayerStartLocation = PlayerStart->GetActorLocation();
+	}
 
 	GameInstance->CurrentPlayer = GetWorld()->SpawnActorDeferred<AMsLocalPlayer>(AMsLocalPlayer::StaticClass(), FTransform::Identity);
 	GameInstance->CurrentPlayer->Setup(GameInstance->PlayerInfoTemp.GetValue());
@@ -34,6 +43,12 @@ void AMapleGameMode::BeginPlay() {
 		int32 PlayerId;
 		GameInstance->RemovePlayerQueue.Dequeue(PlayerId);
 		RemovePlayer(PlayerId);
+	}
+
+	while (!GameInstance->MonstersQueue.IsEmpty()) {
+		TOptional<protocol::MobInfo> MonsterInfo;
+		GameInstance->MonstersQueue.Dequeue(MonsterInfo);
+		AddMonster(MonsterInfo.GetValue());
 	}
 
 	// const FIntPoint NewResolution(1920, 1080);
@@ -59,6 +74,24 @@ void AMapleGameMode::RemovePlayer(const int64 ObjectId) {
 void AMapleGameMode::UpdatePlayerPosition(const protocol::GameServerPlayerMove& MovePacket) {
 	if (OtherPlayers.Contains(MovePacket.object_id())) {
 		OtherPlayers[MovePacket.object_id()]->Move(MovePacket);
+	}
+}
+
+void AMapleGameMode::AddMonster(const protocol::MobInfo& MonsterInfo) {
+	const auto Mob = GetWorld()->SpawnActorDeferred<AMonster>(AMonster::StaticClass(), FTransform::Identity, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
+
+	if (!Mob || !Mob->Init(MonsterInfo.id(), MonsterInfo.object_id())) {
+		return;
+	}
+
+	Mob->FinishSpawning(FTransform(FRotator::ZeroRotator, FVector(PlayerStartLocation.X + MonsterInfo.x(), 1, PlayerStartLocation.Z + MonsterInfo.y() - 3)));
+	Monsters.Add(MonsterInfo.object_id(), Mob);
+}
+
+void AMapleGameMode::RemoveMonster(const int64 ObjectId) {
+	if (Monsters.Contains(ObjectId)) {
+		Monsters[ObjectId]->Destroy();
+		Monsters.Remove(ObjectId);
 	}
 }
 

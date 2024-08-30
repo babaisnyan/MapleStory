@@ -18,7 +18,7 @@ class MAPLESTORY_API AMonster : public AActor {
 public:
 	AMonster();
 
-	bool Init(int32 Id);
+	bool Init(int32 Id, int64 ObjId);
 
 	EMobActionType GetCurrentAction() const {
 		return CurrentAction;
@@ -54,6 +54,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TObjectPtr<UMobStatComponent> StatComponent;
 
+	UPROPERTY(VisibleAnywhere, Category = "Mob")
+	int64 ObjectId = 0;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	int32 MobId = 100100;
 

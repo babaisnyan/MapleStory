@@ -26,6 +26,16 @@ bool FGameServerPacketHandler::HandleGameServerAddPlayer(const TObjectPtr<UTCPCl
 	return true;
 }
 
+bool FGameServerPacketHandler::HandleGameServerAddMonster(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerAddMonster& Packet) {
+	if (Packet.mob_infos_size() > 0) {
+		for (const protocol::MobInfo& MonsterInfo : Packet.mob_infos()) {
+			GameInstance->AddMonster(MonsterInfo);
+		}
+	}
+
+	return true;
+}
+
 bool FGameServerPacketHandler::HandleGameServerRemoveObject(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerRemoveObject& Packet) {
 	GameInstance->RemoveObject(Packet.object_id());
 	return false;

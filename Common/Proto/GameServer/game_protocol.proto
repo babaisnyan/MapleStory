@@ -5,7 +5,7 @@ import "game_enum.proto";
 import "game_struct.proto";
 
 message GameClientEnter {
-  int32 character_id = 1;
+  uint32 character_id = 1;
   int32 auth_key = 2;
 }
 
@@ -17,6 +17,10 @@ message GameServerEnter {
 
 message GameServerAddPlayer {
   repeated OtherPlayerInfo player_infos = 1;
+}
+
+message GameServerAddMonster {
+  repeated MobInfo mob_infos = 1;
 }
 
 message GameServerRemoveObject {

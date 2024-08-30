@@ -11,6 +11,7 @@ namespace game {
 
     void OnEnter() override;
     void Update(float delta_time) override;
+    void SecondUpdate(float delta_time) override;
     void UpdatePosition(float x, float y);
 
   public:

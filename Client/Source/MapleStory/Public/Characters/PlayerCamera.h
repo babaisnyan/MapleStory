@@ -6,6 +6,7 @@
 #include "PlayerCamera.generated.h"
 
 
+class UPaperTileMapComponent;
 class AMsLocalPlayer;
 
 UCLASS()
@@ -18,6 +19,12 @@ public:
 public:
 	UFUNCTION()
 	void OnTimelineUpdate(float Value);
+
+	UFUNCTION()
+	void OnTimelineFinished();
+
+	
+	virtual void BeginPlay() override;
 
 protected:
 	virtual void Tick(float DeltaSeconds) override;
@@ -36,8 +43,11 @@ public:
 	FTimeline Timeline;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Camera")
-	bool bStopCamera;
+	bool bStopCamera = false;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Camera")
 	float CameraMoveDelaySeconds;
+
+private:
+	TObjectPtr<UPaperTileMapComponent> TileMapComponent;
 };

@@ -117,6 +117,9 @@
     <ClCompile Include="data\map_provider.cpp">
       <Filter>data</Filter>
     </ClCompile>
+    <ClCompile Include="game\objects\mob\state\mob_state.cpp">
+      <Filter>game\objects\mob\state</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -240,6 +243,9 @@
     <ClInclude Include="data\spawn_point.h">
       <Filter>data</Filter>
     </ClInclude>
+    <ClInclude Include="game\objects\mob\state\mob_state.h">
+      <Filter>game\objects\mob\state</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="network">
@@ -298,6 +304,9 @@
     </Filter>
     <Filter Include="game\objects\mob">
       <UniqueIdentifier>{26acb677-f1e2-4014-a022-ca3563e9e1a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\objects\mob\state">
+      <UniqueIdentifier>{d2cde13d-cc6e-47b9-9d35-c4041f181977}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

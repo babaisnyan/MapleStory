@@ -18,6 +18,8 @@ void Player::OnEnter() {
 
 void Player::Update(float delta_time) {}
 
+void Player::SecondUpdate(float delta_time) {}
+
 void Player::UpdatePosition(const float x, const float y) {
   _position.x = x;
   _position.y = y;
@@ -137,7 +139,7 @@ bool Player::TryLoadFromDb() {
       _meso = meso;
       _map = map;
 
-      UpdatePosition(x, y);
+      UpdatePosition(0, 0);
 
       GetStat()->SetLevel(level);
       GetStat()->SetHp(hp);
@@ -201,9 +203,9 @@ bool Player::TrySaveToDb() {
     bind.BindParam(index++, luk);
     int32_t int_ = _player_stat->GetInt();
     bind.BindParam(index++, int_);
-    int32_t x = static_cast<int32_t>(_position.x);
+    int32_t x = 0;
     bind.BindParam(index++, x);
-    int32_t y = static_cast<int32_t>(_position.y);
+    int32_t y = 0;
     bind.BindParam(index++, y);
     int32_t ap = _player_stat->GetAp();
     bind.BindParam(index++, ap);

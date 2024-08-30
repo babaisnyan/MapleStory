@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 namespace game {
+  class Monster;
   class Player;
 
   class GamePacketCreator {

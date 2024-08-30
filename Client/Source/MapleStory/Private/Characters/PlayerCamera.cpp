@@ -1,6 +1,8 @@
-
 #include "Characters/PlayerCamera.h"
 
+#include "EngineUtils.h"
+#include "PaperTileMapActor.h"
+#include "PaperTileMapComponent.h"
 #include "Camera/CameraComponent.h"
 #include "Characters/MsLocalPlayer.h"
 
@@ -38,15 +40,60 @@ APlayerCamera::APlayerCamera() {
 		FOnTimelineFloat TimelineUpdate;
 		TimelineUpdate.BindUFunction(this, FName("OnTimelineUpdate"));
 		Timeline.AddInterpFloat(Curve, TimelineUpdate);
+
+		FOnTimelineEvent TimelineFinished;
+		TimelineFinished.BindUFunction(this, FName("OnTimelineFinished"));
+		Timeline.SetTimelineFinishedFunc(TimelineFinished);
 	}
 }
 
 void APlayerCamera::OnTimelineUpdate(const float Value) {
 	const FVector PlayerLocation = Player.IsValid() ? Player->GetActorLocation() : FVector::ZeroVector;
-	const FVector CameraLocation = GetActorLocation();
-	const FVector NewLocation = FMath::Lerp(CameraLocation, PlayerLocation, Value);
-	
-	SetActorLocation(NewLocation);
+	UCameraComponent* Camera = GetCameraComponent();
+	FVector CameraLocation = GetActorLocation();
+
+	// const FVector NewLocation = FMath::Lerp(CameraLocation, PlayerLocation, Value);
+	//
+	// SetActorLocation(NewLocation);
+
+	if (Camera && TileMapComponent) {
+		int32 Width = 0;
+		int32 Height = 0;
+		int32 LayerCount = 0;
+		TileMapComponent->GetMapSize(Width, Height, LayerCount);
+		const FVector2D TileMapSize = FVector2D(Width * 30, Height * 30);
+		const FVector TileMapOrigin = TileMapComponent->GetComponentLocation();
+
+		const float OrthoWidth = Camera->OrthoWidth;
+		const float OrthoHeight = Camera->OrthoWidth / Camera->AspectRatio;
+
+		const float MinX = TileMapOrigin.X + OrthoWidth * 0.5f;
+		const float MaxX = TileMapOrigin.X + TileMapSize.X - OrthoWidth * 0.5f;
+		const float MinY = TileMapOrigin.Z + OrthoHeight * 0.5f;
+		const float MaxY = TileMapOrigin.Z + TileMapSize.Y - OrthoHeight * 0.5f;
+		const float X = CameraLocation.X;
+		const float Y = CameraLocation.Z;
+
+		CameraLocation.X = FMath::Clamp(X, MinX + 5.0f, MaxX - 15.0f);
+		FVector NewLocation = FMath::Lerp(CameraLocation, PlayerLocation, Value);
+		NewLocation.Z = FMath::Lerp(Y, PlayerLocation.Z, Value);
+		SetActorLocation(NewLocation);
+	}
+}
+
+void APlayerCamera::OnTimelineFinished() {
+	CameraMoveDelaySeconds = 1.0f;
+}
+
+void APlayerCamera::BeginPlay() {
+	Super::BeginPlay();
+
+	for (TActorIterator<APaperTileMapActor> It(GetWorld()); It; ++It) {
+		TileMapComponent = It->GetRenderComponent();
+		if (TileMapComponent) {
+			break;
+		}
+	}
 }
 
 void APlayerCamera::Tick(const float DeltaSeconds) {

@@ -25,8 +25,9 @@ AMonster::AMonster() {
 	StatComponent = CreateDefaultSubobject<UMobStatComponent>(TEXT("StatComponent"));
 }
 
-bool AMonster::Init(const int32 Id) {
+bool AMonster::Init(const int32 Id, const int64 ObjId) {
 	MobId = Id;
+	ObjectId = ObjId;
 
 	const UMobManager* MobManager = GetGameInstance()->GetSubsystem<UMobManager>();
 

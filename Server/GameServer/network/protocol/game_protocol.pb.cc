@@ -19,7 +19,7 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace protocol {
 constexpr GameClientEnter::GameClientEnter(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : character_id_(0)
+  : character_id_(0u)
   , auth_key_(0){}
 struct GameClientEnterDefaultTypeInternal {
   constexpr GameClientEnterDefaultTypeInternal()
@@ -56,6 +56,18 @@ struct GameServerAddPlayerDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameServerAddPlayerDefaultTypeInternal _GameServerAddPlayer_default_instance_;
+constexpr GameServerAddMonster::GameServerAddMonster(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : mob_infos_(){}
+struct GameServerAddMonsterDefaultTypeInternal {
+  constexpr GameServerAddMonsterDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~GameServerAddMonsterDefaultTypeInternal() {}
+  union {
+    GameServerAddMonster _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameServerAddMonsterDefaultTypeInternal _GameServerAddMonster_default_instance_;
 constexpr GameServerRemoveObject::GameServerRemoveObject(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
   : object_id_(int64_t{0}){}
@@ -126,7 +138,7 @@ struct GameClientChangeKeySettingDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameClientChangeKeySettingDefaultTypeInternal _GameClientChangeKeySetting_default_instance_;
 }  // namespace protocol
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_game_5fprotocol_2eproto[8];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_game_5fprotocol_2eproto[9];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_game_5fprotocol_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_game_5fprotocol_2eproto = nullptr;
 
@@ -155,6 +167,12 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fprotocol_2eproto::offse
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::protocol::GameServerAddPlayer, player_infos_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::protocol::GameServerAddMonster, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::protocol::GameServerAddMonster, mob_infos_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::protocol::GameServerRemoveObject, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -197,17 +215,19 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 0, -1, sizeof(::protocol::GameClientEnter)},
   { 7, 15, sizeof(::protocol::GameServerEnter)},
   { 18, -1, sizeof(::protocol::GameServerAddPlayer)},
-  { 24, -1, sizeof(::protocol::GameServerRemoveObject)},
-  { 30, -1, sizeof(::protocol::GameServerChangeMap)},
-  { 36, -1, sizeof(::protocol::GameClientPlayerMove)},
-  { 45, -1, sizeof(::protocol::GameServerPlayerMove)},
-  { 55, -1, sizeof(::protocol::GameClientChangeKeySetting)},
+  { 24, -1, sizeof(::protocol::GameServerAddMonster)},
+  { 30, -1, sizeof(::protocol::GameServerRemoveObject)},
+  { 36, -1, sizeof(::protocol::GameServerChangeMap)},
+  { 42, -1, sizeof(::protocol::GameClientPlayerMove)},
+  { 51, -1, sizeof(::protocol::GameServerPlayerMove)},
+  { 61, -1, sizeof(::protocol::GameClientChangeKeySetting)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_GameClientEnter_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_GameServerEnter_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_GameServerAddPlayer_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_GameServerAddMonster_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_GameServerRemoveObject_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_GameServerChangeMap_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_GameClientPlayerMove_default_instance_),
@@ -218,23 +238,24 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 const char descriptor_table_protodef_game_5fprotocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\023game_protocol.proto\022\010protocol\032\017game_en"
   "um.proto\032\021game_struct.proto\"9\n\017GameClien"
-  "tEnter\022\024\n\014character_id\030\001 \001(\005\022\020\n\010auth_key"
+  "tEnter\022\024\n\014character_id\030\001 \001(\r\022\020\n\010auth_key"
   "\030\002 \001(\005\"\202\001\n\017GameServerEnter\022\017\n\007success\030\001 "
   "\001(\010\022.\n\013player_info\030\002 \001(\0132\024.protocol.Play"
   "erInfoH\000\210\001\001\022\023\n\006map_id\030\003 \001(\005H\001\210\001\001B\016\n\014_pla"
   "yer_infoB\t\n\007_map_id\"F\n\023GameServerAddPlay"
   "er\022/\n\014player_infos\030\001 \003(\0132\031.protocol.Othe"
-  "rPlayerInfo\"+\n\026GameServerRemoveObject\022\021\n"
-  "\tobject_id\030\001 \001(\003\"%\n\023GameServerChangeMap\022"
-  "\016\n\006map_id\030\001 \001(\005\"l\n\024GameClientPlayerMove\022"
-  "\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 \001(\002\022\020\n\010is_right\030\003 \001(\010\022"
-  ",\n\tanimation\030\004 \001(\0162\031.protocol.PlayerAnim"
-  "ation\"\177\n\024GameServerPlayerMove\022\021\n\tobject_"
-  "id\030\001 \001(\003\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\022\020\n\010is_rig"
-  "ht\030\004 \001(\010\022,\n\tanimation\030\005 \001(\0162\031.protocol.P"
-  "layerAnimation\"G\n\032GameClientChangeKeySet"
-  "ting\022)\n\013key_setting\030\001 \001(\0132\024.protocol.Key"
-  "Settingb\006proto3"
+  "rPlayerInfo\"<\n\024GameServerAddMonster\022$\n\tm"
+  "ob_infos\030\001 \003(\0132\021.protocol.MobInfo\"+\n\026Gam"
+  "eServerRemoveObject\022\021\n\tobject_id\030\001 \001(\003\"%"
+  "\n\023GameServerChangeMap\022\016\n\006map_id\030\001 \001(\005\"l\n"
+  "\024GameClientPlayerMove\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 "
+  "\001(\002\022\020\n\010is_right\030\003 \001(\010\022,\n\tanimation\030\004 \001(\016"
+  "2\031.protocol.PlayerAnimation\"\177\n\024GameServe"
+  "rPlayerMove\022\021\n\tobject_id\030\001 \001(\003\022\t\n\001x\030\002 \001("
+  "\002\022\t\n\001y\030\003 \001(\002\022\020\n\010is_right\030\004 \001(\010\022,\n\tanimat"
+  "ion\030\005 \001(\0162\031.protocol.PlayerAnimation\"G\n\032"
+  "GameClientChangeKeySetting\022)\n\013key_settin"
+  "g\030\001 \001(\0132\024.protocol.KeySettingb\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_game_5fprotocol_2eproto_deps[2] = {
   &::descriptor_table_game_5fenum_2eproto,
@@ -242,8 +263,8 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_5fprotocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fprotocol_2eproto = {
-  false, false, 735, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
-  &descriptor_table_game_5fprotocol_2eproto_once, descriptor_table_game_5fprotocol_2eproto_deps, 2, 8,
+  false, false, 797, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
+  &descriptor_table_game_5fprotocol_2eproto_once, descriptor_table_game_5fprotocol_2eproto_deps, 2, 9,
   schemas, file_default_instances, TableStruct_game_5fprotocol_2eproto::offsets,
   file_level_metadata_game_5fprotocol_2eproto, file_level_enum_descriptors_game_5fprotocol_2eproto, file_level_service_descriptors_game_5fprotocol_2eproto,
 };
@@ -321,10 +342,10 @@ const char* GameClientEnter::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int32 character_id = 1;
+      // uint32 character_id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
-          character_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          character_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
@@ -364,10 +385,10 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 character_id = 1;
+  // uint32 character_id = 1;
   if (this->character_id() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_character_id(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(1, this->_internal_character_id(), target);
   }
 
   // int32 auth_key = 2;
@@ -392,10 +413,10 @@ size_t GameClientEnter::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int32 character_id = 1;
+  // uint32 character_id = 1;
   if (this->character_id() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt32Size(
         this->_internal_character_id());
   }
 
@@ -961,6 +982,204 @@ void GameServerAddPlayer::InternalSwap(GameServerAddPlayer* other) {
 
 // ===================================================================
 
+class GameServerAddMonster::_Internal {
+ public:
+};
+
+void GameServerAddMonster::clear_mob_infos() {
+  mob_infos_.Clear();
+}
+GameServerAddMonster::GameServerAddMonster(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  mob_infos_(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:protocol.GameServerAddMonster)
+}
+GameServerAddMonster::GameServerAddMonster(const GameServerAddMonster& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
+      mob_infos_(from.mob_infos_) {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  // @@protoc_insertion_point(copy_constructor:protocol.GameServerAddMonster)
+}
+
+void GameServerAddMonster::SharedCtor() {
+}
+
+GameServerAddMonster::~GameServerAddMonster() {
+  // @@protoc_insertion_point(destructor:protocol.GameServerAddMonster)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void GameServerAddMonster::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void GameServerAddMonster::ArenaDtor(void* object) {
+  GameServerAddMonster* _this = reinterpret_cast< GameServerAddMonster* >(object);
+  (void)_this;
+}
+void GameServerAddMonster::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void GameServerAddMonster::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void GameServerAddMonster::Clear() {
+// @@protoc_insertion_point(message_clear_start:protocol.GameServerAddMonster)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  mob_infos_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GameServerAddMonster::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // repeated .protocol.MobInfo mob_infos = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 10)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_mob_infos(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<10>(ptr));
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GameServerAddMonster::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protocol.GameServerAddMonster)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // repeated .protocol.MobInfo mob_infos = 1;
+  for (unsigned int i = 0,
+      n = static_cast<unsigned int>(this->_internal_mob_infos_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(1, this->_internal_mob_infos(i), target, stream);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:protocol.GameServerAddMonster)
+  return target;
+}
+
+size_t GameServerAddMonster::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:protocol.GameServerAddMonster)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // repeated .protocol.MobInfo mob_infos = 1;
+  total_size += 1UL * this->_internal_mob_infos_size();
+  for (const auto& msg : this->mob_infos_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GameServerAddMonster::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:protocol.GameServerAddMonster)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GameServerAddMonster* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GameServerAddMonster>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:protocol.GameServerAddMonster)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:protocol.GameServerAddMonster)
+    MergeFrom(*source);
+  }
+}
+
+void GameServerAddMonster::MergeFrom(const GameServerAddMonster& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:protocol.GameServerAddMonster)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  mob_infos_.MergeFrom(from.mob_infos_);
+}
+
+void GameServerAddMonster::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:protocol.GameServerAddMonster)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GameServerAddMonster::CopyFrom(const GameServerAddMonster& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:protocol.GameServerAddMonster)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GameServerAddMonster::IsInitialized() const {
+  return true;
+}
+
+void GameServerAddMonster::InternalSwap(GameServerAddMonster* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  mob_infos_.InternalSwap(&other->mob_infos_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GameServerAddMonster::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_game_5fprotocol_2eproto_getter, &descriptor_table_game_5fprotocol_2eproto_once,
+      file_level_metadata_game_5fprotocol_2eproto[3]);
+}
+
+// ===================================================================
+
 class GameServerRemoveObject::_Internal {
  public:
 };
@@ -1146,7 +1365,7 @@ void GameServerRemoveObject::InternalSwap(GameServerRemoveObject* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GameServerRemoveObject::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_game_5fprotocol_2eproto_getter, &descriptor_table_game_5fprotocol_2eproto_once,
-      file_level_metadata_game_5fprotocol_2eproto[3]);
+      file_level_metadata_game_5fprotocol_2eproto[4]);
 }
 
 // ===================================================================
@@ -1336,7 +1555,7 @@ void GameServerChangeMap::InternalSwap(GameServerChangeMap* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GameServerChangeMap::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_game_5fprotocol_2eproto_getter, &descriptor_table_game_5fprotocol_2eproto_once,
-      file_level_metadata_game_5fprotocol_2eproto[4]);
+      file_level_metadata_game_5fprotocol_2eproto[5]);
 }
 
 // ===================================================================
@@ -1602,7 +1821,7 @@ void GameClientPlayerMove::InternalSwap(GameClientPlayerMove* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GameClientPlayerMove::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_game_5fprotocol_2eproto_getter, &descriptor_table_game_5fprotocol_2eproto_once,
-      file_level_metadata_game_5fprotocol_2eproto[5]);
+      file_level_metadata_game_5fprotocol_2eproto[6]);
 }
 
 // ===================================================================
@@ -1891,7 +2110,7 @@ void GameServerPlayerMove::InternalSwap(GameServerPlayerMove* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata GameServerPlayerMove::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_game_5fprotocol_2eproto_getter, &descriptor_table_game_5fprotocol_2eproto_once,
-      file_level_metadata_game_5fprotocol_2eproto[6]);
+      file_level_metadata_game_5fprotocol_2eproto[7]);
 }
 
 // ===================================================================
@@ -2102,7 +2321,7 @@ void GameClientChangeKeySetting::InternalSwap(GameClientChangeKeySetting* other)
 ::PROTOBUF_NAMESPACE_ID::Metadata GameClientChangeKeySetting::GetMetadata() const {
   return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
       &descriptor_table_game_5fprotocol_2eproto_getter, &descriptor_table_game_5fprotocol_2eproto_once,
-      file_level_metadata_game_5fprotocol_2eproto[7]);
+      file_level_metadata_game_5fprotocol_2eproto[8]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -2116,6 +2335,9 @@ template<> PROTOBUF_NOINLINE ::protocol::GameServerEnter* Arena::CreateMaybeMess
 }
 template<> PROTOBUF_NOINLINE ::protocol::GameServerAddPlayer* Arena::CreateMaybeMessage< ::protocol::GameServerAddPlayer >(Arena* arena) {
   return Arena::CreateMessageInternal< ::protocol::GameServerAddPlayer >(arena);
+}
+template<> PROTOBUF_NOINLINE ::protocol::GameServerAddMonster* Arena::CreateMaybeMessage< ::protocol::GameServerAddMonster >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::protocol::GameServerAddMonster >(arena);
 }
 template<> PROTOBUF_NOINLINE ::protocol::GameServerRemoveObject* Arena::CreateMaybeMessage< ::protocol::GameServerRemoveObject >(Arena* arena) {
   return Arena::CreateMessageInternal< ::protocol::GameServerRemoveObject >(arena);

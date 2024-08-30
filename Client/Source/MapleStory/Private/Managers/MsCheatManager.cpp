@@ -16,7 +16,7 @@ void UMsCheatManager::SpawnMob(const int32 MobId) const {
 	const FVector PlayerLocation = PlayerCharacter->GetActorLocation();
 	const auto Mob = GetWorld()->SpawnActorDeferred<AMonster>(AMonster::StaticClass(), FTransform::Identity, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
-	if (!Mob || !Mob->Init(MobId)) {
+	if (!Mob || !Mob->Init(MobId, 0)) {
 		return;
 	}
 
@@ -64,7 +64,7 @@ void UMsCheatManager::MobSpawnTest() const {
 	for (int32 i = 0; i < 10; ++i) {
 		const auto Mob = GetWorld()->SpawnActorDeferred<AMonster>(AMonster::StaticClass(), FTransform::Identity, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
-		if (!Mob || !Mob->Init(MobIds[i])) {
+		if (!Mob || !Mob->Init(MobIds[i], 0)) {
 			continue;
 		}
 

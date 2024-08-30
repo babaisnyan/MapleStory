@@ -99,15 +99,34 @@ void UMapleGameInstance::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerI
 	}
 }
 
+void UMapleGameInstance::AddMonster(const protocol::MobInfo& MonsterInfo) {
+	AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (GameMode) {
+		GameMode->AddMonster(MonsterInfo);
+	} else {
+		MonstersQueue.Enqueue(MonsterInfo);
+	}
+}
+
 void UMapleGameInstance::RemoveObject(const int64 ObjectId) {
 	AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
 	const int8 Type = ObjectId / 1000000;
 
-	if (Type == 0) {
-		if (GameMode) {
-			GameMode->RemovePlayer(ObjectId);
-		} else {
-			RemovePlayerQueue.Enqueue(ObjectId);
+	switch (Type) {
+		case 0: {
+			if (GameMode) {
+				GameMode->RemovePlayer(ObjectId);
+			} else {
+				RemovePlayerQueue.Enqueue(ObjectId);
+			}
+			break;
+		}
+		case 2: {
+			if (GameMode) {
+				GameMode->RemoveMonster(ObjectId);
+			}
+			break;
 		}
 	}
 }

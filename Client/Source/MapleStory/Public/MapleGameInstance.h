@@ -54,6 +54,7 @@ public:
 	void ChangeLoginState(ELoginState NewState);
 	void ChangeMap(int32 NewMapId);
 	void AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo);
+	void AddMonster(const protocol::MobInfo& MonsterInfo);
 	void RemoveObject(int64 ObjectId);
 	void UpdatePlayerPosition(const protocol::GameServerPlayerMove& Packet) const;
 
@@ -86,6 +87,7 @@ public:
 	TOptional<protocol::PlayerInfo> PlayerInfoTemp = TOptional<protocol::PlayerInfo>();
 
 	TQueue<TOptional<protocol::OtherPlayerInfo>> OtherPlayersQueue;
+	TQueue<TOptional<protocol::MobInfo>> MonstersQueue;
 	TQueue<int32> RemovePlayerQueue;
 
 private:

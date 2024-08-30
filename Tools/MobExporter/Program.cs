@@ -130,6 +130,7 @@ namespace MobExporter
 
                     var frameInfo = new List<FrameInfo>();
                     var zigzag = await node.GetAsync("zigzag", 0).ConfigureAwait(false) > 0;
+                    var time = 0;
 
                     foreach (var frameNode in node.Children)
                     {
@@ -156,31 +157,38 @@ namespace MobExporter
                             AlphaEnd = a1 == -1 ? 0 : a1
                         });
 
+                        time += delay;
 
                         Directory.CreateDirectory($"./Exported/{id}/{action}");
                         await image.SaveAsPngAsync($"./Exported/{id}/{action}/T_{frame}.png").ConfigureAwait(false);
                     }
 
-                    switch (action)
+                    if (frameInfo.Count > 0)
                     {
-                        case "move":
-                            mobInfo.HasMove = frameInfo.Count > 0;
-                            break;
-                        case "stand":
-                            mobInfo.HasStand = frameInfo.Count > 0;
-                            break;
-                        case "hit1":
-                            mobInfo.HasHit = frameInfo.Count > 0;
-                            break;
-                        case "die1":
-                            mobInfo.HasDie = frameInfo.Count > 0;
-                            break;
-                        case "regen":
-                            mobInfo.HasRegen = frameInfo.Count > 0;
-                            break;
-                        case "attack1":
-                            mobInfo.HasAttack = frameInfo.Count > 0;
-                            break;
+                        switch (action)
+                        {
+                            case "move":
+                                mobInfo.HasMove = true;
+                                break;
+                            case "stand":
+                                mobInfo.HasStand = true;
+                                break;
+                            case "hit1":
+                                mobInfo.HasHit = true;
+                                mobInfo.HitLength = time;
+                                break;
+                            case "die1":
+                                mobInfo.HasDie = true;
+                                mobInfo.DieLength = time;
+                                break;
+                            case "regen":
+                                mobInfo.HasRegen = true;
+                                break;
+                            case "attack1":
+                                mobInfo.HasAttack = true;
+                                mobInfo.AttackLength = time;
+                                break;
+                        }
                     }
 
                     var index = 1;

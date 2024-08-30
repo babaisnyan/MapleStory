@@ -15,16 +15,18 @@ class FGameServerPacketHandler {
 		PKT_GAMECLIENTENTER = 3000,
 		PKT_GAMESERVERENTER = 3001,
 		PKT_GAMESERVERADDPLAYER = 3002,
-		PKT_GAMESERVERREMOVEOBJECT = 3003,
-		PKT_GAMESERVERCHANGEMAP = 3004,
-		PKT_GAMECLIENTPLAYERMOVE = 3005,
-		PKT_GAMESERVERPLAYERMOVE = 3006,
-		PKT_GAMECLIENTCHANGEKEYSETTING = 3007,
+		PKT_GAMESERVERADDMONSTER = 3003,
+		PKT_GAMESERVERREMOVEOBJECT = 3004,
+		PKT_GAMESERVERCHANGEMAP = 3005,
+		PKT_GAMECLIENTPLAYERMOVE = 3006,
+		PKT_GAMESERVERPLAYERMOVE = 3007,
+		PKT_GAMECLIENTCHANGEKEYSETTING = 3008,
 	};
 
 	static bool HandleGameInvalid(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len);
 	static bool HandleGameServerEnter(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerEnter& Packet);
 	static bool HandleGameServerAddPlayer(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerAddPlayer& Packet);
+	static bool HandleGameServerAddMonster(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerAddMonster& Packet);
 	static bool HandleGameServerRemoveObject(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerRemoveObject& Packet);
 	static bool HandleGameServerChangeMap(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerChangeMap& Packet);
 	static bool HandleGameServerPlayerMove(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerPlayerMove& Packet);
@@ -42,6 +44,9 @@ public:
 		};
 		PacketHandlers[PKT_GAMESERVERADDPLAYER] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
 			return HandlePacket<protocol::GameServerAddPlayer>(HandleGameServerAddPlayer, Client, Buffer, Len);
+		};
+		PacketHandlers[PKT_GAMESERVERADDMONSTER] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
+			return HandlePacket<protocol::GameServerAddMonster>(HandleGameServerAddMonster, Client, Buffer, Len);
 		};
 		PacketHandlers[PKT_GAMESERVERREMOVEOBJECT] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
 			return HandlePacket<protocol::GameServerRemoveObject>(HandleGameServerRemoveObject, Client, Buffer, Len);

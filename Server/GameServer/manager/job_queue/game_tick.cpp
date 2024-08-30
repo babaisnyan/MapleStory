@@ -1,25 +1,40 @@
 ﻿#include "pch.h"
 #include "game_tick.h"
 
-#include "game/player_manager.h"
-#include "game/player_stat.h"
 #include "game/map/map_instance.h"
 #include "game/map/map_manager.h"
-#include "game/objects/player/player.h"
 
 #include "handler/game/player_handler.h"
 
 #include "job/job.h"
 
-#include "network/game/game_client_packet_handler.h"
-#include "network/game/game_session_manager.h"
-
 #include "thread/thread_manager.h"
+
+#include "util/timer/timer_manager.h"
 
 void GameTick::Start() {
   ThreadManager::GetInstance().Launch([self = shared_from_this()] {
+    auto& timer_manager = TimerManager::GetInstance();
+
+    ASSERT_CRASH(timer_manager.AddTimer(L"WorldTick"));
+
+    const auto maps = MapManager::GetInstance().GetAllMapInstances() | std::views::values;
+    float time = 0.0f;
+
     while (self->_is_running) {
-      //TODO: Tick World
+      const auto delta = timer_manager.GetDeltaTime(L"WorldTick");
+      time += delta;
+
+      if (time > 0.2f) {
+        for (const auto& map_instance : maps) {
+          map_instance->DoAsync([&map_instance, delta] {
+            map_instance->Update(delta);
+          });
+        }
+
+        time = 0.0f;
+      }
+
       if (!self->_job_queue.empty()) {
         JobRef job;
         const uint64_t current_tick = GetTickCount64();

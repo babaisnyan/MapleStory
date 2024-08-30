@@ -7,6 +7,8 @@
 #include "MapleGameMode.generated.h"
 
 
+class AMonster;
+
 namespace protocol {
 	class GameServerPlayerMove;
 }
@@ -25,6 +27,9 @@ public:
 	void RemovePlayer(int64 ObjectId);
 	void UpdatePlayerPosition(const protocol::GameServerPlayerMove& MovePacket);
 
+	void AddMonster(const protocol::MobInfo& MonsterInfo);
+	void RemoveMonster(int64 ObjectId);
+
 	uint64_t GetExpForLevel(int32 Level) const;
 
 protected:
@@ -40,6 +45,11 @@ public:
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Player")
 	TMap<int64, TObjectPtr<AMsPlayerBase>> OtherPlayers = {};
+
+	UPROPERTY(VisibleAnywhere, Category = "Monster")
+	TMap<int64, TObjectPtr<AMonster>> Monsters = {};
+
+	FVector PlayerStartLocation;
 
 	uint64 ExpTable[300];
 };

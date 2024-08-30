@@ -48,7 +48,7 @@ struct TableStruct_game_5fprotocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[8]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[9]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -65,6 +65,9 @@ extern GameClientEnterDefaultTypeInternal _GameClientEnter_default_instance_;
 class GameClientPlayerMove;
 struct GameClientPlayerMoveDefaultTypeInternal;
 extern GameClientPlayerMoveDefaultTypeInternal _GameClientPlayerMove_default_instance_;
+class GameServerAddMonster;
+struct GameServerAddMonsterDefaultTypeInternal;
+extern GameServerAddMonsterDefaultTypeInternal _GameServerAddMonster_default_instance_;
 class GameServerAddPlayer;
 struct GameServerAddPlayerDefaultTypeInternal;
 extern GameServerAddPlayerDefaultTypeInternal _GameServerAddPlayer_default_instance_;
@@ -85,6 +88,7 @@ PROTOBUF_NAMESPACE_OPEN
 template<> ::protocol::GameClientChangeKeySetting* Arena::CreateMaybeMessage<::protocol::GameClientChangeKeySetting>(Arena*);
 template<> ::protocol::GameClientEnter* Arena::CreateMaybeMessage<::protocol::GameClientEnter>(Arena*);
 template<> ::protocol::GameClientPlayerMove* Arena::CreateMaybeMessage<::protocol::GameClientPlayerMove>(Arena*);
+template<> ::protocol::GameServerAddMonster* Arena::CreateMaybeMessage<::protocol::GameServerAddMonster>(Arena*);
 template<> ::protocol::GameServerAddPlayer* Arena::CreateMaybeMessage<::protocol::GameServerAddPlayer>(Arena*);
 template<> ::protocol::GameServerChangeMap* Arena::CreateMaybeMessage<::protocol::GameServerChangeMap>(Arena*);
 template<> ::protocol::GameServerEnter* Arena::CreateMaybeMessage<::protocol::GameServerEnter>(Arena*);
@@ -206,13 +210,13 @@ class GameClientEnter final :
     kCharacterIdFieldNumber = 1,
     kAuthKeyFieldNumber = 2,
   };
-  // int32 character_id = 1;
+  // uint32 character_id = 1;
   void clear_character_id();
-  ::PROTOBUF_NAMESPACE_ID::int32 character_id() const;
-  void set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 character_id() const;
+  void set_character_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_character_id() const;
-  void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint32 _internal_character_id() const;
+  void _internal_set_character_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
   // int32 auth_key = 2;
@@ -231,7 +235,7 @@ class GameClientEnter final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::int32 character_id_;
+  ::PROTOBUF_NAMESPACE_ID::uint32 character_id_;
   ::PROTOBUF_NAMESPACE_ID::int32 auth_key_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fprotocol_2eproto;
@@ -547,6 +551,147 @@ class GameServerAddPlayer final :
 };
 // -------------------------------------------------------------------
 
+class GameServerAddMonster final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.GameServerAddMonster) */ {
+ public:
+  inline GameServerAddMonster() : GameServerAddMonster(nullptr) {}
+  ~GameServerAddMonster() override;
+  explicit constexpr GameServerAddMonster(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GameServerAddMonster(const GameServerAddMonster& from);
+  GameServerAddMonster(GameServerAddMonster&& from) noexcept
+    : GameServerAddMonster() {
+    *this = ::std::move(from);
+  }
+
+  inline GameServerAddMonster& operator=(const GameServerAddMonster& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GameServerAddMonster& operator=(GameServerAddMonster&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GameServerAddMonster& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GameServerAddMonster* internal_default_instance() {
+    return reinterpret_cast<const GameServerAddMonster*>(
+               &_GameServerAddMonster_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(GameServerAddMonster& a, GameServerAddMonster& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GameServerAddMonster* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GameServerAddMonster* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GameServerAddMonster* New() const final {
+    return new GameServerAddMonster();
+  }
+
+  GameServerAddMonster* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GameServerAddMonster>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GameServerAddMonster& from);
+  void MergeFrom(const GameServerAddMonster& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GameServerAddMonster* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.GameServerAddMonster";
+  }
+  protected:
+  explicit GameServerAddMonster(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMobInfosFieldNumber = 1,
+  };
+  // repeated .protocol.MobInfo mob_infos = 1;
+  int mob_infos_size() const;
+  private:
+  int _internal_mob_infos_size() const;
+  public:
+  void clear_mob_infos();
+  ::protocol::MobInfo* mutable_mob_infos(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::MobInfo >*
+      mutable_mob_infos();
+  private:
+  const ::protocol::MobInfo& _internal_mob_infos(int index) const;
+  ::protocol::MobInfo* _internal_add_mob_infos();
+  public:
+  const ::protocol::MobInfo& mob_infos(int index) const;
+  ::protocol::MobInfo* add_mob_infos();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::MobInfo >&
+      mob_infos() const;
+
+  // @@protoc_insertion_point(class_scope:protocol.GameServerAddMonster)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::MobInfo > mob_infos_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_game_5fprotocol_2eproto;
+};
+// -------------------------------------------------------------------
+
 class GameServerRemoveObject final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.GameServerRemoveObject) */ {
  public:
@@ -591,7 +736,7 @@ class GameServerRemoveObject final :
                &_GameServerRemoveObject_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(GameServerRemoveObject& a, GameServerRemoveObject& b) {
     a.Swap(&b);
@@ -723,7 +868,7 @@ class GameServerChangeMap final :
                &_GameServerChangeMap_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(GameServerChangeMap& a, GameServerChangeMap& b) {
     a.Swap(&b);
@@ -855,7 +1000,7 @@ class GameClientPlayerMove final :
                &_GameClientPlayerMove_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(GameClientPlayerMove& a, GameClientPlayerMove& b) {
     a.Swap(&b);
@@ -1020,7 +1165,7 @@ class GameServerPlayerMove final :
                &_GameServerPlayerMove_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   friend void swap(GameServerPlayerMove& a, GameServerPlayerMove& b) {
     a.Swap(&b);
@@ -1196,7 +1341,7 @@ class GameClientChangeKeySetting final :
                &_GameClientChangeKeySetting_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(GameClientChangeKeySetting& a, GameClientChangeKeySetting& b) {
     a.Swap(&b);
@@ -1302,22 +1447,22 @@ class GameClientChangeKeySetting final :
 #endif  // __GNUC__
 // GameClientEnter
 
-// int32 character_id = 1;
+// uint32 character_id = 1;
 inline void GameClientEnter::clear_character_id() {
-  character_id_ = 0;
+  character_id_ = 0u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameClientEnter::_internal_character_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 GameClientEnter::_internal_character_id() const {
   return character_id_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameClientEnter::character_id() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint32 GameClientEnter::character_id() const {
   // @@protoc_insertion_point(field_get:protocol.GameClientEnter.character_id)
   return _internal_character_id();
 }
-inline void GameClientEnter::_internal_set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameClientEnter::_internal_set_character_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   
   character_id_ = value;
 }
-inline void GameClientEnter::set_character_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameClientEnter::set_character_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   _internal_set_character_id(value);
   // @@protoc_insertion_point(field_set:protocol.GameClientEnter.character_id)
 }
@@ -1513,6 +1658,46 @@ inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::OtherPlayerI
 GameServerAddPlayer::player_infos() const {
   // @@protoc_insertion_point(field_list:protocol.GameServerAddPlayer.player_infos)
   return player_infos_;
+}
+
+// -------------------------------------------------------------------
+
+// GameServerAddMonster
+
+// repeated .protocol.MobInfo mob_infos = 1;
+inline int GameServerAddMonster::_internal_mob_infos_size() const {
+  return mob_infos_.size();
+}
+inline int GameServerAddMonster::mob_infos_size() const {
+  return _internal_mob_infos_size();
+}
+inline ::protocol::MobInfo* GameServerAddMonster::mutable_mob_infos(int index) {
+  // @@protoc_insertion_point(field_mutable:protocol.GameServerAddMonster.mob_infos)
+  return mob_infos_.Mutable(index);
+}
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::MobInfo >*
+GameServerAddMonster::mutable_mob_infos() {
+  // @@protoc_insertion_point(field_mutable_list:protocol.GameServerAddMonster.mob_infos)
+  return &mob_infos_;
+}
+inline const ::protocol::MobInfo& GameServerAddMonster::_internal_mob_infos(int index) const {
+  return mob_infos_.Get(index);
+}
+inline const ::protocol::MobInfo& GameServerAddMonster::mob_infos(int index) const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerAddMonster.mob_infos)
+  return _internal_mob_infos(index);
+}
+inline ::protocol::MobInfo* GameServerAddMonster::_internal_add_mob_infos() {
+  return mob_infos_.Add();
+}
+inline ::protocol::MobInfo* GameServerAddMonster::add_mob_infos() {
+  // @@protoc_insertion_point(field_add:protocol.GameServerAddMonster.mob_infos)
+  return _internal_add_mob_infos();
+}
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::protocol::MobInfo >&
+GameServerAddMonster::mob_infos() const {
+  // @@protoc_insertion_point(field_list:protocol.GameServerAddMonster.mob_infos)
+  return mob_infos_;
 }
 
 // -------------------------------------------------------------------
@@ -1837,6 +2022,8 @@ inline void GameClientChangeKeySetting::set_allocated_key_setting(::protocol::Ke
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

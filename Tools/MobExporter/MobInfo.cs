@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using CsvHelper.Configuration.Attributes;
+using Newtonsoft.Json;
 
 namespace MobExporter;
 
@@ -30,4 +31,13 @@ public class MobInfo(int mobId, string name)
     public int AttackCool { get; set; }
     public int AttackWidth { get; set; }
     public int AttackHeight { get; set; }
+
+    [Ignore]
+    public int HitLength { get; set; }
+
+    [Ignore]
+    public int DieLength { get; set; }
+
+    [Ignore]
+    public int AttackLength { get; set; }
 }

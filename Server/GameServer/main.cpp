@@ -7,6 +7,8 @@
 #include "data/mob_provider.h"
 #include "data/server_config.h"
 
+#include "game/map/map_manager.h"
+
 #include "network/socket_utils.h"
 #include "network/game/game_server.h"
 
@@ -27,9 +29,8 @@ int _tmain(const int argc, TCHAR* argv[]) {
   });
   ThreadManager::GetInstance().Launch([] {
     MobProvider::GetInstance().Init();
-  });
-  ThreadManager::GetInstance().Launch([] {
     MapProvider::GetInstance().Init();
+    MapManager::GetInstance().LoadMaps();
   });
 
   ThreadManager::GetInstance().Join();

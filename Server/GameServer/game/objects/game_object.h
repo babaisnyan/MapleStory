@@ -22,6 +22,7 @@ namespace game {
   public:
     virtual void OnEnter() = 0;
     virtual void Update(float delta_time) = 0;
+    virtual void SecondUpdate(float delta_time) = 0;
 
   public:
     int64_t GetObjectId() const;

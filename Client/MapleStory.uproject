@@ -86,16 +86,6 @@
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/10e33e5cfb3e41bd93443fd3442708d7"
 		},
 		{
-			"Name": "Restful",
-			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/8f2856c9c2844561a2ff1f81c4772ba7"
-		},
-		{
-			"Name": "HashSHA256",
-			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/1942cf125bcd4be5bdd8a206394adcee"
-		},
-		{
 			"Name": "UINavigation",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/b9ee9669c98146cd8433a62ea7f23699"
@@ -124,11 +114,6 @@
 			"Name": "AssetsCleaner",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/3caab7c6e81f449296989122c043ae21"
-		},
-		{
-			"Name": "RuntimeFilesDownloader",
-			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/e7e6df6d6e9c46f0ae35163eab67ff9a"
 		},
 		{
 			"Name": "FlatNodes",
@@ -160,16 +145,6 @@
 			"Enabled": true
 		},
 		{
-			"Name": "Audius",
-			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/379d421d179148cca3a09dcd7a9049e0"
-		},
-		{
-			"Name": "LevelBookmarks",
-			"Enabled": true,
-			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/b4a88d66c795480fb803a0f4f8b1907e"
-		},
-		{
 			"Name": "PaperFlipbookWidget",
 			"Enabled": true,
 			"MarketplaceURL": "https://unrealengineresources.com/plugins"
@@ -188,6 +163,11 @@
 			"Name": "TcpSocketPlugin",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/462c2952e71c4548ae324cb624c74aa6"
+		},
+		{
+			"Name": "DarkerNodes",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/4b3441f0228a40ec9ca986489a5bd682"
 		}
 	],
 	"TargetPlatforms": [
