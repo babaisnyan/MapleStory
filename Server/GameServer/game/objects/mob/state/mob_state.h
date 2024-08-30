@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 namespace game {
-  class MobState {
+  class MobState { //TODO: BT 구현
   public:
   private:
   

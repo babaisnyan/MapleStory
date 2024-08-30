@@ -1,4 +1,4 @@
-﻿namespace MobExporter;
+﻿namespace NpcExporter;
 
 public class FrameInfo(string path)
 {

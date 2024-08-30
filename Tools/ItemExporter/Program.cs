@@ -4,8 +4,6 @@ using CsvHelper;
 using FastEnumUtility;
 using Newtonsoft.Json;
 using PKG1;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 
 namespace ItemExporter;
 
@@ -276,11 +274,5 @@ internal static class Program
         var info = new ItemInfo(id, name, ItemType.Eqp) {Desc = desc};
 
         return info;
-    }
-
-    private static async Task<T> GetAsync<T>(this WzProperty property, string name, T defaultValue) where T : struct
-    {
-        var resolved = await property.ResolveFor<T>(name).ConfigureAwait(false);
-        return resolved ?? defaultValue;
     }
 }
