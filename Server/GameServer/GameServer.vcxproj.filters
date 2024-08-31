@@ -120,6 +120,12 @@
     <ClCompile Include="game\objects\mob\state\mob_state.cpp">
       <Filter>game\objects\mob\state</Filter>
     </ClCompile>
+    <ClCompile Include="data\templates\npc_template.cpp">
+      <Filter>data\templates</Filter>
+    </ClCompile>
+    <ClCompile Include="data\npc_provider.cpp">
+      <Filter>data</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -245,6 +251,12 @@
     </ClInclude>
     <ClInclude Include="game\objects\mob\state\mob_state.h">
       <Filter>game\objects\mob\state</Filter>
+    </ClInclude>
+    <ClInclude Include="data\templates\npc_template.h">
+      <Filter>data\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="data\npc_provider.h">
+      <Filter>data</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

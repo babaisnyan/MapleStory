@@ -1,6 +1,9 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using CsvHelper;
 using Newtonsoft.Json;
 using PKG1;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace NpcExporter
 {
@@ -9,6 +12,7 @@ namespace NpcExporter
         private const string MAPLE_STORY_PATH = @"C:\Nexon\Maple\Data";
 
         private static IDictionary<int, NpcInfo> _npcInfos = null!;
+        private static readonly Dictionary<string, string> ImageHash = [];
 
         private static async Task Main(string[] args)
         {
@@ -25,6 +29,13 @@ namespace NpcExporter
             _npcInfos = await GetNpcInfosAsync(stringCollection).ConfigureAwait(false);
             await FillNpcInfoAsync(npcCollection).ConfigureAwait(false);
 
+            var index = 1;
+
+            foreach (var (_, npcInfo) in _npcInfos)
+            {
+                npcInfo.Name = index++.ToString();
+            }
+
             await using var writer = new StreamWriter("Npc.json");
             await writer.WriteAsync(JsonConvert.SerializeObject(_npcInfos.Values.OrderBy(x => x.Id), Formatting.Indented)).ConfigureAwait(false);
         }
@@ -39,7 +50,7 @@ namespace NpcExporter
                 var id = int.Parse(npc._name);
                 var name = await npc.ResolveForOrNull<string>("name").ConfigureAwait(false);
 
-                if (id >= 3000000 || string.IsNullOrWhiteSpace(name) || npcs.ContainsKey(id))
+                if (id >= 4000000 || string.IsNullOrWhiteSpace(name) || npcs.ContainsKey(id))
                 {
                     continue;
                 }
@@ -83,7 +94,7 @@ namespace NpcExporter
 
                 if (info == null)
                 {
-                    await ExtractImagesAsync(npc).ConfigureAwait(false);
+                    await ExtractImagesAsync(npc, npcInfo).ConfigureAwait(false);
                     continue;
                 }
 
@@ -117,22 +128,130 @@ namespace NpcExporter
 
                 npcInfo.IsShop = await info.GetAsync("shop", 0).ConfigureAwait(false) > 0;
 
-                await ExtractImagesAsync(npc).ConfigureAwait(false);
+                var scripts = await GetScriptsAsync(info).ConfigureAwait(false);
+
+                if (scripts.Count > 0)
+                {
+                    npcInfo.Actions.Add("stand", new("stand", scripts));
+                }
+
+                await ExtractImagesAsync(npc, npcInfo).ConfigureAwait(false);
             }
 
             foreach (var id in removeList)
             {
                 _npcInfos.Remove(id);
             }
+
+            Console.WriteLine($"Exported {_npcInfos.Count} Items.");
         }
 
-        private static async Task ExtractImagesAsync(WzProperty npc)
+        private static async Task<List<string>> GetScriptsAsync(WzProperty node)
+        {
+            var list = new List<string>();
+
+            if (await node.HasChildAsync("speak").ConfigureAwait(false))
+            {
+                var speak = await node.Resolve("speak").ConfigureAwait(false);
+                var scripts = speak.Children.Where(x => x.Type == PropertyType.String)
+                                   .OrderBy(x => x._name)
+                                   .ToList();
+
+                foreach (var script in scripts)
+                {
+                    var text = await script.ResolveForOrNull<string>().ConfigureAwait(false);
+                    if (string.IsNullOrWhiteSpace(text)) continue;
+                    list.Add(text);
+                }
+            }
+
+            return list;
+        }
+
+        private static async Task ExtractImagesAsync(WzProperty npc, NpcInfo info)
         {
             foreach (var action in npc.Children)
             {
-                if (action.Type != PropertyType.Directory) continue;
+                var actionName = action._name.Trim();
+
+                if (action.Type != PropertyType.SubProperty) continue;
                 if (await action.HasChildAsync("special").ConfigureAwait(false)) continue;
-                if (action._name == "info" || action._name == "image" || action._name.Contains("condition") || action._name.Contains("illust") || action._name.Contains("special")) continue;
+                if (actionName == "info" || actionName == "image" || actionName.Contains("condition") || actionName.Contains("illust") || actionName.Contains("special")) continue;
+
+                var scripts = await GetScriptsAsync(action).ConfigureAwait(false);
+
+                if (scripts.Count > 0 && actionName != "stand")
+                {
+                    info.Actions.Add(actionName, new(actionName, scripts));
+                }
+
+                var frameInfo = new List<FrameInfo>();
+                var time = 0;
+
+                foreach (var frameNode in action.Children)
+                {
+                    if (!int.TryParse(frameNode._name, out var frame)) continue;
+
+                    var image = await frameNode.ResolveForOrNull<Image<Rgba32>>().ConfigureAwait(false);
+                    if (image == null) break;
+
+                    var origin = await frameNode.GetAsync("origin", new Point()).ConfigureAwait(false);
+                    var delay = await frameNode.GetAsync("delay", 100).ConfigureAwait(false);
+                    var z = await frameNode.GetAsync("z", 0).ConfigureAwait(false);
+                    var a0 = await frameNode.GetAsync("a0", 255).ConfigureAwait(false);
+                    var a1 = await frameNode.GetAsync("a1", -1).ConfigureAwait(false);
+                    var path = $"\"/Paper2D.PaperSprite'/Game/Npc/{info.Id}/{actionName}/S_{frame}.S_{frame}'\"";
+                    var hash = await image.ComputeHashAsync().ConfigureAwait(false);
+                    var found = false;
+
+                    if (ImageHash.TryGetValue(hash, out var value))
+                    {
+                        path = value;
+                        found = true;
+                    }
+                    else
+                    {
+                        ImageHash.Add(hash, path);
+                    }
+
+                    frameInfo.Add(new FrameInfo(path)
+                    {
+                        Delay = delay,
+                        OffsetX = origin.X,
+                        OffsetY = origin.Y,
+                        ZOrder = z,
+                        ZigZag = false,
+                        HasAlpha = a1 != -1,
+                        AlphaStart = a0,
+                        AlphaEnd = a1 == -1 ? 0 : a1
+                    });
+
+                    time += delay;
+
+                    Directory.CreateDirectory($"./Exported/{info.Id}/{actionName}");
+
+                    if (!found)
+                    {
+                        await image.SaveAsPngAsync($"./Exported/{info.Id}/{actionName}/T_{frame}.png").ConfigureAwait(false);
+                    }
+                }
+
+                var index = 1;
+
+                foreach (var frame in frameInfo)
+                {
+                    frame.Name = index++;
+                }
+
+                await using (var write = new StreamWriter($"./Exported/{info.Id}/{actionName}/DT_Frames.csv"))
+                {
+                    await using var csv = new CsvWriter(write, CultureInfo.InvariantCulture);
+                    await csv.WriteRecordsAsync(frameInfo.OrderBy(x => x.Name)).ConfigureAwait(false);
+                }
+
+                var content = await File.ReadAllTextAsync($"./Exported/{info.Id}/{actionName}/DT_Frames.csv").ConfigureAwait(false);
+                var changed = content.Replace("\"\"\"", "\"");
+                await File.WriteAllTextAsync($"./Exported/{info.Id}/{actionName}/DT_Frames.csv", changed).ConfigureAwait(false);
             }
         }
     }

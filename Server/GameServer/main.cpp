@@ -5,6 +5,7 @@
 #include "data/item_provider.h"
 #include "data/map_provider.h"
 #include "data/mob_provider.h"
+#include "data/npc_provider.h"
 #include "data/server_config.h"
 
 #include "game/map/map_manager.h"
@@ -29,11 +30,17 @@ int _tmain(const int argc, TCHAR* argv[]) {
   });
   ThreadManager::GetInstance().Launch([] {
     MobProvider::GetInstance().Init();
+  });
+  ThreadManager::GetInstance().Launch([] {
     MapProvider::GetInstance().Init();
-    MapManager::GetInstance().LoadMaps();
+  });
+  ThreadManager::GetInstance().Launch([] {
+    NpcProvider::GetInstance().Init();
   });
 
   ThreadManager::GetInstance().Join();
+
+  MapManager::GetInstance().LoadMaps();
 
   GameServer::GetInstance().Init();
   ThreadManager::GetInstance().Join();
