@@ -5,9 +5,21 @@
 #include "game/objects/mob/monster.h"
 #include "game/objects/player/player.h"
 
-#include "network/game/game_packet_creator.h"
+MapInstance::MapInstance(const int32_t map_id, const std::pair<int32_t, int32_t> size, std::vector<GroundInfo> grounds) :
+  _map_id(map_id),
+  _size(size),
+  _grounds(std::move(grounds)) {
+  const auto grid_x_count = _size.first / kGridSize + 1;
+  const auto grid_y_count = _size.second / kGridSize + 1;
 
-MapInstance::MapInstance(const int32_t map_id) : _map_id(map_id) {}
+  _grid = std::vector(grid_y_count, std::vector(grid_x_count, std::vector<std::shared_ptr<GameObject>>()));
+
+  for (auto& row : _grid) {
+    for (auto& column : row) {
+      column.reserve(10);
+    }
+  }
+}
 
 bool MapInstance::AddPlayer(const std::shared_ptr<GameSession>& session) {
   const auto inserted = _players.emplace(session->GetPlayer()->GetId(), session).second;

@@ -43,6 +43,10 @@ float Monster::GetY() const {
   return _position.y;
 }
 
+std::weak_ptr<MapInstance> Monster::GetMap() const {
+  return _map;
+}
+
 int64_t Monster::GetNextObjectId() {
   static std::atomic<int64_t> next_object_id = static_cast<int32_t>(kObjectRange) * static_cast<int32_t>(ObjectType::kMob);
   return next_object_id.fetch_add(1);

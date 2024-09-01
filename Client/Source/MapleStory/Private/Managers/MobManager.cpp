@@ -1,7 +1,5 @@
 #include "Managers/MobManager.h"
 
-#include "Data/Table/MobTemplate.h"
-
 UMobManager::UMobManager() {
 	static ConstructorHelpers::FObjectFinder<UDataTable> MobDataFinder(TEXT("/Script/Engine.DataTable'/Game/Data/DT_Mob.DT_Mob'"));
 

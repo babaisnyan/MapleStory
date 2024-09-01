@@ -1,5 +1,6 @@
 ﻿using CsvHelper.Configuration.Attributes;
 using Newtonsoft.Json;
+using SixLabors.ImageSharp;
 
 namespace MobExporter;
 
@@ -40,4 +41,16 @@ public class MobInfo(int mobId, string name)
 
     [Ignore]
     public int AttackLength { get; set; }
+
+    [Ignore]
+    public Point StandSize { get; set; }
+
+    [Ignore]
+    public Point MoveSize { get; set; }
+
+    [Ignore]
+    public Point HitSize { get; set; }
+
+    [Ignore]
+    public Point AttackSize { get; set; }
 }

@@ -14,8 +14,12 @@ namespace game {
   class GameObject;
 
   class MapInstance final : public JobQueue {
+    enum {
+      kGridSize = 25
+    };
+
   public:
-    explicit MapInstance(const int32_t map_id);
+    explicit MapInstance(const int32_t map_id, std::pair<int32_t, int32_t> size, std::vector<GroundInfo> grounds);
     ~MapInstance() = default;
 
   public:
@@ -48,12 +52,15 @@ namespace game {
 
   private:
     const int32_t _map_id;
+    const std::pair<int32_t, int32_t> _size;
+    const std::vector<GroundInfo> _grounds;
     uint64_t _last_respawn_tick = 0;
 
     std::unordered_map<std::shared_ptr<SpawnPoint>, std::shared_ptr<MobTemplate>> _mob_spawn_locations;
     std::unordered_map<std::shared_ptr<SpawnPoint>, std::shared_ptr<Monster>> _mobs;
     std::unordered_map<int64_t, std::shared_ptr<GameObject>> _objects;
     std::unordered_map<int32_t, std::shared_ptr<GameSession>> _players;
+    std::vector<std::vector<std::vector<std::shared_ptr<GameObject>>>> _grid;
   };
 
   template <typename T> requires std::is_base_of_v<google::protobuf::Message, T>

@@ -12,6 +12,7 @@ namespace MobExporter
         private const string MAPLE_STORY_PATH = @"D:\Maple\Data";
 
         private static IDictionary<int, MobInfo> _mobInfos = null!;
+        private static readonly Dictionary<string, string> ImageHash = [];
 
         private static async Task Main(string[] args)
         {
@@ -54,7 +55,7 @@ namespace MobExporter
                 var id = int.Parse(mob._name);
                 var name = await mob.ResolveForOrNull<string>("name").ConfigureAwait(false);
 
-                if (id < 3000000 && !string.IsNullOrWhiteSpace(name) && !mobs.ContainsKey(id))
+                if (id < 4000000 && !string.IsNullOrWhiteSpace(name) && !mobs.ContainsKey(id))
                 {
                     mobs.Add(id, new MobInfo(id, name));
                 }
@@ -123,6 +124,8 @@ namespace MobExporter
                 mobInfo.MdRate = await info.GetAsync("MDRate", 0).ConfigureAwait(false);
                 mobInfo.Exp = await info.GetAsync("exp", 0).ConfigureAwait(false);
 
+                var size = new Point(0, 0);
+
                 foreach (var action in actions)
                 {
                     var node = await mob.Resolve(action).ConfigureAwait(false);
@@ -131,7 +134,7 @@ namespace MobExporter
                     var frameInfo = new List<FrameInfo>();
                     var zigzag = await node.GetAsync("zigzag", 0).ConfigureAwait(false) > 0;
                     var time = 0;
-
+             
                     foreach (var frameNode in node.Children)
                     {
                         if (!int.TryParse(frameNode._name, out var frame)) continue;
@@ -144,8 +147,22 @@ namespace MobExporter
                         var z = await frameNode.GetAsync("z", 0).ConfigureAwait(false);
                         var a0 = await frameNode.GetAsync("a0", 255).ConfigureAwait(false);
                         var a1 = await frameNode.GetAsync("a1", -1).ConfigureAwait(false);
+                        var path = $"\"/Paper2D.PaperSprite'/Game/Mob/{id}/{action}/S_{frame}.S_{frame}'\"";
+                        var hash = await image.ComputeHashAsync().ConfigureAwait(false);
+                        var found = false;
+                        size = Utils.Max(size, new Point(image.Width, image.Height));
 
-                        frameInfo.Add(new FrameInfo($"\"/Paper2D.PaperSprite'/Game/Mob/{id}/{action}/S_{frame}.S_{frame}'\"")
+                        if (ImageHash.TryGetValue(hash, out var value))
+                        {
+                            path = value;
+                            found = true;
+                        }
+                        else
+                        {
+                            ImageHash.Add(hash, path);
+                        }
+
+                        frameInfo.Add(new FrameInfo(path)
                         {
                             Delay = delay,
                             OffsetX = origin.X,
@@ -160,7 +177,11 @@ namespace MobExporter
                         time += delay;
 
                         Directory.CreateDirectory($"./Exported/{id}/{action}");
-                        await image.SaveAsPngAsync($"./Exported/{id}/{action}/T_{frame}.png").ConfigureAwait(false);
+
+                        if (!found)
+                        {
+                            await image.SaveAsPngAsync($"./Exported/{id}/{action}/T_{frame}.png").ConfigureAwait(false);
+                        }
                     }
 
                     if (frameInfo.Count > 0)
@@ -169,13 +190,16 @@ namespace MobExporter
                         {
                             case "move":
                                 mobInfo.HasMove = true;
+                                mobInfo.MoveSize = size;
                                 break;
                             case "stand":
                                 mobInfo.HasStand = true;
+                                mobInfo.StandSize = size;
                                 break;
                             case "hit1":
                                 mobInfo.HasHit = true;
                                 mobInfo.HitLength = time;
+                                mobInfo.HitSize = size;
                                 break;
                             case "die1":
                                 mobInfo.HasDie = true;
@@ -187,6 +211,7 @@ namespace MobExporter
                             case "attack1":
                                 mobInfo.HasAttack = true;
                                 mobInfo.AttackLength = time;
+                                mobInfo.AttackSize = size;
                                 break;
                         }
                     }
@@ -258,8 +283,21 @@ namespace MobExporter
                                 var origin = await hitNode.GetAsync("origin", new Point()).ConfigureAwait(false);
                                 var delay = await hitNode.GetAsync("delay", 100).ConfigureAwait(false);
                                 var z = await hitNode.GetAsync("z", 0).ConfigureAwait(false);
+                                var path = $"\"/Paper2D.PaperSprite'/Game/Mob/{id}/hit/S_{frame}.S_{frame}'\"";
+                                var hash = await image.ComputeHashAsync().ConfigureAwait(false);
+                                var found = false;
 
-                                hitFrameInfo.Add(new FrameInfo($"\"/Paper2D.PaperSprite'/Game/Mob/{id}/hit/S_{frame}.S_{frame}'\"")
+                                if (ImageHash.TryGetValue(hash, out var value))
+                                {
+                                    path = value;
+                                    found = true;
+                                }
+                                else
+                                {
+                                    ImageHash.Add(hash, path);
+                                }
+
+                                hitFrameInfo.Add(new FrameInfo(path)
                                 {
                                     Delay = delay,
                                     OffsetX = origin.X,
@@ -272,7 +310,11 @@ namespace MobExporter
                                 });
 
                                 Directory.CreateDirectory($"./Exported/{id}/hit");
-                                await image.SaveAsPngAsync($"./Exported/{id}/hit/T_{frame}.png").ConfigureAwait(false);
+
+                                if (!found)
+                                {
+                                    await image.SaveAsPngAsync($"./Exported/{id}/hit/T_{frame}.png").ConfigureAwait(false);
+                                }
                             }
 
                             index = 1;

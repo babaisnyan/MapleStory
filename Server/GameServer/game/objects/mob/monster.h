@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include "data/templates/mob_template.h"
+
 #include "game/objects/game_object.h"
 
 namespace game {
@@ -8,15 +10,6 @@ namespace game {
   class MobState;
 
   class Monster final : public GameObject {
-  public:
-    enum class State : uint8_t {
-      kIdle,
-      kMove,
-      kAttack,
-      kDead,
-      kHit
-    };
-
   public:
     Monster(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shared_ptr<MapInstance>& map);
     void Init(const std::shared_ptr<MobTemplate>& mob_template);
@@ -31,6 +24,7 @@ namespace game {
     const MsCoordinate& GetPosition() const;
     float GetX() const;
     float GetY() const;
+    std::weak_ptr<MapInstance> GetMap() const;
 
   private:
     int64_t GetNextObjectId() override;
@@ -42,7 +36,7 @@ namespace game {
     std::shared_ptr<SpawnPoint> _spawn_point;
     std::weak_ptr<MapInstance> _map;
 
-    std::unordered_map<State, std::shared_ptr<MobState>> _states;
-    State _state = State::kIdle;
+    std::unordered_map<MobActionType, std::shared_ptr<MobState>> _states;
+    MobActionType _state = MobActionType::kStand;
   };
 }

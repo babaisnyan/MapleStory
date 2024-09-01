@@ -39,4 +39,6 @@ public static class Utils
         ArrayPool<byte>.Shared.Return(buffer);
         return Convert.ToBase64String(hash.Finish());
     }
+
+    public static Point Max(Point a, Point b) => new(Math.Max(a.X, b.X), Math.Max(a.Y, b.Y));
 }

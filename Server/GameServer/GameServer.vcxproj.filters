@@ -126,6 +126,9 @@
     <ClCompile Include="data\npc_provider.cpp">
       <Filter>data</Filter>
     </ClCompile>
+    <ClCompile Include="game\objects\mob\state\walk_state.cpp">
+      <Filter>game\objects\mob\state</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -256,6 +259,12 @@
       <Filter>data\templates</Filter>
     </ClInclude>
     <ClInclude Include="data\npc_provider.h">
+      <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="game\objects\mob\state\walk_state.h">
+      <Filter>game\objects\mob\state</Filter>
+    </ClInclude>
+    <ClInclude Include="data\ground_info.h">
       <Filter>data</Filter>
     </ClInclude>
   </ItemGroup>

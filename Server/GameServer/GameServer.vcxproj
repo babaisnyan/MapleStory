@@ -185,6 +185,7 @@
     <ClCompile Include="game\objects\game_object.cpp" />
     <ClCompile Include="game\objects\mob\monster.cpp" />
     <ClCompile Include="game\objects\mob\state\mob_state.cpp" />
+    <ClCompile Include="game\objects\mob\state\walk_state.cpp" />
     <ClCompile Include="game\objects\player\key_map.cpp" />
     <ClCompile Include="game\objects\player\player.cpp" />
     <ClCompile Include="game\player_manager.cpp" />
@@ -256,6 +257,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="data\ground_info.h" />
     <ClInclude Include="data\item_provider.h" />
     <ClInclude Include="data\map_provider.h" />
     <ClInclude Include="data\mob_provider.h" />
@@ -272,6 +274,7 @@
     <ClInclude Include="game\objects\game_object.h" />
     <ClInclude Include="game\objects\mob\monster.h" />
     <ClInclude Include="game\objects\mob\state\mob_state.h" />
+    <ClInclude Include="game\objects\mob\state\walk_state.h" />
     <ClInclude Include="game\objects\player\key_map.h" />
     <ClInclude Include="game\objects\player\player.h" />
     <ClInclude Include="game\player_manager.h" />

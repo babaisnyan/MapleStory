@@ -1,6 +1,14 @@
 ﻿#pragma once
 
 namespace game {
+  enum class MobActionType : uint8_t {
+    kStand,
+    kMove,
+    kHit,
+    kAttack,
+    kDie
+  };
+
   class MobTemplate {
   public:
     MobTemplate() = default;
@@ -22,12 +30,12 @@ namespace game {
     int16_t GetPdRate() const;
     int16_t GetMdRate() const;
     int16_t GetExp() const;
-    bool GetHasStand() const;
-    bool GetHasMove() const;
-    bool GetHasAttack() const;
+    bool HasAction(MobActionType action) const;
     int16_t GetAttackCool() const;
     int16_t GetAttackWidth() const;
     int16_t GetAttackHeight() const;
+    int32_t GetActionLength(MobActionType action) const;
+    std::pair<int32_t, int32_t> GetCollisionSize(MobActionType action) const;
 
   private:
     uint32_t _id;
@@ -44,12 +52,12 @@ namespace game {
     int16_t _pd_rate;
     int16_t _md_rate;
     int16_t _exp;
-    bool _has_stand;
-    bool _has_move;
-    bool _has_attack;
+    bool _has_die;
     int16_t _attack_cool;
     int16_t _attack_width;
     int16_t _attack_height;
+    std::unordered_map<MobActionType, int32_t> _action_lengths;
+    std::unordered_map<MobActionType, std::pair<int32_t, int32_t>> _collision_sizes;
   };
   
 }

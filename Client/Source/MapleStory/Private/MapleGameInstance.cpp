@@ -16,7 +16,8 @@ void UMapleGameInstance::Init() {
 
 void UMapleGameInstance::BeginDestroy() {
 	Super::BeginDestroy();
-
+	
+	
 	if (Client) {
 		bIsConnected = false;
 		Client->CloseSocket();

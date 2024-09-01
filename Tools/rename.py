@@ -1,6 +1,6 @@
 import unreal
 
-ue_project_directory = '/Game/Npc'
+ue_project_directory = '/Game/Mob'
 asset_tools = unreal.AssetToolsHelpers.get_asset_tools()
 asset_registry = unreal.AssetRegistryHelpers.get_asset_registry()
 assets = asset_registry.get_assets_by_path(ue_project_directory, recursive=True)
@@ -22,7 +22,6 @@ for asset in assets:
     
     if count % 100 == 0:
         unreal.EditorAssetLibrary.save_directory(ue_project_directory)
-        unreal.SystemLibrary.collect_garbage()
 
 unreal.EditorAssetLibrary.save_directory(ue_project_directory)
 unreal.SystemLibrary.collect_garbage()

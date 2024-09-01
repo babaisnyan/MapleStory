@@ -168,6 +168,11 @@
 			"Name": "DarkerNodes",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/4b3441f0228a40ec9ca986489a5bd682"
+		},
+		{
+			"Name": "UnityVersionControl",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/d971a6f8262e4066ba77cbd67a375884"
 		}
 	],
 	"TargetPlatforms": [

@@ -22,7 +22,7 @@ std::unordered_map<int32_t, std::shared_ptr<MapInstance>> MapManager::GetAllMapI
 
 void MapManager::LoadMaps() {
   for (const auto& map : MapProvider::GetInstance().GetAllMaps() | std::views::values) {
-    auto instance = std::make_shared<MapInstance>(map->GetId());
+    auto instance = std::make_shared<MapInstance>(map->GetId(), map->GetSize(), map->GetGrounds());
 
     for (const auto& spawn_point : map->GetMobs()) {
       const auto mob = MobProvider::GetInstance().GetMob(spawn_point.GetId());

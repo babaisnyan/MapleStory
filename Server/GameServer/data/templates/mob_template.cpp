@@ -4,6 +4,7 @@
 void MobTemplate::Load(const json& data) {
   std::string name;
 
+
   data.at("MobId").get_to(_id);
   data.at("MobName").get_to(name);
   _name = utils::ConvertToWide(name).value_or(L"");
@@ -19,12 +20,36 @@ void MobTemplate::Load(const json& data) {
   data.at("PdRate").get_to(_pd_rate);
   data.at("MdRate").get_to(_md_rate);
   data.at("Exp").get_to(_exp);
-  data.at("HasStand").get_to(_has_stand);
-  data.at("HasMove").get_to(_has_move);
-  data.at("HasAttack").get_to(_has_attack);
+  data.at("HasDie").get_to(_has_die);
   data.at("AttackCool").get_to(_attack_cool);
   data.at("AttackWidth").get_to(_attack_width);
   data.at("AttackHeight").get_to(_attack_height);
+
+  if (data.at("HasStand").get<bool>()) {
+    const auto size = std::make_pair(data["StandSize"]["X"].get<int32_t>(), data["StandSize"]["Y"].get<int32_t>());
+    _collision_sizes.emplace(MobActionType::kStand, size);
+  }
+
+  if (data.at("HasMove").get<bool>()) {
+    const auto size = std::make_pair(data["MoveSize"]["X"].get<int32_t>(), data["MoveSize"]["Y"].get<int32_t>());
+    _collision_sizes.emplace(MobActionType::kMove, size);
+  }
+
+  if (data.at("HasHit").get<bool>()) {
+    _action_lengths.emplace(MobActionType::kHit, data.at("HitLength").get<int32_t>());
+    const auto size = std::make_pair(data["HitSize"]["X"].get<int32_t>(), data["HitSize"]["Y"].get<int32_t>());
+    _collision_sizes.emplace(MobActionType::kHit, size);
+  }
+
+  if (data.at("HasDie").get<bool>()) {
+    _action_lengths.emplace(MobActionType::kAttack, data.at("AttackLength").get<int32_t>());
+    const auto size = std::make_pair(data["AttackSize"]["X"].get<int32_t>(), data["AttackSize"]["Y"].get<int32_t>());
+    _collision_sizes.emplace(MobActionType::kAttack, size);
+  }
+
+  if (_has_die) {
+    _action_lengths.emplace(MobActionType::kDie, data.at("DieLength").get<int32_t>());
+  }
 }
 
 uint32_t MobTemplate::GetId() const {
@@ -83,16 +108,12 @@ int16_t MobTemplate::GetExp() const {
   return _exp;
 }
 
-bool MobTemplate::GetHasStand() const {
-  return _has_stand;
-}
+bool MobTemplate::HasAction(const MobActionType action) const {
+  if (action == MobActionType::kDie) {
+    return _has_die;
+  }
 
-bool MobTemplate::GetHasMove() const {
-  return _has_move;
-}
-
-bool MobTemplate::GetHasAttack() const {
-  return _has_attack;
+  return _collision_sizes.contains(action);
 }
 
 int16_t MobTemplate::GetAttackCool() const {
@@ -105,4 +126,12 @@ int16_t MobTemplate::GetAttackWidth() const {
 
 int16_t MobTemplate::GetAttackHeight() const {
   return _attack_height;
+}
+
+int32_t MobTemplate::GetActionLength(const MobActionType action) const {
+  return _action_lengths.at(action);
+}
+
+std::pair<int32_t, int32_t> MobTemplate::GetCollisionSize(MobActionType action) const {
+  return _collision_sizes.at(action);
 }

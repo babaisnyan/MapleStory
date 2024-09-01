@@ -10,7 +10,6 @@ namespace game {
   public:
     uint32_t GetId() const;
     const String& GetName() const;
-    int32_t GetAction(const String& action) const;
     const std::unordered_map<String, int32_t>& GetActions() const;
 
   private:
