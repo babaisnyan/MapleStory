@@ -126,7 +126,22 @@
     <ClCompile Include="data\npc_provider.cpp">
       <Filter>data</Filter>
     </ClCompile>
-    <ClCompile Include="game\objects\mob\state\walk_state.cpp">
+    <ClCompile Include="game\objects\mob\state\move_state.cpp">
+      <Filter>game\objects\mob\state</Filter>
+    </ClCompile>
+    <ClCompile Include="game\objects\mob\state\stand_state.cpp">
+      <Filter>game\objects\mob\state</Filter>
+    </ClCompile>
+    <ClCompile Include="game\objects\mob\state\regen_state.cpp">
+      <Filter>game\objects\mob\state</Filter>
+    </ClCompile>
+    <ClCompile Include="data\templates\template.cpp">
+      <Filter>data\templates</Filter>
+    </ClCompile>
+    <ClCompile Include="game\objects\mob\state\attack_state.cpp">
+      <Filter>game\objects\mob\state</Filter>
+    </ClCompile>
+    <ClCompile Include="game\objects\mob\state\hit_state.cpp">
       <Filter>game\objects\mob\state</Filter>
     </ClCompile>
   </ItemGroup>
@@ -261,11 +276,26 @@
     <ClInclude Include="data\npc_provider.h">
       <Filter>data</Filter>
     </ClInclude>
-    <ClInclude Include="game\objects\mob\state\walk_state.h">
+    <ClInclude Include="game\objects\mob\state\move_state.h">
       <Filter>game\objects\mob\state</Filter>
     </ClInclude>
     <ClInclude Include="data\ground_info.h">
       <Filter>data</Filter>
+    </ClInclude>
+    <ClInclude Include="game\objects\mob\state\stand_state.h">
+      <Filter>game\objects\mob\state</Filter>
+    </ClInclude>
+    <ClInclude Include="game\objects\mob\state\regen_state.h">
+      <Filter>game\objects\mob\state</Filter>
+    </ClInclude>
+    <ClInclude Include="data\templates\template.h">
+      <Filter>data\templates</Filter>
+    </ClInclude>
+    <ClInclude Include="game\objects\mob\state\attack_state.h">
+      <Filter>game\objects\mob\state</Filter>
+    </ClInclude>
+    <ClInclude Include="game\objects\mob\state\hit_state.h">
+      <Filter>game\objects\mob\state</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

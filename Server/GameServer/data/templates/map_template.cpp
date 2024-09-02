@@ -22,14 +22,6 @@ void MapTemplate::Load(const json& data) {
   }
 }
 
-uint32_t MapTemplate::GetId() const {
-  return _id;
-}
-
-const String& MapTemplate::GetName() const {
-  return _name;
-}
-
 std::pair<int32_t, int32_t> MapTemplate::GetSize() const {
   return _size;
 }

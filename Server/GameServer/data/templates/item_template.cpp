@@ -38,60 +38,110 @@ void ItemTemplate::Load(const json& data) {
   data.at("Time").get_to(_time);
 }
 
-uint32_t ItemTemplate::GetId() const { return _id; }
+const String& ItemTemplate::GetDesc() const {
+  return _desc;
+}
 
-const String& ItemTemplate::GetName() const { return _name; }
+ItemType ItemTemplate::GetItemType() const {
+  return _item_type;
+}
 
-const String& ItemTemplate::GetDesc() const { return _desc; }
+EqpType ItemTemplate::GetSubType() const {
+  return _sub_type;
+}
 
-ItemType ItemTemplate::GetItemType() const { return _item_type; }
+uint16_t ItemTemplate::GetIncAcc() const {
+  return _inc_acc;
+}
 
-EqpType ItemTemplate::GetSubType() const { return _sub_type; }
+uint16_t ItemTemplate::GetIncDex() const {
+  return _inc_dex;
+}
 
-uint16_t ItemTemplate::GetIncAcc() const { return _inc_acc; }
+uint16_t ItemTemplate::GetIncEva() const {
+  return _inc_eva;
+}
 
-uint16_t ItemTemplate::GetIncDex() const { return _inc_dex; }
+uint16_t ItemTemplate::GetIncInt() const {
+  return _inc_int;
+}
 
-uint16_t ItemTemplate::GetIncEva() const { return _inc_eva; }
+uint16_t ItemTemplate::GetIncJump() const {
+  return _inc_jump;
+}
 
-uint16_t ItemTemplate::GetIncInt() const { return _inc_int; }
+uint16_t ItemTemplate::GetIncLuk() const {
+  return _inc_luk;
+}
 
-uint16_t ItemTemplate::GetIncJump() const { return _inc_jump; }
+uint16_t ItemTemplate::GetIncMad() const {
+  return _inc_mad;
+}
 
-uint16_t ItemTemplate::GetIncLuk() const { return _inc_luk; }
+uint16_t ItemTemplate::GetIncMdd() const {
+  return _inc_mdd;
+}
 
-uint16_t ItemTemplate::GetIncMad() const { return _inc_mad; }
+uint16_t ItemTemplate::GetIncMhp() const {
+  return _inc_mhp;
+}
 
-uint16_t ItemTemplate::GetIncMdd() const { return _inc_mdd; }
+uint16_t ItemTemplate::GetIncPad() const {
+  return _inc_pad;
+}
 
-uint16_t ItemTemplate::GetIncMhp() const { return _inc_mhp; }
+uint16_t ItemTemplate::GetIncPdd() const {
+  return _inc_pdd;
+}
 
-uint16_t ItemTemplate::GetIncPad() const { return _inc_pad; }
+uint16_t ItemTemplate::GetIncSpeed() const {
+  return _inc_speed;
+}
 
-uint16_t ItemTemplate::GetIncPdd() const { return _inc_pdd; }
+uint32_t ItemTemplate::GetPrice() const {
+  return _price;
+}
 
-uint16_t ItemTemplate::GetIncSpeed() const { return _inc_speed; }
+uint16_t ItemTemplate::GetSlotMax() const {
+  return _slot_max;
+}
 
-uint32_t ItemTemplate::GetPrice() const { return _price; }
+uint16_t ItemTemplate::GetReqLevel() const {
+  return _req_level;
+}
 
-uint16_t ItemTemplate::GetSlotMax() const { return _slot_max; }
+uint16_t ItemTemplate::GetReqStr() const {
+  return _req_str;
+}
 
-uint16_t ItemTemplate::GetReqLevel() const { return _req_level; }
+uint16_t ItemTemplate::GetReqDex() const {
+  return _req_dex;
+}
 
-uint16_t ItemTemplate::GetReqStr() const { return _req_str; }
+uint16_t ItemTemplate::GetReqInt() const {
+  return _req_int;
+}
 
-uint16_t ItemTemplate::GetReqDex() const { return _req_dex; }
+uint16_t ItemTemplate::GetReqLuk() const {
+  return _req_luk;
+}
 
-uint16_t ItemTemplate::GetReqInt() const { return _req_int; }
+uint16_t ItemTemplate::GetIncStr() const {
+  return _inc_str;
+}
 
-uint16_t ItemTemplate::GetReqLuk() const { return _req_luk; }
+uint16_t ItemTemplate::GetIncMmd() const {
+  return _inc_mmd;
+}
 
-uint16_t ItemTemplate::GetIncStr() const { return _inc_str; }
+uint32_t ItemTemplate::GetHp() const {
+  return _hp;
+}
 
-uint16_t ItemTemplate::GetIncMmd() const { return _inc_mmd; }
+uint32_t ItemTemplate::GetMp() const {
+  return _mp;
+}
 
-uint32_t ItemTemplate::GetHp() const { return _hp; }
-
-uint32_t ItemTemplate::GetMp() const { return _mp; }
-
-uint32_t ItemTemplate::GetTime() const { return _time; }
+uint32_t ItemTemplate::GetTime() const {
+  return _time;
+}

@@ -1,23 +1,16 @@
 ﻿#pragma once
+#include "template.h"
+
+#include "network/protocol/game_enum.pb.h"
 
 namespace game {
-  enum class MobActionType : uint8_t {
-    kStand,
-    kMove,
-    kHit,
-    kAttack,
-    kDie
-  };
-
-  class MobTemplate {
+  class MobTemplate : public Template {
   public:
     MobTemplate() = default;
 
-    void Load(const json& data);
+    void Load(const json& data) override;
 
   public:
-    uint32_t GetId() const;
-    const String& GetName() const;
     int16_t GetLevel() const;
     int32_t GetMaxHp() const;
     bool GetBodyAttack() const;
@@ -30,16 +23,14 @@ namespace game {
     int16_t GetPdRate() const;
     int16_t GetMdRate() const;
     int16_t GetExp() const;
-    bool HasAction(MobActionType action) const;
-    int16_t GetAttackCool() const;
+    bool HasAction(protocol::MobActionType action) const;
+    int16_t GetAttackDelay() const;
     int16_t GetAttackWidth() const;
     int16_t GetAttackHeight() const;
-    int32_t GetActionLength(MobActionType action) const;
-    std::pair<int32_t, int32_t> GetCollisionSize(MobActionType action) const;
+    int32_t GetActionLength(protocol::MobActionType action) const;
+    std::pair<int32_t, int32_t> GetCollisionSize(protocol::MobActionType action) const;
 
   private:
-    uint32_t _id;
-    String _name;
     int16_t _level;
     int32_t _max_hp;
     bool _body_attack;
@@ -53,11 +44,12 @@ namespace game {
     int16_t _md_rate;
     int16_t _exp;
     bool _has_die;
-    int16_t _attack_cool;
+    bool _has_regen;
+    int16_t _attack_delay;
     int16_t _attack_width;
     int16_t _attack_height;
-    std::unordered_map<MobActionType, int32_t> _action_lengths;
-    std::unordered_map<MobActionType, std::pair<int32_t, int32_t>> _collision_sizes;
+    std::unordered_map<protocol::MobActionType, int32_t> _action_lengths;
+    std::unordered_map<protocol::MobActionType, std::pair<int32_t, int32_t>> _collision_sizes;
   };
   
 }

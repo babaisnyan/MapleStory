@@ -29,7 +29,6 @@ public class MobInfo(int mobId, string name)
     public bool HasDie { get; set; }
     public bool HasRegen { get; set; }
     public bool HasAttack { get; set; }
-    public int AttackCool { get; set; }
     public int AttackWidth { get; set; }
     public int AttackHeight { get; set; }
 
@@ -43,6 +42,9 @@ public class MobInfo(int mobId, string name)
     public int AttackLength { get; set; }
 
     [Ignore]
+    public int RegenLength { get; set; }
+
+    [Ignore]
     public Point StandSize { get; set; }
 
     [Ignore]
@@ -53,4 +55,7 @@ public class MobInfo(int mobId, string name)
 
     [Ignore]
     public Point AttackSize { get; set; }
+
+    [Ignore]
+    public int AttackDelay { get; set; }
 }

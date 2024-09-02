@@ -57,4 +57,5 @@ message MobInfo {
   uint32 id = 2;
   float x = 3;
   float y = 4;
+  MobActionType state = 5;
 }

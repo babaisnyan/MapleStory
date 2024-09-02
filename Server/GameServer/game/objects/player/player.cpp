@@ -18,14 +18,7 @@ void Player::OnEnter() {
 
 void Player::Update(float delta_time) {}
 
-void Player::SecondUpdate(float delta_time) {}
-
-void Player::UpdatePosition(const float x, const float y) {
-  _position.x = x;
-  _position.y = y;
-  _position.grid_x = static_cast<int32_t>(x) / _position.grid_size;
-  _position.grid_y = static_cast<int32_t>(y) / _position.grid_size;
-}
+void Player::PostUpdate() {}
 
 int32_t Player::GetId() const {
   return _id;
@@ -65,10 +58,6 @@ int32_t Player::GetMap() const {
 
 void Player::SetMap(const int32_t map) {
   _map = map;
-}
-
-const MsCoordinate& Player::GetPosition() const {
-  return _position;
 }
 
 std::shared_ptr<PlayerStat> Player::GetStat() const {
@@ -139,7 +128,7 @@ bool Player::TryLoadFromDb() {
       _meso = meso;
       _map = map;
 
-      UpdatePosition(0, 0);
+      UpdatePosition(0, 0, false);
 
       GetStat()->SetLevel(level);
       GetStat()->SetHp(hp);

@@ -138,7 +138,7 @@ void AMsLocalPlayer::Tick(const float DeltaSeconds) {
 		LastAnimationType = AnimationType;
 		MovePacketSendTimer = 0.1f;
 		UpdatePosition();
-		const auto SendBuffer = FPacketCreator::GetClientMove(NewLocation.X, NewLocation.Z, bIsRight, AnimationType);
+		const auto SendBuffer = FPacketCreator::GetClientMove(NewLocation.X, NewLocation.Z, bFlip, AnimationType);
 		SEND_PACKET(SendBuffer);
 	}
 
@@ -179,14 +179,10 @@ void AMsLocalPlayer::EnhancedMoveVertical(const FInputActionValue& Value) {
 }
 
 void AMsLocalPlayer::EnhancedJump(const FInputActionValue& Value) {
-	const FVector Location = GetActorLocation();
-	const FVector NewLocation = {Location.X - BaseX, Location.Y, Location.Z - BaseY};
-	UE_LOG(LogTemp, Warning, TEXT("X: %f, Y: %f"), NewLocation.X, NewLocation.Z);
-	
 	if (Value.Get<bool>() && !GetMovementComponent()->IsFalling()) {
-		// Jump();
-		// AnimationType = protocol::PLAYER_ANIMATION_JUMP;
-		// SoundManager->PlaySoundEffect(ESoundEffectType::Jump, GetWorld());
+		Jump();
+		AnimationType = protocol::PLAYER_ANIMATION_JUMP;
+		SoundManager->PlaySoundEffect(ESoundEffectType::Jump, GetWorld());
 	}
 }
 

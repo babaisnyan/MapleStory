@@ -106,13 +106,13 @@ void AMsPlayerBase::Setup(const protocol::OtherPlayerInfo& Info) {
 void AMsPlayerBase::Move(const protocol::GameServerPlayerMove& MovePacket) {
 	const FVector Location = GetActorLocation();
 	const FVector NewLocation = {MovePacket.x() + BaseX, Location.Y, MovePacket.y() + BaseY};
-	bIsRight = MovePacket.is_right();
+	bFlip = MovePacket.flip();
 	AnimationType = MovePacket.animation();
 	DestX = MovePacket.x();
 	DestY = MovePacket.y();
 	// SetActorLocation(NewLocation);
 
-	if (bIsRight) {
+	if (!bFlip) {
 		GetSprite()->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
 	} else {
 		GetSprite()->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
@@ -146,7 +146,7 @@ void AMsPlayerBase::Tick(const float DeltaSeconds) {
 
 void AMsPlayerBase::UpdatePosition() {
 	const FRotator SpriteRotation = GetSprite()->GetRelativeRotation();
-	bIsRight = SpriteRotation.Yaw == 0.0f;
+	bFlip = SpriteRotation.Yaw != 0.0f;
 }
 
 void AMsPlayerBase::InitAnimation() {

@@ -207,6 +207,7 @@ namespace MobExporter
                                 break;
                             case "regen":
                                 mobInfo.HasRegen = true;
+                                mobInfo.RegenLength = time;
                                 break;
                             case "attack1":
                                 mobInfo.HasAttack = true;
@@ -269,7 +270,7 @@ namespace MobExporter
                         if (hit != null)
                         {
                             var hitFrameInfo = new List<FrameInfo>();
-                            mobInfo.AttackCool = attackAfter;
+                            mobInfo.AttackDelay = attackAfter;
                             mobInfo.AttackWidth = Math.Abs(lt.X - rb.X);
                             mobInfo.AttackHeight = Math.Abs(lt.Y - rb.Y);
 

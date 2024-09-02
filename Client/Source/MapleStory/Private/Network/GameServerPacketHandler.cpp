@@ -50,3 +50,11 @@ bool FGameServerPacketHandler::HandleGameServerPlayerMove(const TObjectPtr<UTCPC
 	GameInstance->UpdatePlayerPosition(Packet);
 	return true;
 }
+
+bool FGameServerPacketHandler::HandleGameServerMobMove(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobMove& Packet) {
+	return true;
+}
+
+bool FGameServerPacketHandler::HandleGameServerMobAttack(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobAttack& Packet) {
+	return true;
+}

@@ -1,21 +1,18 @@
 ﻿#pragma once
+#include "template.h"
 
 namespace game {
-  class NpcTemplate {
+  class NpcTemplate : public Template {
   public:
     NpcTemplate() = default;
 
-    void Load(const json& data);
+    void Load(const json& data) override;
 
   public:
-    uint32_t GetId() const;
-    const String& GetName() const;
     const std::unordered_map<String, int32_t>& GetActions() const;
 
   private:
-    uint32_t _id;
     bool _is_shop;
-    String _name;
     std::unordered_map<String, int32_t> _actions;
   };
 }

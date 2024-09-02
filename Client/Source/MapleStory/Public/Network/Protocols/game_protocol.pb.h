@@ -48,7 +48,7 @@ struct TableStruct_game_5fprotocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[9]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[11]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -77,6 +77,12 @@ extern GameServerChangeMapDefaultTypeInternal _GameServerChangeMap_default_insta
 class GameServerEnter;
 struct GameServerEnterDefaultTypeInternal;
 extern GameServerEnterDefaultTypeInternal _GameServerEnter_default_instance_;
+class GameServerMobAttack;
+struct GameServerMobAttackDefaultTypeInternal;
+extern GameServerMobAttackDefaultTypeInternal _GameServerMobAttack_default_instance_;
+class GameServerMobMove;
+struct GameServerMobMoveDefaultTypeInternal;
+extern GameServerMobMoveDefaultTypeInternal _GameServerMobMove_default_instance_;
 class GameServerPlayerMove;
 struct GameServerPlayerMoveDefaultTypeInternal;
 extern GameServerPlayerMoveDefaultTypeInternal _GameServerPlayerMove_default_instance_;
@@ -92,6 +98,8 @@ template<> ::protocol::GameServerAddMonster* Arena::CreateMaybeMessage<::protoco
 template<> ::protocol::GameServerAddPlayer* Arena::CreateMaybeMessage<::protocol::GameServerAddPlayer>(Arena*);
 template<> ::protocol::GameServerChangeMap* Arena::CreateMaybeMessage<::protocol::GameServerChangeMap>(Arena*);
 template<> ::protocol::GameServerEnter* Arena::CreateMaybeMessage<::protocol::GameServerEnter>(Arena*);
+template<> ::protocol::GameServerMobAttack* Arena::CreateMaybeMessage<::protocol::GameServerMobAttack>(Arena*);
+template<> ::protocol::GameServerMobMove* Arena::CreateMaybeMessage<::protocol::GameServerMobMove>(Arena*);
 template<> ::protocol::GameServerPlayerMove* Arena::CreateMaybeMessage<::protocol::GameServerPlayerMove>(Arena*);
 template<> ::protocol::GameServerRemoveObject* Arena::CreateMaybeMessage<::protocol::GameServerRemoveObject>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
@@ -1066,7 +1074,7 @@ class GameClientPlayerMove final :
   enum : int {
     kXFieldNumber = 1,
     kYFieldNumber = 2,
-    kIsRightFieldNumber = 3,
+    kFlipFieldNumber = 3,
     kAnimationFieldNumber = 4,
   };
   // float x = 1;
@@ -1087,13 +1095,13 @@ class GameClientPlayerMove final :
   void _internal_set_y(float value);
   public:
 
-  // bool is_right = 3;
-  void clear_is_right();
-  bool is_right() const;
-  void set_is_right(bool value);
+  // bool flip = 3;
+  void clear_flip();
+  bool flip() const;
+  void set_flip(bool value);
   private:
-  bool _internal_is_right() const;
-  void _internal_set_is_right(bool value);
+  bool _internal_flip() const;
+  void _internal_set_flip(bool value);
   public:
 
   // .protocol.PlayerAnimation animation = 4;
@@ -1114,7 +1122,7 @@ class GameClientPlayerMove final :
   typedef void DestructorSkippable_;
   float x_;
   float y_;
-  bool is_right_;
+  bool flip_;
   int animation_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fprotocol_2eproto;
@@ -1232,7 +1240,7 @@ class GameServerPlayerMove final :
     kObjectIdFieldNumber = 1,
     kXFieldNumber = 2,
     kYFieldNumber = 3,
-    kIsRightFieldNumber = 4,
+    kFlipFieldNumber = 4,
     kAnimationFieldNumber = 5,
   };
   // int64 object_id = 1;
@@ -1262,13 +1270,13 @@ class GameServerPlayerMove final :
   void _internal_set_y(float value);
   public:
 
-  // bool is_right = 4;
-  void clear_is_right();
-  bool is_right() const;
-  void set_is_right(bool value);
+  // bool flip = 4;
+  void clear_flip();
+  bool flip() const;
+  void set_flip(bool value);
   private:
-  bool _internal_is_right() const;
-  void _internal_set_is_right(bool value);
+  bool _internal_flip() const;
+  void _internal_set_flip(bool value);
   public:
 
   // .protocol.PlayerAnimation animation = 5;
@@ -1290,7 +1298,7 @@ class GameServerPlayerMove final :
   ::PROTOBUF_NAMESPACE_ID::int64 object_id_;
   float x_;
   float y_;
-  bool is_right_;
+  bool flip_;
   int animation_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fprotocol_2eproto;
@@ -1433,6 +1441,336 @@ class GameClientChangeKeySetting final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   ::protocol::KeySetting* key_setting_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_game_5fprotocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GameServerMobMove final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.GameServerMobMove) */ {
+ public:
+  inline GameServerMobMove() : GameServerMobMove(nullptr) {}
+  ~GameServerMobMove() override;
+  explicit constexpr GameServerMobMove(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GameServerMobMove(const GameServerMobMove& from);
+  GameServerMobMove(GameServerMobMove&& from) noexcept
+    : GameServerMobMove() {
+    *this = ::std::move(from);
+  }
+
+  inline GameServerMobMove& operator=(const GameServerMobMove& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GameServerMobMove& operator=(GameServerMobMove&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GameServerMobMove& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GameServerMobMove* internal_default_instance() {
+    return reinterpret_cast<const GameServerMobMove*>(
+               &_GameServerMobMove_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    9;
+
+  friend void swap(GameServerMobMove& a, GameServerMobMove& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GameServerMobMove* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GameServerMobMove* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GameServerMobMove* New() const final {
+    return new GameServerMobMove();
+  }
+
+  GameServerMobMove* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GameServerMobMove>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GameServerMobMove& from);
+  void MergeFrom(const GameServerMobMove& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GameServerMobMove* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.GameServerMobMove";
+  }
+  protected:
+  explicit GameServerMobMove(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kObjectIdFieldNumber = 1,
+    kXFieldNumber = 2,
+    kYFieldNumber = 3,
+    kFlipFieldNumber = 4,
+    kStateFieldNumber = 5,
+  };
+  // int64 object_id = 1;
+  void clear_object_id();
+  ::PROTOBUF_NAMESPACE_ID::int64 object_id() const;
+  void set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_object_id() const;
+  void _internal_set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // float x = 2;
+  void clear_x();
+  float x() const;
+  void set_x(float value);
+  private:
+  float _internal_x() const;
+  void _internal_set_x(float value);
+  public:
+
+  // float y = 3;
+  void clear_y();
+  float y() const;
+  void set_y(float value);
+  private:
+  float _internal_y() const;
+  void _internal_set_y(float value);
+  public:
+
+  // bool flip = 4;
+  void clear_flip();
+  bool flip() const;
+  void set_flip(bool value);
+  private:
+  bool _internal_flip() const;
+  void _internal_set_flip(bool value);
+  public:
+
+  // .protocol.MobActionType state = 5;
+  void clear_state();
+  ::protocol::MobActionType state() const;
+  void set_state(::protocol::MobActionType value);
+  private:
+  ::protocol::MobActionType _internal_state() const;
+  void _internal_set_state(::protocol::MobActionType value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protocol.GameServerMobMove)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int64 object_id_;
+  float x_;
+  float y_;
+  bool flip_;
+  int state_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_game_5fprotocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GameServerMobAttack final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.GameServerMobAttack) */ {
+ public:
+  inline GameServerMobAttack() : GameServerMobAttack(nullptr) {}
+  ~GameServerMobAttack() override;
+  explicit constexpr GameServerMobAttack(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GameServerMobAttack(const GameServerMobAttack& from);
+  GameServerMobAttack(GameServerMobAttack&& from) noexcept
+    : GameServerMobAttack() {
+    *this = ::std::move(from);
+  }
+
+  inline GameServerMobAttack& operator=(const GameServerMobAttack& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GameServerMobAttack& operator=(GameServerMobAttack&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GameServerMobAttack& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GameServerMobAttack* internal_default_instance() {
+    return reinterpret_cast<const GameServerMobAttack*>(
+               &_GameServerMobAttack_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    10;
+
+  friend void swap(GameServerMobAttack& a, GameServerMobAttack& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GameServerMobAttack* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GameServerMobAttack* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GameServerMobAttack* New() const final {
+    return new GameServerMobAttack();
+  }
+
+  GameServerMobAttack* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GameServerMobAttack>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GameServerMobAttack& from);
+  void MergeFrom(const GameServerMobAttack& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GameServerMobAttack* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.GameServerMobAttack";
+  }
+  protected:
+  explicit GameServerMobAttack(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kTargetIdFieldNumber = 1,
+    kMobIdFieldNumber = 2,
+    kDamageFieldNumber = 3,
+  };
+  // int64 target_id = 1;
+  void clear_target_id();
+  ::PROTOBUF_NAMESPACE_ID::int64 target_id() const;
+  void set_target_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_target_id() const;
+  void _internal_set_target_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // int32 mob_id = 2;
+  void clear_mob_id();
+  ::PROTOBUF_NAMESPACE_ID::int32 mob_id() const;
+  void set_mob_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_mob_id() const;
+  void _internal_set_mob_id(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // int32 damage = 3;
+  void clear_damage();
+  ::PROTOBUF_NAMESPACE_ID::int32 damage() const;
+  void set_damage(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_damage() const;
+  void _internal_set_damage(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protocol.GameServerMobAttack)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int64 target_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 mob_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 damage_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fprotocol_2eproto;
 };
@@ -1792,24 +2130,24 @@ inline void GameClientPlayerMove::set_y(float value) {
   // @@protoc_insertion_point(field_set:protocol.GameClientPlayerMove.y)
 }
 
-// bool is_right = 3;
-inline void GameClientPlayerMove::clear_is_right() {
-  is_right_ = false;
+// bool flip = 3;
+inline void GameClientPlayerMove::clear_flip() {
+  flip_ = false;
 }
-inline bool GameClientPlayerMove::_internal_is_right() const {
-  return is_right_;
+inline bool GameClientPlayerMove::_internal_flip() const {
+  return flip_;
 }
-inline bool GameClientPlayerMove::is_right() const {
-  // @@protoc_insertion_point(field_get:protocol.GameClientPlayerMove.is_right)
-  return _internal_is_right();
+inline bool GameClientPlayerMove::flip() const {
+  // @@protoc_insertion_point(field_get:protocol.GameClientPlayerMove.flip)
+  return _internal_flip();
 }
-inline void GameClientPlayerMove::_internal_set_is_right(bool value) {
+inline void GameClientPlayerMove::_internal_set_flip(bool value) {
   
-  is_right_ = value;
+  flip_ = value;
 }
-inline void GameClientPlayerMove::set_is_right(bool value) {
-  _internal_set_is_right(value);
-  // @@protoc_insertion_point(field_set:protocol.GameClientPlayerMove.is_right)
+inline void GameClientPlayerMove::set_flip(bool value) {
+  _internal_set_flip(value);
+  // @@protoc_insertion_point(field_set:protocol.GameClientPlayerMove.flip)
 }
 
 // .protocol.PlayerAnimation animation = 4;
@@ -1896,24 +2234,24 @@ inline void GameServerPlayerMove::set_y(float value) {
   // @@protoc_insertion_point(field_set:protocol.GameServerPlayerMove.y)
 }
 
-// bool is_right = 4;
-inline void GameServerPlayerMove::clear_is_right() {
-  is_right_ = false;
+// bool flip = 4;
+inline void GameServerPlayerMove::clear_flip() {
+  flip_ = false;
 }
-inline bool GameServerPlayerMove::_internal_is_right() const {
-  return is_right_;
+inline bool GameServerPlayerMove::_internal_flip() const {
+  return flip_;
 }
-inline bool GameServerPlayerMove::is_right() const {
-  // @@protoc_insertion_point(field_get:protocol.GameServerPlayerMove.is_right)
-  return _internal_is_right();
+inline bool GameServerPlayerMove::flip() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerPlayerMove.flip)
+  return _internal_flip();
 }
-inline void GameServerPlayerMove::_internal_set_is_right(bool value) {
+inline void GameServerPlayerMove::_internal_set_flip(bool value) {
   
-  is_right_ = value;
+  flip_ = value;
 }
-inline void GameServerPlayerMove::set_is_right(bool value) {
-  _internal_set_is_right(value);
-  // @@protoc_insertion_point(field_set:protocol.GameServerPlayerMove.is_right)
+inline void GameServerPlayerMove::set_flip(bool value) {
+  _internal_set_flip(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerPlayerMove.flip)
 }
 
 // .protocol.PlayerAnimation animation = 5;
@@ -2019,9 +2357,181 @@ inline void GameClientChangeKeySetting::set_allocated_key_setting(::protocol::Ke
   // @@protoc_insertion_point(field_set_allocated:protocol.GameClientChangeKeySetting.key_setting)
 }
 
+// -------------------------------------------------------------------
+
+// GameServerMobMove
+
+// int64 object_id = 1;
+inline void GameServerMobMove::clear_object_id() {
+  object_id_ = int64_t{0};
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 GameServerMobMove::_internal_object_id() const {
+  return object_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 GameServerMobMove::object_id() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerMobMove.object_id)
+  return _internal_object_id();
+}
+inline void GameServerMobMove::_internal_set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  object_id_ = value;
+}
+inline void GameServerMobMove::set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_object_id(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerMobMove.object_id)
+}
+
+// float x = 2;
+inline void GameServerMobMove::clear_x() {
+  x_ = 0;
+}
+inline float GameServerMobMove::_internal_x() const {
+  return x_;
+}
+inline float GameServerMobMove::x() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerMobMove.x)
+  return _internal_x();
+}
+inline void GameServerMobMove::_internal_set_x(float value) {
+  
+  x_ = value;
+}
+inline void GameServerMobMove::set_x(float value) {
+  _internal_set_x(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerMobMove.x)
+}
+
+// float y = 3;
+inline void GameServerMobMove::clear_y() {
+  y_ = 0;
+}
+inline float GameServerMobMove::_internal_y() const {
+  return y_;
+}
+inline float GameServerMobMove::y() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerMobMove.y)
+  return _internal_y();
+}
+inline void GameServerMobMove::_internal_set_y(float value) {
+  
+  y_ = value;
+}
+inline void GameServerMobMove::set_y(float value) {
+  _internal_set_y(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerMobMove.y)
+}
+
+// bool flip = 4;
+inline void GameServerMobMove::clear_flip() {
+  flip_ = false;
+}
+inline bool GameServerMobMove::_internal_flip() const {
+  return flip_;
+}
+inline bool GameServerMobMove::flip() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerMobMove.flip)
+  return _internal_flip();
+}
+inline void GameServerMobMove::_internal_set_flip(bool value) {
+  
+  flip_ = value;
+}
+inline void GameServerMobMove::set_flip(bool value) {
+  _internal_set_flip(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerMobMove.flip)
+}
+
+// .protocol.MobActionType state = 5;
+inline void GameServerMobMove::clear_state() {
+  state_ = 0;
+}
+inline ::protocol::MobActionType GameServerMobMove::_internal_state() const {
+  return static_cast< ::protocol::MobActionType >(state_);
+}
+inline ::protocol::MobActionType GameServerMobMove::state() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerMobMove.state)
+  return _internal_state();
+}
+inline void GameServerMobMove::_internal_set_state(::protocol::MobActionType value) {
+  
+  state_ = value;
+}
+inline void GameServerMobMove::set_state(::protocol::MobActionType value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerMobMove.state)
+}
+
+// -------------------------------------------------------------------
+
+// GameServerMobAttack
+
+// int64 target_id = 1;
+inline void GameServerMobAttack::clear_target_id() {
+  target_id_ = int64_t{0};
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 GameServerMobAttack::_internal_target_id() const {
+  return target_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 GameServerMobAttack::target_id() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerMobAttack.target_id)
+  return _internal_target_id();
+}
+inline void GameServerMobAttack::_internal_set_target_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  target_id_ = value;
+}
+inline void GameServerMobAttack::set_target_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_target_id(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerMobAttack.target_id)
+}
+
+// int32 mob_id = 2;
+inline void GameServerMobAttack::clear_mob_id() {
+  mob_id_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerMobAttack::_internal_mob_id() const {
+  return mob_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerMobAttack::mob_id() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerMobAttack.mob_id)
+  return _internal_mob_id();
+}
+inline void GameServerMobAttack::_internal_set_mob_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  mob_id_ = value;
+}
+inline void GameServerMobAttack::set_mob_id(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_mob_id(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerMobAttack.mob_id)
+}
+
+// int32 damage = 3;
+inline void GameServerMobAttack::clear_damage() {
+  damage_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerMobAttack::_internal_damage() const {
+  return damage_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerMobAttack::damage() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerMobAttack.damage)
+  return _internal_damage();
+}
+inline void GameServerMobAttack::_internal_set_damage(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  damage_ = value;
+}
+inline void GameServerMobAttack::set_damage(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_damage(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerMobAttack.damage)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

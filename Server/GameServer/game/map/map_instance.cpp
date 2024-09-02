@@ -9,8 +9,8 @@ MapInstance::MapInstance(const int32_t map_id, const std::pair<int32_t, int32_t>
   _map_id(map_id),
   _size(size),
   _grounds(std::move(grounds)) {
-  const auto grid_x_count = _size.first / kGridSize + 1;
-  const auto grid_y_count = _size.second / kGridSize + 1;
+  const auto grid_x_count = _size.first / MsCoordinate::kGridSize + 1;
+  const auto grid_y_count = _size.second / MsCoordinate::kGridSize + 1;
 
   _grid = std::vector(grid_y_count, std::vector(grid_x_count, std::vector<std::shared_ptr<GameObject>>()));
 
@@ -66,13 +66,13 @@ void MapInstance::MovePlayer(const std::shared_ptr<GameSession>& session, const 
     return;
   }
 
-  player->UpdatePosition(packet.x(), packet.y());
+  player->UpdatePosition(packet.x(), packet.y(), packet.flip());
 
   protocol::GameServerPlayerMove response;
   response.set_object_id(player->GetObjectId());
   response.set_x(packet.x());
   response.set_y(packet.y());
-  response.set_is_right(packet.is_right());
+  response.set_flip(packet.flip());
   response.set_animation(packet.animation());
   BroadCast(response, session);
 }
@@ -84,12 +84,12 @@ void MapInstance::Update(const float delta) {
     object->Update(delta);
   }
 
-  SecondUpdate(delta);
+  PostUpdate();
 }
 
-void MapInstance::SecondUpdate(const float delta) {
+void MapInstance::PostUpdate() {
   for (const auto& object : _objects | std::ranges::views::values) {
-    object->SecondUpdate(delta);
+    object->PostUpdate();
   }
 }
 

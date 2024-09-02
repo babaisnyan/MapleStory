@@ -65,7 +65,7 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UWidgetComponent> NameTagWidget;
 	
-	bool bIsRight = true;
+	bool bFlip = true;
 	int32 StartX;
 	int32 StartY;
 	float BaseX;

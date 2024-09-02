@@ -11,8 +11,7 @@ namespace game {
 
     void OnEnter() override;
     void Update(float delta_time) override;
-    void SecondUpdate(float delta_time) override;
-    void UpdatePosition(float x, float y);
+    void PostUpdate() override;
 
   public:
     int32_t GetId() const;
@@ -25,8 +24,6 @@ namespace game {
     void SetMeso(int32_t meso);
     int32_t GetMap() const;
     void SetMap(int32_t map);
-
-    const MsCoordinate& GetPosition() const;
 
     std::shared_ptr<PlayerStat> GetStat() const;
     std::shared_ptr<KeyMap> GetKeyMap() const;
@@ -46,7 +43,6 @@ namespace game {
     int16_t _job = 0;
     int32_t _meso = 0;
     int32_t _map = 0;
-    MsCoordinate _position = {};
     std::shared_ptr<PlayerStat> _player_stat = nullptr;
     std::shared_ptr<KeyMap> _key_map = nullptr;
   };

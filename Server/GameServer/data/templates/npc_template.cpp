@@ -20,14 +20,6 @@ void NpcTemplate::Load(const json& data) {
   }
 }
 
-uint32_t NpcTemplate::GetId() const {
-  return _id;
-}
-
-const String& NpcTemplate::GetName() const {
-  return _name;
-}
-
 const std::unordered_map<String, int32_t>& NpcTemplate::GetActions() const {
   return _actions;
 }

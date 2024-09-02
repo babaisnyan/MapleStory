@@ -122,7 +122,7 @@
 		},
 		{
 			"Name": "CrystalNodes",
-			"Enabled": true,
+			"Enabled": false,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/795d430fe08640bcb9f3f52c996a62a0"
 		},
 		{
@@ -171,8 +171,18 @@
 		},
 		{
 			"Name": "UnityVersionControl",
-			"Enabled": true,
+			"Enabled": false,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/d971a6f8262e4066ba77cbd67a375884"
+		},
+		{
+			"Name": "ExtendBlueprintNode",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/236a37aee6064f9183b7d77343d22f38"
+		},
+		{
+			"Name": "ScreenFade",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/c3edf2a04e0b4ec5a3940a4c35268972"
 		}
 	],
 	"TargetPlatforms": [

@@ -61,11 +61,11 @@ FSendBufferRef FPacketCreator::GetClientEnterRequest(const int32 CharacterId, co
 	return SendBuffer;
 }
 
-FSendBufferRef FPacketCreator::GetClientMove(const float X, const float Y, const bool bIsRight, const PlayerAnimation AnimationType) {
+FSendBufferRef FPacketCreator::GetClientMove(const float X, const float Y, const bool bFlip, const PlayerAnimation AnimationType) {
 	GameClientPlayerMove Packet;
 	Packet.set_x(X);
 	Packet.set_y(Y);
-	Packet.set_is_right(bIsRight);
+	Packet.set_flip(bFlip);
 	Packet.set_animation(AnimationType);
 
 	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);

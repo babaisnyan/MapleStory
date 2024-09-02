@@ -1122,6 +1122,7 @@ class MobInfo final :
     kIdFieldNumber = 2,
     kXFieldNumber = 3,
     kYFieldNumber = 4,
+    kStateFieldNumber = 5,
   };
   // int64 object_id = 1;
   void clear_object_id();
@@ -1159,6 +1160,15 @@ class MobInfo final :
   void _internal_set_y(float value);
   public:
 
+  // .protocol.MobActionType state = 5;
+  void clear_state();
+  ::protocol::MobActionType state() const;
+  void set_state(::protocol::MobActionType value);
+  private:
+  ::protocol::MobActionType _internal_state() const;
+  void _internal_set_state(::protocol::MobActionType value);
+  public:
+
   // @@protoc_insertion_point(class_scope:protocol.MobInfo)
  private:
   class _Internal;
@@ -1170,6 +1180,7 @@ class MobInfo final :
   ::PROTOBUF_NAMESPACE_ID::uint32 id_;
   float x_;
   float y_;
+  int state_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fstruct_2eproto;
 };
@@ -2122,6 +2133,26 @@ inline void MobInfo::_internal_set_y(float value) {
 inline void MobInfo::set_y(float value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:protocol.MobInfo.y)
+}
+
+// .protocol.MobActionType state = 5;
+inline void MobInfo::clear_state() {
+  state_ = 0;
+}
+inline ::protocol::MobActionType MobInfo::_internal_state() const {
+  return static_cast< ::protocol::MobActionType >(state_);
+}
+inline ::protocol::MobActionType MobInfo::state() const {
+  // @@protoc_insertion_point(field_get:protocol.MobInfo.state)
+  return _internal_state();
+}
+inline void MobInfo::_internal_set_state(::protocol::MobActionType value) {
+  
+  state_ = value;
+}
+inline void MobInfo::set_state(::protocol::MobActionType value) {
+  _internal_set_state(value);
+  // @@protoc_insertion_point(field_set:protocol.MobInfo.state)
 }
 
 #ifdef __GNUC__

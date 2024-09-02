@@ -213,6 +213,36 @@ inline bool KeyType_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<KeyType>(
     KeyType_descriptor(), name, value);
 }
+enum MobActionType : int {
+  MOB_ACTION_TYPE_UNSPECIFIED = 0,
+  MOB_ACTION_TYPE_STAND = 1,
+  MOB_ACTION_TYPE_MOVE = 2,
+  MOB_ACTION_TYPE_HIT = 3,
+  MOB_ACTION_TYPE_ATTACK = 4,
+  MOB_ACTION_TYPE_DIE = 5,
+  MOB_ACTION_TYPE_REGEN = 6,
+  MobActionType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  MobActionType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool MobActionType_IsValid(int value);
+constexpr MobActionType MobActionType_MIN = MOB_ACTION_TYPE_UNSPECIFIED;
+constexpr MobActionType MobActionType_MAX = MOB_ACTION_TYPE_REGEN;
+constexpr int MobActionType_ARRAYSIZE = MobActionType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* MobActionType_descriptor();
+template<typename T>
+inline const std::string& MobActionType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, MobActionType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function MobActionType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    MobActionType_descriptor(), enum_t_value);
+}
+inline bool MobActionType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, MobActionType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<MobActionType>(
+    MobActionType_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -249,6 +279,11 @@ template <> struct is_proto_enum< ::protocol::KeyType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::protocol::KeyType>() {
   return ::protocol::KeyType_descriptor();
+}
+template <> struct is_proto_enum< ::protocol::MobActionType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::protocol::MobActionType>() {
+  return ::protocol::MobActionType_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

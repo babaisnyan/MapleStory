@@ -1,4 +1,6 @@
 ﻿#pragma once
+#include "template.h"
+
 namespace game {
   enum class ItemType : uint8_t {
     kEquip,
@@ -20,15 +22,13 @@ namespace game {
     kWeapon
   };
 
-  class ItemTemplate {
+  class ItemTemplate : public Template {
   public:
     ItemTemplate() = default;
 
-    void Load(const json& data);
+    void Load(const json& data) override;
 
   public:
-    uint32_t GetId() const;
-    const String& GetName() const;
     const String& GetDesc() const;
     ItemType GetItemType() const;
     EqpType GetSubType() const;
@@ -58,8 +58,6 @@ namespace game {
     uint32_t GetTime() const;
 
   private:
-    uint32_t _id;
-    String _name;
     String _desc;
     ItemType _item_type;
     EqpType _sub_type;

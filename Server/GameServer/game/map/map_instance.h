@@ -14,10 +14,6 @@ namespace game {
   class GameObject;
 
   class MapInstance final : public JobQueue {
-    enum {
-      kGridSize = 25
-    };
-
   public:
     explicit MapInstance(const int32_t map_id, std::pair<int32_t, int32_t> size, std::vector<GroundInfo> grounds);
     ~MapInstance() = default;
@@ -42,7 +38,7 @@ namespace game {
   private:
     void OnPlayerEnter(const std::shared_ptr<GameSession>& session);
     void OnPlayerLeave(const std::shared_ptr<Player>& player);
-    void SecondUpdate(float delta);
+    void PostUpdate();
     void RespawnMobs();
 
   public:
