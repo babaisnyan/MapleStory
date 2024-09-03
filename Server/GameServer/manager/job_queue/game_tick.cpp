@@ -27,8 +27,8 @@ void GameTick::Start() {
 
       if (time > 0.2f) {
         for (const auto& map_instance : maps) {
-          map_instance->DoAsync([&map_instance, delta] {
-            map_instance->Update(delta);
+          map_instance->DoAsync([&map_instance, time] {
+            map_instance->Update(time);
           });
         }
 

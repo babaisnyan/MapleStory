@@ -4,11 +4,15 @@
 #include "data/spawn_point.h"
 #include "data/templates/mob_template.h"
 
+#include "game/objects/player/player.h"
+
 #include "state/attack_state.h"
 #include "state/hit_state.h"
 #include "state/move_state.h"
 #include "state/regen_state.h"
 #include "state/stand_state.h"
+
+#include <magic_enum.hpp>
 
 static constexpr std::array kMonsterActions = {
   protocol::MobActionType::MOB_ACTION_TYPE_STAND,
@@ -83,6 +87,52 @@ void Monster::ResetAnimationTime() {
   _animation_time = 0.0f;
 }
 
+void Monster::ResetTarget() {
+  _target.reset();
+}
+
+void Monster::ChangeTarget(const std::shared_ptr<Player>& player) {
+  _target = player;
+}
+
+bool Monster::IsTargetInDistance() const {
+  const auto target = _target.lock();
+
+  if (!target) {
+    return false;
+  }
+
+  return _position.CheckTargetGridRange(target->GetPosition(), 3);
+}
+
+bool Monster::HasTarget() const {
+  return !_target.expired();
+}
+
+bool Monster::IsTargetInAttackRange() const {
+  if (!HasTarget()) {
+    return false;
+  }
+
+  if (!_mob_template->HasAction(protocol::MOB_ACTION_TYPE_ATTACK)) {
+    return false;
+  }
+
+  if (_mob_template->GetAttackWidth() == 0 || _mob_template->GetAttackHeight() == 0) {
+    return false;
+  }
+
+  const auto target = _target.lock();
+  const auto range_x = static_cast<float>(_mob_template->GetAttackWidth());
+  const auto range_y = static_cast<float>(_mob_template->GetAttackHeight());
+
+  return _position.CheckInRangeDirection(target->GetPosition(), range_x, range_y, !_flip);
+}
+
+bool Monster::IsAttackReady() const {
+  return GetTickCount64() >= _next_attack_time;
+}
+
 bool Monster::IsCollisionEnabled() const {
   return _is_collision_enabled;
 }
@@ -111,12 +161,10 @@ void Monster::ChangeState(const protocol::MobActionType state) {
 
   ASSERT_CRASH(_mob_template->HasAction(state));
 
+  std::cout << std::format("[Transition] ObjectId: {}, MobId: {}, {} -> {}\n", _object_id, _id, magic_enum::enum_name(_current_state), magic_enum::enum_name(state)).c_str();
+
   _current_state = state;
   _states[_current_state]->Enter(GetSelf());
-}
-
-void Monster::ChangeTarget(const std::shared_ptr<Player>& target) {
-  _target = target;
 }
 
 void Monster::InitMonsterStates() {

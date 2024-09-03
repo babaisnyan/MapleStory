@@ -1,16 +1,40 @@
 ﻿#include "pch.h"
 #include "stand_state.h"
 
+#include "random.h"
+
 #include "game/objects/mob/monster.h"
 
 void StandState::Enter(const std::shared_ptr<Monster>& mob) {
+  mob->ResetAnimationTime();
 }
 
 void StandState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
+  mob->AddAnimationTime(delta);
 
-  // TODO: 현재 타겟이 있다면 거리 계산 후 일정 거리 이상이면 타겟 재설정
+  if (!mob->IsTargetInDistance()) {
+    mob->ResetTarget();
+  }
+
+  if (mob->GetTemplate()->CanFirstAttack() && !mob->HasTarget()) {
+    const auto target = FindNearestPlayer(mob);
+
+    if (target) {
+      mob->ChangeTarget(target);
+    }
+  }
 }
 
 void StandState::PostUpdate(const std::shared_ptr<Monster>& mob) {
-  // TODO: 타겟이 있을때 타겟과의 거리 계산 후 공격 가능하면 공격 상태로 변경
+  if (mob->HasTarget()) {
+    if (mob->IsAttackReady() && mob->IsTargetInDistance()) {
+      mob->ChangeState(protocol::MOB_ACTION_TYPE_ATTACK);
+    } else {
+      mob->ChangeState(protocol::MOB_ACTION_TYPE_MOVE);
+    }
+  } else {
+    if (mob->GetAnimationTime() >= 5.0f || random::IsSuccess(25)) {
+      mob->ChangeState(protocol::MOB_ACTION_TYPE_MOVE);
+    }
+  }
 }

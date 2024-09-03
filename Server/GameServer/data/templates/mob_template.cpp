@@ -65,11 +65,11 @@ int32_t MobTemplate::GetMaxHp() const {
   return _max_hp;
 }
 
-bool MobTemplate::GetBodyAttack() const {
+bool MobTemplate::CanBodyAttack() const {
   return _body_attack;
 }
 
-bool MobTemplate::GetFirstAttack() const {
+bool MobTemplate::CanFirstAttack() const {
   return _first_attack;
 }
 

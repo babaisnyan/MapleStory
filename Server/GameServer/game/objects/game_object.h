@@ -38,6 +38,6 @@ namespace game {
   protected:
     int64_t _object_id;
     MsCoordinate _position = {};
-    bool _flip = false;
+    bool _flip = false; // 기본값은 오른쪽임
   };
 }

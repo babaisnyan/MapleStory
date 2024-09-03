@@ -253,6 +253,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="random.cpp" />
     <ClCompile Include="util\timer\timer.cpp" />
     <ClCompile Include="util\timer\timer_manager.cpp" />
   </ItemGroup>
@@ -311,6 +312,7 @@
     <ClInclude Include="network\protocol\game_protocol.pb.h" />
     <ClInclude Include="network\protocol\game_struct.pb.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="random.h" />
     <ClInclude Include="util\timer\timer.h" />
     <ClInclude Include="util\timer\timer_manager.h" />
   </ItemGroup>

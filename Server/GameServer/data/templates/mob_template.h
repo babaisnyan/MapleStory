@@ -13,8 +13,8 @@ namespace game {
   public:
     int16_t GetLevel() const;
     int32_t GetMaxHp() const;
-    bool GetBodyAttack() const;
-    bool GetFirstAttack() const;
+    bool CanBodyAttack() const;
+    bool CanFirstAttack() const;
     int16_t GetSpeed() const;
     int16_t GetPaDamage() const;
     int16_t GetMaDamage() const;

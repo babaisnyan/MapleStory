@@ -18,7 +18,7 @@ class MAPLESTORY_API AMonster : public AActor {
 public:
 	AMonster();
 
-	bool Init(int32 Id, int64 ObjId);
+	bool Init(int32 Id, int64 ObjId, EMobActionType ActionType = EMobActionType::Stand);
 
 	EMobActionType GetCurrentAction() const {
 		return CurrentAction;
@@ -86,4 +86,7 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Mob")
 	bool bCanDamaged = true;
+
+	UPROPERTY(EditAnywhere, Category = "Mob")
+	bool bFlip = false;
 };

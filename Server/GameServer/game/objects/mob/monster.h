@@ -28,6 +28,14 @@ namespace game {
     void AddAnimationTime(float delta_time);
     void ResetAnimationTime();
 
+    void ResetTarget();
+    void ChangeTarget(const std::shared_ptr<Player>& player);
+    bool IsTargetInDistance() const;
+    bool HasTarget() const;
+
+    bool IsTargetInAttackRange() const;
+    bool IsAttackReady() const;
+
     bool IsCollisionEnabled() const;
     void SetCollisionEnabled(bool enabled);
     uint64_t GetRegenEndTime() const;
@@ -35,7 +43,6 @@ namespace game {
 
   public:
     void ChangeState(protocol::MobActionType state);
-    void ChangeTarget(const std::shared_ptr<Player>& target);
 
   private:
     int64_t GetNextObjectId() override;
@@ -50,6 +57,7 @@ namespace game {
     std::weak_ptr<MapInstance> _map;
     std::weak_ptr<Player> _target;
 
+  private:
     std::unordered_map<protocol::MobActionType, std::shared_ptr<MobState>> _states;
     protocol::MobActionType _current_state = protocol::MobActionType::MOB_ACTION_TYPE_UNSPECIFIED;
 

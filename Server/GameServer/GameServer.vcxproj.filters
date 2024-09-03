@@ -144,6 +144,9 @@
     <ClCompile Include="game\objects\mob\state\hit_state.cpp">
       <Filter>game\objects\mob\state</Filter>
     </ClCompile>
+    <ClCompile Include="random.cpp">
+      <Filter>util</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -296,6 +299,9 @@
     </ClInclude>
     <ClInclude Include="game\objects\mob\state\hit_state.h">
       <Filter>game\objects\mob\state</Filter>
+    </ClInclude>
+    <ClInclude Include="random.h">
+      <Filter>util</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

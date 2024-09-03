@@ -16,7 +16,6 @@ AMonster::AMonster() {
 	BoxComponent->CanCharacterStepUpOn = ECB_No;
 	BoxComponent->BodyInstance.bLockXRotation = true;
 	BoxComponent->BodyInstance.bLockYRotation = true;
-	BoxComponent->BodyInstance.bLockZRotation = true;
 	BoxComponent->BodyInstance.bLockYTranslation = true;
 	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AMonster::OnBeginOverlap);
 
@@ -25,9 +24,10 @@ AMonster::AMonster() {
 	StatComponent = CreateDefaultSubobject<UMobStatComponent>(TEXT("StatComponent"));
 }
 
-bool AMonster::Init(const int32 Id, const int64 ObjId) {
+bool AMonster::Init(const int32 Id, const int64 ObjId, const EMobActionType ActionType) {
 	MobId = Id;
 	ObjectId = ObjId;
+	CurrentAction = ActionType;
 
 	const UMobManager* MobManager = GetGameInstance()->GetSubsystem<UMobManager>();
 
@@ -113,13 +113,10 @@ void AMonster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChan
 void AMonster::BeginPlay() {
 	Super::BeginPlay();
 
-	check(SpriteComponents.Contains(EMobActionType::Stand));
+	SetActorRotation({0, 180.0f, 0.0f});
 
-	if (SpriteComponents.Contains(EMobActionType::Regen)) {
-		SetCurrentAction(EMobActionType::Regen);
-	} else {
-		SetCurrentAction(EMobActionType::Stand);
-	}
+	check(SpriteComponents.Contains(CurrentAction));
+	SetCurrentAction(CurrentAction, true);
 }
 
 
@@ -131,13 +128,6 @@ void AMonster::Tick(const float DeltaTime) {
 		const FVector2D Size = SpriteComponent->GetSpriteSize();
 		BoxComponent->SetBoxExtent(FVector(Size.X, 5.0f, Size.Y));
 	}
-
-	// if (AttackWidth > 0 && AttackHeight > 0) {
-	// 	const FVector Location = GetActorLocation();
-	// 	const FVector Start = Location + FVector(-AttackWidth / 2, 0, -AttackHeight / 2);
-	// 	const FVector End = Location + FVector(AttackWidth / 2, 0, AttackHeight / 2);
-	// 	DrawDebugBox(GetWorld(), Location, FVector(AttackWidth / 2, 0, AttackHeight / 2), FColor::Red, false, 0.1f, 0, 3);
-	// }
 
 	if (StatComponent->Hp <= 0) {
 		SetCurrentAction(EMobActionType::Die);
