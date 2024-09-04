@@ -1123,6 +1123,7 @@ class MobInfo final :
     kXFieldNumber = 3,
     kYFieldNumber = 4,
     kStateFieldNumber = 5,
+    kFlipFieldNumber = 6,
   };
   // int64 object_id = 1;
   void clear_object_id();
@@ -1169,6 +1170,15 @@ class MobInfo final :
   void _internal_set_state(::protocol::MobActionType value);
   public:
 
+  // bool flip = 6;
+  void clear_flip();
+  bool flip() const;
+  void set_flip(bool value);
+  private:
+  bool _internal_flip() const;
+  void _internal_set_flip(bool value);
+  public:
+
   // @@protoc_insertion_point(class_scope:protocol.MobInfo)
  private:
   class _Internal;
@@ -1181,6 +1191,7 @@ class MobInfo final :
   float x_;
   float y_;
   int state_;
+  bool flip_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fstruct_2eproto;
 };
@@ -2153,6 +2164,26 @@ inline void MobInfo::_internal_set_state(::protocol::MobActionType value) {
 inline void MobInfo::set_state(::protocol::MobActionType value) {
   _internal_set_state(value);
   // @@protoc_insertion_point(field_set:protocol.MobInfo.state)
+}
+
+// bool flip = 6;
+inline void MobInfo::clear_flip() {
+  flip_ = false;
+}
+inline bool MobInfo::_internal_flip() const {
+  return flip_;
+}
+inline bool MobInfo::flip() const {
+  // @@protoc_insertion_point(field_get:protocol.MobInfo.flip)
+  return _internal_flip();
+}
+inline void MobInfo::_internal_set_flip(bool value) {
+  
+  flip_ = value;
+}
+inline void MobInfo::set_flip(bool value) {
+  _internal_set_flip(value);
+  // @@protoc_insertion_point(field_set:protocol.MobInfo.flip)
 }
 
 #ifdef __GNUC__

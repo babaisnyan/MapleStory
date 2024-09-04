@@ -24,10 +24,11 @@ AMonster::AMonster() {
 	StatComponent = CreateDefaultSubobject<UMobStatComponent>(TEXT("StatComponent"));
 }
 
-bool AMonster::Init(const int32 Id, const int64 ObjId, const EMobActionType ActionType) {
+bool AMonster::Init(const int32 Id, const int64 ObjId, const EMobActionType ActionType, const bool Flip) {
 	MobId = Id;
 	ObjectId = ObjId;
 	CurrentAction = ActionType;
+	bFlip = Flip;
 
 	const UMobManager* MobManager = GetGameInstance()->GetSubsystem<UMobManager>();
 
@@ -113,7 +114,11 @@ void AMonster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChan
 void AMonster::BeginPlay() {
 	Super::BeginPlay();
 
-	SetActorRotation({0, 180.0f, 0.0f});
+	if(!bFlip) {
+		SetActorRotation({0, 180.0f, 0.0f});
+	} else {
+		SetActorRotation({0, 0, 0});
+	}
 
 	check(SpriteComponents.Contains(CurrentAction));
 	SetCurrentAction(CurrentAction, true);
@@ -122,13 +127,7 @@ void AMonster::BeginPlay() {
 
 void AMonster::Tick(const float DeltaTime) {
 	Super::Tick(DeltaTime);
-
-	if (SpriteComponents.Contains(CurrentAction)) {
-		UMsSpriteComponent* SpriteComponent = SpriteComponents[CurrentAction];
-		const FVector2D Size = SpriteComponent->GetSpriteSize();
-		BoxComponent->SetBoxExtent(FVector(Size.X, 5.0f, Size.Y));
-	}
-
+	
 	if (StatComponent->Hp <= 0) {
 		SetCurrentAction(EMobActionType::Die);
 	}
@@ -153,6 +152,10 @@ void AMonster::Setup(const FMobTemplate* MobTemplate) {
 	AttackHeight = MobTemplate->AttackHeight;
 }
 
+void AMonster::OnCollisionUpdate(const FVector2D Size) {
+	BoxComponent->SetBoxExtent(FVector(Size.X, 5.0f, Size.Y));
+}
+
 void AMonster::AddAnimation(const EMobActionType ActionType, const FString& ActionName, const bool bRegisterEvent) {
 	const UDataTable* SpriteTable = LoadObject<UDataTable>(nullptr, *FString::Printf(TEXT("/Game/Mob/%d/%s/DT_Frames.DT_Frames"), MobId, *ActionName));
 
@@ -166,10 +169,12 @@ void AMonster::AddAnimation(const EMobActionType ActionType, const FString& Acti
 	SpriteComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	SpriteComponent->SetVisibility(false, true);
 	SpriteComponents.Add(ActionType, SpriteComponent);
-
+	
 	if (bRegisterEvent) {
 		SpriteComponent->OnFinishedPlaying.AddDynamic(this, &AMonster::OnFinishedPlaying);
 	}
+
+	SpriteComponent->OnCollisionUpdate.AddDynamic(this, &AMonster::OnCollisionUpdate);
 }
 
 void AMonster::OnFinishedPlaying(UMsSpriteComponent* SpriteComponent) {

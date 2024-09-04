@@ -5,6 +5,10 @@
 UMsSpriteComponent::UMsSpriteComponent() {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = true;
+
+	BodyInstance.bLockXRotation = true;
+	BodyInstance.bLockYRotation = true;
+	BodyInstance.bLockYTranslation = true;
 }
 
 void UMsSpriteComponent::Setup(const UDataTable* SpriteTable, const bool bAutoStart, const bool bLoop) {
@@ -14,6 +18,7 @@ void UMsSpriteComponent::Setup(const UDataTable* SpriteTable, const bool bAutoSt
 
 	SetCollisionProfileName(TEXT("NoCollision"));
 	CanCharacterStepUpOn = ECB_No;
+	SetGenerateOverlapEvents(false);
 
 	Sprites.Empty();
 	Delays.Empty();
@@ -56,8 +61,8 @@ void UMsSpriteComponent::Setup(const UDataTable* SpriteTable, const bool bAutoSt
 	bStarted = bAutoStart;
 
 	SetSprite(Sprites[0]);
-	const FVector2D Offset = GetAdjustOffset();
-	SetRelativeLocation(FVector(Offset.X, BaseOffset.Y + ZOrders[CurrentIndex], Offset.Y), false, nullptr, ETeleportType::ResetPhysics);
+	const FVector2D Offset = GetSpriteSize();
+	SetRelativeLocation(FVector(0, BaseOffset.Y + ZOrders[CurrentIndex], -Offset.Y), false, nullptr, ETeleportType::ResetPhysics);
 }
 
 void UMsSpriteComponent::Reset() {
@@ -70,9 +75,11 @@ void UMsSpriteComponent::Reset() {
 
 void UMsSpriteComponent::Play() {
 	SetSprite(Sprites[0]);
-	const FVector2D Offset = GetAdjustOffset();
-	SetRelativeLocation(FVector(Offset.X, BaseOffset.Y + ZOrders[CurrentIndex], Offset.Y), false, nullptr, ETeleportType::ResetPhysics);
+	const FVector2D Offset = GetSpriteSize();
+	SetRelativeLocation(FVector(0, BaseOffset.Y + ZOrders[CurrentIndex], -Offset.Y), false, nullptr, ETeleportType::ResetPhysics);
 	bStarted = true;
+
+	OnCollisionUpdate.Broadcast(Offset);
 }
 
 void UMsSpriteComponent::BeginPlay() {
@@ -102,22 +109,21 @@ void UMsSpriteComponent::TickComponent(const float DeltaTime, const ELevelTick T
 				TimeElapsed = 0.0f;
 				CurrentIndex = (CurrentIndex + 1) % Sprites.Num();
 				SetSprite(Sprites[CurrentIndex]);
-
-				// const FVector2D Offset = GetAdjustOffset();
-				// UE_LOG(LogTemp, Warning, TEXT("Offset: %s"), *Offset.ToString());
-				// SetRelativeLocation(FVector(Offset.X, BaseOffset.Y + ZOrders[CurrentIndex], Offset.Y), false, nullptr, ETeleportType::ResetPhysics);
+				
+				// const FVector2D Size = GetCollisionSize();
+				// OnCollisionUpdate.Broadcast(Size);
 			}
 
-			// if (HasAlpha[CurrentIndex]) {
-			// 	const float Alpha = FMath::Lerp(AlphaStarts[CurrentIndex], AlphaEnds[CurrentIndex], TimeElapsed / Delays[CurrentIndex]);
-			// 	SetSpriteColor(FLinearColor(1.0f, 1.0f, 1.0f, Alpha / 255.0f));
-			// 	
-			// 	if (Alpha < 10.0f) {
-			// 		bEnded = true;
-			// 	}
-			// } else {
-			// 	SetSpriteColor(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
-			// }
+			if (HasAlpha[CurrentIndex]) {
+				const float Alpha = FMath::Lerp(AlphaStarts[CurrentIndex], AlphaEnds[CurrentIndex], TimeElapsed / Delays[CurrentIndex]);
+				SetSpriteColor(FLinearColor(1.0f, 1.0f, 1.0f, Alpha / 255.0f));
+
+				if (Alpha < 10.0f) {
+					bEnded = true;
+				}
+			} else {
+				SetSpriteColor(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
+			}
 		}
 	}
 
@@ -128,7 +134,7 @@ void UMsSpriteComponent::TickComponent(const float DeltaTime, const ELevelTick T
 	}
 }
 
-FVector2D UMsSpriteComponent::GetSpriteSize()  {
+FVector2D UMsSpriteComponent::GetSpriteSize() {
 	if (const UPaperSprite* Sprite = GetSprite()) {
 		return FVector2D(Sprite->GetSourceSize().X / 2, Sprite->GetSourceSize().Y / 2);
 	}
@@ -142,5 +148,5 @@ FVector2D UMsSpriteComponent::GetAdjustOffset() {
 	const int32 X = Offset.X > Size.X ? Offset.X - Size.X : Size.X - Offset.X;
 	const int32 Y = Offset.Y > Size.Y ? Offset.Y - Size.Y : Size.Y - Offset.Y;
 
-    return FVector2D(X, -Y);
+	return FVector2D(X, -Y);
 }

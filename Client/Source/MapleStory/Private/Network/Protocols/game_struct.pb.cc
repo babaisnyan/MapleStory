@@ -107,7 +107,8 @@ constexpr MobInfo::MobInfo(
   , x_(0)
   , y_(0)
   , state_(0)
-{}
+
+  , flip_(false){}
 struct MobInfoDefaultTypeInternal {
   constexpr MobInfoDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -194,6 +195,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fstruct_2eproto::offsets
   PROTOBUF_FIELD_OFFSET(::protocol::MobInfo, x_),
   PROTOBUF_FIELD_OFFSET(::protocol::MobInfo, y_),
   PROTOBUF_FIELD_OFFSET(::protocol::MobInfo, state_),
+  PROTOBUF_FIELD_OFFSET(::protocol::MobInfo, flip_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::protocol::PlayerInfo)},
@@ -230,17 +232,18 @@ const char descriptor_table_protodef_game_5fstruct_2eproto[] PROTOBUF_SECTION_VA
   "\001\n\nKeySetting\022#\n\010key_code\030\001 \001(\0162\021.protoc"
   "ol.KeyCode\022#\n\010key_type\030\002 \001(\0162\021.protocol."
   "KeyType\022\024\n\007item_id\030\003 \001(\rH\000\210\001\001\022\025\n\010skill_i"
-  "d\030\004 \001(\rH\001\210\001\001B\n\n\010_item_idB\013\n\t_skill_id\"f\n"
+  "d\030\004 \001(\rH\001\210\001\001B\n\n\010_item_idB\013\n\t_skill_id\"t\n"
   "\007MobInfo\022\021\n\tobject_id\030\001 \001(\003\022\n\n\002id\030\002 \001(\r\022"
   "\t\n\001x\030\003 \001(\002\022\t\n\001y\030\004 \001(\002\022&\n\005state\030\005 \001(\0162\027.p"
-  "rotocol.MobActionTypeb\006proto3"
+  "rotocol.MobActionType\022\014\n\004flip\030\006 \001(\010b\006pro"
+  "to3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_game_5fstruct_2eproto_deps[1] = {
   &::descriptor_table_game_5fenum_2eproto,
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_5fstruct_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fstruct_2eproto = {
-  false, false, 869, descriptor_table_protodef_game_5fstruct_2eproto, "game_struct.proto", 
+  false, false, 883, descriptor_table_protodef_game_5fstruct_2eproto, "game_struct.proto", 
   &descriptor_table_game_5fstruct_2eproto_once, descriptor_table_game_5fstruct_2eproto_deps, 1, 5,
   schemas, file_default_instances, TableStruct_game_5fstruct_2eproto::offsets,
   file_level_metadata_game_5fstruct_2eproto, file_level_enum_descriptors_game_5fstruct_2eproto, file_level_service_descriptors_game_5fstruct_2eproto,
@@ -1913,16 +1916,16 @@ MobInfo::MobInfo(const MobInfo& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::memcpy(&object_id_, &from.object_id_,
-    static_cast<size_t>(reinterpret_cast<char*>(&state_) -
-    reinterpret_cast<char*>(&object_id_)) + sizeof(state_));
+    static_cast<size_t>(reinterpret_cast<char*>(&flip_) -
+    reinterpret_cast<char*>(&object_id_)) + sizeof(flip_));
   // @@protoc_insertion_point(copy_constructor:protocol.MobInfo)
 }
 
 void MobInfo::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
     reinterpret_cast<char*>(&object_id_) - reinterpret_cast<char*>(this)),
-    0, static_cast<size_t>(reinterpret_cast<char*>(&state_) -
-    reinterpret_cast<char*>(&object_id_)) + sizeof(state_));
+    0, static_cast<size_t>(reinterpret_cast<char*>(&flip_) -
+    reinterpret_cast<char*>(&object_id_)) + sizeof(flip_));
 }
 
 MobInfo::~MobInfo() {
@@ -1952,8 +1955,8 @@ void MobInfo::Clear() {
   (void) cached_has_bits;
 
   ::memset(&object_id_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&state_) -
-      reinterpret_cast<char*>(&object_id_)) + sizeof(state_));
+      reinterpret_cast<char*>(&flip_) -
+      reinterpret_cast<char*>(&object_id_)) + sizeof(flip_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -1997,6 +2000,13 @@ const char* MobInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::in
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_state(static_cast<::protocol::MobActionType>(val));
+        } else goto handle_unusual;
+        continue;
+      // bool flip = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 48)) {
+          flip_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       default: {
@@ -2059,6 +2069,12 @@ failure:
       5, this->_internal_state(), target);
   }
 
+  // bool flip = 6;
+  if (this->flip() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteBoolToArray(6, this->_internal_flip(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2103,6 +2119,11 @@ size_t MobInfo::ByteSizeLong() const {
   if (this->state() != 0) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_state());
+  }
+
+  // bool flip = 6;
+  if (this->flip() != 0) {
+    total_size += 1 + 1;
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -2151,6 +2172,9 @@ void MobInfo::MergeFrom(const MobInfo& from) {
   if (from.state() != 0) {
     _internal_set_state(from._internal_state());
   }
+  if (from.flip() != 0) {
+    _internal_set_flip(from._internal_flip());
+  }
 }
 
 void MobInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -2175,8 +2199,8 @@ void MobInfo::InternalSwap(MobInfo* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MobInfo, state_)
-      + sizeof(MobInfo::state_)
+      PROTOBUF_FIELD_OFFSET(MobInfo, flip_)
+      + sizeof(MobInfo::flip_)
       - PROTOBUF_FIELD_OFFSET(MobInfo, object_id_)>(
           reinterpret_cast<char*>(&object_id_),
           reinterpret_cast<char*>(&other->object_id_));

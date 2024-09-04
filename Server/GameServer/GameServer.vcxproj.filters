@@ -144,7 +144,7 @@
     <ClCompile Include="game\objects\mob\state\hit_state.cpp">
       <Filter>game\objects\mob\state</Filter>
     </ClCompile>
-    <ClCompile Include="random.cpp">
+    <ClCompile Include="game_math.cpp">
       <Filter>util</Filter>
     </ClCompile>
   </ItemGroup>
@@ -300,7 +300,7 @@
     <ClInclude Include="game\objects\mob\state\hit_state.h">
       <Filter>game\objects\mob\state</Filter>
     </ClInclude>
-    <ClInclude Include="random.h">
+    <ClInclude Include="game_math.h">
       <Filter>util</Filter>
     </ClInclude>
   </ItemGroup>

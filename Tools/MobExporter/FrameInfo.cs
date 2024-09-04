@@ -9,7 +9,7 @@ public class FrameInfo(string path)
     public int OffsetY { get; set; }
     public int ZOrder { get; set; }
     public bool ZigZag { get; set; }
-    public bool HasAlpha { get; set; } = false;
+    public bool HasAlpha { get; set; }
     public int AlphaStart { get; set; } = 255;
     public int AlphaEnd { get; set; }
 }

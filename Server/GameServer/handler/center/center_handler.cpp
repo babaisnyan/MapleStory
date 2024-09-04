@@ -19,7 +19,7 @@ void CenterHandler::HandleMigrationRequest(const PacketSessionRef& session, cons
   }
 
   const auto center_session = std::static_pointer_cast<CenterServerSession>(session);
-  const auto auth_key = utils::Randomizer::GetInstance().GetRandomInt32(0x12345678, 0x54321012);
+  const auto auth_key = utils::random::Rand(0x12345678, 0x54321012);
 
   if (AuthStorage::GetInstance().IsExist(packet.character_id())) {
     const auto response = CenterPacketCreator::GetMigrationFailedResponse(packet.character_id());

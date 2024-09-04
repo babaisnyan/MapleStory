@@ -1,7 +1,7 @@
 ﻿#include "pch.h"
 #include "stand_state.h"
 
-#include "random.h"
+#include "utils/randomizer.h"
 
 #include "game/objects/mob/monster.h"
 
@@ -33,8 +33,15 @@ void StandState::PostUpdate(const std::shared_ptr<Monster>& mob) {
       mob->ChangeState(protocol::MOB_ACTION_TYPE_MOVE);
     }
   } else {
-    if (mob->GetAnimationTime() >= 5.0f || random::IsSuccess(25)) {
+    switch (utils::random::Rand(150)) {
+    case 50:
+      mob->SetFlip(false);
       mob->ChangeState(protocol::MOB_ACTION_TYPE_MOVE);
+      break;
+    case 100:
+      mob->SetFlip(true);
+      mob->ChangeState(protocol::MOB_ACTION_TYPE_MOVE);
+      break;
     }
   }
 }

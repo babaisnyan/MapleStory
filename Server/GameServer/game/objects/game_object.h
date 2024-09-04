@@ -29,7 +29,8 @@ namespace game {
     const MsCoordinate& GetPosition() const;
     float GetX() const;
     float GetY() const;
-
+    bool IsFlipped() const;
+    void SetFlip(bool flip);
     void UpdatePosition(float x, float y, bool flip);
 
   protected:

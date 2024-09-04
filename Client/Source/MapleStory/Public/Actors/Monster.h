@@ -18,7 +18,7 @@ class MAPLESTORY_API AMonster : public AActor {
 public:
 	AMonster();
 
-	bool Init(int32 Id, int64 ObjId, EMobActionType ActionType = EMobActionType::Stand);
+	bool Init(int32 Id, int64 ObjId, EMobActionType ActionType = EMobActionType::Stand, bool Flip = false);
 
 	EMobActionType GetCurrentAction() const {
 		return CurrentAction;
@@ -44,6 +44,9 @@ private:
 	UFUNCTION()
 	void OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
 
+	UFUNCTION()
+	void OnCollisionUpdate(const FVector2D Size);
+	
 public:
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TObjectPtr<UBoxComponent> BoxComponent;

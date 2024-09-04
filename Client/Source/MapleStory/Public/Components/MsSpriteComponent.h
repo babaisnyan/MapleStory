@@ -5,6 +5,7 @@
 #include "MsSpriteComponent.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMsSpriteFinishedPlaySignature, UMsSpriteComponent*, SpriteComponent);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FMsSpriteCollisionUpdateSignature, const FVector2D, Size);
 
 UCLASS(ShowCategories=(Mobility), meta=(BlueprintSpawnableComponent))
 class MAPLESTORY_API UMsSpriteComponent : public UPaperSpriteComponent {
@@ -55,6 +56,9 @@ public:
 public:
 	UPROPERTY(BlueprintAssignable)
 	FMsSpriteFinishedPlaySignature OnFinishedPlaying;
+
+	UPROPERTY(BlueprintAssignable)
+	FMsSpriteCollisionUpdateSignature OnCollisionUpdate;
 
 private:
 	UPROPERTY()

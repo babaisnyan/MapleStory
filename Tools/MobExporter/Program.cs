@@ -134,7 +134,7 @@ namespace MobExporter
                     var frameInfo = new List<FrameInfo>();
                     var zigzag = await node.GetAsync("zigzag", 0).ConfigureAwait(false) > 0;
                     var time = 0;
-             
+
                     foreach (var frameNode in node.Children)
                     {
                         if (!int.TryParse(frameNode._name, out var frame)) continue;

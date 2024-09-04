@@ -78,6 +78,10 @@ void MapInstance::MovePlayer(const std::shared_ptr<GameSession>& session, const 
 }
 
 void MapInstance::Update(const float delta) {
+  if (_players.empty()) {
+    return;
+  }
+
   RespawnMobs();
 
   for (const auto& object : _objects | std::ranges::views::values) {
@@ -94,7 +98,7 @@ void MapInstance::PostUpdate() {
 }
 
 void MapInstance::RespawnMobs() {
-  if (_players.empty() || _last_respawn_tick + 5000 > GetTickCount64()) {
+  if (_last_respawn_tick + 5000 > GetTickCount64()) {
     return;
   }
 
@@ -114,6 +118,7 @@ void MapInstance::RespawnMobs() {
       entry->set_object_id(mob->GetObjectId());
       entry->set_x(spawn->GetX());
       entry->set_y(spawn->GetY());
+      entry->set_flip(mob->IsFlipped());
 
       _mobs.emplace(spawn, mob);
       _objects.emplace(mob->GetObjectId(), mob);

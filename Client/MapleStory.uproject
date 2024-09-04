@@ -183,6 +183,16 @@
 			"Name": "ScreenFade",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/content/c3edf2a04e0b4ec5a3940a4c35268972"
+		},
+		{
+			"Name": "TabRestore",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/f5f9d4ce7bac4dd5beec9cf98238a49a"
+		},
+		{
+			"Name": "InteractiveViewportNavigation",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/964d024b6ad04bc59209a729198384ae"
 		}
 	],
 	"TargetPlatforms": [

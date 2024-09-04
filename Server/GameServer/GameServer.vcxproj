@@ -202,6 +202,7 @@
     <ClCompile Include="manager\job_queue\game_tick.cpp" />
     <ClCompile Include="manager\job_queue\player_db_queue.cpp" />
     <ClCompile Include="manager\migration\auth_storage.cpp" />
+    <ClCompile Include="game_math.cpp" />
     <ClCompile Include="network\center\center_packet_creator.cpp" />
     <ClCompile Include="network\center\center_server_packet_handler.cpp" />
     <ClCompile Include="network\center\center_server_session.cpp" />
@@ -253,7 +254,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="random.cpp" />
     <ClCompile Include="util\timer\timer.cpp" />
     <ClCompile Include="util\timer\timer_manager.cpp" />
   </ItemGroup>
@@ -296,6 +296,7 @@
     <ClInclude Include="manager\job_queue\game_tick.h" />
     <ClInclude Include="manager\job_queue\player_db_queue.h" />
     <ClInclude Include="manager\migration\auth_storage.h" />
+    <ClInclude Include="game_math.h" />
     <ClInclude Include="network\center\center_packet_creator.h" />
     <ClInclude Include="network\center\center_server_packet_handler.h" />
     <ClInclude Include="network\center\center_server_session.h" />
@@ -312,7 +313,6 @@
     <ClInclude Include="network\protocol\game_protocol.pb.h" />
     <ClInclude Include="network\protocol\game_struct.pb.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="random.h" />
     <ClInclude Include="util\timer\timer.h" />
     <ClInclude Include="util\timer\timer_manager.h" />
   </ItemGroup>

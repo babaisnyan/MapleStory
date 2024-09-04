@@ -19,6 +19,14 @@ float GameObject::GetY() const {
   return _position.y;
 }
 
+bool GameObject::IsFlipped() const {
+  return _flip;
+}
+
+void GameObject::SetFlip(const bool flip) {
+  _flip = flip;
+}
+
 void GameObject::UpdatePosition(const float x, const float y, const bool flip) {
   _position.x = x;
   _position.y = y;

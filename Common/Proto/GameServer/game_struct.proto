@@ -58,4 +58,5 @@ message MobInfo {
   float x = 3;
   float y = 4;
   MobActionType state = 5;
+  bool flip = 6;
 }

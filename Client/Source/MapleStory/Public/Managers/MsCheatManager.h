@@ -17,5 +17,11 @@ public:
 	void LogMobList() const;
 
 	UFUNCTION(Exec)
+	void MobMoveTest() const;
+
+	UFUNCTION(Exec)
+	void MobMoveUp() const;
+	
+	UFUNCTION(Exec)
 	void MobSpawnTest() const;
 };

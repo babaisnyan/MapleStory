@@ -24,6 +24,8 @@ namespace game {
     std::shared_ptr<MobTemplate> GetTemplate() const;
     std::weak_ptr<MapInstance> GetMap() const;
     std::weak_ptr<Player> GetTarget() const;
+    float GetSpeed() const;
+
     float GetAnimationTime() const;
     void AddAnimationTime(float delta_time);
     void ResetAnimationTime();
@@ -56,6 +58,8 @@ namespace game {
     std::shared_ptr<SpawnPoint> _spawn_point;
     std::weak_ptr<MapInstance> _map;
     std::weak_ptr<Player> _target;
+
+    float _speed = 2.0f;
 
   private:
     std::unordered_map<protocol::MobActionType, std::shared_ptr<MobState>> _states;

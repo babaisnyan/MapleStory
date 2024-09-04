@@ -35,10 +35,24 @@ void UMsCheatManager::LogMobList() const {
 	for (TActorIterator<AMonster> It(GetWorld()); It; ++It) {
 		const auto Mob = *It;
 		const FVector Location = Mob->GetActorLocation();
-		// get location which is on the floor
+	
 		const FVector NewLocation = {Location.X - SpawnPointLocation.X, Location.Y, Location.Z - SpawnPointLocation.Z + 3};
 
 		UE_LOG(LogTemp, Warning, TEXT("MobId: %d, X: %f, Y: %f"), Mob->MobId, NewLocation.X, NewLocation.Z);
+	}
+}
+
+void UMsCheatManager::MobMoveTest() const {
+	for (TActorIterator<AMonster> It(GetWorld()); It; ++It) {
+		const auto Mob = *It;
+		Mob->SetCurrentAction(EMobActionType::Move, true);
+	}
+}
+
+void UMsCheatManager::MobMoveUp() const {
+	for (TActorIterator<AMonster> It(GetWorld()); It; ++It) {
+		const auto Mob = *It;
+		Mob->AddActorWorldOffset({0.0f, 0.0f, 50.0f});
 	}
 }
 
@@ -54,7 +68,7 @@ void UMsCheatManager::MobSpawnTest() const {
 	if (!PlayerStart) {
 		return;
 	}
-	
+
 	const FVector SpawnPointLocation = PlayerStart->GetActorLocation();
 
 	constexpr int32 MobIds[] = {2300203, 2400610, 2400600, 2700310, 2510100, 2400500, 2400501, 2150003, 2150000, 2300201};

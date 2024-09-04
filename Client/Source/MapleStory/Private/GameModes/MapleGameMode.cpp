@@ -80,7 +80,7 @@ void AMapleGameMode::UpdatePlayerPosition(const protocol::GameServerPlayerMove& 
 void AMapleGameMode::AddMonster(const protocol::MobInfo& MonsterInfo) {
 	const auto Mob = GetWorld()->SpawnActorDeferred<AMonster>(AMonster::StaticClass(), FTransform::Identity, nullptr, nullptr, ESpawnActorCollisionHandlingMethod::AlwaysSpawn);
 
-	if (!Mob || !Mob->Init(MonsterInfo.id(), MonsterInfo.object_id())) {
+	if (!Mob || !Mob->Init(MonsterInfo.id(), MonsterInfo.object_id(), EMobActionType::Stand, MonsterInfo.flip())) {
 		return;
 	}
 

@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 #include "monster.h"
 
+#include "utils/randomizer.h"
+
 #include "data/spawn_point.h"
 #include "data/templates/mob_template.h"
 
@@ -29,8 +31,9 @@ Monster::Monster(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shar
 void Monster::Init(const std::shared_ptr<MobTemplate>& mob_template) {
   _id = mob_template->GetId();
   _mob_template = mob_template;
+  _speed = (1 + static_cast<float>(mob_template->GetSpeed()) / 100) * 2;
 
-  UpdatePosition(_spawn_point->GetX(), _spawn_point->GetY(), false);
+  UpdatePosition(_spawn_point->GetX(), _spawn_point->GetY(), utils::random::IsSuccess(50));
 
   for (auto monster_action : kMonsterActions) {
     if (_mob_template->HasAction(monster_action)) {
@@ -73,6 +76,10 @@ std::weak_ptr<MapInstance> Monster::GetMap() const {
 
 std::weak_ptr<Player> Monster::GetTarget() const {
   return _target;
+}
+
+float Monster::GetSpeed() const {
+  return _speed;
 }
 
 float Monster::GetAnimationTime() const {
