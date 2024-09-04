@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include "game/objects/game_object.h"
 
 namespace game {

@@ -1,10 +1,10 @@
 ﻿#include "pch.h"
 #include "key_map.h"
 
-#include <pugixml.hpp>
-
 #include "database/db_bind.h"
 #include "database/db_connection_pool.h"
+
+#include <pugixml.hpp>
 
 void KeyMap::SetKey(const protocol::KeyCode key, const protocol::KeyType type) {
   if (key == protocol::KEY_CODE_UNSPECIFIED) {

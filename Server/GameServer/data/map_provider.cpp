@@ -1,8 +1,9 @@
 ﻿#include "pch.h"
 #include "map_provider.h"
-#include "templates/map_template.h"
 
 #include <fstream>
+
+#include "templates/map_template.h"
 
 void MapProvider::Init() {
   std::ifstream file("Data/Maps.json");

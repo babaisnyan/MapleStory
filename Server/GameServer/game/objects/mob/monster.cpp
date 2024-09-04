@@ -1,8 +1,6 @@
 ﻿#include "pch.h"
 #include "monster.h"
 
-#include "utils/randomizer.h"
-
 #include "data/spawn_point.h"
 #include "data/templates/mob_template.h"
 
@@ -13,6 +11,8 @@
 #include "state/move_state.h"
 #include "state/regen_state.h"
 #include "state/stand_state.h"
+
+#include "utils/randomizer.h"
 
 #include <magic_enum.hpp>
 

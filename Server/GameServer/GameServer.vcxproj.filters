@@ -93,12 +93,6 @@
     <ClCompile Include="manager\job_queue\player_db_queue.cpp">
       <Filter>manager\job_queue</Filter>
     </ClCompile>
-    <ClCompile Include="util\timer\timer.cpp">
-      <Filter>util\timer</Filter>
-    </ClCompile>
-    <ClCompile Include="util\timer\timer_manager.cpp">
-      <Filter>util\timer</Filter>
-    </ClCompile>
     <ClCompile Include="game\objects\player\key_map.cpp">
       <Filter>game\objects\player</Filter>
     </ClCompile>
@@ -144,8 +138,14 @@
     <ClCompile Include="game\objects\mob\state\hit_state.cpp">
       <Filter>game\objects\mob\state</Filter>
     </ClCompile>
-    <ClCompile Include="game_math.cpp">
-      <Filter>util</Filter>
+    <ClCompile Include="utils\game_math.cpp">
+      <Filter>utils</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\timer\timer_manager.cpp">
+      <Filter>utils\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="utils\timer\timer.cpp">
+      <Filter>utils\timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -243,12 +243,6 @@
     <ClInclude Include="manager\job_queue\player_db_queue.h">
       <Filter>manager\job_queue</Filter>
     </ClInclude>
-    <ClInclude Include="util\timer\timer.h">
-      <Filter>util\timer</Filter>
-    </ClInclude>
-    <ClInclude Include="util\timer\timer_manager.h">
-      <Filter>util\timer</Filter>
-    </ClInclude>
     <ClInclude Include="game\objects\player\key_map.h">
       <Filter>game\objects\player</Filter>
     </ClInclude>
@@ -300,8 +294,14 @@
     <ClInclude Include="game\objects\mob\state\hit_state.h">
       <Filter>game\objects\mob\state</Filter>
     </ClInclude>
-    <ClInclude Include="game_math.h">
-      <Filter>util</Filter>
+    <ClInclude Include="utils\game_math.h">
+      <Filter>utils</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\timer\timer.h">
+      <Filter>utils\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="utils\timer\timer_manager.h">
+      <Filter>utils\timer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -353,17 +353,17 @@
     <Filter Include="manager\job_queue">
       <UniqueIdentifier>{153027cd-1d69-461c-afc8-a54512190390}</UniqueIdentifier>
     </Filter>
-    <Filter Include="util">
-      <UniqueIdentifier>{67d25c31-490e-4f85-9486-a734a1d72378}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="util\timer">
-      <UniqueIdentifier>{a96ff5da-e5b9-4099-91c5-26e7c982ffc6}</UniqueIdentifier>
-    </Filter>
     <Filter Include="game\objects\mob">
       <UniqueIdentifier>{26acb677-f1e2-4014-a022-ca3563e9e1a5}</UniqueIdentifier>
     </Filter>
     <Filter Include="game\objects\mob\state">
       <UniqueIdentifier>{d2cde13d-cc6e-47b9-9d35-c4041f181977}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils">
+      <UniqueIdentifier>{67d25c31-490e-4f85-9486-a734a1d72378}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="utils\timer">
+      <UniqueIdentifier>{a96ff5da-e5b9-4099-91c5-26e7c982ffc6}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

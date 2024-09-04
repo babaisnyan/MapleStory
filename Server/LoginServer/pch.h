@@ -11,6 +11,7 @@
 #endif
 
 #include "core_pch.h"
+
 #include "network/protocol/login_enum.pb.h"
 
 namespace login {

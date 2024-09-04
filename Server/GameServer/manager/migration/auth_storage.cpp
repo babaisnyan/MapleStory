@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "auth_storage.h"
 
-
 void AuthStorage::Add(const int32_t player_id, const int32_t auth_key) {
   Accessor accessor;
 

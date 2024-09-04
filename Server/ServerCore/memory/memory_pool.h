@@ -1,6 +1,5 @@
 #pragma once
 
-
 __declspec(align(16)) struct MemoryHeader : public SLIST_ENTRY {
   explicit MemoryHeader(const int32_t size) : alloc_size(size) {
 

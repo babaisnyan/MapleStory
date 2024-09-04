@@ -1,9 +1,9 @@
 ﻿#include "pch.h"
 #include "npc_provider.h"
 
-#include "templates/npc_template.h"
-
 #include <fstream>
+
+#include "templates/npc_template.h"
 
 void NpcProvider::Init() {
   std::ifstream file("Data/Npc.json");

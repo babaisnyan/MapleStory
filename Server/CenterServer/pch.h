@@ -11,7 +11,9 @@
 #endif
 
 #include "core_pch.h"
+
 #include "network/protocol/center_enum.pb.h"
+
 #include "utils/constants.h"
 
 namespace center {

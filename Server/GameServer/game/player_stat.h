@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include "basic_stat.h"
 
 namespace game {

@@ -1,5 +1,4 @@
 ﻿#pragma once
-#include <random>
 
 namespace utils::random {
   int64_t Rand(int64_t max);

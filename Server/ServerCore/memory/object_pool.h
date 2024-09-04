@@ -1,4 +1,5 @@
 #pragma once
+
 #include "memory_pool.h"
 #include "types.h"
 

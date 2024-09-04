@@ -1,4 +1,5 @@
 #pragma once
+
 #include <functional>
 
 using CallBackType = std::function<void()>;

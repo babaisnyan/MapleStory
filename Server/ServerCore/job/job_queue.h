@@ -1,6 +1,8 @@
 ﻿#pragma once
+
 #include "job.h"
 #include "job_timer.h"
+
 #include "utils/lock_queue.h"
 
 class JobQueue : public std::enable_shared_from_this<JobQueue> {

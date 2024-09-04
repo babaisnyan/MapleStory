@@ -1,5 +1,7 @@
 #pragma once
+
 #include "types.h"
+
 #include "memory/container.h"
 
 class SendBufferChunk;

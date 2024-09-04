@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 #include "db_connection_pool.h"
 
+#include <sqlext.h>
+
 #include "memory/memory.h"
 
 DbConnectionPool::~DbConnectionPool() {

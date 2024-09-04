@@ -158,14 +158,8 @@
     <ClCompile Include="database\db_connection_pool.cpp">
       <Filter>database</Filter>
     </ClCompile>
-    <ClCompile Include="database\db_bind.cpp">
-      <Filter>database</Filter>
-    </ClCompile>
     <ClCompile Include="database\db_connection.cpp">
       <Filter>database</Filter>
-    </ClCompile>
-    <ClCompile Include="job\job.cpp">
-      <Filter>job</Filter>
     </ClCompile>
     <ClCompile Include="job\job_queue.cpp">
       <Filter>job</Filter>
@@ -183,9 +177,6 @@
       <Filter>memory</Filter>
     </ClCompile>
     <ClCompile Include="memory\memory_pool.cpp">
-      <Filter>memory</Filter>
-    </ClCompile>
-    <ClCompile Include="memory\ref_counting.cpp">
       <Filter>memory</Filter>
     </ClCompile>
     <ClCompile Include="memory\allocator.cpp">
@@ -234,9 +225,6 @@
       <Filter>utils</Filter>
     </ClCompile>
     <ClCompile Include="utils\file_utils.cpp">
-      <Filter>utils</Filter>
-    </ClCompile>
-    <ClCompile Include="utils\lock_queue.cpp">
       <Filter>utils</Filter>
     </ClCompile>
     <ClCompile Include="utils\string_utils.cpp">

@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 #include "randomizer.h"
 
+#include <random>
+
 int64_t utils::random::Rand(const int64_t max) {
   static std::random_device rd;
   static std::mt19937 gen(rd());

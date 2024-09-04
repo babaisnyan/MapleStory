@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include "db_connection.h"
 
 template <int32_t C>

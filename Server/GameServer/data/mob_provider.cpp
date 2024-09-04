@@ -1,9 +1,9 @@
 ﻿#include "pch.h"
 #include "mob_provider.h"
 
-#include "templates/mob_template.h"
-
 #include <fstream>
+
+#include "templates/mob_template.h"
 
 void MobProvider::Init() {
   std::ifstream file("Data/Mobs.json");

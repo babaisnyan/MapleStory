@@ -1,6 +1,6 @@
 ﻿#pragma once
-#include "center_handler.h"
 
+#include "center_handler.h"
 
 namespace login {
   class CenterManager {

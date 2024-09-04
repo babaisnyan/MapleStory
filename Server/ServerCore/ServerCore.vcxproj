@@ -206,18 +206,15 @@
   <ItemGroup>
     <ClCompile Include="core_tls.cpp" />
     <ClCompile Include="core_pch.cpp" />
-    <ClCompile Include="database\db_bind.cpp" />
     <ClCompile Include="database\db_connection.cpp" />
     <ClCompile Include="database\db_connection_pool.cpp" />
     <ClCompile Include="job\global_queue.cpp" />
-    <ClCompile Include="job\job.cpp" />
     <ClCompile Include="job\job_queue.cpp" />
     <ClCompile Include="job\job_timer.cpp" />
     <ClCompile Include="log\console_log.cpp" />
     <ClCompile Include="memory\allocator.cpp" />
     <ClCompile Include="memory\memory.cpp" />
     <ClCompile Include="memory\memory_pool.cpp" />
-    <ClCompile Include="memory\ref_counting.cpp" />
     <ClCompile Include="network\iocp_core.cpp" />
     <ClCompile Include="network\iocp_event.cpp" />
     <ClCompile Include="network\listener.cpp" />
@@ -239,7 +236,6 @@
     <ClCompile Include="utils\buffer_reader.cpp" />
     <ClCompile Include="utils\buffer_writer.cpp" />
     <ClCompile Include="utils\file_utils.cpp" />
-    <ClCompile Include="utils\lock_queue.cpp" />
     <ClCompile Include="utils\randomizer.cpp" />
     <ClCompile Include="utils\string_utils.cpp" />
   </ItemGroup>

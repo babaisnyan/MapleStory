@@ -1,9 +1,9 @@
 ﻿#include "pch.h"
 #include "stand_state.h"
 
-#include "utils/randomizer.h"
-
 #include "game/objects/mob/monster.h"
+
+#include "utils/randomizer.h"
 
 void StandState::Enter(const std::shared_ptr<Monster>& mob) {
   mob->ResetAnimationTime();

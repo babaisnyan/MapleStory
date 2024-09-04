@@ -3,8 +3,8 @@
 namespace login {
   class LoginCharacter {
   public:
-    LoginCharacter(const int32_t id, const std::wstring& name, const int16_t level, const int8_t type, const int16_t job, const int16_t str, const int16_t dex, const int16_t luk, const int16_t int_)
-      : _id(id), _name(name), _level(level), _type(type), _job(job), _str(str), _dex(dex), _luk(luk), _int(int_) {}
+    LoginCharacter(const int32_t id, std::wstring name, const int16_t level, const int8_t type, const int16_t job, const int16_t str, const int16_t dex, const int16_t luk, const int16_t int_)
+      : _id(id), _name(std::move(name)), _level(level), _type(type), _job(job), _str(str), _dex(dex), _luk(luk), _int(int_) {}
 
     int32_t GetId() const { return _id; }
     const std::wstring& GetName() const { return _name; }

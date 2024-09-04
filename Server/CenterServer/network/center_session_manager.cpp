@@ -1,9 +1,11 @@
 #include "pch.h"
 #include "center_session_manager.h"
-#include "center_session.h"
-#include "data/server_info.h"
 
 #include <ranges>
+
+#include "center_session.h"
+
+#include "data/server_info.h"
 
 void CenterSessionManager::Add(const CenterSessionRef& session) {
   Accessor accessor;

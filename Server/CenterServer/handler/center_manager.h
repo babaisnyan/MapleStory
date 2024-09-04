@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include "center_handler.h"
 
 namespace center {

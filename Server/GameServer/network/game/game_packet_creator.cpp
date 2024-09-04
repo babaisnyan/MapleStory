@@ -1,5 +1,6 @@
 ﻿#include "pch.h"
 #include "game_packet_creator.h"
+
 #include "game_client_packet_handler.h"
 
 #include "game/player_stat.h"

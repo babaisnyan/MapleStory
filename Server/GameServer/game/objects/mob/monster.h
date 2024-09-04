@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include "data/templates/mob_template.h"
 
 #include "game/objects/game_object.h"

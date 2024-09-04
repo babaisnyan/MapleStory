@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include <types.h>
 
 namespace common {

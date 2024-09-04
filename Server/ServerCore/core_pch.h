@@ -1,13 +1,6 @@
 ﻿// ReSharper disable CppWrongIncludesOrder
 #pragma once
 
-#include <cassert>
-#include <chrono>
-#include <cstdint>
-#include <iostream>
-
-using namespace std::chrono_literals;
-
 #include <stdint.h>
 #include <tchar.h>
 
@@ -17,6 +10,13 @@ using namespace std::chrono_literals;
 #include <MSWSock.h>
 #include <WS2tcpip.h>
 #pragma comment(lib, "ws2_32.lib")
+
+#include <cassert>
+#include <chrono>
+#include <cstdint>
+#include <iostream>
+
+using namespace std::chrono_literals;
 
 #include <tbb/concurrent_hash_map.h>
 

@@ -1,8 +1,8 @@
 ﻿#pragma once
 
-#include "network_address.h"
-
 #include <functional>
+
+#include "network_address.h"
 
 class Listener;
 

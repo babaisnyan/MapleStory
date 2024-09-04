@@ -1,17 +1,15 @@
 #include "pch.h"
 #include "login_handler.h"
 
-#include "migration/migration_storage.h"
-
-#include "network/login/login_client_packet_handler.h"
-#include "network/login/login_session.h"
-
 #include "database/db_bind.h"
 #include "database/db_connection_pool.h"
+
+#include "migration/migration_storage.h"
 
 #include "network/center/center_packet_creator.h"
 #include "network/center/center_session_manager.h"
 #include "network/login/login_packet_creator.h"
+#include "network/login/login_session.h"
 
 void LoginHandler::HandleLogin(const PacketSessionRef& session, const protocol::LoginClientLogin& request) {
   const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);

@@ -1,8 +1,9 @@
 #include "pch.h"
 #include "game_session_manager.h"
-#include "game_session.h"
 
 #include <ranges>
+
+#include "game_session.h"
 
 void GameSessionManager::Add(const GameSessionRef& session) {
   Accessor accessor;

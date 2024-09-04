@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "db_connection.h"
 
+#include <sqlext.h>
+
 bool DbConnection::Connect(const SQLHENV env, const wchar_t* connection_string) {
   if (SQLAllocHandle(SQL_HANDLE_DBC, env, &_connection) != SQL_SUCCESS) {
     return false;

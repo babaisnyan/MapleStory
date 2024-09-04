@@ -1,4 +1,5 @@
 #pragma once
+
 #include "network_address.h"
 
 class SocketUtils {

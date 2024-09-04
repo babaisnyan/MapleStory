@@ -1,7 +1,6 @@
 ﻿// ReSharper disable CppInconsistentNaming
 
 #pragma once
-#include "types.h"
 
 #pragma region TypeList
 

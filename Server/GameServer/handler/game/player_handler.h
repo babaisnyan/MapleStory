@@ -1,4 +1,5 @@
 #pragma once
+
 #include "network/protocol/game_protocol.pb.h"
 
 namespace game {

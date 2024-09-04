@@ -1,10 +1,9 @@
 ﻿#include "pch.h"
 #include "item_provider.h"
 
-#include "templates/item_template.h"
-
 #include <fstream>
 
+#include "templates/item_template.h"
 
 void ItemProvider::Init() {
   std::ifstream file("Data/Items.json");

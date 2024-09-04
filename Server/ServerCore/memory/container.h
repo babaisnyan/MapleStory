@@ -1,6 +1,4 @@
 ﻿#pragma once
-#include "allocator.h"
-#include "types.h"
 
 #include <array>
 #include <list>
@@ -11,6 +9,9 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
+
+#include "allocator.h"
+#include "types.h"
 
 template <typename T, uint32_t N>
 using Array = std::array<T, N>;

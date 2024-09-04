@@ -1,6 +1,6 @@
 #pragma once
+
 #include <sql.h>
-#include <sqlext.h>
 
 enum {
   kWVarCharMax = 4000,

@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include <google/protobuf/message.h>
 
 #include "data/templates/map_template.h"

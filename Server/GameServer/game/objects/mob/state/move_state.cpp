@@ -1,9 +1,10 @@
 ﻿#include "pch.h"
 #include "move_state.h"
 
-#include "utils/randomizer.h"
-
 #include "game/objects/mob/monster.h"
+
+#include "utils/game_math.h"
+#include "utils/randomizer.h"
 
 void MoveState::Enter(const std::shared_ptr<Monster>& mob) {
   mob->ResetAnimationTime();
@@ -13,11 +14,9 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
   mob->AddAnimationTime(delta);
   // TODO: 벽 충돌 체크, 이동, 캐릭터 타겟 탐색
 
-  auto x = mob->GetX();
-  auto y = mob->GetY();
-
-  // X += (float)(Sin256(Direction) * MoveSpeed);
-  // Y -= (float)(Cos256(Direction) * MoveSpeed);
+  const auto dir = mob->IsFlipped() ? -1 : 1;
+  auto x = mob->GetX() + math::Sin256(dir) * mob->GetSpeed();
+  auto y = mob->GetY() - math::Cos256(dir) * mob->GetSpeed();
 }
 
 void MoveState::PostUpdate(const std::shared_ptr<Monster>& mob) {

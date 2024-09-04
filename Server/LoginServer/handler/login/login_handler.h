@@ -1,10 +1,10 @@
 #pragma once
-#include "job/job_queue.h"
 
-#include "network/protocol/login_protocol.pb.h"
+#include "job/job_queue.h"
 
 #include "network/login/login_client_packet_handler.h"
 #include "network/login/login_session.h"
+#include "network/protocol/login_protocol.pb.h"
 
 namespace login {
   class LoginHandler final : public JobQueue {

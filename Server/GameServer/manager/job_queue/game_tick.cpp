@@ -10,7 +10,7 @@
 
 #include "thread/thread_manager.h"
 
-#include "util/timer/timer_manager.h"
+#include "utils/timer/timer_manager.h"
 
 void GameTick::Start() {
   ThreadManager::GetInstance().Launch([self = shared_from_this()] {

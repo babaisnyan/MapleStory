@@ -1,4 +1,5 @@
 #pragma once
+
 #include "data/login_character.h"
 
 #include "network/session.h"

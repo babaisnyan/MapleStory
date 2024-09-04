@@ -1,4 +1,5 @@
 ﻿#pragma once
+
 #include "mob_state.h"
 
 namespace game {

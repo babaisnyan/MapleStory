@@ -1,6 +1,6 @@
 ﻿#include "pch.h"
-
 #include "global_queue.h"
+
 GlobalQueue::GlobalQueue() {}
 
 GlobalQueue::~GlobalQueue() {}

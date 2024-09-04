@@ -1,10 +1,10 @@
 #pragma once
-#include "network/protocol/center_protocol.pb.h"
 
 #include "job/job_queue.h"
 
 #include "network/center_client_packet_handler.h"
 #include "network/center_session.h"
+#include "network/protocol/center_protocol.pb.h"
 
 namespace center {
   class CenterHandler final : public JobQueue {

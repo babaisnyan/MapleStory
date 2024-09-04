@@ -1,5 +1,4 @@
 #pragma once
-#include "game_session.h"
 
 namespace game {
   class GameSessionManager {
