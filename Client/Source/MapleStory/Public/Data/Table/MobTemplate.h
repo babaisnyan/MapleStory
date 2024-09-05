@@ -69,11 +69,23 @@ public:
 	bool HasAttack;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
-	int32 AttackCool;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	int32 AttackWidth;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	int32 AttackHeight;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	TSoftObjectPtr<USoundWave> CharHitSound;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	TSoftObjectPtr<USoundWave> DieSound;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	TSoftObjectPtr<USoundWave> HitSound;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	TSoftObjectPtr<USoundWave> RegenSound;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	TSoftObjectPtr<USoundWave> AttackSound;
 };

@@ -147,7 +147,6 @@ void AMonster::Setup(const FMobTemplate* MobTemplate) {
 	StatComponent->PhysicalDefenseRate = MobTemplate->PdRate;
 	StatComponent->MagicalDefenseRate = MobTemplate->MdRate;
 	Exp = MobTemplate->Exp;
-	AttackCool = MobTemplate->AttackCool;
 	AttackWidth = MobTemplate->AttackWidth;
 	AttackHeight = MobTemplate->AttackHeight;
 }

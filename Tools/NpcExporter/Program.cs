@@ -47,7 +47,7 @@ namespace NpcExporter
 
             foreach (var npc in directory.Children)
             {
-                var id = int.Parse(npc._name);
+                var id = int.Parse(npc.Name);
                 var name = await npc.ResolveForOrNull<string>("name").ConfigureAwait(false);
 
                 if (id >= 4000000 || string.IsNullOrWhiteSpace(name) || npcs.ContainsKey(id))
@@ -60,13 +60,13 @@ namespace NpcExporter
                 foreach (var node in npc.Children)
                 {
                     if (node.Type != PropertyType.String) continue;
-                    if (node._name.Length > 2) continue;
-                    if (info.Texts.ContainsKey(node._name)) continue;
+                    if (node.Name.Length > 2) continue;
+                    if (info.Texts.ContainsKey(node.Name)) continue;
 
                     var text = await node.ResolveForOrNull<string>().ConfigureAwait(false);
                     if (string.IsNullOrWhiteSpace(text)) continue;
 
-                    info.Texts.Add(node._name, text);
+                    info.Texts.Add(node.Name, text);
                 }
 
                 npcs.Add(id, info);
@@ -154,7 +154,7 @@ namespace NpcExporter
             {
                 var speak = await node.Resolve("speak").ConfigureAwait(false);
                 var scripts = speak.Children.Where(x => x.Type == PropertyType.String)
-                                   .OrderBy(x => x._name)
+                                   .OrderBy(x => x.Name)
                                    .ToList();
 
                 foreach (var script in scripts)
@@ -172,7 +172,7 @@ namespace NpcExporter
         {
             foreach (var action in npc.Children)
             {
-                var actionName = action._name.Trim();
+                var actionName = action.Name.Trim();
 
                 if (action.Type != PropertyType.SubProperty) continue;
                 if (await action.HasChildAsync("special").ConfigureAwait(false)) continue;
@@ -190,7 +190,7 @@ namespace NpcExporter
 
                 foreach (var frameNode in action.Children)
                 {
-                    if (!int.TryParse(frameNode._name, out var frame)) continue;
+                    if (!int.TryParse(frameNode.Name, out var frame)) continue;
 
                     var image = await frameNode.ResolveForOrNull<Image<Rgba32>>().ConfigureAwait(false);
                     if (image == null) break;

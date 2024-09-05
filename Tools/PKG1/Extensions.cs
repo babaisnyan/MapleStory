@@ -46,7 +46,7 @@ public static class Extensions
 
     public static async Task<Image<Rgba32>> GenerateGif(this WzProperty animationNode, Rgba32? background)
     {
-        var maxFrame = animationNode.Children.Select(c => int.TryParse(c._name, out var frameNumber) ? frameNumber : -1).Max();
+        var maxFrame = animationNode.Children.Select(c => int.TryParse(c.Name, out var frameNumber) ? frameNumber : -1).Max();
 
         var frames = await Task.WhenAll(Enumerable.Range(0, maxFrame + 1).Select(async frameNumber =>
         {

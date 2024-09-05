@@ -141,15 +141,15 @@ internal static class Program
 
     private static async Task FillItemInfoAsync(WzProperty collection)
     {
-        var nodes = collection.Children.Where(x => x._name == "Etc" || x._name == "Consume")
+        var nodes = collection.Children.Where(x => x.Name == "Etc" || x.Name == "Consume")
                               .SelectMany(x => x.Children)
-                              .Where(x => !x._path.Contains("_Canvas"))
+                              .Where(x => !x.Path.Contains("_Canvas"))
                               .SelectMany(x => x.Children)
-                              .Where(x => int.TryParse(x._name, out _));
+                              .Where(x => int.TryParse(x.Name, out _));
 
         foreach (var node in nodes)
         {
-            var id = node._name.Contains(".img") ? int.Parse(node._name.Replace(".img", "")) : int.Parse(node._name);
+            var id = node.Name.Contains(".img") ? int.Parse(node.Name.Replace(".img", "")) : int.Parse(node.Name);
             var info = await node.Resolve("info").ConfigureAwait(false);
             var spec = await node.Resolve("spec").ConfigureAwait(false);
 
@@ -158,7 +158,7 @@ internal static class Program
 
             foreach (var wzProperty in info.Children)
             {
-                switch (wzProperty._name)
+                switch (wzProperty.Name)
                 {
                     case "icon":
                     case "iconRaw":
@@ -198,14 +198,14 @@ internal static class Program
     private static async Task FillEquipInfoAsync(WzProperty collection)
     {
         var nodes = FastEnum.GetNames<SubItemType>()
-                            .SelectMany(x => collection.Children.Where(y => y._name == x))
-                            .Where(x => !x._path.Contains("_Canvas"))
+                            .SelectMany(x => collection.Children.Where(y => y.Name == x))
+                            .Where(x => !x.Path.Contains("_Canvas"))
                             .SelectMany(x => x.Children)
-                            .Where(x => int.TryParse(x._nameWithoutExtension, out _));
+                            .Where(x => int.TryParse(x.NameWithoutExtension, out _));
 
         foreach (var node in nodes)
         {
-            var id = int.Parse(node._name.Replace(".img", ""));
+            var id = int.Parse(node.Name.Replace(".img", ""));
             var info = await node.Resolve("info").ConfigureAwait(false);
 
             if (!_itemInfos.TryGetValue(id, out var itemInfo)) continue;
@@ -221,7 +221,7 @@ internal static class Program
 
             foreach (var wzProperty in info.Children)
             {
-                switch (wzProperty._name)
+                switch (wzProperty.Name)
                 {
                     case "icon":
                     case "iconRaw":
@@ -264,7 +264,7 @@ internal static class Program
 
     private static async Task<ItemInfo?> GetSimpleItemInfoAsync(WzProperty itemImg)
     {
-        var id = int.Parse(itemImg._name);
+        var id = int.Parse(itemImg.Name);
         var name = await itemImg.ResolveForOrNull<string>("name").ConfigureAwait(false) ?? "";
 
         if (name == string.Empty) return null;

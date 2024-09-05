@@ -31,7 +31,7 @@ public static class PropertyResolvers
                     reader.ReadByte();
                     return reader.ReadLuaScript();
                 }
-            }, self._name, self._path, self._fileContainer, PropertyType.Lua, self._parent, self._size, self._checksum, self._offset);
+            }, self.Name, self.Path, self._fileContainer, PropertyType.Lua, self._parent, self._size, self._checksum, self._offset);
 
         if (imgType != 0x73)
         {
@@ -97,34 +97,34 @@ public static class PropertyResolvers
             switch (type)
             {
                 case 0:
-                    return new WzProperty(name, PathCombine(parent._path, name), parent._fileContainer, PropertyType.Null, parent, 0, 0, position);
+                    return new WzProperty(name, PathCombine(parent.Path, name), parent._fileContainer, PropertyType.Null, parent, 0, 0, position);
                 case 0x10:
-                    return new WzPropertyVal<sbyte>(reader.ReadSByte(), name, PathCombine(parent._path, name), parent._fileContainer, PropertyType.UInt16, parent, 1, 0, position);
+                    return new WzPropertyVal<sbyte>(reader.ReadSByte(), name, PathCombine(parent.Path, name), parent._fileContainer, PropertyType.UInt16, parent, 1, 0, position);
                 case 0x11:
-                    return new WzPropertyVal<byte>(reader.ReadByte(), name, PathCombine(parent._path, name), parent._fileContainer, PropertyType.UInt16, parent, 1, 0, position);
+                    return new WzPropertyVal<byte>(reader.ReadByte(), name, PathCombine(parent.Path, name), parent._fileContainer, PropertyType.UInt16, parent, 1, 0, position);
                 case 0x0B:
                 case 2:
                 case 0x12:
-                    return new WzPropertyVal<ushort>(reader.ReadUInt16(), name, PathCombine(parent._path, name), parent._fileContainer, PropertyType.UInt16, parent, 2, 0, position);
+                    return new WzPropertyVal<ushort>(reader.ReadUInt16(), name, PathCombine(parent.Path, name), parent._fileContainer, PropertyType.UInt16, parent, 2, 0, position);
                 case 3:
-                    return new WzPropertyVal<int>(reader.ReadWzInt(), name, PathCombine(parent._path, name), parent._fileContainer, PropertyType.Int32, parent, 4, 0, position);
+                    return new WzPropertyVal<int>(reader.ReadWzInt(), name, PathCombine(parent.Path, name), parent._fileContainer, PropertyType.Int32, parent, 4, 0, position);
                 case 19:
-                    return new WzPropertyVal<Rgba32>(new Rgba32((uint) reader.ReadWzInt()), name, PathCombine(parent._path, name), parent._fileContainer, PropertyType.Int32, parent, 4, 0, position);
+                    return new WzPropertyVal<Rgba32>(new Rgba32((uint) reader.ReadWzInt()), name, PathCombine(parent.Path, name), parent._fileContainer, PropertyType.Int32, parent, 4, 0, position);
                 case 4:
-                    return new WzPropertyVal<float>(reader.ReadWzSingle(), name, PathCombine(parent._path, name), parent._fileContainer, PropertyType.Single, parent, 4, 0, position);
+                    return new WzPropertyVal<float>(reader.ReadWzSingle(), name, PathCombine(parent.Path, name), parent._fileContainer, PropertyType.Single, parent, 4, 0, position);
                 case 5:
-                    return new WzPropertyVal<double>(reader.ReadDouble(), name, PathCombine(parent._path, name), parent._fileContainer, PropertyType.Double, parent, 8, 0, position);
+                    return new WzPropertyVal<double>(reader.ReadDouble(), name, PathCombine(parent.Path, name), parent._fileContainer, PropertyType.Double, parent, 8, 0, position);
                 case 8:
-                    return new WzPropertyVal<string>(reader.ReadWzStringBlock(parent?._encrypted | parent?._container?._encrypted ?? EncryptionType.None), name, PathCombine(parent._path, name), parent._fileContainer, PropertyType.String, parent, 0, 0, position);
+                    return new WzPropertyVal<string>(reader.ReadWzStringBlock(parent?._encrypted | parent?._container?._encrypted ?? EncryptionType.None), name, PathCombine(parent.Path, name), parent._fileContainer, PropertyType.String, parent, 0, 0, position);
                 case 9:
                     var blockLen = reader.ReadUInt32();
                     var result = reader.PeekFor(() => ParseExtendedProperty(reader, parent, name, blockLen));
                     reader.BaseStream.Seek(blockLen, SeekOrigin.Current);
                     return result;
                 case 20:
-                    return new WzPropertyVal<long>(reader.ReadWzLong(), name, PathCombine(parent._path, name), parent._fileContainer, PropertyType.Int64, parent, 8, 0, position);
+                    return new WzPropertyVal<long>(reader.ReadWzLong(), name, PathCombine(parent.Path, name), parent._fileContainer, PropertyType.Int64, parent, 8, 0, position);
                 case 21:
-                    return new WzPropertyVal<ulong>((ulong) reader.ReadWzLong(), name, PathCombine(parent._path, name), parent._fileContainer, PropertyType.Int64, parent, 8, 0, position);
+                    return new WzPropertyVal<ulong>((ulong) reader.ReadWzLong(), name, PathCombine(parent.Path, name), parent._fileContainer, PropertyType.Int64, parent, 8, 0, position);
                 default:
                     throw new Exception("Unknown property type at ParsePropertyList");
             }
@@ -267,9 +267,9 @@ public static class PropertyResolvers
                 var offset = reader.ReadWzOffset();
                 var childProperty = new WzProperty(
                     name,
-                    self != null ? PathCombine(self._path, name) : name,
+                    self != null ? PathCombine(self.Path, name) : name,
                     reader._package,
-                    type == 3 ? PropertyType.Directory : type == 4 ? PropertyType.Image : throw new InvalidOperationException($"Not sure what this is, but I don't handle it ({self._parent} -- {self._path}/{name} -- {type})"),
+                    type == 3 ? PropertyType.Directory : type == 4 ? PropertyType.Image : throw new InvalidOperationException($"Not sure what this is, but I don't handle it ({self._parent} -- {self.Path}/{name} -- {type})"),
                     self,
                     size,
                     checksum,
@@ -290,7 +290,7 @@ public static class PropertyResolvers
         WzProperty result = new WzPropertyWeak<byte[]>(
             () =>
             {
-                if (Package._logging != null) Package._logging.LogDebug($"{self._path} (Audio) - {unk}");
+                if (Package._logging != null) Package._logging.LogDebug($"{self.Path} (Audio) - {unk}");
                 using (reader = GetContentReader(null, self))
                 {
                     reader.BaseStream.Seek(self._offset + 1, SeekOrigin.Begin);
@@ -452,7 +452,7 @@ public static class PropertyResolvers
 
         var result = new WzProperty(
             name,
-            PathCombine(parent._path, name),
+            PathCombine(parent.Path, name),
             parent._fileContainer,
             propType,
             parent,

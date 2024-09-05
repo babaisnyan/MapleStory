@@ -11,8 +11,8 @@ namespace PKG1;
 public class StreamFactory
 {
     private readonly Func<Stream> _createNew;
-    private volatile ConcurrentBag<StreamContainer> _containers;
     private readonly Timer _timedThread;
+    private volatile ConcurrentBag<StreamContainer> _containers;
     private int _disposed;
 
     public StreamFactory(Func<Stream> createNew)

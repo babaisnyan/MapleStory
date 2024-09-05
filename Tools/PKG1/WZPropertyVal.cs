@@ -3,7 +3,7 @@ namespace PKG1;
 public class WzPropertyVal<TK> : WzProperty, IWzPropertyVal<TK>
 {
     public WzPropertyVal(TK val, WzProperty original)
-        : this(val, original._name, original._path, original._fileContainer, original.Type, original._parent, original._size, original._checksum, original._offset)
+        : this(val, original.Name, original.Path, original._fileContainer, original.Type, original._parent, original._size, original._checksum, original._offset)
     {
         _encrypted = original._encrypted;
     }

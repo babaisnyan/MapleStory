@@ -88,8 +88,8 @@ public class WzSerializer
         writer.Write((byte) 0x73); // Regular img
         GetWzStringBytes(writer, "Property");
         writer.Write((short) 0);
-        if (self._nameWithoutExtension != "zmap" && self._nameWithoutExtension == "smap")
-            PropertyList(writer, self.Children.OrderBy(c => c._name));
+        if (self.NameWithoutExtension != "zmap" && self.NameWithoutExtension == "smap")
+            PropertyList(writer, self.Children.OrderBy(c => c.Name));
         else
             PropertyList(writer, self.Children);
     }
@@ -119,7 +119,7 @@ public class WzSerializer
         var childrenFiltered = childEnum.Where(c => c != null);
 
         if (orderByName)
-            childrenFiltered = childrenFiltered.OrderBy(c => c._name);
+            childrenFiltered = childrenFiltered.OrderBy(c => c.Name);
 
         var children = childrenFiltered.ToArray();
 
@@ -127,7 +127,7 @@ public class WzSerializer
 
         foreach (var c in children)
         {
-            GetStringToBlock(writer, c._name);
+            GetStringToBlock(writer, c.Name);
 
             if (c is WzPropertyVal<sbyte>)
                 writer.Write((byte) 0x10);
@@ -192,7 +192,7 @@ public class WzSerializer
 
     public void DirectoryChildren(BinaryWriter writer, WzProperty self)
     {
-        var children = self.GetChildren().OrderBy(c => c._name).ToArray();
+        var children = self.GetChildren().OrderBy(c => c.Name).ToArray();
         WzIntToByte(writer, children.Length);
 
         foreach (var child in children)
@@ -202,7 +202,7 @@ public class WzSerializer
             else if (child.Type == PropertyType.Image || child.Type == PropertyType.Lua)
                 writer.Write((byte) 4);
             else throw new InvalidOperationException("Only directories, img, and lua can be directly below a directory object");
-            GetWzStringBytes(writer, child._name);
+            GetWzStringBytes(writer, child.Name);
             var position = writer.BaseStream.Position;
             _pending.Enqueue(new Tuple<long, WzProperty>(position, child));
             WzIntToByte(writer, 123456789);
@@ -225,7 +225,7 @@ public class WzSerializer
 
     public void ConvexChildren(BinaryWriter writer, WzProperty self)
     {
-        var children = self.GetChildren().OrderBy(c => c._name).ToArray();
+        var children = self.GetChildren().OrderBy(c => c.Name).ToArray();
         WzIntToByte(writer, children.Length);
 
         foreach (var child in children) Resolve(writer, child);
@@ -337,7 +337,7 @@ public class WzSerializer
                         }
                         catch (Exception ex)
                         {
-                            if (Package._logging != null) Package._logging.LogDebug($"Error serializing {pendingNode.Item2._path}, {ex.Message} @ {ex.StackTrace}");
+                            if (Package._logging != null) Package._logging.LogDebug($"Error serializing {pendingNode.Item2.Path}, {ex.Message} @ {ex.StackTrace}");
                         }
 
                         Interlocked.Increment(ref serialized);
@@ -498,7 +498,7 @@ public class WzSerializer
     {
         Image<Rgba32> toDispose = null;
         var img = (self is IWzPropertyVal<Image<Rgba32>> selfImg ? selfImg.Value : null) ?? (toDispose = new Image<Rgba32>(1, 1));
-        var children = self.GetChildren().OrderBy(c => c._name).ToArray();
+        var children = self.GetChildren().OrderBy(c => c.Name).ToArray();
         byte[] pixelData = null;
         byte[] deflated = null;
 

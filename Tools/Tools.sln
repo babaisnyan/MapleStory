@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PKG1", "PKG1\PKG1.csproj", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "Utilities\Utilities.csproj", "{3F25DBF5-31CA-476E-81E0-6E26A3FF585A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NpcExporter", "NpcExporter\NpcExporter.csproj", "{6095C271-385D-405A-99ED-3A48DC0E23C7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NpcExporter", "NpcExporter\NpcExporter.csproj", "{6095C271-385D-405A-99ED-3A48DC0E23C7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoundExporter", "SoundExporter\SoundExporter.csproj", "{78DC6467-B524-44CD-AED6-972D697D1363}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{6095C271-385D-405A-99ED-3A48DC0E23C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6095C271-385D-405A-99ED-3A48DC0E23C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6095C271-385D-405A-99ED-3A48DC0E23C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78DC6467-B524-44CD-AED6-972D697D1363}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78DC6467-B524-44CD-AED6-972D697D1363}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78DC6467-B524-44CD-AED6-972D697D1363}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78DC6467-B524-44CD-AED6-972D697D1363}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -398,4 +398,5 @@ FodyWeavers.xsd
 *.sln.iml
 
 .vscode
-/Client/Content/Item/
+
+Tools/.venv/

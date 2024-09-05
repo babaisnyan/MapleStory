@@ -76,9 +76,6 @@ public:
 	int32 Exp = 0;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
-	int32 AttackCool;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	int32 AttackWidth;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")

@@ -52,7 +52,7 @@ namespace MobExporter
 
             foreach (var mob in directory.Children)
             {
-                var id = int.Parse(mob._name);
+                var id = int.Parse(mob.Name);
                 var name = await mob.ResolveForOrNull<string>("name").ConfigureAwait(false);
 
                 if (id < 4000000 && !string.IsNullOrWhiteSpace(name) && !mobs.ContainsKey(id))
@@ -137,7 +137,7 @@ namespace MobExporter
 
                     foreach (var frameNode in node.Children)
                     {
-                        if (!int.TryParse(frameNode._name, out var frame)) continue;
+                        if (!int.TryParse(frameNode.Name, out var frame)) continue;
 
                         var image = await frameNode.ResolveForOrNull<Image<Rgba32>>().ConfigureAwait(false);
                         if (image == null) break;
@@ -276,7 +276,7 @@ namespace MobExporter
 
                             foreach (var hitNode in hit.Children)
                             {
-                                if (!int.TryParse(hitNode._name, out var frame)) continue;
+                                if (!int.TryParse(hitNode.Name, out var frame)) continue;
 
                                 var image = await hitNode.ResolveForOrNull<Image<Rgba32>>().ConfigureAwait(false);
                                 if (image == null) break;

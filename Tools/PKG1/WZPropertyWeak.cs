@@ -8,7 +8,7 @@ public class WzPropertyWeak<TK> : WzProperty, IWzPropertyVal<TK>
     private readonly Lazy<TK> _weakValue;
 
     public WzPropertyWeak(Func<TK> val, WzProperty original)
-        : this(val, original._name, original._path, original._fileContainer, original.Type, original._parent, original._size, original._checksum, original._offset)
+        : this(val, original.Name, original.Path, original._fileContainer, original.Type, original._parent, original._size, original._checksum, original._offset)
     {
         Children = original.Children;
         _encrypted = original._encrypted;

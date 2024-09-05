@@ -83,8 +83,8 @@ public class PackageCollection
                         if (_logging != null) _logging.LogDebug($"Done initializing in {watch.ElapsedMilliseconds}ms");
                         hasHash = false;
 
-                        var smap = BasePackage._mainDirectory.Children.Single(child => child._name == "smap.img");
-                        var zmap = BasePackage._mainDirectory.Children.Single(child => child._name == "zmap.img");
+                        var smap = BasePackage._mainDirectory.Children.Single(child => child.Name == "smap.img");
+                        var zmap = BasePackage._mainDirectory.Children.Single(child => child.Name == "zmap.img");
                         var smapChildrenCount = smap.Children.Count();
                         var zmapChildrenCount = zmap.Children.Count();
                         var difference = zmapChildrenCount - smapChildrenCount;
@@ -120,8 +120,8 @@ public class PackageCollection
                                   if ((c.Type == PropertyType.Directory || c.Type == PropertyType.Lua) && c._size < 50)
                                   {
                                       // I don't know the exact size off hand, I'm assuming it's less than 50 bytes.
-                                      if (File.Exists(Path.Combine(_folder, $"{c._nameWithoutExtension}.wz")))
-                                          res = new Package(this, Path.Combine(_folder, $"{c._nameWithoutExtension}.wz"), BasePackage._versionId, hasHash);
+                                      if (File.Exists(Path.Combine(_folder, $"{c.NameWithoutExtension}.wz")))
+                                          res = new Package(this, Path.Combine(_folder, $"{c.NameWithoutExtension}.wz"), BasePackage._versionId, hasHash);
                                       else
                                           res = new Package(this) // Create a "ghost" package where the MainDirectory is just the Img
                                           {
@@ -140,7 +140,7 @@ public class PackageCollection
 
                                   return res;
                               })
-                              .ToDictionary(c => c._fileName ?? c._mainDirectory._nameWithoutExtension, c => c);
+                              .ToDictionary(c => c._fileName ?? c._mainDirectory.NameWithoutExtension, c => c);
 
         foreach (var file in Directory.GetFiles(_folder).Where(file => file.EndsWith(".wz")))
         {
@@ -175,7 +175,7 @@ public class PackageCollection
         var shoes = characterPackage.Resolve("Shoes").GetAwaiter().GetResult();
         var idImgMatch = new Regex("[0-9]{8}\\.img");
         WzProperty invalidShoe;
-        if ((invalidShoe = shoes.Children.FirstOrDefault(c => !idImgMatch.IsMatch(c._name))) != null)
+        if ((invalidShoe = shoes.Children.FirstOrDefault(c => !idImgMatch.IsMatch(c.Name))) != null)
         {
             _logging.LogError("Invalid name found in shoes");
             throw new InvalidDataException("Invalid name found in shoes");
@@ -280,8 +280,8 @@ public class PackageCollection
                 // Reload with the proper version
                 testPackage = new Package(this, expectedBaseFilePath, lastVersionId.Value, hasVersionHash);
 
-                var smap = testPackage._mainDirectory.Children.Single(child => child._name == "smap.img");
-                var zmap = testPackage._mainDirectory.Children.Single(child => child._name == "zmap.img");
+                var smap = testPackage._mainDirectory.Children.Single(child => child.Name == "smap.img");
+                var zmap = testPackage._mainDirectory.Children.Single(child => child.Name == "zmap.img");
                 var smapChildrenCount = smap.Children.Count();
                 var zmapChildrenCount = zmap.Children.Count();
                 var difference = zmapChildrenCount - smapChildrenCount;

@@ -244,7 +244,7 @@ public class VersionGuesser
                                 do
                                 {
                                     firstImg = children.FirstOrDefault(c => c.Type == PropertyType.Image);
-                                    wrongEncryption = children.Any(c => c._name.Contains("?"));
+                                    wrongEncryption = children.Any(c => c.Name.Contains("?"));
                                     if (firstImg == null && !wrongEncryption) children = children.Where(c => c != null).SelectMany(c => c.Children ?? new WzProperty[0]).Where(c => c != null).ToArray();
                                 } while (firstImg == null && children.Count() > 0 && !wrongEncryption);
 
