@@ -22,5 +22,5 @@ def convert_to_wav(source_folder):
                     print(f"Error converting {file_path}")
 
 
-source_folder = "O:\\Unreal Projects\\MapleStory\\Tools\\SoundExporter\\bin\\Release\\net8.0\\Exported"
+source_folder = "O:\\Unreal Projects\\MapleStory\\Tools\\BgmExporter\\bin\\Release\\net8.0\\Exported"
 convert_to_wav(source_folder)
