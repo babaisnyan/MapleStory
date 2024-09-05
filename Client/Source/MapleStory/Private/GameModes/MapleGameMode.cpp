@@ -95,6 +95,12 @@ void AMapleGameMode::RemoveMonster(const int64 ObjectId) {
 	}
 }
 
+void AMapleGameMode::UpdateMonsterPosition(const protocol::GameServerMobMove& Packet) {
+	if (Monsters.Contains(Packet.object_id())) {
+		Monsters[Packet.object_id()]->Move(Packet);
+	}
+}
+
 uint64_t AMapleGameMode::GetExpForLevel(const int32 Level) const {
 	if (Level < 0 || Level >= 300) {
 		return 1;

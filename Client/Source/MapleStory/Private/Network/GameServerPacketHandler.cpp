@@ -52,6 +52,7 @@ bool FGameServerPacketHandler::HandleGameServerPlayerMove(const TObjectPtr<UTCPC
 }
 
 bool FGameServerPacketHandler::HandleGameServerMobMove(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobMove& Packet) {
+	GameInstance->UpdateMonsterPosition(Packet);
 	return true;
 }
 

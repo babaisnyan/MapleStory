@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "game_protocol.pb.h"
 #include "Data/Enum/EMobActionType.h"
 #include "GameFramework/Actor.h"
 #include "Monster.generated.h"
@@ -25,6 +26,7 @@ public:
 	}
 
 	void SetCurrentAction(EMobActionType ActionType, bool bForce = false);
+	void Move(const protocol::GameServerMobMove& Packet);
 
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 
@@ -46,7 +48,7 @@ private:
 
 	UFUNCTION()
 	void OnCollisionUpdate(const FVector2D Size);
-	
+
 public:
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TObjectPtr<UBoxComponent> BoxComponent;
@@ -59,7 +61,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	int64 ObjectId = 0;
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	int32 MobId = 100100;
 
@@ -89,4 +91,11 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Mob")
 	bool bFlip = false;
+
+private:
+	float DestX;
+	float DestY;
+	float BaseX;
+	float BaseY;
+	float ZIndex;
 };

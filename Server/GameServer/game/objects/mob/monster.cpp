@@ -31,7 +31,7 @@ Monster::Monster(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shar
 void Monster::Init(const std::shared_ptr<MobTemplate>& mob_template) {
   _id = mob_template->GetId();
   _mob_template = mob_template;
-  _speed = (1 + static_cast<float>(mob_template->GetSpeed()) / 100) * 2;
+  _speed = (1 + static_cast<float>(mob_template->GetSpeed()) / 100) * 50;
 
   UpdatePosition(_spawn_point->GetX(), _spawn_point->GetY(), utils::random::IsSuccess(50));
 
@@ -68,6 +68,10 @@ uint32_t Monster::GetId() const {
 
 std::shared_ptr<MobTemplate> Monster::GetTemplate() const {
   return _mob_template;
+}
+
+std::shared_ptr<SpawnPoint> Monster::GetSpawnPoint() const {
+  return _spawn_point;
 }
 
 std::weak_ptr<MapInstance> Monster::GetMap() const {
@@ -154,6 +158,10 @@ uint64_t Monster::GetRegenEndTime() const {
 
 void Monster::SetRegenEndTime(const uint64_t regen_end_time) {
   _regen_end_time = regen_end_time;
+}
+
+protocol::MobActionType Monster::GetCurrentState() const {
+  return _current_state;
 }
 
 int64_t Monster::GetNextObjectId() {

@@ -18,7 +18,9 @@ void MapTemplate::Load(const json& data) {
   }
 
   for (const auto& mob : data["Mobs"]) {
-    _mobs.emplace_back(mob["Id"].get<uint32_t>(), mob["X"].get<float>(), mob["Y"].get<float>());
+    const int32_t ground_id = mob["Ground"].get<int32_t>();
+    const auto& ground = _grounds[ground_id];
+    _mobs.emplace_back(mob["Id"].get<uint32_t>(), mob["X"].get<float>(), mob["Y"].get<float>(), ground.start_x, ground.end_x);
   }
 }
 

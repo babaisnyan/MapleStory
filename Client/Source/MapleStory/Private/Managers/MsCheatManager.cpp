@@ -36,7 +36,7 @@ void UMsCheatManager::LogMobList() const {
 		const auto Mob = *It;
 		const FVector Location = Mob->GetActorLocation();
 	
-		const FVector NewLocation = {Location.X - SpawnPointLocation.X, Location.Y, Location.Z - SpawnPointLocation.Z + 3};
+		const FVector NewLocation = {Location.X - SpawnPointLocation.X, Location.Y, Location.Z - SpawnPointLocation.Z};
 
 		UE_LOG(LogTemp, Warning, TEXT("MobId: %d, X: %f, Y: %f"), Mob->MobId, NewLocation.X, NewLocation.Z);
 	}

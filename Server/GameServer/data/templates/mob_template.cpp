@@ -4,7 +4,6 @@
 void MobTemplate::Load(const json& data) {
   std::string name;
 
-
   data.at("MobId").get_to(_id);
   data.at("MobName").get_to(name);
   _name = utils::ConvertToWide(name).value_or(L"");

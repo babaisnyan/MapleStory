@@ -44,6 +44,7 @@ namespace game {
 
   public:
     int32_t GetMapId() const noexcept;
+    std::pair<int32_t, int32_t> GetSize() const noexcept;
 
     void AddSpawnLocation(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shared_ptr<MobTemplate>& mob_template);
 

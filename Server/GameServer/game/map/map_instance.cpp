@@ -233,6 +233,10 @@ int32_t MapInstance::GetMapId() const noexcept {
   return _map_id;
 }
 
+std::pair<int32_t, int32_t> MapInstance::GetSize() const noexcept {
+  return _size;
+}
+
 void MapInstance::AddSpawnLocation(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shared_ptr<MobTemplate>& mob_template) {
   _mob_spawn_locations.emplace(spawn_point, mob_template);
 }

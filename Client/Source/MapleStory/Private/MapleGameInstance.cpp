@@ -140,6 +140,14 @@ void UMapleGameInstance::UpdatePlayerPosition(const protocol::GameServerPlayerMo
 	}
 }
 
+void UMapleGameInstance::UpdateMonsterPosition(const protocol::GameServerMobMove& Packet) const {
+	AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (GameMode) {
+		GameMode->UpdateMonsterPosition(Packet);
+	}
+}
+
 void UMapleGameInstance::OnLoginServerConnected() {
 	Client->OnConnected.RemoveDynamic(this, &UMapleGameInstance::OnLoginServerConnected);
 	bIsConnected = true;

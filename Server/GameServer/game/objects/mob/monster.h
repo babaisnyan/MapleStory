@@ -23,6 +23,7 @@ namespace game {
     std::shared_ptr<Monster> GetSelf();
     uint32_t GetId() const;
     std::shared_ptr<MobTemplate> GetTemplate() const;
+    std::shared_ptr<SpawnPoint> GetSpawnPoint() const;
     std::weak_ptr<MapInstance> GetMap() const;
     std::weak_ptr<Player> GetTarget() const;
     float GetSpeed() const;
@@ -45,6 +46,7 @@ namespace game {
     void SetRegenEndTime(uint64_t regen_end_time);
 
   public:
+    protocol::MobActionType GetCurrentState() const;
     void ChangeState(protocol::MobActionType state);
 
   private:

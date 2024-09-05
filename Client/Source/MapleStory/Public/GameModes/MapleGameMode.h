@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "game_protocol.pb.h"
 #include "game_struct.pb.h"
 #include "Data/Enum/EAvatarType.h"
 #include "GameFramework/GameModeBase.h"
@@ -29,6 +30,7 @@ public:
 
 	void AddMonster(const protocol::MobInfo& MonsterInfo);
 	void RemoveMonster(int64 ObjectId);
+	void UpdateMonsterPosition(const protocol::GameServerMobMove& Packet);
 
 	uint64_t GetExpForLevel(int32 Level) const;
 

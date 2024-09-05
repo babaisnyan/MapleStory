@@ -104,13 +104,10 @@ void AMsPlayerBase::Setup(const protocol::OtherPlayerInfo& Info) {
 }
 
 void AMsPlayerBase::Move(const protocol::GameServerPlayerMove& MovePacket) {
-	const FVector Location = GetActorLocation();
-	const FVector NewLocation = {MovePacket.x() + BaseX, Location.Y, MovePacket.y() + BaseY};
 	bFlip = MovePacket.flip();
 	AnimationType = MovePacket.animation();
 	DestX = MovePacket.x();
 	DestY = MovePacket.y();
-	// SetActorLocation(NewLocation);
 
 	if (!bFlip) {
 		GetSprite()->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));

@@ -4,6 +4,8 @@
 #include "Components/MobStatComponent.h"
 #include "Components/MsSpriteComponent.h"
 #include "Data/Table/MobTemplate.h"
+#include "GameFramework/PlayerStart.h"
+#include "Kismet/GameplayStatics.h"
 #include "Managers/MobManager.h"
 
 AMonster::AMonster() {
@@ -22,6 +24,11 @@ AMonster::AMonster() {
 	RootComponent = BoxComponent;
 
 	StatComponent = CreateDefaultSubobject<UMobStatComponent>(TEXT("StatComponent"));
+
+	// static float Z = 0.0f;
+	// Z += 1.0f;
+	// ZIndex = Z;
+	// AddActorWorldOffset({0.0f, ZIndex, 0.0f});
 }
 
 bool AMonster::Init(const int32 Id, const int64 ObjId, const EMobActionType ActionType, const bool Flip) {
@@ -97,6 +104,24 @@ void AMonster::SetCurrentAction(const EMobActionType ActionType, const bool bFor
 	}
 }
 
+void AMonster::Move(const protocol::GameServerMobMove& Packet) {
+	bFlip = Packet.flip();
+	DestX = Packet.x();
+	DestY = Packet.y();
+
+	if (CurrentAction != EMobActionType::Stand && Packet.state() == protocol::MOB_ACTION_TYPE_STAND) {
+		SetActorLocation(FVector(DestX + BaseX, ZIndex, DestY + BaseY));
+	}
+
+	SetCurrentAction(static_cast<EMobActionType>(Packet.state()));
+
+	if (!bFlip) {
+		SetActorRotation(FRotator(0.0f, 180.0f, 0.0f));
+	} else {
+		SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
+	}
+}
+
 void AMonster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 
@@ -114,7 +139,15 @@ void AMonster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChan
 void AMonster::BeginPlay() {
 	Super::BeginPlay();
 
-	if(!bFlip) {
+	const TObjectPtr<AActor> PlayerStart = UGameplayStatics::GetActorOfClass(GetWorld(), APlayerStart::StaticClass());
+
+	if (PlayerStart) {
+		const FVector SpawnPointLocation = PlayerStart->GetActorLocation();
+		BaseX = SpawnPointLocation.X;
+		BaseY = SpawnPointLocation.Z;
+	}
+
+	if (!bFlip) {
 		SetActorRotation({0, 180.0f, 0.0f});
 	} else {
 		SetActorRotation({0, 0, 0});
@@ -127,7 +160,16 @@ void AMonster::BeginPlay() {
 
 void AMonster::Tick(const float DeltaTime) {
 	Super::Tick(DeltaTime);
-	
+
+	if (CurrentAction != EMobActionType::Stand) {
+		const FVector DestVector = {DestX + BaseX, ZIndex, DestY + BaseY};
+
+		if (DestVector != GetActorLocation()) {
+			const FVector TargetVector = FMath::VInterpTo(GetActorLocation(), DestVector, DeltaTime, 1.0f);
+			SetActorLocation(TargetVector);
+		}
+	}
+
 	if (StatComponent->Hp <= 0) {
 		SetCurrentAction(EMobActionType::Die);
 	}
@@ -168,7 +210,7 @@ void AMonster::AddAnimation(const EMobActionType ActionType, const FString& Acti
 	SpriteComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	SpriteComponent->SetVisibility(false, true);
 	SpriteComponents.Add(ActionType, SpriteComponent);
-	
+
 	if (bRegisterEvent) {
 		SpriteComponent->OnFinishedPlaying.AddDynamic(this, &AMonster::OnFinishedPlaying);
 	}

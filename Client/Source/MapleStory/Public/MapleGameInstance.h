@@ -57,6 +57,7 @@ public:
 	void AddMonster(const protocol::MobInfo& MonsterInfo);
 	void RemoveObject(int64 ObjectId);
 	void UpdatePlayerPosition(const protocol::GameServerPlayerMove& Packet) const;
+	void UpdateMonsterPosition(const protocol::GameServerMobMove& Packet) const;
 
 private:
 	UFUNCTION()
