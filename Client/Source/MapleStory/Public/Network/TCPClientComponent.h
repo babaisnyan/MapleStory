@@ -89,6 +89,9 @@ public:
 	virtual void UninitializeComponent() override;
 	virtual void BeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+private:
+	bool ReceiveDesiredBytes(uint8* Results, int32 Size) const;
 	
 protected:
 	FSocket* ClientSocket;

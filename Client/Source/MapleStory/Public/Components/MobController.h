@@ -11,4 +11,5 @@ class MAPLESTORY_API AMobController : public AAIController
 
 public:
 	virtual void OnPossess(APawn* InPawn) override;
+	virtual void Tick(float DeltaSeconds) override;
 };

@@ -42,7 +42,7 @@ void GameServer::StartGameServer() {
 
   GameTick::GetInstance()->Start();
 
-  for (int i = 0; i < 10; i++) {
+  for (int i = 0; i < 16; i++) {
     ThreadManager::GetInstance().Launch([this] {
       while (true) {
         LEndTickCount = GetTickCount64() + kWorkerTick;

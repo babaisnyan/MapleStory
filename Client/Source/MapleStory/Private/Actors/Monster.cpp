@@ -12,13 +12,11 @@
 
 AMonster::AMonster() {
 	PrimaryActorTick.bCanEverTick = true;
-	AIControllerClass = AMobController::StaticClass();
-	AutoPossessAI = EAutoPossessAI::PlacedInWorldOrSpawned;
 
 	BoxComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxComponent"));
 	BoxComponent->SetCollisionProfileName(TEXT("Monster"));
-	BoxComponent->SetSimulatePhysics(true);
-	BoxComponent->SetEnableGravity(true);
+	BoxComponent->SetSimulatePhysics(false);
+	BoxComponent->SetEnableGravity(false);
 	BoxComponent->CanCharacterStepUpOn = ECB_No;
 	BoxComponent->BodyInstance.bLockXRotation = true;
 	BoxComponent->BodyInstance.bLockYRotation = true;
@@ -26,9 +24,6 @@ AMonster::AMonster() {
 	BoxComponent->OnComponentBeginOverlap.AddDynamic(this, &AMonster::OnBeginOverlap);
 
 	RootComponent = BoxComponent;
-
-	MovementComponent = CreateDefaultSubobject<UFloatingPawnMovement>(TEXT("MovementComponent"));
-	MovementComponent->SetUpdatedComponent(RootComponent);
 
 	StatComponent = CreateDefaultSubobject<UMobStatComponent>(TEXT("StatComponent"));
 
@@ -43,8 +38,7 @@ bool AMonster::Init(const int32 Id, const int64 ObjId, const float Y, const EMob
 	bFlip = Flip;
 	DestY = Y;
 
-	// log Y
-	UE_LOG(LogTemp, Warning, TEXT("Y: %f"), Y);
+	SetActorLabel(FString::Printf(TEXT("Monster_%d_%lld"), Id, ObjectId));
 
 	const UMobManager* MobManager = GetGameInstance()->GetSubsystem<UMobManager>();
 
@@ -114,22 +108,24 @@ void AMonster::SetCurrentAction(const EMobActionType ActionType, const bool bFor
 }
 
 void AMonster::Move(const protocol::GameServerMobMove& Packet) {
-	// bFlip = Packet.flip();
-	// DestX = Packet.x();
-	//
-	// if (!bFlip) {
-	// 	SetActorRotation(FRotator(0.0f, 180.0f, 0.0f));
-	// } else {
-	// 	SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
-	// }
-	//
-	// SetCurrentAction(static_cast<EMobActionType>(Packet.state()));
+	const float Temp = DestX;
+	bFlip = Packet.flip();
+	DestX = Packet.x();
 
-	// get ai controller
-	AMobController* MobController = Cast<AMobController>(GetController());
-	const FVector DestVector = {Packet.x() + BaseX, 0.0f, DestY};
-	MobController->MoveToLocation(DestVector, -1, false);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Move to location: %f, %f"), DestVector.X, DestVector.Z));
+	if (abs(Temp - DestX) > 100) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Monster_%d_%lld Move Error"), MobId, ObjectId));
+	}
+	
+	if (!bFlip) {
+		SetActorRotation(FRotator(0.0f, 180.0f, 0.0f));
+	} else {
+		SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
+	}
+
+	SetCurrentAction(static_cast<EMobActionType>(Packet.state()));
+
+	// const FVector DestVector = {DestX + BaseX, 0.0f, DestY};
+	// SetActorLocation(DestVector);
 }
 
 void AMonster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) {
@@ -171,12 +167,12 @@ void AMonster::BeginPlay() {
 void AMonster::Tick(const float DeltaTime) {
 	Super::Tick(DeltaTime);
 
-	// const FVector DestVector = {DestX + BaseX, 0.0f, DestY};
-	//
-	// if (DestVector != GetActorLocation()) {
-	// 	const FVector TargetVector = FMath::VInterpTo(GetActorLocation(), DestVector, DeltaTime, 1.0f);
-	// 	SetActorLocation(TargetVector);
-	// }
+	const FVector DestVector = {DestX + BaseX, 0.0f, DestY};
+	
+	if(DestVector != GetActorLocation()) {
+		const FVector TargetVector = FMath::VInterpTo(GetActorLocation(), DestVector, DeltaTime, 0.5f);
+		SetActorLocation(TargetVector);
+	}
 
 	if (StatComponent->Hp <= 0) {
 		SetCurrentAction(EMobActionType::Die);

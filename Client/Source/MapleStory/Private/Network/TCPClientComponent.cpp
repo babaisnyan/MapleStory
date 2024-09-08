@@ -1,18 +1,16 @@
-
 #include "Network/TCPClientComponent.h"
 #include "IPAddressAsyncResolve.h"
 #include "SocketSubsystem.h"
 #include "Sockets.h"
 #include "TCPWrapperUtility.h"
 #include "Async/Async.h"
+#include "Network/PacketHeader.h"
 
-TFuture<void> RunLambdaOnBackGroundThread(TFunction< void()> InFunction)
-{
+TFuture<void> RunLambdaOnBackGroundThread(TFunction<void()> InFunction) {
 	return Async(EAsyncExecution::Thread, InFunction);
 }
 
-UTCPClientComponent::UTCPClientComponent(const FObjectInitializer &init) : UActorComponent(init)
-{
+UTCPClientComponent::UTCPClientComponent(const FObjectInitializer& init) : UActorComponent(init) {
 	bShouldAutoConnectOnBeginPlay = true;
 	bReceiveDataOnGameThread = true;
 	bWantsInitializeComponent = true;
@@ -24,36 +22,32 @@ UTCPClientComponent::UTCPClientComponent(const FObjectInitializer &init) : UActo
 	ClientSocketName = FString(TEXT("unreal-tcp-client"));
 	ClientSocket = nullptr;
 
-	BufferMaxSize = 2 * 1024 * 1024;	//default roughly 2mb
+	BufferMaxSize = 2 * 1024 * 1024; //default roughly 2mb
 }
 
-void UTCPClientComponent::ConnectToSocketAsClient(const FString& InIP /*= TEXT("127.0.0.1")*/, const int32 InPort /*= 3000*/)
-{
+void UTCPClientComponent::ConnectToSocketAsClient(const FString& InIP /*= TEXT("127.0.0.1")*/, const int32 InPort /*= 3000*/) {
 	//Already connected? attempt reconnect
-	if (IsConnected())
-	{
+	if (IsConnected()) {
 		CloseSocket();
 		ConnectToSocketAsClient(InIP, InPort);
 	}
 
 	ISocketSubsystem* SocketSubsystem = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM);
 
-	if (SocketSubsystem == nullptr)
-    {
-        UE_LOG(LogTemp, Error, TEXT("TCPClientComponent: SocketSubsystem is nullptr"));
-        return;
-    }
+	if (SocketSubsystem == nullptr) {
+		UE_LOG(LogTemp, Error, TEXT("TCPClientComponent: SocketSubsystem is nullptr"));
+		return;
+	}
 
 	auto ResolveInfo = SocketSubsystem->GetHostByName(TCHAR_TO_ANSI(*InIP));
 	while (!ResolveInfo->IsComplete());
 
 	auto error = ResolveInfo->GetErrorCode();
 
-	if (error != 0)
-    {
-        UE_LOG(LogTemp, Error, TEXT("TCPClientComponent: DNS resolve error code %d"), error);
-        return;
-    }
+	if (error != 0) {
+		UE_LOG(LogTemp, Error, TEXT("TCPClientComponent: DNS resolve error code %d"), error);
+		return;
+	}
 
 	RemoteAdress = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
 
@@ -67,86 +61,73 @@ void UTCPClientComponent::ConnectToSocketAsClient(const FString& InIP /*= TEXT("
 	ClientSocket->SetReceiveBufferSize(BufferMaxSize, BufferMaxSize);
 
 	//Listen for data on our end
-	ClientConnectionFinishedFuture = FTCPWrapperUtility::RunLambdaOnBackGroundThread([&]()
-	{
+	ClientConnectionFinishedFuture = FTCPWrapperUtility::RunLambdaOnBackGroundThread([&] {
 		double LastConnectionCheck = FPlatformTime::Seconds();
 
 		uint32 BufferSize = 0;
 		TArray<uint8> ReceiveBuffer;
 		bShouldAttemptConnection = true;
 
-		while (bShouldAttemptConnection)
-		{
-			if (ClientSocket->Connect(*RemoteAdress))
-			{
-				FTCPWrapperUtility::RunLambdaOnGameThread([&]()
-				{
+		while (bShouldAttemptConnection) {
+			if (ClientSocket->Connect(*RemoteAdress)) {
+				FTCPWrapperUtility::RunLambdaOnGameThread([&] {
 					OnConnected.Broadcast();
 				});
 				bShouldAttemptConnection = false;
 				continue;
 			}
-		
+
 			//reconnect attempt every 3 sec
 			FPlatformProcess::Sleep(3.f);
 		}
 
 		bShouldReceiveData = true;
 
-		while (bShouldReceiveData)
-		{
-			if (ClientSocket->HasPendingData(BufferSize))
-			{
-				ReceiveBuffer.SetNumUninitialized(BufferSize);
+		while (bShouldReceiveData) {
+			TArray<uint8> HeaderBuffer;
+			constexpr int32 HeaderSize = sizeof(FPacketHeader);
+			HeaderBuffer.AddZeroed(HeaderSize);
 
-				int32 Read = 0;
-				ClientSocket->Recv(ReceiveBuffer.GetData(), ReceiveBuffer.Num(), Read);
-
-				if (bReceiveDataOnGameThread)
-				{
-					//Copy buffer so it's still valid on game thread
-					TArray<uint8> ReceiveBufferGT;
-					ReceiveBufferGT.Append(ReceiveBuffer);
-
-					//Pass the reference to be used on game thread
-					AsyncTask(ENamedThreads::GameThread, [&, ReceiveBufferGT]()
-					{
-						OnReceivedBytes.Broadcast(ReceiveBufferGT);
-					});
-				}
-				else
-				{
-					OnReceivedBytes.Broadcast(ReceiveBuffer);
-				}
+			if (!ReceiveDesiredBytes(HeaderBuffer.GetData(), HeaderSize)) {
+				continue;
 			}
-			//sleep until there is data or 10 ticks (0.1micro seconds
-			ClientSocket->Wait(ESocketWaitConditions::WaitForReadOrWrite, FTimespan(10));
 
-			//Check every second if we're still connected
-			//NB: this doesn't really work atm, disconnects are not captured on receive pipe
-			//detectable on send failure though
-			/*double Now = FPlatformTime::Seconds();
-			if (Now > (LastConnectionCheck + 1.0)) 
+			FPacketHeader Header;
 			{
-				LastConnectionCheck = Now;
-				if (!IsConnected())
-				{
-					bShouldReceiveData = false;
-					FTCPWrapperUtility::RunLambdaOnGameThread([&]() 
-					{
-						OnDisconnected.Broadcast();
-					});
-					
-				}
-			}*/
+				FMemoryReader Reader(HeaderBuffer);
+				Reader << Header;
+			}
+
+			const int32 PayloadSize = Header.PacketSize - HeaderSize;
+			if (PayloadSize == 0) {
+				TArray<uint8> EmptyPayload;
+				EmptyPayload.Append(HeaderBuffer);
+
+				AsyncTask(ENamedThreads::GameThread, [&, EmptyPayload] {
+					OnReceivedBytes.Broadcast(EmptyPayload);
+				});
+				continue;
+			}
+			
+			TArray<uint8> PayloadBuffer;
+			PayloadBuffer.Append(HeaderBuffer);
+			PayloadBuffer.AddZeroed(PayloadSize);
+
+			if (!ReceiveDesiredBytes(PayloadBuffer.GetData() + HeaderSize, PayloadSize)) {
+				continue;
+			}
+			
+			AsyncTask(ENamedThreads::GameThread, [&, PayloadBuffer] {
+				OnReceivedBytes.Broadcast(PayloadBuffer);
+			});
+
+			ClientSocket->Wait(ESocketWaitConditions::WaitForReadOrWrite, FTimespan(10));
 		}
 	});
 }
 
-void UTCPClientComponent::CloseSocket()
-{
-	if (ClientSocket)
-	{
+void UTCPClientComponent::CloseSocket() {
+	if (ClientSocket) {
 		bShouldReceiveData = false;
 		ClientConnectionFinishedFuture.Get();
 
@@ -158,27 +139,22 @@ void UTCPClientComponent::CloseSocket()
 	}
 }
 
-bool UTCPClientComponent::Emit(const TArray<uint8>& Bytes)
-{
-	if (IsConnected())
-	{
+bool UTCPClientComponent::Emit(const TArray<uint8>& Bytes) {
+	if (IsConnected()) {
 		int32 BytesSent = 0;
 		bool bDidSend = ClientSocket->Send(Bytes.GetData(), Bytes.Num(), BytesSent);
-		
+
 
 		//If we're supposedly connected but failed to send
-		if (IsConnected() && !bDidSend)
-		{
+		if (IsConnected() && !bDidSend) {
 			UE_LOG(LogTemp, Warning, TEXT("Sending Failure detected"));
 
-			if (bAutoDisconnectOnSendFailure)
-			{
+			if (bAutoDisconnectOnSendFailure) {
 				UE_LOG(LogTemp, Warning, TEXT("disconnecting socket."));
 				CloseSocket();
 			}
 
-			if (bAutoReconnectOnSendFailure)
-			{
+			if (bAutoReconnectOnSendFailure) {
 				UE_LOG(LogTemp, Warning, TEXT("reconnecting..."));
 				ConnectToSocketAsClient(ConnectionIP, ConnectionPort);
 			}
@@ -188,34 +164,50 @@ bool UTCPClientComponent::Emit(const TArray<uint8>& Bytes)
 	return false;
 }
 
-bool UTCPClientComponent::IsConnected()
-{
+bool UTCPClientComponent::IsConnected() {
 	return (ClientSocket && (ClientSocket->GetConnectionState() == ESocketConnectionState::SCS_Connected));
 }
 
-void UTCPClientComponent::InitializeComponent()
-{
+void UTCPClientComponent::InitializeComponent() {
 	Super::InitializeComponent();
 }
 
-void UTCPClientComponent::UninitializeComponent()
-{
+void UTCPClientComponent::UninitializeComponent() {
 	Super::UninitializeComponent();
 }
 
-void UTCPClientComponent::BeginPlay()
-{
+void UTCPClientComponent::BeginPlay() {
 	Super::BeginPlay();
 
-	if (bShouldAutoConnectOnBeginPlay)
-	{
+	if (bShouldAutoConnectOnBeginPlay) {
 		ConnectToSocketAsClient(ConnectionIP, ConnectionPort);
 	}
 }
 
-void UTCPClientComponent::EndPlay(const EEndPlayReason::Type EndPlayReason)
-{
+void UTCPClientComponent::EndPlay(const EEndPlayReason::Type EndPlayReason) {
 	CloseSocket();
 
 	Super::EndPlay(EndPlayReason);
+}
+
+bool UTCPClientComponent::ReceiveDesiredBytes(uint8* Results, int32 Size) const {
+	uint32 PendingDataSize;
+	if (ClientSocket->HasPendingData(PendingDataSize) == false || PendingDataSize <= 0)
+		return false;
+
+	int32 Offset = 0;
+
+	while (Size > 0) {
+		int32 NumRead = 0;
+		ClientSocket->Recv(Results + Offset, Size, NumRead);
+		check(NumRead <= Size);
+
+		if (NumRead <= 0)
+			return false;
+
+		Offset += NumRead;
+		Size -= NumRead;
+	}
+
+	return true;
 }

@@ -12,11 +12,11 @@ int64_t utils::random::Rand(const int64_t max) {
   return dist(gen);
 }
 
-int64_t utils::random::Rand(const int64_t min, const int64_t max) {
+int64_t utils::random::Rand(const int64_t start, const int64_t end) {
   static std::random_device rd;
   static std::mt19937 gen(rd());
 
-  std::uniform_int_distribution dist(min, max);
+  std::uniform_int_distribution dist(min(start, end), max(start, end));
 
   return dist(gen);
 }

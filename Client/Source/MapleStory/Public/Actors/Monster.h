@@ -14,7 +14,7 @@ struct FMobTemplate;
 class UMsSpriteComponent;
 
 UCLASS(meta = (ChildCanTick))
-class MAPLESTORY_API AMonster : public APawn {
+class MAPLESTORY_API AMonster : public AActor {
 	GENERATED_BODY()
 
 public:
@@ -53,8 +53,6 @@ private:
 public:
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TObjectPtr<UBoxComponent> BoxComponent;
-
-	TObjectPtr<UPawnMovementComponent> MovementComponent;
 
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TMap<EMobActionType, TObjectPtr<UMsSpriteComponent>> SpriteComponents;
@@ -96,9 +94,18 @@ public:
 	bool bFlip = false;
 
 private:
+	UPROPERTY(VisibleAnywhere)
 	int32 DestX;
+
+	UPROPERTY(VisibleAnywhere)
 	float DestY;
+
+	UPROPERTY()
 	float BaseX;
+
+	UPROPERTY()
 	float BaseY;
+
+	UPROPERTY()
 	int32 ZIndex;
 };

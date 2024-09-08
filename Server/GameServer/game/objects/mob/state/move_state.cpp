@@ -24,10 +24,15 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
   // TODO: 캐릭터 타겟 탐색
 
   const auto dir = mob->IsFlipped() ? -1.0f : 1.0f;
+  const auto test = static_cast<int32_t>(dir * (mob->GetSpeed() * delta));
   const auto x = mob->GetX() + static_cast<int32_t>(dir * (mob->GetSpeed() * delta));
   const auto y = mob->GetY();
   const auto min_x = mob->GetSpawnPoint()->GetMinX();
   const auto max_x = mob->GetSpawnPoint()->GetMaxX();
+
+  if (abs(test) > 100) {
+    std::cout << "error\n";
+  }
 
   if (static_cast<int32_t>(x) > min_x && static_cast<int32_t>(x) < max_x) {
     mob->UpdatePosition(x, y, mob->IsFlipped());
