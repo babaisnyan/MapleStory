@@ -301,16 +301,16 @@ const char descriptor_table_protodef_game_5fprotocol_2eproto[] PROTOBUF_SECTION_
   "ob_infos\030\001 \003(\0132\021.protocol.MobInfo\"+\n\026Gam"
   "eServerRemoveObject\022\021\n\tobject_id\030\001 \001(\003\"%"
   "\n\023GameServerChangeMap\022\016\n\006map_id\030\001 \001(\005\"h\n"
-  "\024GameClientPlayerMove\022\t\n\001x\030\001 \001(\002\022\t\n\001y\030\002 "
-  "\001(\002\022\014\n\004flip\030\003 \001(\010\022,\n\tanimation\030\004 \001(\0162\031.p"
+  "\024GameClientPlayerMove\022\t\n\001x\030\001 \001(\005\022\t\n\001y\030\002 "
+  "\001(\005\022\014\n\004flip\030\003 \001(\010\022,\n\tanimation\030\004 \001(\0162\031.p"
   "rotocol.PlayerAnimation\"{\n\024GameServerPla"
-  "yerMove\022\021\n\tobject_id\030\001 \001(\003\022\t\n\001x\030\002 \001(\002\022\t\n"
-  "\001y\030\003 \001(\002\022\014\n\004flip\030\004 \001(\010\022,\n\tanimation\030\005 \001("
+  "yerMove\022\021\n\tobject_id\030\001 \001(\003\022\t\n\001x\030\002 \001(\005\022\t\n"
+  "\001y\030\003 \001(\005\022\014\n\004flip\030\004 \001(\010\022,\n\tanimation\030\005 \001("
   "\0162\031.protocol.PlayerAnimation\"G\n\032GameClie"
   "ntChangeKeySetting\022)\n\013key_setting\030\001 \001(\0132"
   "\024.protocol.KeySetting\"r\n\021GameServerMobMo"
-  "ve\022\021\n\tobject_id\030\001 \001(\003\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 "
-  "\001(\002\022\014\n\004flip\030\004 \001(\010\022&\n\005state\030\005 \001(\0162\027.proto"
+  "ve\022\021\n\tobject_id\030\001 \001(\003\022\t\n\001x\030\002 \001(\005\022\t\n\001y\030\003 "
+  "\001(\005\022\014\n\004flip\030\004 \001(\010\022&\n\005state\030\005 \001(\0162\027.proto"
   "col.MobActionType\"H\n\023GameServerMobAttack"
   "\022\021\n\ttarget_id\030\001 \001(\003\022\016\n\006mob_id\030\002 \001(\005\022\016\n\006d"
   "amage\030\003 \001(\005b\006proto3"
@@ -1682,18 +1682,18 @@ const char* GameClientPlayerMove::_InternalParse(const char* ptr, ::PROTOBUF_NAM
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // float x = 1;
+      // int32 x = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 13)) {
-          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float y = 2;
+      // int32 y = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 21)) {
-          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       // bool flip = 3;
@@ -1740,16 +1740,16 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // float x = 1;
-  if (!(this->x() <= 0 && this->x() >= 0)) {
+  // int32 x = 1;
+  if (this->x() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(1, this->_internal_x(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_x(), target);
   }
 
-  // float y = 2;
-  if (!(this->y() <= 0 && this->y() >= 0)) {
+  // int32 y = 2;
+  if (this->y() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(2, this->_internal_y(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_y(), target);
   }
 
   // bool flip = 3;
@@ -1781,14 +1781,18 @@ size_t GameClientPlayerMove::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // float x = 1;
-  if (!(this->x() <= 0 && this->x() >= 0)) {
-    total_size += 1 + 4;
+  // int32 x = 1;
+  if (this->x() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_x());
   }
 
-  // float y = 2;
-  if (!(this->y() <= 0 && this->y() >= 0)) {
-    total_size += 1 + 4;
+  // int32 y = 2;
+  if (this->y() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_y());
   }
 
   // bool flip = 3;
@@ -1833,10 +1837,10 @@ void GameClientPlayerMove::MergeFrom(const GameClientPlayerMove& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (!(from.x() <= 0 && from.x() >= 0)) {
+  if (from.x() != 0) {
     _internal_set_x(from._internal_x());
   }
-  if (!(from.y() <= 0 && from.y() >= 0)) {
+  if (from.y() != 0) {
     _internal_set_y(from._internal_y());
   }
   if (from.flip() != 0) {
@@ -1955,18 +1959,18 @@ const char* GameServerPlayerMove::_InternalParse(const char* ptr, ::PROTOBUF_NAM
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float x = 2;
+      // int32 x = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 21)) {
-          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float y = 3;
+      // int32 y = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 29)) {
-          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       // bool flip = 4;
@@ -2019,16 +2023,16 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_object_id(), target);
   }
 
-  // float x = 2;
-  if (!(this->x() <= 0 && this->x() >= 0)) {
+  // int32 x = 2;
+  if (this->x() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(2, this->_internal_x(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_x(), target);
   }
 
-  // float y = 3;
-  if (!(this->y() <= 0 && this->y() >= 0)) {
+  // int32 y = 3;
+  if (this->y() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(3, this->_internal_y(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_y(), target);
   }
 
   // bool flip = 4;
@@ -2067,14 +2071,18 @@ size_t GameServerPlayerMove::ByteSizeLong() const {
         this->_internal_object_id());
   }
 
-  // float x = 2;
-  if (!(this->x() <= 0 && this->x() >= 0)) {
-    total_size += 1 + 4;
+  // int32 x = 2;
+  if (this->x() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_x());
   }
 
-  // float y = 3;
-  if (!(this->y() <= 0 && this->y() >= 0)) {
-    total_size += 1 + 4;
+  // int32 y = 3;
+  if (this->y() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_y());
   }
 
   // bool flip = 4;
@@ -2122,10 +2130,10 @@ void GameServerPlayerMove::MergeFrom(const GameServerPlayerMove& from) {
   if (from.object_id() != 0) {
     _internal_set_object_id(from._internal_object_id());
   }
-  if (!(from.x() <= 0 && from.x() >= 0)) {
+  if (from.x() != 0) {
     _internal_set_x(from._internal_x());
   }
-  if (!(from.y() <= 0 && from.y() >= 0)) {
+  if (from.y() != 0) {
     _internal_set_y(from._internal_y());
   }
   if (from.flip() != 0) {
@@ -2455,18 +2463,18 @@ const char* GameServerMobMove::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float x = 2;
+      // int32 x = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 21)) {
-          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float y = 3;
+      // int32 y = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 29)) {
-          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       // bool flip = 4;
@@ -2519,16 +2527,16 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_object_id(), target);
   }
 
-  // float x = 2;
-  if (!(this->x() <= 0 && this->x() >= 0)) {
+  // int32 x = 2;
+  if (this->x() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(2, this->_internal_x(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_x(), target);
   }
 
-  // float y = 3;
-  if (!(this->y() <= 0 && this->y() >= 0)) {
+  // int32 y = 3;
+  if (this->y() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(3, this->_internal_y(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_y(), target);
   }
 
   // bool flip = 4;
@@ -2567,14 +2575,18 @@ size_t GameServerMobMove::ByteSizeLong() const {
         this->_internal_object_id());
   }
 
-  // float x = 2;
-  if (!(this->x() <= 0 && this->x() >= 0)) {
-    total_size += 1 + 4;
+  // int32 x = 2;
+  if (this->x() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_x());
   }
 
-  // float y = 3;
-  if (!(this->y() <= 0 && this->y() >= 0)) {
-    total_size += 1 + 4;
+  // int32 y = 3;
+  if (this->y() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_y());
   }
 
   // bool flip = 4;
@@ -2622,10 +2634,10 @@ void GameServerMobMove::MergeFrom(const GameServerMobMove& from) {
   if (from.object_id() != 0) {
     _internal_set_object_id(from._internal_object_id());
   }
-  if (!(from.x() <= 0 && from.x() >= 0)) {
+  if (from.x() != 0) {
     _internal_set_x(from._internal_x());
   }
-  if (!(from.y() <= 0 && from.y() >= 0)) {
+  if (from.y() != 0) {
     _internal_set_y(from._internal_y());
   }
   if (from.flip() != 0) {

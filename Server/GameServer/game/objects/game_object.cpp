@@ -11,11 +11,11 @@ const MsCoordinate& GameObject::GetPosition() const {
   return _position;
 }
 
-float GameObject::GetX() const {
+int32_t GameObject::GetX() const {
   return _position.x;
 }
 
-float GameObject::GetY() const {
+int32_t GameObject::GetY() const {
   return _position.y;
 }
 
@@ -27,7 +27,7 @@ void GameObject::SetFlip(const bool flip) {
   _flip = flip;
 }
 
-void GameObject::UpdatePosition(const float x, const float y, const bool flip) {
+void GameObject::UpdatePosition(const int32_t x, const int32_t y, const bool flip) {
   _position.x = x;
   _position.y = y;
   _position.grid_x = static_cast<int16_t>(x) / MsCoordinate::kGridSize;

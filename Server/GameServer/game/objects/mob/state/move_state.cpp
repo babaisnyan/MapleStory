@@ -23,8 +23,8 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
   mob->AddAnimationTime(delta);
   // TODO: 캐릭터 타겟 탐색
 
-  const auto dir = mob->IsFlipped() ? -1 : 1;
-  const auto x = mob->GetX() + dir * mob->GetSpeed() * delta;
+  const auto dir = mob->IsFlipped() ? -1.0f : 1.0f;
+  const auto x = mob->GetX() + static_cast<int32_t>(dir * (mob->GetSpeed() * delta));
   const auto y = mob->GetY();
   const auto min_x = mob->GetSpawnPoint()->GetMinX();
   const auto max_x = mob->GetSpawnPoint()->GetMaxX();
@@ -38,11 +38,11 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
     move.set_y(y);
     move.set_flip(mob->IsFlipped());
     move.set_state(mob->GetCurrentState());
-
     mob->GetMap().lock()->BroadCast(move, nullptr);
+
+    std::cout << std::format("Monster {} move to x: {}, y: {}\n", mob->GetId(), x, y);
   } else {
     mob->SetFlip(!mob->IsFlipped());
-    mob->ChangeState(protocol::MOB_ACTION_TYPE_STAND);
   }
 }
 

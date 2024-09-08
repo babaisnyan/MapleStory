@@ -221,20 +221,20 @@ const char descriptor_table_protodef_game_5fstruct_2eproto[] PROTOBUF_SECTION_VA
   "(\005\022\n\n\002hp\030\010 \001(\005\022\n\n\002mp\030\t \001(\005\022\016\n\006max_hp\030\n \001"
   "(\005\022\016\n\006max_mp\030\013 \001(\005\022\013\n\003str\030\014 \001(\005\022\013\n\003dex\030\r"
   " \001(\005\022\013\n\003luk\030\016 \001(\005\022\013\n\003int\030\017 \001(\005\022\t\n\001x\030\020 \001("
-  "\002\022\t\n\001y\030\021 \001(\002\022\n\n\002ap\030\022 \001(\005\022\n\n\002sp\030\023 \001(\005\022*\n\014"
+  "\005\022\t\n\001y\030\021 \001(\005\022\n\n\002ap\030\022 \001(\005\022\n\n\002sp\030\023 \001(\005\022*\n\014"
   "key_settings\030\024 \003(\0132\024.protocol.KeySetting"
   "\022!\n\005items\030\025 \003(\0132\022.protocol.ItemInfo\"\201\001\n\017"
   "OtherPlayerInfo\022\021\n\tobject_id\030\001 \001(\003\022\014\n\004na"
   "me\030\002 \001(\t\022\014\n\004type\030\003 \001(\005\022\r\n\005level\030\004 \001(\005\022\n\n"
-  "\002hp\030\005 \001(\005\022\016\n\006max_hp\030\006 \001(\005\022\t\n\001x\030\007 \001(\002\022\t\n\001"
-  "y\030\010 \001(\002\"E\n\010ItemInfo\022\n\n\002id\030\001 \001(\r\022\014\n\004type\030"
+  "\002hp\030\005 \001(\005\022\016\n\006max_hp\030\006 \001(\005\022\t\n\001x\030\007 \001(\005\022\t\n\001"
+  "y\030\010 \001(\005\"E\n\010ItemInfo\022\n\n\002id\030\001 \001(\r\022\014\n\004type\030"
   "\002 \001(\005\022\r\n\005count\030\003 \001(\005\022\020\n\010sub_type\030\004 \001(\005\"\234"
   "\001\n\nKeySetting\022#\n\010key_code\030\001 \001(\0162\021.protoc"
   "ol.KeyCode\022#\n\010key_type\030\002 \001(\0162\021.protocol."
   "KeyType\022\024\n\007item_id\030\003 \001(\rH\000\210\001\001\022\025\n\010skill_i"
   "d\030\004 \001(\rH\001\210\001\001B\n\n\010_item_idB\013\n\t_skill_id\"t\n"
   "\007MobInfo\022\021\n\tobject_id\030\001 \001(\003\022\n\n\002id\030\002 \001(\r\022"
-  "\t\n\001x\030\003 \001(\002\022\t\n\001y\030\004 \001(\002\022&\n\005state\030\005 \001(\0162\027.p"
+  "\t\n\001x\030\003 \001(\005\022\t\n\001y\030\004 \001(\005\022&\n\005state\030\005 \001(\0162\027.p"
   "rotocol.MobActionType\022\014\n\004flip\030\006 \001(\010b\006pro"
   "to3"
   ;
@@ -443,18 +443,18 @@ const char* PlayerInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float x = 16;
+      // int32 x = 16;
       case 16:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 133)) {
-          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 128)) {
+          x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float y = 17;
+      // int32 y = 17;
       case 17:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 141)) {
-          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 136)) {
+          y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       // int32 ap = 18;
@@ -618,16 +618,16 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(15, this->_internal_int_(), target);
   }
 
-  // float x = 16;
-  if (!(this->x() <= 0 && this->x() >= 0)) {
+  // int32 x = 16;
+  if (this->x() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(16, this->_internal_x(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(16, this->_internal_x(), target);
   }
 
-  // float y = 17;
-  if (!(this->y() <= 0 && this->y() >= 0)) {
+  // int32 y = 17;
+  if (this->y() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(17, this->_internal_y(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(17, this->_internal_y(), target);
   }
 
   // int32 ap = 18;
@@ -793,14 +793,18 @@ size_t PlayerInfo::ByteSizeLong() const {
         this->_internal_int_());
   }
 
-  // float x = 16;
-  if (!(this->x() <= 0 && this->x() >= 0)) {
-    total_size += 2 + 4;
+  // int32 x = 16;
+  if (this->x() != 0) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_x());
   }
 
-  // float y = 17;
-  if (!(this->y() <= 0 && this->y() >= 0)) {
-    total_size += 2 + 4;
+  // int32 y = 17;
+  if (this->y() != 0) {
+    total_size += 2 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_y());
   }
 
   // int32 ap = 18;
@@ -895,10 +899,10 @@ void PlayerInfo::MergeFrom(const PlayerInfo& from) {
   if (from.int_() != 0) {
     _internal_set_int_(from._internal_int_());
   }
-  if (!(from.x() <= 0 && from.x() >= 0)) {
+  if (from.x() != 0) {
     _internal_set_x(from._internal_x());
   }
-  if (!(from.y() <= 0 && from.y() >= 0)) {
+  if (from.y() != 0) {
     _internal_set_y(from._internal_y());
   }
   if (from.ap() != 0) {
@@ -1069,18 +1073,18 @@ const char* OtherPlayerInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPAC
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float x = 7;
+      // int32 x = 7;
       case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 61)) {
-          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 56)) {
+          x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float y = 8;
+      // int32 y = 8;
       case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 69)) {
-          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 64)) {
+          y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       default: {
@@ -1152,16 +1156,16 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(6, this->_internal_max_hp(), target);
   }
 
-  // float x = 7;
-  if (!(this->x() <= 0 && this->x() >= 0)) {
+  // int32 x = 7;
+  if (this->x() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(7, this->_internal_x(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(7, this->_internal_x(), target);
   }
 
-  // float y = 8;
-  if (!(this->y() <= 0 && this->y() >= 0)) {
+  // int32 y = 8;
+  if (this->y() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(8, this->_internal_y(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(8, this->_internal_y(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1222,14 +1226,18 @@ size_t OtherPlayerInfo::ByteSizeLong() const {
         this->_internal_max_hp());
   }
 
-  // float x = 7;
-  if (!(this->x() <= 0 && this->x() >= 0)) {
-    total_size += 1 + 4;
+  // int32 x = 7;
+  if (this->x() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_x());
   }
 
-  // float y = 8;
-  if (!(this->y() <= 0 && this->y() >= 0)) {
-    total_size += 1 + 4;
+  // int32 y = 8;
+  if (this->y() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_y());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1281,10 +1289,10 @@ void OtherPlayerInfo::MergeFrom(const OtherPlayerInfo& from) {
   if (from.max_hp() != 0) {
     _internal_set_max_hp(from._internal_max_hp());
   }
-  if (!(from.x() <= 0 && from.x() >= 0)) {
+  if (from.x() != 0) {
     _internal_set_x(from._internal_x());
   }
-  if (!(from.y() <= 0 && from.y() >= 0)) {
+  if (from.y() != 0) {
     _internal_set_y(from._internal_y());
   }
 }
@@ -1980,18 +1988,18 @@ const char* MobInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::in
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float x = 3;
+      // int32 x = 3;
       case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 29)) {
-          x_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 24)) {
+          x_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // float y = 4;
+      // int32 y = 4;
       case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 37)) {
-          y_ = ::PROTOBUF_NAMESPACE_ID::internal::UnalignedLoad<float>(ptr);
-          ptr += sizeof(float);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          y_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
         } else goto handle_unusual;
         continue;
       // .protocol.MobActionType state = 5;
@@ -2050,16 +2058,16 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt32ToArray(2, this->_internal_id(), target);
   }
 
-  // float x = 3;
-  if (!(this->x() <= 0 && this->x() >= 0)) {
+  // int32 x = 3;
+  if (this->x() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(3, this->_internal_x(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(3, this->_internal_x(), target);
   }
 
-  // float y = 4;
-  if (!(this->y() <= 0 && this->y() >= 0)) {
+  // int32 y = 4;
+  if (this->y() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteFloatToArray(4, this->_internal_y(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(4, this->_internal_y(), target);
   }
 
   // .protocol.MobActionType state = 5;
@@ -2105,14 +2113,18 @@ size_t MobInfo::ByteSizeLong() const {
         this->_internal_id());
   }
 
-  // float x = 3;
-  if (!(this->x() <= 0 && this->x() >= 0)) {
-    total_size += 1 + 4;
+  // int32 x = 3;
+  if (this->x() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_x());
   }
 
-  // float y = 4;
-  if (!(this->y() <= 0 && this->y() >= 0)) {
-    total_size += 1 + 4;
+  // int32 y = 4;
+  if (this->y() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_y());
   }
 
   // .protocol.MobActionType state = 5;
@@ -2163,10 +2175,10 @@ void MobInfo::MergeFrom(const MobInfo& from) {
   if (from.id() != 0) {
     _internal_set_id(from._internal_id());
   }
-  if (!(from.x() <= 0 && from.x() >= 0)) {
+  if (from.x() != 0) {
     _internal_set_x(from._internal_x());
   }
-  if (!(from.y() <= 0 && from.y() >= 0)) {
+  if (from.y() != 0) {
     _internal_set_y(from._internal_y());
   }
   if (from.state() != 0) {

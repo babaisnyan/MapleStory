@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Monster.generated.h"
 
+class UNavMovementComponent;
 class UMobStatComponent;
 class UBoxComponent;
 struct FAnimationData;
@@ -13,13 +14,13 @@ struct FMobTemplate;
 class UMsSpriteComponent;
 
 UCLASS(meta = (ChildCanTick))
-class MAPLESTORY_API AMonster : public AActor {
+class MAPLESTORY_API AMonster : public APawn {
 	GENERATED_BODY()
 
 public:
 	AMonster();
 
-	bool Init(int32 Id, int64 ObjId, EMobActionType ActionType = EMobActionType::Stand, bool Flip = false);
+	bool Init(int32 Id, int64 ObjId, float Y = 0.0f, EMobActionType ActionType = EMobActionType::Stand, bool Flip = false);
 
 	EMobActionType GetCurrentAction() const {
 		return CurrentAction;
@@ -52,6 +53,8 @@ private:
 public:
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TObjectPtr<UBoxComponent> BoxComponent;
+
+	TObjectPtr<UPawnMovementComponent> MovementComponent;
 
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TMap<EMobActionType, TObjectPtr<UMsSpriteComponent>> SpriteComponents;
@@ -93,9 +96,9 @@ public:
 	bool bFlip = false;
 
 private:
-	float DestX;
+	int32 DestX;
 	float DestY;
 	float BaseX;
 	float BaseY;
-	float ZIndex;
+	int32 ZIndex;
 };

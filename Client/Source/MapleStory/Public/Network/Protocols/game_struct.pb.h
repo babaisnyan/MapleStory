@@ -388,22 +388,22 @@ class PlayerInfo final :
   void _internal_set_int_(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // float x = 16;
+  // int32 x = 16;
   void clear_x();
-  float x() const;
-  void set_x(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 x() const;
+  void set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  float _internal_x() const;
-  void _internal_set_x(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_x() const;
+  void _internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // float y = 17;
+  // int32 y = 17;
   void clear_y();
-  float y() const;
-  void set_y(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 y() const;
+  void set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  float _internal_y() const;
-  void _internal_set_y(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_y() const;
+  void _internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // int32 ap = 18;
@@ -448,8 +448,8 @@ class PlayerInfo final :
   ::PROTOBUF_NAMESPACE_ID::int32 dex_;
   ::PROTOBUF_NAMESPACE_ID::int32 luk_;
   ::PROTOBUF_NAMESPACE_ID::int32 int__;
-  float x_;
-  float y_;
+  ::PROTOBUF_NAMESPACE_ID::int32 x_;
+  ::PROTOBUF_NAMESPACE_ID::int32 y_;
   ::PROTOBUF_NAMESPACE_ID::int32 ap_;
   ::PROTOBUF_NAMESPACE_ID::int32 sp_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -633,22 +633,22 @@ class OtherPlayerInfo final :
   void _internal_set_max_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // float x = 7;
+  // int32 x = 7;
   void clear_x();
-  float x() const;
-  void set_x(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 x() const;
+  void set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  float _internal_x() const;
-  void _internal_set_x(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_x() const;
+  void _internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // float y = 8;
+  // int32 y = 8;
   void clear_y();
-  float y() const;
-  void set_y(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 y() const;
+  void set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  float _internal_y() const;
-  void _internal_set_y(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_y() const;
+  void _internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:protocol.OtherPlayerInfo)
@@ -664,8 +664,8 @@ class OtherPlayerInfo final :
   ::PROTOBUF_NAMESPACE_ID::int32 level_;
   ::PROTOBUF_NAMESPACE_ID::int32 hp_;
   ::PROTOBUF_NAMESPACE_ID::int32 max_hp_;
-  float x_;
-  float y_;
+  ::PROTOBUF_NAMESPACE_ID::int32 x_;
+  ::PROTOBUF_NAMESPACE_ID::int32 y_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fstruct_2eproto;
 };
@@ -1143,22 +1143,22 @@ class MobInfo final :
   void _internal_set_id(::PROTOBUF_NAMESPACE_ID::uint32 value);
   public:
 
-  // float x = 3;
+  // int32 x = 3;
   void clear_x();
-  float x() const;
-  void set_x(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 x() const;
+  void set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  float _internal_x() const;
-  void _internal_set_x(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_x() const;
+  void _internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // float y = 4;
+  // int32 y = 4;
   void clear_y();
-  float y() const;
-  void set_y(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 y() const;
+  void set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  float _internal_y() const;
-  void _internal_set_y(float value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_y() const;
+  void _internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // .protocol.MobActionType state = 5;
@@ -1188,8 +1188,8 @@ class MobInfo final :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::int64 object_id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 id_;
-  float x_;
-  float y_;
+  ::PROTOBUF_NAMESPACE_ID::int32 x_;
+  ::PROTOBUF_NAMESPACE_ID::int32 y_;
   int state_;
   bool flip_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -1531,42 +1531,42 @@ inline void PlayerInfo::set_int_(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.int)
 }
 
-// float x = 16;
+// int32 x = 16;
 inline void PlayerInfo::clear_x() {
   x_ = 0;
 }
-inline float PlayerInfo::_internal_x() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PlayerInfo::_internal_x() const {
   return x_;
 }
-inline float PlayerInfo::x() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PlayerInfo::x() const {
   // @@protoc_insertion_point(field_get:protocol.PlayerInfo.x)
   return _internal_x();
 }
-inline void PlayerInfo::_internal_set_x(float value) {
+inline void PlayerInfo::_internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   x_ = value;
 }
-inline void PlayerInfo::set_x(float value) {
+inline void PlayerInfo::set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_x(value);
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.x)
 }
 
-// float y = 17;
+// int32 y = 17;
 inline void PlayerInfo::clear_y() {
   y_ = 0;
 }
-inline float PlayerInfo::_internal_y() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PlayerInfo::_internal_y() const {
   return y_;
 }
-inline float PlayerInfo::y() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 PlayerInfo::y() const {
   // @@protoc_insertion_point(field_get:protocol.PlayerInfo.y)
   return _internal_y();
 }
-inline void PlayerInfo::_internal_set_y(float value) {
+inline void PlayerInfo::_internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   y_ = value;
 }
-inline void PlayerInfo::set_y(float value) {
+inline void PlayerInfo::set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.y)
 }
@@ -1838,42 +1838,42 @@ inline void OtherPlayerInfo::set_max_hp(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.OtherPlayerInfo.max_hp)
 }
 
-// float x = 7;
+// int32 x = 7;
 inline void OtherPlayerInfo::clear_x() {
   x_ = 0;
 }
-inline float OtherPlayerInfo::_internal_x() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 OtherPlayerInfo::_internal_x() const {
   return x_;
 }
-inline float OtherPlayerInfo::x() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 OtherPlayerInfo::x() const {
   // @@protoc_insertion_point(field_get:protocol.OtherPlayerInfo.x)
   return _internal_x();
 }
-inline void OtherPlayerInfo::_internal_set_x(float value) {
+inline void OtherPlayerInfo::_internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   x_ = value;
 }
-inline void OtherPlayerInfo::set_x(float value) {
+inline void OtherPlayerInfo::set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_x(value);
   // @@protoc_insertion_point(field_set:protocol.OtherPlayerInfo.x)
 }
 
-// float y = 8;
+// int32 y = 8;
 inline void OtherPlayerInfo::clear_y() {
   y_ = 0;
 }
-inline float OtherPlayerInfo::_internal_y() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 OtherPlayerInfo::_internal_y() const {
   return y_;
 }
-inline float OtherPlayerInfo::y() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 OtherPlayerInfo::y() const {
   // @@protoc_insertion_point(field_get:protocol.OtherPlayerInfo.y)
   return _internal_y();
 }
-inline void OtherPlayerInfo::_internal_set_y(float value) {
+inline void OtherPlayerInfo::_internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   y_ = value;
 }
-inline void OtherPlayerInfo::set_y(float value) {
+inline void OtherPlayerInfo::set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:protocol.OtherPlayerInfo.y)
 }
@@ -2106,42 +2106,42 @@ inline void MobInfo::set_id(::PROTOBUF_NAMESPACE_ID::uint32 value) {
   // @@protoc_insertion_point(field_set:protocol.MobInfo.id)
 }
 
-// float x = 3;
+// int32 x = 3;
 inline void MobInfo::clear_x() {
   x_ = 0;
 }
-inline float MobInfo::_internal_x() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 MobInfo::_internal_x() const {
   return x_;
 }
-inline float MobInfo::x() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 MobInfo::x() const {
   // @@protoc_insertion_point(field_get:protocol.MobInfo.x)
   return _internal_x();
 }
-inline void MobInfo::_internal_set_x(float value) {
+inline void MobInfo::_internal_set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   x_ = value;
 }
-inline void MobInfo::set_x(float value) {
+inline void MobInfo::set_x(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_x(value);
   // @@protoc_insertion_point(field_set:protocol.MobInfo.x)
 }
 
-// float y = 4;
+// int32 y = 4;
 inline void MobInfo::clear_y() {
   y_ = 0;
 }
-inline float MobInfo::_internal_y() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 MobInfo::_internal_y() const {
   return y_;
 }
-inline float MobInfo::y() const {
+inline ::PROTOBUF_NAMESPACE_ID::int32 MobInfo::y() const {
   // @@protoc_insertion_point(field_get:protocol.MobInfo.y)
   return _internal_y();
 }
-inline void MobInfo::_internal_set_y(float value) {
+inline void MobInfo::_internal_set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
   y_ = value;
 }
-inline void MobInfo::set_y(float value) {
+inline void MobInfo::set_y(::PROTOBUF_NAMESPACE_ID::int32 value) {
   _internal_set_y(value);
   // @@protoc_insertion_point(field_set:protocol.MobInfo.y)
 }

@@ -10,6 +10,15 @@
 
 void StandState::Enter(const std::shared_ptr<Monster>& mob) {
   mob->ResetAnimationTime();
+
+  protocol::GameServerMobMove move;
+  move.set_object_id(mob->GetObjectId());
+  move.set_x(mob->GetX());
+  move.set_y(mob->GetY());
+  move.set_flip(mob->IsFlipped());
+  move.set_state(mob->GetCurrentState());
+
+  mob->GetMap().lock()->BroadCast(move, nullptr);
 }
 
 void StandState::Update(const std::shared_ptr<Monster>& mob, const float delta) {

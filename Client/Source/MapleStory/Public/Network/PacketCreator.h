@@ -18,7 +18,7 @@ public:
 	static FSendBufferRef GetCreateCharacterRequest(const FString& Name, int32 Avatar);
 
 	static FSendBufferRef GetClientEnterRequest(int32 CharacterId, int32 AuthKey);
-	static FSendBufferRef GetClientMove(float X, float Y, bool bFlip, protocol::PlayerAnimation AnimationType);
+	static FSendBufferRef GetClientMove(int32 X, int32 Y, bool bFlip, protocol::PlayerAnimation AnimationType);
 
 	static FSendBufferRef GetChangeKeySetting(EKeyCode KeyCode, EKeyType KeyType, int32 ItemId = 0, int32 SkillId = 0);
 };

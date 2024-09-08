@@ -27,11 +27,11 @@ namespace game {
   public:
     int64_t GetObjectId() const;
     const MsCoordinate& GetPosition() const;
-    float GetX() const;
-    float GetY() const;
+    int32_t GetX() const;
+    int32_t GetY() const;
     bool IsFlipped() const;
     void SetFlip(bool flip);
-    void UpdatePosition(float x, float y, bool flip);
+    void UpdatePosition(int32_t x, int32_t y, bool flip);
 
   protected:
     virtual int64_t GetNextObjectId() = 0;
