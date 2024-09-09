@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Monster.generated.h"
 
+class UWidgetComponent;
 class UNavMovementComponent;
 class UMobStatComponent;
 class UBoxComponent;
@@ -57,6 +58,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TMap<EMobActionType, TObjectPtr<UMsSpriteComponent>> SpriteComponents;
 
+ 	UPROPERTY(VisibleAnywhere, Category = "Mob")
+	TObjectPtr<UWidgetComponent> NameTag;
+	
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TObjectPtr<UMobStatComponent> StatComponent;
 
@@ -66,6 +70,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	int32 MobId = 100100;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	int32 Level = 1;
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	FName MobName = TEXT("None");
 

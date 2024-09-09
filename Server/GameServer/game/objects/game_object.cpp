@@ -28,10 +28,6 @@ void GameObject::SetFlip(const bool flip) {
 }
 
 void GameObject::UpdatePosition(const int32_t x, const int32_t y, const bool flip) {
-  if(abs(x - _position.x) > 100) {
-    std::cout << "1\n";
-  }
-
   _position.x = x;
   _position.y = y;
   _position.grid_x = static_cast<int16_t>(x) / MsCoordinate::kGridSize;
