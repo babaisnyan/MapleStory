@@ -32,7 +32,6 @@ AMonster::AMonster() {
 		NameTag->SetWidgetClass(NameTagFinder.Class);
 		NameTag->SetWidgetSpace(EWidgetSpace::World);
 		NameTag->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
-		// NameTag->SetRelativeLocation(FVector(0.0f, 10.0f, -50.0f));
 		NameTag->SetCollisionProfileName(TEXT("NoCollision"));
 		NameTag->SetGenerateOverlapEvents(false);
 		NameTag->SetSimulatePhysics(false);
@@ -44,7 +43,6 @@ AMonster::AMonster() {
 		NameTag->TranslucencySortPriority = 100;
 	}
 
-	NameTag->SetupAttachment(RootComponent);
 	StatComponent = CreateDefaultSubobject<UMobStatComponent>(TEXT("StatComponent"));
 
 	static int32 Z = 0;
@@ -138,14 +136,13 @@ void AMonster::Move(const protocol::GameServerMobMove& Packet) {
 
 	if (!bFlip) {
 		SetActorRotation(FRotator(0.0f, 180.0f, 0.0f));
+		NameTag->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 	} else {
 		SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
+		NameTag->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
 	}
 
 	SetCurrentAction(static_cast<EMobActionType>(Packet.state()));
-
-	// const FVector DestVector = {DestX + BaseX, 0.0f, DestY};
-	// SetActorLocation(DestVector);
 }
 
 void AMonster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) {
@@ -175,8 +172,10 @@ void AMonster::BeginPlay() {
 
 	if (!bFlip) {
 		SetActorRotation({0, 180.0f, 0.0f});
+		NameTag->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 	} else {
 		SetActorRotation({0, 0, 0});
+		NameTag->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
 	}
 
 	check(SpriteComponents.Contains(CurrentAction));
@@ -202,6 +201,21 @@ void AMonster::Tick(const float DeltaTime) {
 
 	if (StatComponent->Hp <= 0) {
 		SetCurrentAction(EMobActionType::Die);
+	}
+
+	if (NameTag && NameTag->GetDrawSize().X == 500) {
+		if (const auto Widget = Cast<UMobNameTag>(NameTag->GetUserWidgetObject())) {
+			const auto Size = Widget->GetDesiredSize();
+
+			if (Size.X > 0 && Size.Y > 0) {
+				const FVector BoxLocation = BoxComponent->GetComponentLocation();
+				const FVector BoxExtent = BoxComponent->GetScaledBoxExtent();
+				const FVector Location = BoxLocation - FVector(0.0f, 0.0f, BoxExtent.Z * 2);
+
+				NameTag->SetDrawSize(Size);
+				NameTag->SetWorldLocation(Location);
+			}
+		}
 	}
 }
 

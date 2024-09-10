@@ -97,9 +97,6 @@ void AMapleGameMode::RemoveMonster(const int64 ObjectId) {
 
 void AMapleGameMode::UpdateMonsterPosition(const protocol::GameServerMobMove& Packet) {
 	if (Monsters.Contains(Packet.object_id())) {
-		const auto Test = Packet.object_id();
-		const auto Test2 = Packet.x();
-		UE_LOG(LogTemp, Warning, TEXT("Monster %d moved to %d"), Monsters[Packet.object_id()]->MobId, Test2);
 		Monsters[Packet.object_id()]->Move(Packet);
 	} else {
 		UE_LOG(LogTemp, Warning, TEXT("Monster not found"));
