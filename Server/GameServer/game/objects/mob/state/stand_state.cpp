@@ -33,36 +33,41 @@ void StandState::Update(const std::shared_ptr<Monster>& mob, const float delta) 
 
     if (target) {
       mob->ChangeTarget(target);
+
+      if (mob->IsAttackReady() && mob->IsTargetInDistance()) {
+        mob->ChangeState(protocol::MOB_ACTION_TYPE_ATTACK);
+      } else {
+        mob->ChangeState(protocol::MOB_ACTION_TYPE_MOVE);
+      }
+      return;
     }
   }
 
-  protocol::GameServerMobMove move;
-  move.set_object_id(mob->GetObjectId());
-  move.set_x(mob->GetX());
-  move.set_y(mob->GetY());
-  move.set_flip(mob->IsFlipped());
-  move.set_state(mob->GetCurrentState());
+  const auto random = utils::random::Rand(150);
 
-  mob->GetMap().lock()->BroadCast(move, nullptr);
-}
+  if (random == 50 || random == 51) {
+    mob->SetFlip(random == 51);
 
-void StandState::PostUpdate(const std::shared_ptr<Monster>& mob) {
-  if (mob->HasTarget()) {
-    if (mob->IsAttackReady() && mob->IsTargetInDistance()) {
-      mob->ChangeState(protocol::MOB_ACTION_TYPE_ATTACK);
-    } else {
+    protocol::GameServerMobMove move;
+    move.set_object_id(mob->GetObjectId());
+    move.set_x(mob->GetX());
+    move.set_y(mob->GetY());
+    move.set_flip(mob->IsFlipped());
+    move.set_state(mob->GetCurrentState());
+
+    mob->GetMap().lock()->BroadCast(move, nullptr);
+  } else if (random == 100 || random == 101) {
+    mob->SetFlip(random == 101);
+
+    const auto min_x = mob->IsFlipped() ? mob->GetSpawnPoint()->GetMinX() : mob->GetX() + 10;
+    const auto max_x = mob->IsFlipped() ? mob->GetX() - 10 : mob->GetSpawnPoint()->GetMaxX();
+    const auto map_min_x = mob->GetSpawnPoint()->GetMinX();
+    const auto map_max_x = mob->GetSpawnPoint()->GetMaxX();
+    const auto random_x = utils::random::RandFloat(min_x, max_x);
+
+    if (random_x > map_min_x && random_x < map_max_x) {
+      mob->SetTargetPosition(random_x, mob->GetY());
       mob->ChangeState(protocol::MOB_ACTION_TYPE_MOVE);
-    }
-  } else {
-    switch (utils::random::Rand(150)) {
-    case 50:
-      mob->SetFlip(false);
-      mob->ChangeState(protocol::MOB_ACTION_TYPE_MOVE);
-      break;
-    case 100:
-      mob->SetFlip(true);
-      mob->ChangeState(protocol::MOB_ACTION_TYPE_MOVE);
-      break;
     }
   }
 }

@@ -19,8 +19,6 @@ void Player::OnEnter() {
 
 void Player::Update(float delta_time) {}
 
-void Player::PostUpdate() {}
-
 int32_t Player::GetId() const {
   return _id;
 }

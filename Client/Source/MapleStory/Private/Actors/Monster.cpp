@@ -1,7 +1,6 @@
 #include "Actors/Monster.h"
 
 #include "Components/BoxComponent.h"
-#include "Components/MobController.h"
 #include "Components/MobStatComponent.h"
 #include "Components/MsSpriteComponent.h"
 #include "Components/WidgetComponent.h"
@@ -38,7 +37,6 @@ AMonster::AMonster() {
 		NameTag->CanCharacterStepUpOn = ECB_No;
 		NameTag->SetBlendMode(EWidgetBlendMode::Transparent);
 		NameTag->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		NameTag->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 		NameTag->SetDrawAtDesiredSize(true);
 		NameTag->TranslucencySortPriority = 100;
 	}
@@ -49,14 +47,18 @@ AMonster::AMonster() {
 	ZIndex = ++Z;
 }
 
-bool AMonster::Init(const int32 Id, const int64 ObjId, const float Y, const EMobActionType ActionType, const bool Flip) {
-	MobId = Id;
-	ObjectId = ObjId;
-	CurrentAction = ActionType;
-	bFlip = Flip;
+bool AMonster::Init(const protocol::MobInfo& MonsterInfo, const float Y) {
+	MobId = MonsterInfo.id();
+	ObjectId = MonsterInfo.object_id();
+	CurrentAction = static_cast<EMobActionType>(MonsterInfo.state());
+	bFlip = MonsterInfo.flip();
 	DestY = Y;
 
-	SetActorLabel(FString::Printf(TEXT("Monster_%d_%lld"), Id, ObjectId));
+	if (MonsterInfo.has_target_x()) {
+		DestX = MonsterInfo.target_x();
+	}
+
+	SetActorLabel(FString::Printf(TEXT("Monster_%d_%lld"), MobId, ObjectId));
 
 	const UMobManager* MobManager = GetGameInstance()->GetSubsystem<UMobManager>();
 
@@ -64,7 +66,7 @@ bool AMonster::Init(const int32 Id, const int64 ObjId, const float Y, const EMob
 		return false;
 	}
 
-	const FMobTemplate* MobTemplate = MobManager->GetMobTemplate(Id);
+	const FMobTemplate* MobTemplate = MobManager->GetMobTemplate(MobId);
 
 	if (!MobTemplate) {
 		return false;
@@ -95,6 +97,8 @@ bool AMonster::Init(const int32 Id, const int64 ObjId, const float Y, const EMob
 		AddAnimation(EMobActionType::Attack, TEXT("attack1"));
 	}
 
+	NameTag->AttachToComponent(SpriteComponents[EMobActionType::Stand], FAttachmentTransformRules::KeepRelativeTransform);
+	NameTag->SetRelativeLocation({0.0f, 0.0f, -55.5f});
 	return true;
 }
 
@@ -106,12 +110,12 @@ void AMonster::SetCurrentAction(const EMobActionType ActionType, const bool bFor
 	if (bForce) {
 		for (const auto& Pair : SpriteComponents) {
 			Pair.Value->Reset();
-			Pair.Value->SetVisibility(false, true);
+			Pair.Value->SetVisibility(false, false);
 		}
 	} else {
 		if (SpriteComponents.Contains(CurrentAction)) {
 			SpriteComponents[CurrentAction]->Reset();
-			SpriteComponents[CurrentAction]->SetVisibility(false, true);
+			SpriteComponents[CurrentAction]->SetVisibility(false, false);
 		}
 	}
 
@@ -121,17 +125,17 @@ void AMonster::SetCurrentAction(const EMobActionType ActionType, const bool bFor
 		const TObjectPtr<UMsSpriteComponent> SpriteComponent = SpriteComponents[CurrentAction];
 		SpriteComponent->Reset();
 		SpriteComponent->Play();
-		SpriteComponent->SetVisibility(true, true);
+		SpriteComponent->SetVisibility(true, false);
 	}
 }
 
 void AMonster::Move(const protocol::GameServerMobMove& Packet) {
-	const float Temp = DestX;
 	bFlip = Packet.flip();
-	DestX = Packet.x();
 
-	if (abs(Temp - DestX) > 100) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Monster_%d_%lld Move Error"), MobId, ObjectId));
+	SetActorLocation(FVector(Packet.x() + BaseX, 0.0f, DestY));
+
+	if (Packet.has_target_x()) {
+		DestX = Packet.target_x();
 	}
 
 	if (!bFlip) {
@@ -186,36 +190,33 @@ void AMonster::BeginPlay() {
 			Widget->SetInfo(Level, MobName);
 		}
 	}
+
+	const float NameTagDelta = NameTag->GetComponentLocation().Z - BoxComponent->GetComponentLocation().Z;
+	NameTag->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
+	NameTag->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+	NameTag->SetRelativeLocation({0.0f, 0.0f, NameTagDelta});
 }
 
 
 void AMonster::Tick(const float DeltaTime) {
 	Super::Tick(DeltaTime);
 
-	const FVector DestVector = {DestX + BaseX, 0.0f, DestY};
+	if (CurrentAction == EMobActionType::Move) {
+		const FVector DestLocation = FVector(GetActorLocation().X + StatComponent->Speed * DeltaTime * (bFlip ? -1.0f : 1.0f), 0.0f, DestY);
+		const FVector EndLocation = FVector(DestLocation.X, DestLocation.Y, DestLocation.Z - 100.0f);
+		FHitResult HitResult;
+		FCollisionObjectQueryParams ObjectQueryParams;
+		ObjectQueryParams.AddObjectTypesToQuery(ECC_WorldStatic);
 
-	if (DestVector != GetActorLocation()) {
-		const FVector TargetVector = FMath::VInterpTo(GetActorLocation(), DestVector, DeltaTime, 0.5f);
-		SetActorLocation(TargetVector);
+		if (GetWorld()->LineTraceSingleByObjectType(HitResult, DestLocation, EndLocation, ObjectQueryParams)) {
+			AddActorWorldOffset({StatComponent->Speed * DeltaTime * (bFlip ? -1.0f : 1.0f), 0.0f, 0.0f});
+		} else {
+			UE_LOG(LogTemp, Warning, TEXT("Monster_%d_%lld can't find the ground"), MobId, ObjectId);
+		}
 	}
 
 	if (StatComponent->Hp <= 0) {
 		SetCurrentAction(EMobActionType::Die);
-	}
-
-	if (NameTag && NameTag->GetDrawSize().X == 500) {
-		if (const auto Widget = Cast<UMobNameTag>(NameTag->GetUserWidgetObject())) {
-			const auto Size = Widget->GetDesiredSize();
-
-			if (Size.X > 0 && Size.Y > 0) {
-				const FVector BoxLocation = BoxComponent->GetComponentLocation();
-				const FVector BoxExtent = BoxComponent->GetScaledBoxExtent();
-				const FVector Location = BoxLocation - FVector(0.0f, 0.0f, BoxExtent.Z * 2);
-
-				NameTag->SetDrawSize(Size);
-				NameTag->SetWorldLocation(Location);
-			}
-		}
 	}
 }
 
@@ -226,7 +227,7 @@ void AMonster::Setup(const FMobTemplate* MobTemplate) {
 	StatComponent->Hp = MobTemplate->MaxHp;
 	BodyAttack = MobTemplate->BodyAttack;
 	FirstAttack = MobTemplate->FirstAttack;
-	StatComponent->Speed = MobTemplate->Speed + 100 < 0 ? 0 : MobTemplate->Speed + 100;
+	StatComponent->Speed = (1.0f + static_cast<float>(MobTemplate->Speed) / 100.0f) * 70.0f;
 	StatComponent->PhysicalAttack = MobTemplate->PaDamage;
 	StatComponent->MagicalAttack = MobTemplate->MaDamage;
 	StatComponent->PhysicalDefense = MobTemplate->PdDamage;
@@ -253,7 +254,7 @@ void AMonster::AddAnimation(const EMobActionType ActionType, const FString& Acti
 	SpriteComponent->Setup(SpriteTable, false, ActionType == EMobActionType::Stand || ActionType == EMobActionType::Move);
 	SpriteComponent->RegisterComponent();
 	SpriteComponent->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
-	SpriteComponent->SetVisibility(false, true);
+	SpriteComponent->SetVisibility(false, false);
 	SpriteComponent->TranslucencySortPriority = ZIndex;
 	SpriteComponents.Add(ActionType, SpriteComponent);
 

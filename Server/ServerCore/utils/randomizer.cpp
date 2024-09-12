@@ -21,6 +21,15 @@ int64_t utils::random::Rand(const int64_t start, const int64_t end) {
   return dist(gen);
 }
 
+float utils::random::RandFloat(const float start, const float end) {
+  static std::random_device rd;
+  static std::mt19937 gen(rd());
+
+  std::uniform_real_distribution dist(min(start, end), max(start, end));
+
+  return dist(gen);
+}
+
 bool utils::random::IsSuccess(const int32_t chance) {
   return Rand(100) < chance;
 }

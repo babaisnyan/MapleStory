@@ -18,13 +18,12 @@ namespace game {
 
     void OnEnter() override;
     void Update(float delta_time) override;
-    void PostUpdate() override;
 
     std::shared_ptr<Monster> GetSelf();
     uint32_t GetId() const;
     std::shared_ptr<MobTemplate> GetTemplate() const;
     std::shared_ptr<SpawnPoint> GetSpawnPoint() const;
-    std::weak_ptr<MapInstance> GetMap() const;
+    std::weak_ptr<MapInstance> GetMap() const; // TODO: shared_ptr로 바꾸기
     std::weak_ptr<Player> GetTarget() const;
     float GetSpeed() const;
 
@@ -36,6 +35,11 @@ namespace game {
     void ChangeTarget(const std::shared_ptr<Player>& player);
     bool IsTargetInDistance() const;
     bool HasTarget() const;
+
+    void ResetTargetPosition();
+    void SetTargetPosition(float x, float y);
+    bool HasTargetPosition() const;
+    std::shared_ptr<MsCoordinate> GetTargetPosition() const;
 
     bool IsTargetInAttackRange() const;
     bool IsAttackReady() const;
@@ -61,6 +65,8 @@ namespace game {
     std::shared_ptr<SpawnPoint> _spawn_point;
     std::weak_ptr<MapInstance> _map;
     std::weak_ptr<Player> _target;
+    std::shared_ptr<MsCoordinate> _target_position;
+    bool _has_target_position = false;
 
     float _speed = 2.0f;
 

@@ -21,7 +21,7 @@ class MAPLESTORY_API AMonster : public AActor {
 public:
 	AMonster();
 
-	bool Init(int32 Id, int64 ObjId, float Y = 0.0f, EMobActionType ActionType = EMobActionType::Stand, bool Flip = false);
+	bool Init(const protocol::MobInfo& MonsterInfo, float Y);
 
 	EMobActionType GetCurrentAction() const {
 		return CurrentAction;
@@ -58,9 +58,9 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TMap<EMobActionType, TObjectPtr<UMsSpriteComponent>> SpriteComponents;
 
- 	UPROPERTY(VisibleAnywhere, Category = "Mob")
+	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TObjectPtr<UWidgetComponent> NameTag;
-	
+
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TObjectPtr<UMobStatComponent> StatComponent;
 
@@ -72,7 +72,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	int32 Level = 1;
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	FName MobName = TEXT("None");
 
@@ -102,9 +102,9 @@ public:
 
 private:
 	UPROPERTY(VisibleAnywhere)
-	int32 DestX;
+	float DestX;
 
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY()
 	float DestY;
 
 	UPROPERTY()

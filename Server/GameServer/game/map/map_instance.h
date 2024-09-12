@@ -39,7 +39,6 @@ namespace game {
   private:
     void OnPlayerEnter(const std::shared_ptr<GameSession>& session);
     void OnPlayerLeave(const std::shared_ptr<Player>& player);
-    void PostUpdate();
     void RespawnMobs();
 
   public:

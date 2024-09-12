@@ -17,5 +17,3 @@ void RegenState::Update(const std::shared_ptr<Monster>& mob, const float delta) 
     mob->ChangeState(protocol::MobActionType::MOB_ACTION_TYPE_STAND);
   }
 }
-
-void RegenState::PostUpdate(const std::shared_ptr<Monster>& mob) {}

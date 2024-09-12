@@ -22,16 +22,15 @@ namespace game {
   public:
     virtual void OnEnter() = 0;
     virtual void Update(float delta_time) = 0;
-    virtual void PostUpdate() = 0;
 
   public:
     int64_t GetObjectId() const;
     const MsCoordinate& GetPosition() const;
-    int32_t GetX() const;
-    int32_t GetY() const;
+    float GetX() const;
+    float GetY() const;
     bool IsFlipped() const;
     void SetFlip(bool flip);
-    void UpdatePosition(int32_t x, int32_t y, bool flip);
+    void UpdatePosition(float x, float y, bool flip);
 
   protected:
     virtual int64_t GetNextObjectId() = 0;

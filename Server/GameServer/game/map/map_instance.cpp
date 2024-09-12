@@ -87,14 +87,6 @@ void MapInstance::Update(const float delta) {
   for (const auto& object : _objects | std::ranges::views::values) {
     object->Update(delta);
   }
-
-  PostUpdate();
-}
-
-void MapInstance::PostUpdate() {
-  for (const auto& object : _objects | std::ranges::views::values) {
-    object->PostUpdate();
-  }
 }
 
 void MapInstance::RespawnMobs() {
@@ -118,6 +110,7 @@ void MapInstance::RespawnMobs() {
       entry->set_object_id(mob->GetObjectId());
       entry->set_x(spawn->GetX());
       entry->set_y(spawn->GetY());
+      entry->set_state(protocol::MOB_ACTION_TYPE_STAND);
       entry->set_flip(mob->IsFlipped());
 
       _mobs.emplace(spawn, mob);
@@ -200,6 +193,14 @@ void MapInstance::OnPlayerEnter(const std::shared_ptr<GameSession>& session) {
     entry->set_object_id(mob->GetObjectId());
     entry->set_x(mob->GetX());
     entry->set_y(mob->GetY());
+    entry->set_state(mob->GetCurrentState());
+    entry->set_flip(mob->IsFlipped());
+
+    if (mob->HasTargetPosition()) {
+      const auto target_position = mob->GetTargetPosition();
+      entry->set_target_x(target_position->x);
+      entry->set_target_y(target_position->y);
+    }
   }
 
   if (mobs.mob_infos_size() > 0) {

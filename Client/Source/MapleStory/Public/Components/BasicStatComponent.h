@@ -41,5 +41,5 @@ public:
 	int32 MagicalDefenseRate = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
-	int32 Speed = 0;
+	float Speed = 0.0f;
 };

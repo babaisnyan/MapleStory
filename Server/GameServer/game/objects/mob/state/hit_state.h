@@ -16,7 +16,6 @@ namespace game {
 
     void Enter(const std::shared_ptr<Monster>& mob) override;
     void Update(const std::shared_ptr<Monster>& mob, float delta) override;
-    void PostUpdate(const std::shared_ptr<Monster>& mob) override;
   
   };
   

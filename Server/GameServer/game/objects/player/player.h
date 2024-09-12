@@ -12,7 +12,6 @@ namespace game {
 
     void OnEnter() override;
     void Update(float delta_time) override;
-    void PostUpdate() override;
 
   public:
     int32_t GetId() const;

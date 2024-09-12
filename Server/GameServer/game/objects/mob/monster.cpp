@@ -31,7 +31,7 @@ Monster::Monster(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shar
 void Monster::Init(const std::shared_ptr<MobTemplate>& mob_template) {
   _id = mob_template->GetId();
   _mob_template = mob_template;
-  _speed = (1 + static_cast<float>(mob_template->GetSpeed()) / 100) * 50;
+  _speed = (1 + static_cast<float>(mob_template->GetSpeed()) / 100) * 70;
 
   UpdatePosition(_spawn_point->GetX(), _spawn_point->GetY(), utils::random::IsSuccess(50));
 
@@ -52,10 +52,6 @@ void Monster::OnEnter() {
 
 void Monster::Update(const float delta_time) {
   _states[_current_state]->Update(GetSelf(), delta_time);
-}
-
-void Monster::PostUpdate() {
-  _states[_current_state]->PostUpdate(GetSelf());
 }
 
 std::shared_ptr<Monster> Monster::GetSelf() {
@@ -104,6 +100,7 @@ void Monster::ResetTarget() {
 
 void Monster::ChangeTarget(const std::shared_ptr<Player>& player) {
   _target = player;
+  ResetTargetPosition();
 }
 
 bool Monster::IsTargetInDistance() const {
@@ -118,6 +115,28 @@ bool Monster::IsTargetInDistance() const {
 
 bool Monster::HasTarget() const {
   return !_target.expired();
+}
+
+void Monster::ResetTargetPosition() {
+  _has_target_position = false;
+}
+
+void Monster::SetTargetPosition(const float x, const float y) {
+  if (!_target_position) {
+    _target_position = std::make_shared<MsCoordinate>();
+  }
+
+  _target_position->x = x;
+  _target_position->y = y;
+  _has_target_position = true;
+}
+
+bool Monster::HasTargetPosition() const {
+  return _has_target_position;
+}
+
+std::shared_ptr<MsCoordinate> Monster::GetTargetPosition() const {
+  return _target_position;
 }
 
 bool Monster::IsTargetInAttackRange() const {
@@ -170,13 +189,9 @@ int64_t Monster::GetNextObjectId() {
 }
 
 void Monster::ChangeState(const protocol::MobActionType state) {
-  if (_current_state == state) {
-    return;
-  }
-
   ASSERT_CRASH(_mob_template->HasAction(state));
 
-  // std::cout << std::format("[Transition] ObjectId: {}, MobId: {}, {} -> {}\n", _object_id, _id, magic_enum::enum_name(_current_state), magic_enum::enum_name(state)).c_str();
+  std::cout << std::format("[Transition] ObjectId: {}, MobId: {}, {} -> {}\n", _object_id, _id, magic_enum::enum_name(_current_state), magic_enum::enum_name(state)).c_str();
 
   _current_state = state;
   _states[_current_state]->Enter(GetSelf());

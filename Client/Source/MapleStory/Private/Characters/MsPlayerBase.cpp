@@ -23,7 +23,6 @@ AMsPlayerBase::AMsPlayerBase() {
 	if (Capsule) {
 		Capsule->SetCapsuleSize(16.0f, 33.0f);
 		Capsule->SetCollisionProfileName(TEXT("Pawn"));
-		// Capsule->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
 		Capsule->SetSimulatePhysics(false);
 		Capsule->SetEnableGravity(true);
 		Capsule->CanCharacterStepUpOn = ECB_No;
@@ -46,6 +45,7 @@ AMsPlayerBase::AMsPlayerBase() {
 		NameTagWidget->SetBlendMode(EWidgetBlendMode::Transparent);
 		NameTagWidget->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		NameTagWidget->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+		NameTagWidget->TranslucencySortPriority = 1000;
 	}
 
 	const TObjectPtr<UCharacterMovementComponent> Movement = GetCharacterMovement();
@@ -124,7 +124,7 @@ void AMsPlayerBase::Tick(const float DeltaSeconds) {
 	if (NameTagWidget && NameTagWidget->GetDrawSize().X == 500) {
 		if (const auto Widget = Cast<UNameTag>(NameTagWidget->GetUserWidgetObject())) {
 			const auto Size = Widget->GetDesiredSize();
-
+	
 			if (Size.X > 0 && Size.Y > 0) {
 				NameTagWidget->SetDrawSize(Size);
 			}
