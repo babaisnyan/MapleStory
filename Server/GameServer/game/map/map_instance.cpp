@@ -27,6 +27,9 @@ bool MapInstance::AddPlayer(const std::shared_ptr<GameSession>& session) {
   if (inserted) {
     _objects.emplace(session->GetPlayer()->GetObjectId(), session->GetPlayer());
     OnPlayerEnter(session);
+
+    const auto position = session->GetPlayer()->GetPosition();
+    _grid[position.grid_y][position.grid_x].push_back(session->GetPlayer());
   }
 
   return inserted;
@@ -66,7 +69,10 @@ void MapInstance::MovePlayer(const std::shared_ptr<GameSession>& session, const 
     return;
   }
 
+  auto& position = player->GetPosition();
+  std::erase(_grid[position.grid_y][position.grid_x], player);
   player->UpdatePosition(packet.x(), packet.y(), packet.flip());
+  _grid[position.grid_y][position.grid_x].push_back(player);
 
   protocol::GameServerPlayerMove response;
   response.set_object_id(player->GetObjectId());
@@ -75,6 +81,16 @@ void MapInstance::MovePlayer(const std::shared_ptr<GameSession>& session, const 
   response.set_flip(packet.flip());
   response.set_animation(packet.animation());
   BroadCast(response, session);
+}
+
+void MapInstance::MoveObject(const std::shared_ptr<GameObject>& object, const int16_t old_x, const int16_t old_y) {
+  if (!object) {
+    return;
+  }
+
+  const auto position = object->GetPosition();
+  std::erase(_grid[old_y][old_x], object);
+  _grid[position.grid_y][position.grid_x].push_back(object);
 }
 
 void MapInstance::Update(const float delta) {
@@ -123,6 +139,8 @@ void MapInstance::RespawnMobs() {
     BroadCast(packet, nullptr);
 
     for (const auto& mob : temp_mobs) {
+      const auto position = mob->GetPosition();
+      _grid[position.grid_y][position.grid_x].push_back(mob);
       mob->OnEnter();
     }
 
@@ -236,6 +254,10 @@ int32_t MapInstance::GetMapId() const noexcept {
 
 std::pair<int32_t, int32_t> MapInstance::GetSize() const noexcept {
   return _size;
+}
+
+const std::vector<std::shared_ptr<GameObject>>& MapInstance::GetObjects(const int16_t x, const int16_t y) noexcept {
+  return _grid[y][x];
 }
 
 void MapInstance::AddSpawnLocation(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shared_ptr<MobTemplate>& mob_template) {

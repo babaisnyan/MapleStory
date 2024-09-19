@@ -24,6 +24,7 @@ namespace game {
     bool AddPlayer(const std::shared_ptr<GameSession>& session);
     bool RemoveObject(const int64_t object_id);
     void MovePlayer(const std::shared_ptr<GameSession>& session, const protocol::GameClientPlayerMove& packet);
+    void MoveObject(const std::shared_ptr<GameObject>& object, const int16_t old_x, int16_t old_y);
     void Update(float delta);
 
     std::optional<std::shared_ptr<GameSession>> GetPlayer(int64_t object_id) const;
@@ -44,6 +45,7 @@ namespace game {
   public:
     int32_t GetMapId() const noexcept;
     std::pair<int32_t, int32_t> GetSize() const noexcept;
+    const std::vector<std::shared_ptr<GameObject>>& GetObjects(int16_t x, int16_t y) noexcept;
 
     void AddSpawnLocation(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shared_ptr<MobTemplate>& mob_template);
 

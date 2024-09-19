@@ -1,5 +1,6 @@
 #include "Actors/Monster.h"
 
+#include "Characters/MsLocalPlayer.h"
 #include "Components/BoxComponent.h"
 #include "Components/MobStatComponent.h"
 #include "Components/MsSpriteComponent.h"
@@ -286,5 +287,8 @@ void AMonster::OnFinishedPlaying(UMsSpriteComponent* SpriteComponent) {
 void AMonster::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
 	if (CurrentAction == EMobActionType::Die || CurrentAction == EMobActionType::Regen) {
 		return;
+	}
+
+	if (const auto Player = Cast<AMsLocalPlayer>(OtherActor)) {
 	}
 }

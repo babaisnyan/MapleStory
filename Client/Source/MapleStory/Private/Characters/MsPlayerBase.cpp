@@ -29,6 +29,10 @@ AMsPlayerBase::AMsPlayerBase() {
 		Capsule->BodyInstance.bLockXRotation = true;
 		Capsule->BodyInstance.bLockYRotation = true;
 		RootComponent = Capsule;
+
+		const float CapsuleWidth = Capsule->GetScaledCapsuleRadius();
+		const float CapsuleHeight = Capsule->GetScaledCapsuleHalfHeight();
+		UE_LOG(LogTemp, Warning, TEXT("Capsule Width: %f, Height: %f"), CapsuleWidth, CapsuleHeight);
 	}
 
 	static ConstructorHelpers::FClassFinder<UNameTag> NameTagFinder(TEXT("/Game/UI/Common/WBP_NameTag.WBP_NameTag_C"));
@@ -121,10 +125,16 @@ void AMsPlayerBase::Move(const protocol::GameServerPlayerMove& MovePacket) {
 void AMsPlayerBase::Tick(const float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
 
+	const float CapsuleWidth = GetCapsuleComponent()->GetScaledCapsuleRadius();
+	const float CapsuleHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
+
+	// draw debug box for capsule
+	DrawDebugBox(GetWorld(), GetActorLocation(), FVector(CapsuleWidth, CapsuleWidth, CapsuleHeight), FColor::Green, false, -1, 0, 5.0f);
+
 	if (NameTagWidget && NameTagWidget->GetDrawSize().X == 500) {
 		if (const auto Widget = Cast<UNameTag>(NameTagWidget->GetUserWidgetObject())) {
 			const auto Size = Widget->GetDesiredSize();
-	
+
 			if (Size.X > 0 && Size.Y > 0) {
 				NameTagWidget->SetDrawSize(Size);
 			}

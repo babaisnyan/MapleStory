@@ -193,6 +193,11 @@
 			"Name": "InteractiveViewportNavigation",
 			"Enabled": true,
 			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/964d024b6ad04bc59209a729198384ae"
+		},
+		{
+			"Name": "GameThreadCheck",
+			"Enabled": true,
+			"MarketplaceURL": "com.epicgames.launcher://ue/marketplace/product/7088287a14ef4ea79f7609d0ad4c1e28"
 		}
 	],
 	"TargetPlatforms": [

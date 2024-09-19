@@ -48,8 +48,8 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
 
   const auto random = utils::random::Rand(150);
 
-  if (random == 50 || random == 51) {
-    mob->SetFlip(random == 51);
+  if (random == 50) {
+    mob->SetFlip(utils::random::IsSuccess(50));
 
     const auto min_x = mob->IsFlipped() ? mob->GetSpawnPoint()->GetMinX() : mob->GetX() + 10;
     const auto max_x = mob->IsFlipped() ? mob->GetX() - 10 : mob->GetSpawnPoint()->GetMaxX();
@@ -75,7 +75,11 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
   const auto target_position = mob->GetTargetPosition();
 
   if (x > min_x && x < max_x) {
+    const auto position = mob->GetPosition();
+    const auto old_x = position.grid_x;
+    const auto old_y = position.grid_y;
     mob->UpdatePosition(x, y, mob->IsFlipped());
+    mob->GetMap().lock()->MoveObject(mob, old_x, old_y);
     std::cout << std::format("Monster {} move to x: {}, y: {}, speed: {}\n", mob->GetId(), x, y, mob->GetSpeed());
 
     if (std::abs(x - target_position->x) < 1.0f) {

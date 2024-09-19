@@ -30,7 +30,7 @@ void GameObject::SetFlip(const bool flip) {
 void GameObject::UpdatePosition(const float x, const float y, const bool flip) {
   _position.x = x;
   _position.y = y;
-  _position.grid_x = static_cast<int16_t>(x) / MsCoordinate::kGridSize;
-  _position.grid_y = static_cast<int16_t>(y) / MsCoordinate::kGridSize;
+  _position.grid_x = std::abs(static_cast<int16_t>(x) / MsCoordinate::kGridSize);
+  _position.grid_y = std::abs(static_cast<int16_t>(y) / MsCoordinate::kGridSize);
   _flip = flip;
 }
