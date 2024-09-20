@@ -191,7 +191,7 @@ int64_t Monster::GetNextObjectId() {
 void Monster::ChangeState(const protocol::MobActionType state) {
   ASSERT_CRASH(_mob_template->HasAction(state));
 
-  std::cout << std::format("[Transition] ObjectId: {}, MobId: {}, {} -> {}\n", _object_id, _id, magic_enum::enum_name(_current_state), magic_enum::enum_name(state)).c_str();
+  // std::cout << std::format("[Transition] ObjectId: {}, MobId: {}, {} -> {}\n", _object_id, _id, magic_enum::enum_name(_current_state), magic_enum::enum_name(state)).c_str();
 
   _current_state = state;
   _states[_current_state]->Enter(GetSelf());

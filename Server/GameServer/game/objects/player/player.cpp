@@ -19,6 +19,15 @@ void Player::OnEnter() {
 
 void Player::Update(float delta_time) {}
 
+void Player::OnCollideMob(const std::shared_ptr<GameObject>& mob, const uint64_t time) const {
+  if (time - _player_stat->GetLastCollisionTime() < 3000) {
+    return;
+  }
+
+  _player_stat->SetLastCollisionTime(time);
+  std::cout << std::format("Player is in collision area. Mob: {}, Player: {}\n", mob->GetObjectId(), GetObjectId());
+}
+
 int32_t Player::GetId() const {
   return _id;
 }

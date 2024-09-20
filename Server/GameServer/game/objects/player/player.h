@@ -12,6 +12,7 @@ namespace game {
 
     void OnEnter() override;
     void Update(float delta_time) override;
+    void OnCollideMob(const std::shared_ptr<GameObject>& mob, uint64_t time) const;
 
   public:
     int32_t GetId() const;

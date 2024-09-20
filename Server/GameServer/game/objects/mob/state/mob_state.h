@@ -19,6 +19,7 @@ namespace game {
     virtual void Update(const std::shared_ptr<Monster>& mob, float delta) = 0;
 
   protected:
+    static void ProcessCollision(const std::shared_ptr<Monster>& mob);
     static std::shared_ptr<Player> FindNearestPlayer(const std::shared_ptr<Monster>& mob);
   };
 }

@@ -3,6 +3,7 @@
 
 #include "game/map/map_instance.h"
 #include "game/objects/mob/monster.h"
+#include "game/objects/player/player.h"
 
 #include "utils/randomizer.h"
 
@@ -28,6 +29,8 @@ void MoveState::Enter(const std::shared_ptr<Monster>& mob) {
 
 void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
   mob->AddAnimationTime(delta);
+  ProcessCollision(mob);
+
   // TODO: 캐릭터 타겟 탐색
 
   if (mob->HasTarget()) {
@@ -75,12 +78,16 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
   const auto target_position = mob->GetTargetPosition();
 
   if (x > min_x && x < max_x) {
-    const auto position = mob->GetPosition();
+    const auto& position = mob->GetPosition();
     const auto old_x = position.grid_x;
     const auto old_y = position.grid_y;
     mob->UpdatePosition(x, y, mob->IsFlipped());
-    mob->GetMap().lock()->MoveObject(mob, old_x, old_y);
-    std::cout << std::format("Monster {} move to x: {}, y: {}, speed: {}\n", mob->GetId(), x, y, mob->GetSpeed());
+
+    if (position.grid_x != old_x || position.grid_y != old_y) {
+      mob->GetMap().lock()->MoveObject(mob, old_x, old_y);
+    }
+
+    // std::cout << std::format("Monster {} move to x: {}, y: {}, speed: {}\n", mob->GetId(), x, y, mob->GetSpeed());
 
     if (std::abs(x - target_position->x) < 1.0f) {
       mob->ResetTargetPosition();

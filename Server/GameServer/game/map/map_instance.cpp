@@ -28,7 +28,7 @@ bool MapInstance::AddPlayer(const std::shared_ptr<GameSession>& session) {
     _objects.emplace(session->GetPlayer()->GetObjectId(), session->GetPlayer());
     OnPlayerEnter(session);
 
-    const auto position = session->GetPlayer()->GetPosition();
+    const auto& position = session->GetPlayer()->GetPosition();
     _grid[position.grid_y][position.grid_x].push_back(session->GetPlayer());
   }
 
@@ -37,6 +37,13 @@ bool MapInstance::AddPlayer(const std::shared_ptr<GameSession>& session) {
 
 bool MapInstance::RemoveObject(const int64_t object_id) {
   const auto type = static_cast<GameObject::ObjectType>(object_id / GameObject::kObjectRange);
+  const auto object = _objects.find(object_id);
+
+  if (object != _objects.end()) {
+    const auto& position = object->second->GetPosition();
+
+    std::erase(_grid[position.grid_y][position.grid_x], object->second);
+  }
 
   if (type == GameObject::ObjectType::kPlayer) {
     const auto player_session = GetPlayer(object_id);
@@ -48,15 +55,11 @@ bool MapInstance::RemoveObject(const int64_t object_id) {
     const auto player = player_session.value()->GetPlayer();
     const auto player_id = player->GetId();
 
-    if (_players.erase(player_id) <= 0) {
+    if (_objects.erase(object_id) <= 0 || _players.erase(player_id) <= 0) {
       return false;
     }
 
     OnPlayerLeave(player);
-  }
-
-  if (_objects.erase(object_id) <= 0) {
-    return false;
   }
 
   return true;
@@ -70,9 +73,14 @@ void MapInstance::MovePlayer(const std::shared_ptr<GameSession>& session, const 
   }
 
   auto& position = player->GetPosition();
-  std::erase(_grid[position.grid_y][position.grid_x], player);
+  const auto old_x = position.grid_x;
+  const auto old_y = position.grid_y;
   player->UpdatePosition(packet.x(), packet.y(), packet.flip());
-  _grid[position.grid_y][position.grid_x].push_back(player);
+
+  if (old_x != position.grid_x || old_y != position.grid_y) {
+    std::erase(_grid[position.grid_y][position.grid_x], player);
+    _grid[position.grid_y][position.grid_x].push_back(player);
+  }
 
   protocol::GameServerPlayerMove response;
   response.set_object_id(player->GetObjectId());
@@ -88,7 +96,7 @@ void MapInstance::MoveObject(const std::shared_ptr<GameObject>& object, const in
     return;
   }
 
-  const auto position = object->GetPosition();
+  const auto& position = object->GetPosition();
   std::erase(_grid[old_y][old_x], object);
   _grid[position.grid_y][position.grid_x].push_back(object);
 }

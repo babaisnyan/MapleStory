@@ -25,6 +25,7 @@ namespace game {
 
   public:
     int64_t GetObjectId() const;
+    ObjectType GetObjectType() const;
     const MsCoordinate& GetPosition() const;
     float GetX() const;
     float GetY() const;

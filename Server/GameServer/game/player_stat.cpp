@@ -72,3 +72,11 @@ int32_t PlayerStat::GetMaxMp() const {
 void PlayerStat::SetMaxMp(const int32_t max_mp) {
   _max_mp = max_mp;
 }
+
+uint64_t PlayerStat::GetLastCollisionTime() const {
+  return _last_collision_time;
+}
+
+void PlayerStat::SetLastCollisionTime(const uint64_t last_collision_time) {
+  _last_collision_time = last_collision_time;
+}

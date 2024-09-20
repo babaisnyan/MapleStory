@@ -32,6 +32,9 @@ namespace game {
     int32_t GetMaxMp() const;
     void SetMaxMp(int32_t max_mp);
 
+    uint64_t GetLastCollisionTime() const;
+    void SetLastCollisionTime(uint64_t last_collision_time);
+
   private:
     int32_t _mp = 0;
     int32_t _max_mp = 0;
@@ -42,5 +45,6 @@ namespace game {
     int32_t _exp = 0;
     int32_t _ap = 0;
     int32_t _sp = 0;
+    uint64_t _last_collision_time = 0;
   };
 }

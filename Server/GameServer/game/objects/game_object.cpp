@@ -7,6 +7,10 @@ int64_t GameObject::GetObjectId() const {
   return _object_id;
 }
 
+GameObject::ObjectType GameObject::GetObjectType() const {
+  return static_cast<ObjectType>(_object_id / kObjectRange);
+}
+
 const MsCoordinate& GameObject::GetPosition() const {
   return _position;
 }

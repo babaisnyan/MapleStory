@@ -3,6 +3,7 @@
 
 #include "game/map/map_instance.h"
 #include "game/objects/mob/monster.h"
+#include "game/objects/player/player.h"
 
 #include "network/protocol/game_protocol.pb.h"
 
@@ -23,33 +24,7 @@ void StandState::Enter(const std::shared_ptr<Monster>& mob) {
 
 void StandState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
   mob->AddAnimationTime(delta);
-
-  const auto mob_position = mob->GetPosition();
-  const auto collision = mob->GetTemplate()->GetCollisionSize(mob->GetCurrentState());
-  const auto map = mob->GetMap().lock();
-  const auto grid_x_radius = std::max(collision.first / MsCoordinate::kGridSize / 2, 1);
-  const auto grid_y_radius = std::max(collision.second / MsCoordinate::kGridSize, 1);
-
-  for (int y = mob_position.grid_y - grid_y_radius; mob_position.grid_y > 0 && y <= mob_position.grid_y + grid_y_radius; ++y) {
-    for (int x = mob_position.grid_x - grid_x_radius; mob_position.grid_x > 0 && x <= mob_position.grid_x + grid_x_radius; ++x) {
-      const auto objects = map->GetObjects(x, y);
-
-      for (const auto& object : objects) {
-        if (static_cast<GameObject::ObjectType>(object->GetObjectId() / GameObject::kObjectRange) != GameObject::ObjectType::kPlayer) {
-          continue;
-        }
-
-        const auto collision_width = collision.first / 2.0f;
-        const auto collision_height = collision.second / 2.0f;
-
-        if (object->GetX() > mob->GetX() - collision_width && object->GetX() < mob->GetX() + collision_width &&
-            object->GetY() > mob->GetY() - collision_height && object->GetY() < mob->GetY() + collision_height) {
-          std::cout << "Player is in collision area\n";
-        }
-      }
-    }
-  }
-
+  ProcessCollision(mob);
 
   if (!mob->IsTargetInDistance()) {
     mob->ResetTarget();
