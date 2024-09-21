@@ -257,6 +257,11 @@
     <UpToDateCheckInput Include="GameDB.xml" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Common\proto\LoginServer\login_enum.proto" />
+    <None Include="..\..\Common\proto\LoginServer\login_protocol.proto" />
+    <None Include="..\..\Common\proto\LoginServer\login_struct.proto" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\Common\Common.vcxproj">
       <Project>{e189da41-3ff2-474f-bb45-81d5ea2672e2}</Project>
     </ProjectReference>

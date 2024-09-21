@@ -43,14 +43,14 @@ private:
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Avatar")
 	EAvatarType AvatarType = EAvatarType::GoTalk;
-
-private:
+	
 	UPROPERTY(VisibleAnywhere, Category = "Player")
-	TMap<int64, TObjectPtr<AMsPlayerBase>> OtherPlayers = {};
+	TMap<int64, TObjectPtr<AMsPlayerBase>> Players = {};
 
 	UPROPERTY(VisibleAnywhere, Category = "Monster")
 	TMap<int64, TObjectPtr<AMonster>> Monsters = {};
 
+private:
 	FVector PlayerStartLocation;
 
 	uint64 ExpTable[300];

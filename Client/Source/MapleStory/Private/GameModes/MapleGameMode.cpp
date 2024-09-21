@@ -28,6 +28,7 @@ void AMapleGameMode::BeginPlay() {
 	GameInstance->CurrentPlayer = GetWorld()->SpawnActorDeferred<AMsLocalPlayer>(AMsLocalPlayer::StaticClass(), FTransform::Identity);
 	GameInstance->CurrentPlayer->Setup(GameInstance->PlayerInfoTemp.GetValue());
 	GameInstance->CurrentPlayer->FinishSpawning(FTransform::Identity);
+	Players.Add(GameInstance->PlayerInfoTemp.GetValue().object_id(), GameInstance->CurrentPlayer);
 	GameInstance->PlayerInfoTemp.Reset();
 
 	while (!GameInstance->OtherPlayersQueue.IsEmpty()) {
@@ -61,19 +62,19 @@ void AMapleGameMode::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo)
 	const auto OtherPlayer = GetWorld()->SpawnActorDeferred<AMsPlayerBase>(AMsPlayerBase::StaticClass(), FTransform::Identity);
 	OtherPlayer->Setup(OtherPlayerInfo);
 	OtherPlayer->FinishSpawning(FTransform::Identity);
-	OtherPlayers.Add(OtherPlayerInfo.object_id(), OtherPlayer);
+	Players.Add(OtherPlayerInfo.object_id(), OtherPlayer);
 }
 
 void AMapleGameMode::RemovePlayer(const int64 ObjectId) {
-	if (OtherPlayers.Contains(ObjectId)) {
-		OtherPlayers[ObjectId]->Destroy();
-		OtherPlayers.Remove(ObjectId);
+	if (Players.Contains(ObjectId)) {
+		Players[ObjectId]->Destroy();
+		Players.Remove(ObjectId);
 	}
 }
 
 void AMapleGameMode::UpdatePlayerPosition(const protocol::GameServerPlayerMove& MovePacket) {
-	if (OtherPlayers.Contains(MovePacket.object_id())) {
-		OtherPlayers[MovePacket.object_id()]->Move(MovePacket);
+	if (Players.Contains(MovePacket.object_id())) {
+		Players[MovePacket.object_id()]->Move(MovePacket);
 	}
 }
 

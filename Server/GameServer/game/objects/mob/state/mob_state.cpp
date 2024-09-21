@@ -30,9 +30,10 @@ void MobState::ProcessCollision(const std::shared_ptr<Monster>& mob) {
         const auto player = std::static_pointer_cast<Player>(object);
         const auto collision_width = width / 2.0f;
         const auto collision_height = height / 2.0f;
+        const auto min_x = mob->GetX() - collision_width;
+        const auto max_x = mob->GetX() + collision_width;
 
-        if (object->GetX() > mob->GetX() - collision_width && object->GetX() < mob->GetX() + collision_width &&
-            object->GetY() > mob->GetY() - collision_height && object->GetY() < mob->GetY() + collision_height) {
+        if (player->GetX() - 8 > min_x && player->GetX() + 8 < max_x && player->GetY() > mob->GetY() - collision_height && player->GetY() < mob->GetY() + collision_height) {
           player->OnCollideMob(mob, now);
         }
       }

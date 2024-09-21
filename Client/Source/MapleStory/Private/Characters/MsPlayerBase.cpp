@@ -1,6 +1,9 @@
 #include "Characters/MsPlayerBase.h"
 
 #include "PaperFlipbookComponent.h"
+#include "PoolManagerSubsystem.h"
+#include "PoolManagerTypes.h"
+#include "Actors/DamageTextActor.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/PlayerStatComponent.h"
 #include "Components/TextBlock.h"
@@ -29,10 +32,6 @@ AMsPlayerBase::AMsPlayerBase() {
 		Capsule->BodyInstance.bLockXRotation = true;
 		Capsule->BodyInstance.bLockYRotation = true;
 		RootComponent = Capsule;
-
-		const float CapsuleWidth = Capsule->GetScaledCapsuleRadius();
-		const float CapsuleHeight = Capsule->GetScaledCapsuleHalfHeight();
-		UE_LOG(LogTemp, Warning, TEXT("Capsule Width: %f, Height: %f"), CapsuleWidth, CapsuleHeight);
 	}
 
 	static ConstructorHelpers::FClassFinder<UNameTag> NameTagFinder(TEXT("/Game/UI/Common/WBP_NameTag.WBP_NameTag_C"));
@@ -64,6 +63,7 @@ AMsPlayerBase::AMsPlayerBase() {
 	GetSprite()->CanCharacterStepUpOn = ECB_No;
 	GetSprite()->SetRelativeLocation(FVector(0.0f, 1.0f, 0.0f));
 	GetSprite()->SetFlipbook(IdleAnimation);
+
 	PlayerStat = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("PlayerStat"));
 }
 
@@ -122,15 +122,16 @@ void AMsPlayerBase::Move(const protocol::GameServerPlayerMove& MovePacket) {
 	UpdateAnimation();
 }
 
+void AMsPlayerBase::OnDamaged(const int32 Damage) {
+	const FVector Location = GetActorLocation();
+	const FVector NewLocation = FVector(Location.X, Location.Y + 1, Location.Z + 20.0f);
+	ADamageTextActor* Text = GetWorld()->SpawnActorDeferred<ADamageTextActor>(ADamageTextActor::StaticClass(), FTransform(NewLocation), this);
+	Text->SetDamage(Damage, true, false);
+	Text->FinishSpawning(FTransform(NewLocation));
+}
+
 void AMsPlayerBase::Tick(const float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
-
-	const float CapsuleWidth = GetCapsuleComponent()->GetScaledCapsuleRadius();
-	const float CapsuleHeight = GetCapsuleComponent()->GetScaledCapsuleHalfHeight();
-
-	// draw debug box for capsule
-	DrawDebugBox(GetWorld(), GetActorLocation(), FVector(CapsuleWidth, CapsuleWidth, CapsuleHeight), FColor::Green, false, -1, 0, 5.0f);
-
 	if (NameTagWidget && NameTagWidget->GetDrawSize().X == 500) {
 		if (const auto Widget = Cast<UNameTag>(NameTagWidget->GetUserWidgetObject())) {
 			const auto Size = Widget->GetDesiredSize();

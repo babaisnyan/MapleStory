@@ -7,7 +7,6 @@
 #include "Data/Enum/EAvatarType.h"
 #include "MsPlayerBase.generated.h"
 
-
 class UWidgetComponent;
 class UPlayerStatComponent;
 class UPaperFlipbook;
@@ -28,6 +27,8 @@ public:
 	/*다른 플레이어용 */
 	void Setup(const protocol::OtherPlayerInfo& Info);
 	void Move(const protocol::GameServerPlayerMove& MovePacket);
+
+	void OnDamaged(int32 Damage);
 
 protected:
 	virtual void Tick(float DeltaSeconds) override;

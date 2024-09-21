@@ -7,6 +7,13 @@
 #include "database/db_connection_pool.h"
 
 #include "game/player_stat.h"
+#include "game/map/map_instance.h"
+#include "game/map/map_manager.h"
+
+#include "network/game/game_client_packet_handler.h"
+#include "network/protocol/game_protocol.pb.h"
+
+#include "utils/randomizer.h"
 
 
 Player::Player(const int32_t player_id): GameObject(GetNextObjectId()),
@@ -20,11 +27,21 @@ void Player::OnEnter() {
 void Player::Update(float delta_time) {}
 
 void Player::OnCollideMob(const std::shared_ptr<GameObject>& mob, const uint64_t time) const {
-  if (time - _player_stat->GetLastCollisionTime() < 3000) {
+  if (time - _player_stat->GetLastCollisionTime() < 1000) {
     return;
   }
 
   _player_stat->SetLastCollisionTime(time);
+
+  const auto map = MapManager::GetInstance().GetMapInstance(_map);
+  protocol::GameServerPlayerDamage player_damage;
+  player_damage.set_target_id(GetObjectId());
+  player_damage.set_damage(utils::random::Rand(10000));
+
+  if (map.has_value()) {
+    map.value()->BroadCast(player_damage, nullptr);
+  }
+
   std::cout << std::format("Player is in collision area. Mob: {}, Player: {}\n", mob->GetObjectId(), GetObjectId());
 }
 

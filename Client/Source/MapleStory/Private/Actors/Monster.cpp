@@ -1,5 +1,7 @@
 #include "Actors/Monster.h"
 
+#include "PoolManagerSubsystem.h"
+#include "Actors/DamageTextActor.h"
 #include "Characters/MsLocalPlayer.h"
 #include "Components/BoxComponent.h"
 #include "Components/MobStatComponent.h"

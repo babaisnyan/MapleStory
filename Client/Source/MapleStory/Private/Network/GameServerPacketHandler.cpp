@@ -1,6 +1,7 @@
 ﻿#include "Network/GameServerPacketHandler.h"
 
 #include "MapleGameInstance.h"
+#include "Characters/MsPlayerBase.h"
 #include "GameModes/MapleGameMode.h"
 
 
@@ -57,5 +58,19 @@ bool FGameServerPacketHandler::HandleGameServerMobMove(const TObjectPtr<UTCPClie
 }
 
 bool FGameServerPacketHandler::HandleGameServerMobAttack(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobAttack& Packet) {
+	return true;
+}
+
+bool FGameServerPacketHandler::HandleGameServerPlayerDamage(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerPlayerDamage& Packet) {
+	if (const auto GameMode = GameInstance->GetWorld()->GetAuthGameMode<AMapleGameMode>()) {
+		if (GameMode->Players.Contains(Packet.target_id())) {
+			GameMode->Players[Packet.target_id()]->OnDamaged(Packet.damage());
+		}
+	}
+
+	return true;
+}
+
+bool FGameServerPacketHandler::HandleGameServerMobDamage(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobDamage& Packet) {
 	return true;
 }

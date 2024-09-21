@@ -221,6 +221,11 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Common\proto\CenterServer\center_enum.proto" />
+    <None Include="..\..\Common\proto\CenterServer\cneter_protocol.proto" />
+    <None Include="..\..\Common\proto\CenterServer\center_struct.proto" />
+  </ItemGroup>
+  <ItemGroup>
     <UpToDateCheckInput Include="GameDB.xml" />
   </ItemGroup>
   <ItemGroup>
