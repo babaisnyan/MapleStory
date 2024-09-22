@@ -7,7 +7,7 @@ namespace game {
   public:
     NpcTemplate() = default;
 
-    void Load(const json& data) override;
+    void Load(const rapidjson::Value& data) override;
 
   public:
     const std::unordered_map<String, int32_t>& GetActions() const;

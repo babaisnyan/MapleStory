@@ -1,18 +1,18 @@
 ﻿#include "pch.h"
 #include "npc_template.h"
 
-void NpcTemplate::Load(const json& data) {
-  std::string name;
+using namespace rapidjson;
 
-  data.at("Id").get_to(_id);
-  data.at("NpcName").get_to(name);
-  data.at("IsShop").get_to(_is_shop);
+void NpcTemplate::Load(const Value& data) {
+  const std::string name = data["NpcName"].GetString();
+
   _name = utils::ConvertToWide(name).value_or(L"");
+  _id = data["Id"].GetInt();
+  _is_shop = data["IsShop"].GetBool();
 
-  for (const auto& [key, value] : data.at("Actions").items()) {
-    auto time = 0;
-    const auto action = utils::ConvertToWide(key);
-    value.at("Length").get_to(time);
+  for (const auto& action_data : data["Actions"].GetObj()) {
+    auto time = action_data.value["Length"].GetInt();
+    const auto action = utils::ConvertToWide(action_data.name.GetString());
 
     if (action.has_value()) {
       _actions.emplace(action.value(), time);

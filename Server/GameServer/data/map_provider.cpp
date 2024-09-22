@@ -5,11 +5,17 @@
 
 #include "templates/map_template.h"
 
+using namespace rapidjson;
+
 void MapProvider::Init() {
   std::ifstream file("Data/Maps.json");
-  const auto maps = json::parse(file);
+  IStreamWrapper stream(file);
 
-  for (const auto& map : maps) {
+  Document data;
+  data.ParseStream(stream);
+  assert(data.IsArray());
+
+  for (const auto& map : data.GetArray()) {
     auto map_template = std::make_shared<MapTemplate>();
     map_template->Load(map);
     _maps.emplace(map_template->GetId(), map_template);

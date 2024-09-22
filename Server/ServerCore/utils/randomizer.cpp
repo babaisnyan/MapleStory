@@ -21,7 +21,7 @@ int64_t utils::random::Rand(const int64_t start, const int64_t end) {
   return dist(gen);
 }
 
-float utils::random::RandFloat(const float start, const float end) {
+double utils::random::RandDouble(const double start, const double end) {
   static std::random_device rd;
   static std::mt19937 gen(rd());
 

@@ -5,11 +5,17 @@
 
 #include "templates/npc_template.h"
 
+using namespace rapidjson;
+
 void NpcProvider::Init() {
   std::ifstream file("Data/Npc.json");
-  const auto json = json::parse(file);
+  IStreamWrapper stream(file);
 
-  for (const auto& npc : json) {
+  Document data;
+  data.ParseStream(stream);
+  assert(data.IsArray());
+
+  for (const auto& npc : data.GetArray()) {
     auto npc_template = std::make_shared<NpcTemplate>();
     npc_template->Load(npc);
     _npcs.emplace(npc_template->GetId(), npc_template);

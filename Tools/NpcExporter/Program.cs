@@ -236,6 +236,11 @@ namespace NpcExporter
                     }
                 }
 
+                if (info.Actions.TryGetValue(actionName, out var infoAction))
+                {
+                    infoAction.Length = time;
+                }
+
                 var index = 1;
 
                 foreach (var frame in frameInfo)

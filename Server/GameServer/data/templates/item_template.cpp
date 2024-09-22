@@ -1,41 +1,41 @@
 ﻿#include "pch.h"
 #include "item_template.h"
 
-void ItemTemplate::Load(const json& data) {
-  std::string name;
-  std::string desc;
+using namespace rapidjson;
 
-  data.at("Name").get_to(name);
-  data.at("Desc").get_to(desc);
+void ItemTemplate::Load(const Value& data) {
+  const std::string name = data["Name"].GetString();
+  const std::string desc = data["Desc"].GetString();
+
   _name = utils::ConvertToWide(name).value_or(L"");
   _desc = utils::ConvertToWide(desc).value_or(L"");
-  data.at("Id").get_to(_id);
-  data.at("ItemType").get_to(_item_type);
-  data.at("SubType").get_to(_sub_type);
-  data.at("IncAcc").get_to(_inc_acc);
-  data.at("IncDex").get_to(_inc_dex);
-  data.at("IncEva").get_to(_inc_eva);
-  data.at("IncInt").get_to(_inc_int);
-  data.at("IncJump").get_to(_inc_jump);
-  data.at("IncLuk").get_to(_inc_luk);
-  data.at("IncMad").get_to(_inc_mad);
-  data.at("IncMdd").get_to(_inc_mdd);
-  data.at("IncMhp").get_to(_inc_mhp);
-  data.at("IncPad").get_to(_inc_pad);
-  data.at("IncPdd").get_to(_inc_pdd);
-  data.at("IncSpeed").get_to(_inc_speed);
-  data.at("Price").get_to(_price);
-  data.at("SlotMax").get_to(_slot_max);
-  data.at("ReqLevel").get_to(_req_level);
-  data.at("ReqStr").get_to(_req_str);
-  data.at("ReqDex").get_to(_req_dex);
-  data.at("ReqInt").get_to(_req_int);
-  data.at("ReqLuk").get_to(_req_luk);
-  data.at("IncStr").get_to(_inc_str);
-  data.at("IncMmd").get_to(_inc_mmd);
-  data.at("Hp").get_to(_hp);
-  data.at("Mp").get_to(_mp);
-  data.at("Time").get_to(_time);
+  _id = data["Id"].GetUint();
+  _item_type = static_cast<ItemType>(data["ItemType"].GetUint());
+  _sub_type = static_cast<EqpType>(data["SubType"].GetUint());
+  _inc_acc = data["IncAcc"].GetUint();
+  _inc_dex = data["IncDex"].GetUint();
+  _inc_eva = data["IncEva"].GetUint();
+  _inc_int = data["IncInt"].GetUint();
+  _inc_jump = data["IncJump"].GetUint();
+  _inc_luk = data["IncLuk"].GetUint();
+  _inc_mad = data["IncMad"].GetUint();
+  _inc_mdd = data["IncMdd"].GetUint();
+  _inc_mhp = data["IncMhp"].GetUint();
+  _inc_pad = data["IncPad"].GetUint();
+  _inc_pdd = data["IncPdd"].GetUint();
+  _inc_speed = data["IncSpeed"].GetUint();
+  _price = data["Price"].GetUint();
+  _slot_max = data["SlotMax"].GetUint();
+  _req_level = data["ReqLevel"].GetUint();
+  _req_str = data["ReqStr"].GetUint();
+  _req_dex = data["ReqDex"].GetUint();
+  _req_int = data["ReqInt"].GetUint();
+  _req_luk = data["ReqLuk"].GetUint();
+  _inc_str = data["IncStr"].GetUint();
+  _inc_mmd = data["IncMmd"].GetUint();
+  _hp = data["Hp"].GetInt();
+  _mp = data["Mp"].GetInt();
+  _time = data["Time"].GetUint();
 }
 
 const String& ItemTemplate::GetDesc() const {
@@ -134,11 +134,11 @@ uint16_t ItemTemplate::GetIncMmd() const {
   return _inc_mmd;
 }
 
-uint32_t ItemTemplate::GetHp() const {
+int32_t ItemTemplate::GetHp() const {
   return _hp;
 }
 
-uint32_t ItemTemplate::GetMp() const {
+int32_t ItemTemplate::GetMp() const {
   return _mp;
 }
 

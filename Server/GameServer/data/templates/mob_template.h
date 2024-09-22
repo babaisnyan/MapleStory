@@ -8,7 +8,7 @@ namespace game {
   public:
     MobTemplate() = default;
 
-    void Load(const json& data) override;
+    void Load(const rapidjson::Value& data) override;
 
   public:
     int16_t GetLevel() const;

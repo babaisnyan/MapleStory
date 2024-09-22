@@ -1,58 +1,60 @@
 ﻿#include "pch.h"
 #include "mob_template.h"
 
-void MobTemplate::Load(const json& data) {
-  std::string name;
+using namespace rapidjson;
 
-  data.at("MobId").get_to(_id);
-  data.at("MobName").get_to(name);
+void MobTemplate::Load(const Value& data) {
+  const std::string name = data["MobName"].GetString();
+
   _name = utils::ConvertToWide(name).value_or(L"");
-  data.at("Level").get_to(_level);
-  data.at("MaxHp").get_to(_max_hp);
-  data.at("BodyAttack").get_to(_body_attack);
-  data.at("FirstAttack").get_to(_first_attack);
-  data.at("Speed").get_to(_speed);
-  data.at("PaDamage").get_to(_pa_damage);
-  data.at("MaDamage").get_to(_ma_damage);
-  data.at("PdDamage").get_to(_pd_damage);
-  data.at("MdDamage").get_to(_md_damage);
-  data.at("PdRate").get_to(_pd_rate);
-  data.at("MdRate").get_to(_md_rate);
-  data.at("Exp").get_to(_exp);
-  data.at("HasDie").get_to(_has_die);
-  data.at("HasRegen").get_to(_has_regen);
-  data.at("AttackDelay").get_to(_attack_delay);
-  data.at("AttackWidth").get_to(_attack_width);
-  data.at("AttackHeight").get_to(_attack_height);
+  _id = data["MobId"].GetInt();
+  _level = data["Level"].GetInt();
+  _max_hp = data["MaxHp"].GetInt();
+  _body_attack = data["BodyAttack"].GetBool();
+  _first_attack = data["FirstAttack"].GetBool();
+  _speed = data["Speed"].GetInt();
+  _pa_damage = data["PaDamage"].GetInt();
+  _ma_damage = data["MaDamage"].GetInt();
+  _pd_damage = data["PdDamage"].GetInt();
+  _md_damage = data["MdDamage"].GetInt();
+  _pd_rate = data["PdRate"].GetInt();
+  _md_rate = data["MdRate"].GetInt();
+  _exp = data["Exp"].GetInt();
+  _has_die = data["HasDie"].GetBool();
+  _has_regen = data["HasRegen"].GetBool();
+  _attack_delay = data["AttackDelay"].GetInt();
+  _attack_width = data["AttackWidth"].GetInt();
+  _attack_height = data["AttackHeight"].GetInt();
 
-  if (data.at("HasStand").get<bool>()) {
-    const auto size = std::make_pair(data["StandSize"]["X"].get<int32_t>(), data["StandSize"]["Y"].get<int32_t>());
+  if (data["HasStand"].GetBool()) {
+    const auto size = std::make_pair(data["StandSize"]["X"].GetInt(), data["StandSize"]["Y"].GetInt());
     _collision_sizes.emplace(protocol::MobActionType::MOB_ACTION_TYPE_STAND, size);
   }
 
-  if (data.at("HasMove").get<bool>()) {
-    const auto size = std::make_pair(data["MoveSize"]["X"].get<int32_t>(), data["MoveSize"]["Y"].get<int32_t>());
+  if (data["HasMove"].GetBool()) {
+    const auto size = std::make_pair(data["MoveSize"]["X"].GetInt(), data["MoveSize"]["Y"].GetInt());
     _collision_sizes.emplace(protocol::MobActionType::MOB_ACTION_TYPE_MOVE, size);
   }
 
-  if (data.at("HasHit").get<bool>()) {
-    _action_lengths.emplace(protocol::MobActionType::MOB_ACTION_TYPE_HIT, data.at("HitLength").get<int32_t>());
-    const auto size = std::make_pair(data["HitSize"]["X"].get<int32_t>(), data["HitSize"]["Y"].get<int32_t>());
+  if (data["HasHit"].GetBool()) {
+    _action_lengths.emplace(protocol::MobActionType::MOB_ACTION_TYPE_HIT, data["HitLength"].GetInt());
+    const auto size = std::make_pair(data["HitSize"]["X"].GetInt(), data["HitSize"]["Y"].GetInt());
     _collision_sizes.emplace(protocol::MobActionType::MOB_ACTION_TYPE_HIT, size);
   }
 
-  if (data.at("HasAttack").get<bool>()) {
-    _action_lengths.emplace(protocol::MobActionType::MOB_ACTION_TYPE_ATTACK, data.at("AttackLength").get<int32_t>());
-    const auto size = std::make_pair(data["AttackSize"]["X"].get<int32_t>(), data["AttackSize"]["Y"].get<int32_t>());
+  if (data["HasAttack"].GetBool()) {
+    _action_lengths.emplace(protocol::MobActionType::MOB_ACTION_TYPE_ATTACK, data["AttackLength"].GetInt());
+    const auto size = std::make_pair(data["AttackSize"]["X"].GetInt(), data["AttackSize"]["Y"].GetInt());
     _collision_sizes.emplace(protocol::MobActionType::MOB_ACTION_TYPE_ATTACK, size);
   }
 
+
   if (_has_regen) {
-    _action_lengths.emplace(protocol::MobActionType::MOB_ACTION_TYPE_REGEN, data.at("RegenLength").get<int32_t>());
+    _action_lengths.emplace(protocol::MobActionType::MOB_ACTION_TYPE_REGEN, data["RegenLength"].GetInt());
   }
 
   if (_has_die) {
-    _action_lengths.emplace(protocol::MobActionType::MOB_ACTION_TYPE_DIE, data.at("DieLength").get<int32_t>());
+    _action_lengths.emplace(protocol::MobActionType::MOB_ACTION_TYPE_DIE, data["DieLength"].GetInt());
   }
 }
 

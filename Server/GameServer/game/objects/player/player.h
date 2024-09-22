@@ -3,6 +3,7 @@
 #include "game/objects/game_object.h"
 
 namespace game {
+  class Monster;
   class KeyMap;
   class PlayerStat;
 
@@ -12,7 +13,7 @@ namespace game {
 
     void OnEnter() override;
     void Update(float delta_time) override;
-    void OnCollideMob(const std::shared_ptr<GameObject>& mob, uint64_t time) const;
+    void OnCollideMob(const std::shared_ptr<Monster>& mob, uint64_t time) const;
 
   public:
     int32_t GetId() const;

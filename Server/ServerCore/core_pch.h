@@ -17,8 +17,12 @@
 #include <iostream>
 
 using namespace std::chrono_literals;
+using namespace std::string_literals;
+using namespace std::string_view_literals;
 
 #include <tbb/concurrent_hash_map.h>
+#include <rapidjson/document.h>
+#include <rapidjson/istreamwrapper.h>
 
 #include "types.h"
 #include "core_tls.h"

@@ -27,7 +27,7 @@ namespace game {
   public:
     ItemTemplate() = default;
 
-    void Load(const json& data) override;
+    void Load(const rapidjson::Value& data) override;
 
   public:
     const String& GetDesc() const;
@@ -54,8 +54,8 @@ namespace game {
     uint16_t GetReqLuk() const;
     uint16_t GetIncStr() const;
     uint16_t GetIncMmd() const;
-    uint32_t GetHp() const;
-    uint32_t GetMp() const;
+    int32_t GetHp() const;
+    int32_t GetMp() const;
     uint32_t GetTime() const;
 
   private:
@@ -83,8 +83,8 @@ namespace game {
     uint16_t _req_luk;
     uint16_t _inc_str;
     uint16_t _inc_mmd;
-    uint32_t _hp;
-    uint32_t _mp;
+    int32_t _hp;
+    int32_t _mp;
     uint32_t _time;
   };
 }

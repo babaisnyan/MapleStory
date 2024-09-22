@@ -10,7 +10,7 @@ namespace game {
   public:
     MapTemplate() = default;
 
-    void Load(const json& data) override;
+    void Load(const rapidjson::Value& data) override;
 
   public:
     std::pair<int32_t, int32_t> GetSize() const;

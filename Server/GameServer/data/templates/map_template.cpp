@@ -1,26 +1,32 @@
 ﻿#include "pch.h"
 #include "map_template.h"
 
-void MapTemplate::Load(const json& data) {
-  std::string name;
+using namespace rapidjson;
 
-  data.at("Name").get_to(name);
-  _id = data["Id"].get<int32_t>();
+void MapTemplate::Load(const Value& data) {
+  const std::string name = data["Name"].GetString();
+
   _name = utils::ConvertToWide(name).value_or(L"");
-  _size = {data["Width"].get<int32_t>(), data["Height"].get<int32_t>()};
+  _id = data["Id"].GetInt();
+  _size = {data["Width"].GetInt(), data["Height"].GetInt()};
 
-  for (const auto& ground : data["Grounds"]) {
-    _grounds.emplace_back(ground["Id"].get<int32_t>(),
-                          ground["StartX"].get<int32_t>(),
-                          ground["StartY"].get<int32_t>(),
-                          ground["EndX"].get<int32_t>(),
-                          ground["EndY"].get<int32_t>());
+  for (const auto& ground : data["Grounds"].GetArray()) {
+    _grounds.emplace_back(ground["Id"].GetInt(),
+                          ground["StartX"].GetInt(),
+                          ground["StartY"].GetInt(),
+                          ground["EndX"].GetInt(),
+                          ground["EndY"].GetInt());
   }
 
-  for (const auto& mob : data["Mobs"]) {
-    const int32_t ground_id = mob["Ground"].get<int32_t>();
+  for (const auto& mob : data["Mobs"].GetArray()) {
+    const int32_t ground_id = mob["Ground"].GetInt();
     const auto& ground = _grounds[ground_id];
-    _mobs.emplace_back(mob["Id"].get<uint32_t>(), mob["X"].get<float>(), mob["Y"].get<float>(), ground.start_x, ground.end_x);
+
+    _mobs.emplace_back(mob["Id"].GetUint(),
+                       mob["X"].GetFloat(),
+                       mob["Y"].GetFloat(),
+                       ground.start_x,
+                       ground.end_x);
   }
 }
 

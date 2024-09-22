@@ -7,7 +7,7 @@ namespace game {
 
   public:
     virtual ~Template() = default;
-    virtual void Load(const json& data) = 0;
+    virtual void Load(const rapidjson::Value& data) = 0;
 
     Template(const Template&) = delete;
     Template& operator=(Template&) = delete;
