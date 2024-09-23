@@ -34,7 +34,7 @@ void Player::OnCollideMob(const std::shared_ptr<Monster>& mob, const uint64_t ti
 
   _player_stat->SetLastCollisionTime(time);
 
-  const auto pad = min(1999, std::max(0, mob->GetTemplate()->GetPaDamage() * 2));
+  const auto pad = min(1999, std::max(1, mob->GetTemplate()->GetPaDamage() * 2));
   const auto low_damage = pad * 0.8;
   const auto high_damage = pad * 0.85;
   const auto calc = utils::random::RandDouble(low_damage, high_damage) * (pad * 0.01);
@@ -56,7 +56,7 @@ void Player::OnCollideMob(const std::shared_ptr<Monster>& mob, const uint64_t ti
     calc2 = (player_stat_base * 0.0011111111111111 + player_level * 0.0007692307692307692 + 0.28) * (pad - player_pdd) * 0.7;
   }
 
-  const auto damage = static_cast<int32_t>(calc - (calc2 + (calc1 + 0.28) * pad) - (calc - (calc2 + (calc1 + 0.28) * pad)) * 0.01);
+  const auto damage = static_cast<int32_t>(std::max(calc - (calc2 + (calc1 + 0.28) * pad) - (calc - (calc2 + (calc1 + 0.28) * pad)) * 0.01, 0.0));
 
   const auto map = MapManager::GetInstance().GetMapInstance(_map);
   protocol::GameServerPlayerDamage player_damage;

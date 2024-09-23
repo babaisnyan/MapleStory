@@ -13,7 +13,9 @@ public:
 	UPaperSprite* GetMobNumber(int32 Digit);
 	UPaperSprite* GetPlayerNumber(int32 Digit);
 	UPaperSprite* GetCriticalPlayerNumber(int32 Digit);
-
+	UPaperSprite* GetMobMiss() const;
+	UPaperSprite* GetPlayerMiss() const;
+	
 protected:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 
@@ -29,4 +31,10 @@ private:
 
 	UPROPERTY()
 	TArray<UPaperSprite*> CriticalPlayerNumberSprites;
+
+	UPROPERTY()
+	UPaperSprite* MobMissSprite;
+
+	UPROPERTY()
+	UPaperSprite* PlayerMissSprite;
 };

@@ -40,6 +40,11 @@ void UDamageNumberManager::LoadNumberTextures() {
 			}
 		}
 	}
+
+	FString TexturePath = FString::Printf(TEXT("/Game/Misc/Damage/S_MobDamage_Miss.S_MobDamage_Miss"));
+	MobMissSprite = LoadObject<UPaperSprite>(nullptr, *TexturePath);
+	TexturePath = FString::Printf(TEXT("/Game/Misc/Damage/S_PlayerDamage_Miss.S_PlayerDamage_Miss"));
+	PlayerMissSprite = LoadObject<UPaperSprite>(nullptr, *TexturePath);
 }
 
 UPaperSprite* UDamageNumberManager::GetMobNumber(const int32 Digit) {
@@ -52,7 +57,17 @@ UPaperSprite* UDamageNumberManager::GetPlayerNumber(const int32 Digit) {
 	return PlayerNumberSprites[Digit];
 }
 
-UPaperSprite* UDamageNumberManager::GetCriticalPlayerNumber(int32 Digit) {
+UPaperSprite* UDamageNumberManager::GetCriticalPlayerNumber(const int32 Digit) {
 	check(CriticalPlayerNumberSprites.IsValidIndex(Digit));
 	return CriticalPlayerNumberSprites[Digit];
+}
+
+UPaperSprite* UDamageNumberManager::GetMobMiss() const {
+	check(MobMissSprite);
+	return MobMissSprite;
+}
+
+UPaperSprite* UDamageNumberManager::GetPlayerMiss() const {
+	check(PlayerMissSprite);
+	return PlayerMissSprite;
 }

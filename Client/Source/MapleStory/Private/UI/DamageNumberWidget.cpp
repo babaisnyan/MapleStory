@@ -13,6 +13,12 @@ void UDamageNumberWidget::SetDamageNumberMob(const int32 Damage) {
 	}
 
 	NumberContainer->ClearChildren();
+
+	if (Damage <= 0) {
+		AddNumberImage(NumberManager->GetMobMiss());
+		return;
+	}
+
 	FString DamageString = FString::FromInt(Damage);
 
 	for (const TCHAR Digit : DamageString) {
@@ -30,6 +36,12 @@ void UDamageNumberWidget::SetDamageNumberPlayer(const int32 Damage, bool bCritic
 	}
 
 	NumberContainer->ClearChildren();
+
+	if (Damage <= 0) {
+		AddNumberImage(NumberManager->GetMobMiss());
+		return;
+	}
+
 	FString DamageString = FString::FromInt(Damage);
 
 	for (const TCHAR Digit : DamageString) {
@@ -52,11 +64,15 @@ void UDamageNumberWidget::OnAnimationFinished_Implementation(const UWidgetAnimat
 	}
 }
 
-void UDamageNumberWidget::AddNumberImage(const UPaperSprite* Sprite) {
+void UDamageNumberWidget::AddNumberImage(const UPaperSprite* Sprite, const bool bMiss) {
 	check(Sprite);
 
 	UImage* DigitImage = NewObject<UImage>(this);
 	DigitImage->SetBrushFromTexture(Sprite->GetSourceTexture());
 	DigitImage->SetRenderTransformPivot(Sprite->GetPivotPosition());
 	NumberContainer->AddChild(DigitImage);
+
+	if(bMiss) {
+		
+	}
 }
