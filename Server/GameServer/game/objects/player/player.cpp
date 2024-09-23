@@ -11,7 +11,6 @@
 #include "game/map/map_manager.h"
 #include "game/objects/mob/monster.h"
 
-#include "network/game/game_client_packet_handler.h"
 #include "network/protocol/game_protocol.pb.h"
 
 #include "utils/randomizer.h"
@@ -34,7 +33,7 @@ void Player::OnCollideMob(const std::shared_ptr<Monster>& mob, const uint64_t ti
 
   _player_stat->SetLastCollisionTime(time);
 
-  const auto pad = min(1999, std::max(1, mob->GetTemplate()->GetPaDamage() * 2));
+  const auto pad = min(1999, std::max(0, mob->GetTemplate()->GetPaDamage() * 2));
   const auto low_damage = pad * 0.8;
   const auto high_damage = pad * 0.85;
   const auto calc = utils::random::RandDouble(low_damage, high_damage) * (pad * 0.01);

@@ -2,6 +2,7 @@
 
 #include "PaperSprite.h"
 #include "Components/HorizontalBox.h"
+#include "Components/HorizontalBoxSlot.h"
 #include "Components/Image.h"
 #include "Managers/DamageNumberManager.h"
 
@@ -15,7 +16,7 @@ void UDamageNumberWidget::SetDamageNumberMob(const int32 Damage) {
 	NumberContainer->ClearChildren();
 
 	if (Damage <= 0) {
-		AddNumberImage(NumberManager->GetMobMiss());
+		AddMissImage(NumberManager->GetMobMiss());
 		return;
 	}
 
@@ -28,7 +29,7 @@ void UDamageNumberWidget::SetDamageNumberMob(const int32 Damage) {
 	}
 }
 
-void UDamageNumberWidget::SetDamageNumberPlayer(const int32 Damage, bool bCritical) {
+void UDamageNumberWidget::SetDamageNumberPlayer(const int32 Damage, const bool bCritical) {
 	UDamageNumberManager* NumberManager = GetGameInstance()->GetSubsystem<UDamageNumberManager>();
 
 	if (!NumberManager) {
@@ -38,7 +39,7 @@ void UDamageNumberWidget::SetDamageNumberPlayer(const int32 Damage, bool bCritic
 	NumberContainer->ClearChildren();
 
 	if (Damage <= 0) {
-		AddNumberImage(NumberManager->GetMobMiss());
+		AddMissImage(NumberManager->GetMobMiss());
 		return;
 	}
 
@@ -64,15 +65,22 @@ void UDamageNumberWidget::OnAnimationFinished_Implementation(const UWidgetAnimat
 	}
 }
 
-void UDamageNumberWidget::AddNumberImage(const UPaperSprite* Sprite, const bool bMiss) {
+void UDamageNumberWidget::AddNumberImage(const UPaperSprite* Sprite) {
 	check(Sprite);
 
 	UImage* DigitImage = NewObject<UImage>(this);
-	DigitImage->SetBrushFromTexture(Sprite->GetSourceTexture());
+	DigitImage->SetBrushFromTexture(Sprite->GetSourceTexture(), true);
 	DigitImage->SetRenderTransformPivot(Sprite->GetPivotPosition());
 	NumberContainer->AddChild(DigitImage);
+}
 
-	if(bMiss) {
-		
-	}
+void UDamageNumberWidget::AddMissImage(UTexture2D* Texture) {
+	check(Texture);
+
+	UImage* DigitImage = NewObject<UImage>(this);
+	DigitImage->SetBrushFromTexture(Texture, true);
+	NumberContainer->AddChild(DigitImage);
+
+	UHorizontalBoxSlot* ImageSlot = Cast<UHorizontalBoxSlot>(DigitImage->Slot);
+	ImageSlot->SetSize(FSlateChildSize(ESlateSizeRule::Fill));
 }

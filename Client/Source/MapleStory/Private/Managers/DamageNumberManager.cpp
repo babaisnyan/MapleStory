@@ -13,38 +13,34 @@ void UDamageNumberManager::LoadNumberTextures() {
 	CriticalPlayerNumberSprites.Empty();
 
 	for (int32 i = 0; i < 10; i++) {
-		{
-			FString TexturePath = FString::Printf(TEXT("/Game/Misc/Damage/S_MobDamage_%d.S_MobDamage_%d"), i, i);
-			UPaperSprite* Sprite = LoadObject<UPaperSprite>(nullptr, *TexturePath);
+		FString TexturePath = FString::Printf(TEXT("/Game/Misc/Damage/S_MobDamage_%d.S_MobDamage_%d"), i, i);
+		UPaperSprite* Sprite = LoadObject<UPaperSprite>(nullptr, *TexturePath);
 
-			if (Sprite) {
-				MobNumberSprites.Add(Sprite);
-			}
+		if (Sprite) {
+			MobNumberSprites.Add(Sprite);
 		}
 
-		{
-			FString TexturePath = FString::Printf(TEXT("/Game/Misc/Damage/S_PlayerDamage_%d.S_PlayerDamage_%d"), i, i);
-			UPaperSprite* Sprite = LoadObject<UPaperSprite>(nullptr, *TexturePath);
 
-			if (Sprite) {
-				PlayerNumberSprites.Add(Sprite);
-			}
+		TexturePath = FString::Printf(TEXT("/Game/Misc/Damage/S_PlayerDamage_%d.S_PlayerDamage_%d"), i, i);
+		Sprite = LoadObject<UPaperSprite>(nullptr, *TexturePath);
+
+		if (Sprite) {
+			PlayerNumberSprites.Add(Sprite);
 		}
 
-		{
-			FString TexturePath = FString::Printf(TEXT("/Game/Misc/Damage/S_PlayerDamage_Crit_%d.S_PlayerDamage_Crit_%d"), i, i);
-			UPaperSprite* Sprite = LoadObject<UPaperSprite>(nullptr, *TexturePath);
 
-			if (Sprite) {
-				CriticalPlayerNumberSprites.Add(Sprite);
-			}
+		TexturePath = FString::Printf(TEXT("/Game/Misc/Damage/S_PlayerDamage_Crit_%d.S_PlayerDamage_Crit_%d"), i, i);
+		Sprite = LoadObject<UPaperSprite>(nullptr, *TexturePath);
+
+		if (Sprite) {
+			CriticalPlayerNumberSprites.Add(Sprite);
 		}
 	}
 
-	FString TexturePath = FString::Printf(TEXT("/Game/Misc/Damage/S_MobDamage_Miss.S_MobDamage_Miss"));
-	MobMissSprite = LoadObject<UPaperSprite>(nullptr, *TexturePath);
-	TexturePath = FString::Printf(TEXT("/Game/Misc/Damage/S_PlayerDamage_Miss.S_PlayerDamage_Miss"));
-	PlayerMissSprite = LoadObject<UPaperSprite>(nullptr, *TexturePath);
+	FString TexturePath = FString::Printf(TEXT("/Game/Misc/Damage/T_MobDamage_Miss.T_MobDamage_Miss"));
+	MobMissTexture = LoadObject<UTexture2D>(nullptr, *TexturePath);
+	TexturePath = FString::Printf(TEXT("/Game/Misc/Damage/T_PlayerDamage_Miss.T_PlayerDamage_Miss"));
+	PlayerMissTexture = LoadObject<UTexture2D>(nullptr, *TexturePath);
 }
 
 UPaperSprite* UDamageNumberManager::GetMobNumber(const int32 Digit) {
@@ -62,12 +58,12 @@ UPaperSprite* UDamageNumberManager::GetCriticalPlayerNumber(const int32 Digit) {
 	return CriticalPlayerNumberSprites[Digit];
 }
 
-UPaperSprite* UDamageNumberManager::GetMobMiss() const {
-	check(MobMissSprite);
-	return MobMissSprite;
+UTexture2D* UDamageNumberManager::GetMobMiss() const {
+	check(MobMissTexture);
+	return MobMissTexture;
 }
 
-UPaperSprite* UDamageNumberManager::GetPlayerMiss() const {
-	check(PlayerMissSprite);
-	return PlayerMissSprite;
+UTexture2D* UDamageNumberManager::GetPlayerMiss() const {
+	check(PlayerMissTexture);
+	return PlayerMissTexture;
 }

@@ -23,7 +23,8 @@ protected:
 	virtual void OnAnimationFinished_Implementation(const UWidgetAnimation* Animation) override;
 
 private:
-	void AddNumberImage(const UPaperSprite* Sprite, bool bMiss = false);
+	void AddNumberImage(const UPaperSprite* Sprite);
+	void AddMissImage(UTexture2D* Texture);
 
 public:
 	FOnFadeOutFinished OnFadeOutFinished;

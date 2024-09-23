@@ -9,7 +9,7 @@
 void MobState::ProcessCollision(const std::shared_ptr<Monster>& mob) {
   const auto now = GetTickCount64();
   const auto& mob_position = mob->GetPosition();
-  const auto& [width, height] = mob->GetTemplate()->GetCollisionSize(mob->GetCurrentState());
+  const auto& [width , height] = mob->GetTemplate()->GetCollisionSize(mob->GetCurrentState());
   const auto map = mob->GetMap().lock();
   const auto grid_x_radius = std::max(width / MsCoordinate::kGridSize / 2, 1);
   const auto grid_y_radius = std::max(height / MsCoordinate::kGridSize, 1);
@@ -28,12 +28,12 @@ void MobState::ProcessCollision(const std::shared_ptr<Monster>& mob) {
         }
 
         const auto player = std::static_pointer_cast<Player>(object);
-        const auto collision_width = width / 2.0f;
-        const auto collision_height = height / 2.0f;
+        const auto collision_width = static_cast<float>(width) / 2.0f;
+        const auto collision_height = static_cast<float>(height) / 2.0f;
         const auto min_x = mob->GetX() - collision_width;
         const auto max_x = mob->GetX() + collision_width;
 
-        if (player->GetX() - 8 > min_x && player->GetX() + 8 < max_x && player->GetY() > mob->GetY() - collision_height && player->GetY() < mob->GetY() + collision_height) {
+        if (player->GetX() - 16 > min_x && player->GetX() + 16 < max_x && player->GetY() > mob->GetY() - collision_height && player->GetY() < mob->GetY() + collision_height) {
           player->OnCollideMob(mob, now);
         }
       }

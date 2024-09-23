@@ -13,9 +13,9 @@ public:
 	UPaperSprite* GetMobNumber(int32 Digit);
 	UPaperSprite* GetPlayerNumber(int32 Digit);
 	UPaperSprite* GetCriticalPlayerNumber(int32 Digit);
-	UPaperSprite* GetMobMiss() const;
-	UPaperSprite* GetPlayerMiss() const;
-	
+	UTexture2D* GetMobMiss() const;
+	UTexture2D* GetPlayerMiss() const;
+
 protected:
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 
@@ -24,17 +24,17 @@ private:
 
 private:
 	UPROPERTY()
-	TArray<UPaperSprite*> MobNumberSprites;
+	TArray<TObjectPtr<UPaperSprite>> MobNumberSprites;
 
 	UPROPERTY()
-	TArray<UPaperSprite*> PlayerNumberSprites;
+	TArray<TObjectPtr<UPaperSprite>> PlayerNumberSprites;
 
 	UPROPERTY()
-	TArray<UPaperSprite*> CriticalPlayerNumberSprites;
+	TArray<TObjectPtr<UPaperSprite>> CriticalPlayerNumberSprites;
 
 	UPROPERTY()
-	UPaperSprite* MobMissSprite;
+	TObjectPtr<UTexture2D> MobMissTexture;
 
 	UPROPERTY()
-	UPaperSprite* PlayerMissSprite;
+	TObjectPtr<UTexture2D> PlayerMissTexture;
 };
