@@ -13,7 +13,8 @@ namespace game {
 
     void OnEnter() override;
     void Update(float delta_time) override;
-    void OnCollideMob(const std::shared_ptr<Monster>& mob, uint64_t time) const;
+    void OnCollideMob(const std::shared_ptr<Monster>& mob, uint64_t time);
+    void OnDamage(int32_t damage);
 
   public:
     int32_t GetId() const;

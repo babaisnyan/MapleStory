@@ -63,6 +63,7 @@ AMsPlayerBase::AMsPlayerBase() {
 	GetSprite()->CanCharacterStepUpOn = ECB_No;
 	GetSprite()->SetRelativeLocation(FVector(0.0f, 1.0f, 0.0f));
 	GetSprite()->SetFlipbook(IdleAnimation);
+	GetSprite()->TranslucencySortPriority = 1000000;
 
 	PlayerStat = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("PlayerStat"));
 }
@@ -122,12 +123,28 @@ void AMsPlayerBase::Move(const protocol::GameServerPlayerMove& MovePacket) {
 	UpdateAnimation();
 }
 
+void AMsPlayerBase::Blink() {
+	Transparency = Transparency == 0.5f ? 1.0f : 0.5f;
+	GetSprite()->SetSpriteColor(FLinearColor{1.0f, 1.0f, 1.0f, Transparency});
+
+	if (++BlinkCount == 5) {
+		GetWorldTimerManager().ClearTimer(BlinkTimer);
+		GetSprite()->SetSpriteColor(FLinearColor{1.0f, 1.0f, 1.0f, 1.0f});
+		Transparency = 1.0f;
+		BlinkCount = 0;
+	}
+}
+
 void AMsPlayerBase::OnDamaged(const int32 Damage) {
 	const FVector Location = GetActorLocation();
 	const FVector NewLocation = FVector(Location.X, Location.Y + 1, Location.Z + 20.0f);
 	ADamageTextActor* Text = GetWorld()->SpawnActorDeferred<ADamageTextActor>(ADamageTextActor::StaticClass(), FTransform(NewLocation), this);
 	Text->SetDamage(Damage, true, false);
 	Text->FinishSpawning(FTransform(NewLocation));
+
+	if (Damage > 0) {
+		GetWorldTimerManager().SetTimer(BlinkTimer, this, &AMsPlayerBase::Blink, 0.3f, true, 0);
+	}
 }
 
 void AMsPlayerBase::Tick(const float DeltaSeconds) {

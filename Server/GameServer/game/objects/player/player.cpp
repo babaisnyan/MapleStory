@@ -26,7 +26,7 @@ void Player::OnEnter() {
 
 void Player::Update(float delta_time) {}
 
-void Player::OnCollideMob(const std::shared_ptr<Monster>& mob, const uint64_t time) const {
+void Player::OnCollideMob(const std::shared_ptr<Monster>& mob, const uint64_t time) {
   if (time - _player_stat->GetLastCollisionTime() < 1000) {
     return;
   }
@@ -64,9 +64,18 @@ void Player::OnCollideMob(const std::shared_ptr<Monster>& mob, const uint64_t ti
 
   if (map.has_value()) {
     map.value()->BroadCast(player_damage, nullptr);
+    OnDamage(damage);
   }
 
   std::cout << std::format("Player is in collision area. Mob: {}, Player: {}, Damage: {}\n", mob->GetObjectId(), GetObjectId(), damage);
+}
+
+void Player::OnDamage(const int32_t damage) {
+  _player_stat->SetHp(std::max(_player_stat->GetHp() - damage, 0));
+
+  if (_player_stat->GetHp() <= 0) {
+    // TODO: 사망 처리
+  }
 }
 
 int32_t Player::GetId() const {

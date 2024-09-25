@@ -26,7 +26,8 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void Setup(const protocol::PlayerInfo& Info) override;
-	
+	virtual void OnDamaged(int32 Damage) override;
+
 protected:
 	void EnhancedMoveHorizontal(const FInputActionValue& Value);
 	void EnhancedMoveVertical(const FInputActionValue& Value);

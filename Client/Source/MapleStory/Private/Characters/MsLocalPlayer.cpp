@@ -50,6 +50,7 @@ AMsLocalPlayer::AMsLocalPlayer() {
 	
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
 	MovementComponent->bEnablePhysicsInteraction = false;
+	GetSprite()->TranslucencySortPriority = 1000001;
 	
 	// const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
 	// if (Capsule) {
@@ -158,6 +159,17 @@ void AMsLocalPlayer::Setup(const protocol::PlayerInfo& Info) {
 
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
 	MovementComponent->MaxWalkSpeed *= PlayerStat->Speed / 100;
+}
+
+void AMsLocalPlayer::OnDamaged(const int32 Damage) {
+	Super::OnDamaged(Damage);
+
+	if (Damage > 0) {
+		PlayerStat->Hp = FMath::Max(0, PlayerStat->Hp - Damage);
+		UpdateStatusBar();
+
+		GetCharacterMovement()->AddImpulse({bFlip ? 200.0f : -200.0f, 0.0f, 200.0f}, true);
+	}
 }
 
 void AMsLocalPlayer::EnhancedMoveHorizontal(const FInputActionValue& Value) {

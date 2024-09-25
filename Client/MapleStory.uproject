@@ -206,6 +206,10 @@
 			"SupportedTargetPlatforms": [
 				"Win64"
 			]
+		},
+		{
+			"Name": "PoolManager",
+			"Enabled": false
 		}
 	],
 	"TargetPlatforms": [

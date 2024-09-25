@@ -28,7 +28,8 @@ public:
 	void Setup(const protocol::OtherPlayerInfo& Info);
 	void Move(const protocol::GameServerPlayerMove& MovePacket);
 
-	void OnDamaged(int32 Damage);
+	void Blink();
+	virtual void OnDamaged(int32 Damage);
 
 protected:
 	virtual void Tick(float DeltaSeconds) override;
@@ -65,17 +66,20 @@ public:
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UWidgetComponent> NameTagWidget;
+
+	UPROPERTY()
+	TObjectPtr<UDataTable> AvatarTable;
 	
 	bool bFlip = true;
 	int32 StartX;
 	int32 StartY;
 	float BaseX;
 	float BaseY;
-
-private:
-	UPROPERTY()
-	TObjectPtr<UDataTable> AvatarTable;
-
 	float DestX;
 	float DestY;
+
+	UPROPERTY()
+	FTimerHandle BlinkTimer;
+	float Transparency = 1.0f;
+	int32 BlinkCount = 0;
 };
