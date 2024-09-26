@@ -189,7 +189,7 @@ bool Player::TryLoadFromDb() {
       UpdatePosition(0, 0, false);
 
       GetStat()->SetLevel(level);
-      GetStat()->SetHp(hp);
+      GetStat()->SetHp(std::max(50, hp));
       GetStat()->SetMp(mp);
       GetStat()->SetMaxHp(max_hp);
       GetStat()->SetMaxMp(max_mp);

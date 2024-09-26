@@ -31,10 +31,20 @@ void GameObject::SetFlip(const bool flip) {
   _flip = flip;
 }
 
+void GameObject::SetBounds(const std::tuple<int32_t, int32_t, int32_t, int32_t>& bounds) {
+  _position.bounds = bounds;
+}
+
 void GameObject::UpdatePosition(const float x, const float y, const bool flip) {
   _position.x = x;
   _position.y = y;
-  _position.grid_x = std::abs(static_cast<int16_t>(x) / MsCoordinate::kGridSize);
-  _position.grid_y = std::abs(static_cast<int16_t>(y) / MsCoordinate::kGridSize);
+
+  if (x < 0) {
+    _position.grid_x = (x - std::get<0>(_position.bounds)) / MsCoordinate::kGridSize;
+  } else {
+    _position.grid_x = (std::abs(std::get<0>(_position.bounds)) + x) / MsCoordinate::kGridSize;
+  }
+
+  _position.grid_y = std::abs(static_cast<int16_t>(_position.y) / MsCoordinate::kGridSize);
   _flip = flip;
 }

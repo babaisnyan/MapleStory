@@ -42,5 +42,37 @@ void MobState::ProcessCollision(const std::shared_ptr<Monster>& mob) {
 }
 
 std::shared_ptr<Player> MobState::FindNearestPlayer(const std::shared_ptr<Monster>& mob) {
-  return nullptr;
+  const auto map = mob->GetMap().lock();
+
+  if (!map) {
+    return nullptr;
+  }
+
+  const auto map_size = map->GetGridSize();
+  const auto& mob_position = mob->GetPosition();
+  std::shared_ptr<Player> nearest_player = nullptr;
+
+  for (auto x = 0; x < map_size.first; ++x) {
+    const auto& objects = map->GetObjects(x, mob_position.grid_y);
+
+    for (const auto& game_object : objects) {
+      if (game_object->GetObjectType() != GameObject::ObjectType::kPlayer) {
+        continue;
+      }
+
+      if (!nearest_player) {
+        nearest_player = std::static_pointer_cast<Player>(game_object);
+        continue;
+      }
+
+      const auto nearest_distance = std::abs(nearest_player->GetX() - mob->GetX());
+      const auto current_distance = std::abs(game_object->GetX() - mob->GetX());
+
+      if (current_distance < nearest_distance) {
+        nearest_player = std::static_pointer_cast<Player>(game_object);
+      }
+    }
+  }
+
+  return nearest_player;
 }

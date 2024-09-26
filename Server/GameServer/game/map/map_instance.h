@@ -16,7 +16,7 @@ namespace game {
 
   class MapInstance final : public JobQueue {
   public:
-    explicit MapInstance(const int32_t map_id, std::pair<int32_t, int32_t> size, std::vector<GroundInfo> grounds);
+    explicit MapInstance(const int32_t map_id, std::pair<int32_t, int32_t> size, std::vector<GroundInfo> grounds, std::tuple<int32_t, int32_t, int32_t, int32_t> bounds);
     ~MapInstance() = default;
 
   public:
@@ -45,6 +45,8 @@ namespace game {
   public:
     int32_t GetMapId() const noexcept;
     std::pair<int32_t, int32_t> GetSize() const noexcept;
+    std::tuple<int32_t, int32_t, int32_t, int32_t> GetBounds() const noexcept;
+    std::pair<int32_t, int32_t> GetGridSize() const noexcept;
     const std::vector<std::shared_ptr<GameObject>>& GetObjects(int16_t x, int16_t y) noexcept;
 
     void AddSpawnLocation(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shared_ptr<MobTemplate>& mob_template);
@@ -52,7 +54,10 @@ namespace game {
   private:
     const int32_t _map_id;
     const std::pair<int32_t, int32_t> _size;
+    const std::tuple<int32_t, int32_t, int32_t, int32_t> _bounds;
     const std::vector<GroundInfo> _grounds;
+    int32_t _max_grid_x;
+    int32_t _max_grid_y;
     uint64_t _last_respawn_tick = 0;
 
     std::unordered_map<std::shared_ptr<SpawnPoint>, std::shared_ptr<MobTemplate>> _mob_spawn_locations;

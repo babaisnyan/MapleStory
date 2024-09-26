@@ -24,13 +24,16 @@ void StandState::Enter(const std::shared_ptr<Monster>& mob) {
 
 void StandState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
   mob->AddAnimationTime(delta);
-  ProcessCollision(mob);
+
+  if (mob->GetTemplate()->CanBodyAttack()) {
+    ProcessCollision(mob);
+  }
 
   if (!mob->IsTargetInDistance()) {
     mob->ResetTarget();
   }
 
-  if (mob->GetTemplate()->CanFirstAttack() && !mob->HasTarget()) {
+  if (mob->GetTemplate()->HasAction(protocol::MOB_ACTION_TYPE_ATTACK) && mob->GetTemplate()->CanFirstAttack() && !mob->HasTarget()) {
     const auto target = FindNearestPlayer(mob);
 
     if (target) {
@@ -41,6 +44,8 @@ void StandState::Update(const std::shared_ptr<Monster>& mob, const float delta) 
       } else {
         mob->ChangeState(protocol::MOB_ACTION_TYPE_MOVE);
       }
+
+      mob->ResetTargetPosition();
       return;
     }
   }

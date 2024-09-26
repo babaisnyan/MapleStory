@@ -28,5 +28,6 @@ namespace game {
     float y;
     int16_t grid_x;
     int16_t grid_y;
+    std::tuple<int32_t, int32_t, int32_t, int32_t> bounds;
   };
 }

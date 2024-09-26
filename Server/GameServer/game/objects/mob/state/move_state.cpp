@@ -29,9 +29,10 @@ void MoveState::Enter(const std::shared_ptr<Monster>& mob) {
 
 void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
   mob->AddAnimationTime(delta);
-  ProcessCollision(mob);
 
-  // TODO: 캐릭터 타겟 탐색
+  if (mob->GetTemplate()->CanBodyAttack()) {
+    ProcessCollision(mob);
+  }
 
   if (mob->HasTarget()) {
     if (mob->IsAttackReady() && mob->IsTargetInDistance()) {
@@ -42,6 +43,8 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
     // TODO: 타겟 따라가기
 
     return;
+  } else {
+    // TODO: 캐릭터 타겟 탐색
   }
 
   if (!mob->HasTargetPosition()) {

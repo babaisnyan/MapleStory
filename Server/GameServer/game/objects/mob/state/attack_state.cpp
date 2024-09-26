@@ -10,6 +10,10 @@ void AttackState::Enter(const std::shared_ptr<Monster>& mob) {
 void AttackState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
   mob->AddAnimationTime(delta);
 
+  if (mob->GetTemplate()->CanBodyAttack()) {
+    ProcessCollision(mob);
+  }
+
   // TODO: 애니메이션 시간 체크 후 공격 판정
 
     // TODO: 공격 쿨타임 설정

@@ -4,6 +4,7 @@
 #include "data/spawn_point.h"
 #include "data/templates/mob_template.h"
 
+#include "game/map/map_instance.h"
 #include "game/objects/player/player.h"
 
 #include "state/attack_state.h"
@@ -26,6 +27,7 @@ static constexpr std::array kMonsterActions = {
 
 Monster::Monster(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shared_ptr<MapInstance>& map) : GameObject(GetNextObjectId()), _spawn_point(spawn_point), _map(map) {
   std::call_once(_init_flag, InitMonsterStates);
+  SetBounds(map->GetBounds());
 }
 
 void Monster::Init(const std::shared_ptr<MobTemplate>& mob_template) {

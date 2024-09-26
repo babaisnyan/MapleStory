@@ -5,14 +5,15 @@
 #include "game/objects/mob/monster.h"
 #include "game/objects/player/player.h"
 
-MapInstance::MapInstance(const int32_t map_id, const std::pair<int32_t, int32_t> size, std::vector<GroundInfo> grounds) :
+MapInstance::MapInstance(const int32_t map_id, const std::pair<int32_t, int32_t> size, std::vector<GroundInfo> grounds, std::tuple<int32_t, int32_t, int32_t, int32_t> bounds) :
   _map_id(map_id),
   _size(size),
+  _bounds(std::move(bounds)),
   _grounds(std::move(grounds)) {
-  const auto grid_x_count = _size.first / MsCoordinate::kGridSize + 1;
-  const auto grid_y_count = _size.second / MsCoordinate::kGridSize + 1;
+  _max_grid_x = _size.first / MsCoordinate::kGridSize + 1;
+  _max_grid_y = _size.second / MsCoordinate::kGridSize + 1;
 
-  _grid = std::vector(grid_y_count, std::vector(grid_x_count, std::vector<std::shared_ptr<GameObject>>()));
+  _grid = std::vector(_max_grid_y, std::vector(_max_grid_x, std::vector<std::shared_ptr<GameObject>>()));
 
   for (auto& row : _grid) {
     for (auto& column : row) {
@@ -27,6 +28,7 @@ bool MapInstance::AddPlayer(const std::shared_ptr<GameSession>& session) {
   if (inserted) {
     _objects.emplace(session->GetPlayer()->GetObjectId(), session->GetPlayer());
     OnPlayerEnter(session);
+    session->GetPlayer()->SetBounds(_bounds);
 
     const auto& position = session->GetPlayer()->GetPosition();
     _grid[position.grid_y][position.grid_x].push_back(session->GetPlayer());
@@ -78,6 +80,7 @@ void MapInstance::MovePlayer(const std::shared_ptr<GameSession>& session, const 
   player->UpdatePosition(packet.x(), packet.y(), packet.flip());
 
   if (old_x != position.grid_x || old_y != position.grid_y) {
+    std::cout << std::format("Player {} moved from ({}, {}) to ({}, {})\n", player->GetId(), old_x, old_y, position.grid_x, position.grid_y);
     std::erase(_grid[position.grid_y][position.grid_x], player);
     _grid[position.grid_y][position.grid_x].push_back(player);
   }
@@ -262,6 +265,14 @@ int32_t MapInstance::GetMapId() const noexcept {
 
 std::pair<int32_t, int32_t> MapInstance::GetSize() const noexcept {
   return _size;
+}
+
+std::tuple<int32_t, int32_t, int32_t, int32_t> MapInstance::GetBounds() const noexcept {
+  return _bounds;
+}
+
+std::pair<int32_t, int32_t> MapInstance::GetGridSize() const noexcept {
+  return {_max_grid_x, _max_grid_y};
 }
 
 const std::vector<std::shared_ptr<GameObject>>& MapInstance::GetObjects(const int16_t x, const int16_t y) noexcept {

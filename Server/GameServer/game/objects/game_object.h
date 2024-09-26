@@ -31,6 +31,7 @@ namespace game {
     float GetY() const;
     bool IsFlipped() const;
     void SetFlip(bool flip);
+    void SetBounds(const std::tuple<int32_t, int32_t, int32_t, int32_t>& bounds);
     void UpdatePosition(float x, float y, bool flip);
 
   protected:
