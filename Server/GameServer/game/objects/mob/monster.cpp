@@ -53,7 +53,26 @@ void Monster::OnEnter() {
 }
 
 void Monster::Update(const float delta_time) {
+  AddAnimationTime(delta_time);
   _states[_current_state]->Update(GetSelf(), delta_time);
+}
+
+void Monster::Attack() {
+  const auto target = GetTarget().lock();
+  const auto map = GetMap().lock();
+
+  if (!target || !map) {
+    return;
+  }
+
+  protocol::GameServerMobAttack attack;
+  attack.set_target_id(target->GetObjectId());
+  attack.set_mob_id(_object_id);
+  map->BroadCast(attack, nullptr);
+
+  // TODO: 데미지 계산
+
+  SetNextAttackTime(GetTickCount64() + 3000);
 }
 
 std::shared_ptr<Monster> Monster::GetSelf() {
@@ -85,7 +104,7 @@ float Monster::GetSpeed() const {
 }
 
 float Monster::GetAnimationTime() const {
-  return _animation_time;
+  return _animation_time * 1000;
 }
 
 void Monster::AddAnimationTime(const float delta_time) {
@@ -97,6 +116,7 @@ void Monster::ResetAnimationTime() {
 }
 
 void Monster::ResetTarget() {
+  SendRemoveAgro();
   _target.reset();
 }
 
@@ -105,18 +125,13 @@ void Monster::ChangeTarget(const std::shared_ptr<Player>& player) {
   ResetTargetPosition();
 }
 
-bool Monster::IsTargetInDistance() const {
-  const auto target = _target.lock();
-
-  if (!target) {
-    return false;
-  }
-
-  return _position.CheckTargetGridRange(target->GetPosition(), 3);
-}
-
 bool Monster::HasTarget() const {
   return !_target.expired();
+}
+
+bool Monster::IsTargetAlive() const {
+  const auto target = _target.lock();
+  return target && target->IsAlive();
 }
 
 void Monster::ResetTargetPosition() {
@@ -162,7 +177,11 @@ bool Monster::IsTargetInAttackRange() const {
 }
 
 bool Monster::IsAttackReady() const {
-  return GetTickCount64() >= _next_attack_time;
+  return GetTickCount64() > _next_attack_time;
+}
+
+void Monster::SetNextAttackTime(const uint64_t next_attack_time) {
+  _next_attack_time = next_attack_time;
 }
 
 bool Monster::IsCollisionEnabled() const {
@@ -190,10 +209,55 @@ int64_t Monster::GetNextObjectId() {
   return next_object_id.fetch_add(1);
 }
 
+void Monster::SendSetAgro() const {
+  const auto target = _target.lock();
+
+  if (!target) {
+    return;
+  }
+
+  const auto map = _map.lock();
+
+  if (!map) {
+    return;
+  }
+
+  protocol::GameServerMobAgro packet;
+  packet.set_object_id(GetObjectId());
+  packet.set_target_id(target->GetObjectId());
+
+  map->BroadCast(packet, nullptr);
+}
+
+void Monster::SendRemoveAgro() const {
+  const auto target = _target.lock();
+
+  if (!target) {
+    return;
+  }
+
+  const auto map = _map.lock();
+
+  if (!map) {
+    return;
+  }
+
+  protocol::GameServerRemoveMobAgro packet;
+  packet.set_object_id(GetObjectId());
+
+  map->BroadCast(packet, nullptr);
+}
+
 void Monster::ChangeState(const protocol::MobActionType state) {
   ASSERT_CRASH(_mob_template->HasAction(state));
 
   // std::cout << std::format("[Transition] ObjectId: {}, MobId: {}, {} -> {}\n", _object_id, _id, magic_enum::enum_name(_current_state), magic_enum::enum_name(state)).c_str();
+
+  ResetAnimationTime();
+
+  if (HasTarget() && !IsTargetAlive()) {
+    ResetTarget();
+  }
 
   _current_state = state;
   _states[_current_state]->Enter(GetSelf());

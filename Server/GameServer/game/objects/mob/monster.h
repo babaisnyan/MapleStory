@@ -18,6 +18,7 @@ namespace game {
 
     void OnEnter() override;
     void Update(float delta_time) override;
+    void Attack();
 
     std::shared_ptr<Monster> GetSelf();
     uint32_t GetId() const;
@@ -33,8 +34,8 @@ namespace game {
 
     void ResetTarget();
     void ChangeTarget(const std::shared_ptr<Player>& player);
-    bool IsTargetInDistance() const;
     bool HasTarget() const;
+    bool IsTargetAlive() const;
 
     void ResetTargetPosition();
     void SetTargetPosition(float x, float y);
@@ -43,6 +44,7 @@ namespace game {
 
     bool IsTargetInAttackRange() const;
     bool IsAttackReady() const;
+    void SetNextAttackTime(uint64_t next_attack_time);
 
     bool IsCollisionEnabled() const;
     void SetCollisionEnabled(bool enabled);
@@ -55,6 +57,8 @@ namespace game {
 
   private:
     int64_t GetNextObjectId() override;
+    void SendSetAgro() const;
+    void SendRemoveAgro() const;
 
   private:
     static void InitMonsterStates();

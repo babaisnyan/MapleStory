@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Monster.generated.h"
 
+class AMsPlayerBase;
 class UWidgetComponent;
 class UNavMovementComponent;
 class UMobStatComponent;
@@ -29,6 +30,8 @@ public:
 
 	void SetCurrentAction(EMobActionType ActionType, bool bForce = false);
 	void Move(const protocol::GameServerMobMove& Packet);
+	void SetAgro(const TObjectPtr<AMsPlayerBase>& Player);
+	void RemoveAgro();
 
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 
@@ -99,6 +102,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Mob")
 	bool bFlip = false;
+
+	UPROPERTY()
+	TObjectPtr<AMsPlayerBase> AgroPlayer;
 
 private:
 	UPROPERTY(VisibleAnywhere)

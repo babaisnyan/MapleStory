@@ -104,6 +104,30 @@ void AMapleGameMode::UpdateMonsterPosition(const protocol::GameServerMobMove& Pa
 	}
 }
 
+void AMapleGameMode::SetMobAgro(const protocol::GameServerMobAgro& Packet) {
+	if (!Monsters.Contains(Packet.object_id()) || !Players.Contains(Packet.target_id())) {
+		return;
+	}
+
+	Monsters[Packet.object_id()]->SetAgro(Players[Packet.target_id()]);
+}
+
+void AMapleGameMode::RemoveMobAgro(const protocol::GameServerRemoveMobAgro& Packet) {
+	if (!Monsters.Contains(Packet.object_id())) {
+		return;
+	}
+
+	Monsters[Packet.object_id()]->RemoveAgro();
+}
+
+void AMapleGameMode::PlayAttackAnimation(const protocol::GameServerMobAttack& Packet) {
+	if (!Monsters.Contains(Packet.mob_id())) {
+		return;
+	}
+
+	Monsters[Packet.mob_id()]->SetCurrentAction(EMobActionType::Attack, true);
+}
+
 uint64_t AMapleGameMode::GetExpForLevel(const int32 Level) const {
 	if (Level < 0 || Level >= 300) {
 		return 1;

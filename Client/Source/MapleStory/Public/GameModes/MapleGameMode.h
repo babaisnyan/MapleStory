@@ -31,6 +31,9 @@ public:
 	void AddMonster(const protocol::MobInfo& MonsterInfo);
 	void RemoveMonster(int64 ObjectId);
 	void UpdateMonsterPosition(const protocol::GameServerMobMove& Packet);
+	void SetMobAgro(const protocol::GameServerMobAgro& Packet);
+	void RemoveMobAgro(const protocol::GameServerRemoveMobAgro& Packet);
+	void PlayAttackAnimation(const protocol::GameServerMobAttack& Packet);
 
 	uint64_t GetExpForLevel(int32 Level) const;
 
@@ -43,7 +46,7 @@ private:
 public:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Avatar")
 	EAvatarType AvatarType = EAvatarType::GoTalk;
-	
+
 	UPROPERTY(VisibleAnywhere, Category = "Player")
 	TMap<int64, TObjectPtr<AMsPlayerBase>> Players = {};
 

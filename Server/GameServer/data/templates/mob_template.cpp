@@ -71,6 +71,7 @@ bool MobTemplate::CanBodyAttack() const {
 }
 
 bool MobTemplate::CanFirstAttack() const {
+  return true;
   return _first_attack;
 }
 
@@ -130,10 +131,10 @@ int16_t MobTemplate::GetAttackHeight() const {
   return _attack_height;
 }
 
-int32_t MobTemplate::GetActionLength(const protocol::MobActionType action) const {
-  return _action_lengths.at(action);
+float MobTemplate::GetActionLength(const protocol::MobActionType action) const {
+  return static_cast<float>(_action_lengths.at(action));
 }
 
-std::pair<int32_t, int32_t> MobTemplate::GetCollisionSize(protocol::MobActionType action) const {
+std::pair<int32_t, int32_t> MobTemplate::GetCollisionSize(const protocol::MobActionType action) const {
   return _collision_sizes.at(action);
 }

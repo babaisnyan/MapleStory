@@ -118,6 +118,14 @@ void Player::SetMap(const int32_t map) {
   _map = map;
 }
 
+void Player::SetAlive(const bool is_alive) {
+  _is_alive = is_alive;
+}
+
+bool Player::IsAlive() const {
+  return _is_alive;
+}
+
 std::shared_ptr<PlayerStat> Player::GetStat() const {
   return _player_stat;
 }

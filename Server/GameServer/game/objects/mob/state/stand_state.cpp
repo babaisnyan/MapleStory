@@ -10,27 +10,21 @@
 #include "utils/randomizer.h"
 
 void StandState::Enter(const std::shared_ptr<Monster>& mob) {
-  mob->ResetAnimationTime();
+  if (!mob->HasTarget()) {
+    protocol::GameServerMobMove move;
+    move.set_object_id(mob->GetObjectId());
+    move.set_x(mob->GetX());
+    move.set_y(mob->GetY());
+    move.set_flip(mob->IsFlipped());
+    move.set_state(mob->GetCurrentState());
 
-  protocol::GameServerMobMove move;
-  move.set_object_id(mob->GetObjectId());
-  move.set_x(mob->GetX());
-  move.set_y(mob->GetY());
-  move.set_flip(mob->IsFlipped());
-  move.set_state(mob->GetCurrentState());
-
-  mob->GetMap().lock()->BroadCast(move, nullptr);
+    mob->GetMap().lock()->BroadCast(move, nullptr);
+  }
 }
 
 void StandState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
-  mob->AddAnimationTime(delta);
-
   if (mob->GetTemplate()->CanBodyAttack()) {
     ProcessCollision(mob);
-  }
-
-  if (!mob->IsTargetInDistance()) {
-    mob->ResetTarget();
   }
 
   if (mob->GetTemplate()->HasAction(protocol::MOB_ACTION_TYPE_ATTACK) && mob->GetTemplate()->CanFirstAttack() && !mob->HasTarget()) {
@@ -39,13 +33,12 @@ void StandState::Update(const std::shared_ptr<Monster>& mob, const float delta) 
     if (target) {
       mob->ChangeTarget(target);
 
-      if (mob->IsAttackReady() && mob->IsTargetInDistance()) {
+      if (mob->IsAttackReady() && mob->IsTargetInAttackRange()) {
         mob->ChangeState(protocol::MOB_ACTION_TYPE_ATTACK);
       } else {
         mob->ChangeState(protocol::MOB_ACTION_TYPE_MOVE);
       }
 
-      mob->ResetTargetPosition();
       return;
     }
   }

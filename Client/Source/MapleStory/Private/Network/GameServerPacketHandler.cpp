@@ -57,7 +57,18 @@ bool FGameServerPacketHandler::HandleGameServerMobMove(const TObjectPtr<UTCPClie
 	return true;
 }
 
+bool FGameServerPacketHandler::HandleGameServerMobAgro(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobAgro& Packet) {
+	GameInstance->SetMobAgro(Packet);
+	return true;
+}
+
+bool FGameServerPacketHandler::HandleGameServerRemoveMobAgro(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerRemoveMobAgro& Packet) {
+ 	GameInstance->RemoveMobAgro(Packet);
+	return true;
+}
+
 bool FGameServerPacketHandler::HandleGameServerMobAttack(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobAttack& Packet) {
+	GameInstance->PlayAttackAnimation(Packet);
 	return true;
 }
 

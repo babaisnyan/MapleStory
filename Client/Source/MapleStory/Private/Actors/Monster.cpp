@@ -152,6 +152,14 @@ void AMonster::Move(const protocol::GameServerMobMove& Packet) {
 	SetCurrentAction(static_cast<EMobActionType>(Packet.state()));
 }
 
+void AMonster::SetAgro(const TObjectPtr<AMsPlayerBase>& Player) {
+	AgroPlayer = Player;
+}
+
+void AMonster::RemoveAgro() {
+	AgroPlayer = nullptr;
+}
+
 void AMonster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) {
 	Super::PostEditChangeProperty(PropertyChangedEvent);
 
@@ -205,6 +213,11 @@ void AMonster::Tick(const float DeltaTime) {
 	Super::Tick(DeltaTime);
 
 	if (CurrentAction == EMobActionType::Move) {
+		if (AgroPlayer) {
+			const FVector PlayerLocation = AgroPlayer->GetActorLocation();
+			bFlip = PlayerLocation.X < GetActorLocation().X;
+		}
+		
 		const FVector DestLocation = FVector(GetActorLocation().X + StatComponent->Speed * DeltaTime * (bFlip ? -1.0f : 1.0f), 0.0f, DestY);
 		const FVector EndLocation = FVector(DestLocation.X, DestLocation.Y, DestLocation.Z - 100.0f);
 		FHitResult HitResult;
@@ -291,6 +304,5 @@ void AMonster::OnBeginOverlap(UPrimitiveComponent* OverlappedComponent, AActor* 
 		return;
 	}
 
-	if (const auto Player = Cast<AMsLocalPlayer>(OtherActor)) {
-	}
+	if (const auto Player = Cast<AMsLocalPlayer>(OtherActor)) {}
 }

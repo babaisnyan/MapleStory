@@ -22,9 +22,11 @@ class FGameServerPacketHandler {
 		PKT_GAMESERVERPLAYERMOVE = 3007,
 		PKT_GAMECLIENTCHANGEKEYSETTING = 3008,
 		PKT_GAMESERVERMOBMOVE = 3009,
-		PKT_GAMESERVERMOBATTACK = 3010,
-		PKT_GAMESERVERPLAYERDAMAGE = 3011,
-		PKT_GAMESERVERMOBDAMAGE = 3012,
+		PKT_GAMESERVERMOBAGRO = 3010,
+		PKT_GAMESERVERREMOVEMOBAGRO = 3011,
+		PKT_GAMESERVERMOBATTACK = 3012,
+		PKT_GAMESERVERPLAYERDAMAGE = 3013,
+		PKT_GAMESERVERMOBDAMAGE = 3014,
 	};
 
 	static bool HandleGameInvalid(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len);
@@ -35,6 +37,8 @@ class FGameServerPacketHandler {
 	static bool HandleGameServerChangeMap(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerChangeMap& Packet);
 	static bool HandleGameServerPlayerMove(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerPlayerMove& Packet);
 	static bool HandleGameServerMobMove(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobMove& Packet);
+	static bool HandleGameServerMobAgro(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobAgro& Packet);
+	static bool HandleGameServerRemoveMobAgro(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerRemoveMobAgro& Packet);
 	static bool HandleGameServerMobAttack(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobAttack& Packet);
 	static bool HandleGameServerPlayerDamage(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerPlayerDamage& Packet);
 	static bool HandleGameServerMobDamage(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobDamage& Packet);
@@ -67,6 +71,12 @@ public:
 		};
 		PacketHandlers[PKT_GAMESERVERMOBMOVE] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
 			return HandlePacket<protocol::GameServerMobMove>(HandleGameServerMobMove, Client, Buffer, Len);
+		};
+		PacketHandlers[PKT_GAMESERVERMOBAGRO] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
+			return HandlePacket<protocol::GameServerMobAgro>(HandleGameServerMobAgro, Client, Buffer, Len);
+		};
+		PacketHandlers[PKT_GAMESERVERREMOVEMOBAGRO] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
+			return HandlePacket<protocol::GameServerRemoveMobAgro>(HandleGameServerRemoveMobAgro, Client, Buffer, Len);
 		};
 		PacketHandlers[PKT_GAMESERVERMOBATTACK] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
 			return HandlePacket<protocol::GameServerMobAttack>(HandleGameServerMobAttack, Client, Buffer, Len);

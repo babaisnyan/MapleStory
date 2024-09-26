@@ -27,6 +27,8 @@ namespace game {
     void SetMeso(int32_t meso);
     int32_t GetMap() const;
     void SetMap(int32_t map);
+    void SetAlive(bool is_alive);
+    bool IsAlive() const;
 
     std::shared_ptr<PlayerStat> GetStat() const;
     std::shared_ptr<KeyMap> GetKeyMap() const;
@@ -46,6 +48,7 @@ namespace game {
     int16_t _job = 0;
     int32_t _meso = 0;
     int32_t _map = 0;
+    bool _is_alive = true;
     std::shared_ptr<PlayerStat> _player_stat = nullptr;
     std::shared_ptr<KeyMap> _key_map = nullptr;
   };

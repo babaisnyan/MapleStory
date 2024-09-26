@@ -16,9 +16,11 @@ namespace game {
     PKT_GAMESERVERPLAYERMOVE = 3007,
     PKT_GAMECLIENTCHANGEKEYSETTING = 3008,
     PKT_GAMESERVERMOBMOVE = 3009,
-    PKT_GAMESERVERMOBATTACK = 3010,
-    PKT_GAMESERVERPLAYERDAMAGE = 3011,
-    PKT_GAMESERVERMOBDAMAGE = 3012,
+    PKT_GAMESERVERMOBAGRO = 3010,
+    PKT_GAMESERVERREMOVEMOBAGRO = 3011,
+    PKT_GAMESERVERMOBATTACK = 3012,
+    PKT_GAMESERVERPLAYERDAMAGE = 3013,
+    PKT_GAMESERVERMOBDAMAGE = 3014,
   };
 
   bool HandleGameInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
@@ -78,6 +80,12 @@ namespace game {
     }
     static SendBufferRef MakeSendBuffer(const protocol::GameServerMobMove& packet) { 
       return MakeSendBufferInternal(packet, PKT_GAMESERVERMOBMOVE); 
+    }
+    static SendBufferRef MakeSendBuffer(const protocol::GameServerMobAgro& packet) { 
+      return MakeSendBufferInternal(packet, PKT_GAMESERVERMOBAGRO); 
+    }
+    static SendBufferRef MakeSendBuffer(const protocol::GameServerRemoveMobAgro& packet) { 
+      return MakeSendBufferInternal(packet, PKT_GAMESERVERREMOVEMOBAGRO); 
     }
     static SendBufferRef MakeSendBuffer(const protocol::GameServerMobAttack& packet) { 
       return MakeSendBufferInternal(packet, PKT_GAMESERVERMOBATTACK); 

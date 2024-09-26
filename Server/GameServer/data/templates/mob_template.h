@@ -27,7 +27,7 @@ namespace game {
     int16_t GetAttackDelay() const;
     int16_t GetAttackWidth() const;
     int16_t GetAttackHeight() const;
-    int32_t GetActionLength(protocol::MobActionType action) const;
+    float GetActionLength(protocol::MobActionType action) const;
     std::pair<int32_t, int32_t> GetCollisionSize(protocol::MobActionType action) const;
 
   private:

@@ -148,6 +148,30 @@ void UMapleGameInstance::UpdateMonsterPosition(const protocol::GameServerMobMove
 	}
 }
 
+void UMapleGameInstance::SetMobAgro(const protocol::GameServerMobAgro& Packet) const {
+	AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (GameMode) {
+		GameMode->SetMobAgro(Packet);
+	}
+}
+
+void UMapleGameInstance::RemoveMobAgro(const protocol::GameServerRemoveMobAgro& Packet) const {
+	AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (GameMode) {
+		GameMode->RemoveMobAgro(Packet);
+	}
+}
+
+void UMapleGameInstance::PlayAttackAnimation(const protocol::GameServerMobAttack& Packet) const {
+	AMapleGameMode* GameMode = Cast<AMapleGameMode>(UGameplayStatics::GetGameMode(GetWorld()));
+
+	if (GameMode) {
+		GameMode->PlayAttackAnimation(Packet);
+	}
+}
+
 void UMapleGameInstance::OnLoginServerConnected() {
 	Client->OnConnected.RemoveDynamic(this, &UMapleGameInstance::OnLoginServerConnected);
 	bIsConnected = true;
