@@ -9,9 +9,12 @@
 #include "Components/WidgetComponent.h"
 #include "Data/Table/MobTemplate.h"
 #include "GameFramework/PlayerStart.h"
+#include "GameModes/MapleGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/MobManager.h"
 #include "UI/MobNameTag.h"
+
+class AMapleGameMode;
 
 AMonster::AMonster() {
 	PrimaryActorTick.bCanEverTick = true;
@@ -135,10 +138,16 @@ void AMonster::SetCurrentAction(const EMobActionType ActionType, const bool bFor
 void AMonster::Move(const protocol::GameServerMobMove& Packet) {
 	bFlip = Packet.flip();
 
-	SetActorLocation(FVector(Packet.x() + BaseX, 0.0f, DestY));
+	if (Packet.has_target_id()) {
+		const auto GameMode = GetWorld()->GetAuthGameMode<AMapleGameMode>();
+		check(GameMode);
+		check(GameMode->Players.Contains(Packet.target_id()));
 
-	if (Packet.has_target_x()) {
+		AgroPlayer = GameMode->Players[Packet.target_id()];
+		DestX = AgroPlayer->GetActorLocation().X - BaseX;
+	} else if (Packet.has_target_x()) {
 		DestX = Packet.target_x();
+		SetActorLocation(FVector(Packet.x() + BaseX, 0.0f, DestY));
 	}
 
 	if (!bFlip) {
@@ -149,15 +158,11 @@ void AMonster::Move(const protocol::GameServerMobMove& Packet) {
 		NameTag->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
 	}
 
-	SetCurrentAction(static_cast<EMobActionType>(Packet.state()));
-}
-
-void AMonster::SetAgro(const TObjectPtr<AMsPlayerBase>& Player) {
-	AgroPlayer = Player;
-}
-
-void AMonster::RemoveAgro() {
-	AgroPlayer = nullptr;
+	if (static_cast<EMobActionType>(Packet.state()) == EMobActionType::Attack) {
+		SetCurrentAction(EMobActionType::Stand);
+	} else {
+		SetCurrentAction(static_cast<EMobActionType>(Packet.state()));
+	}
 }
 
 void AMonster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) {
@@ -217,7 +222,7 @@ void AMonster::Tick(const float DeltaTime) {
 			const FVector PlayerLocation = AgroPlayer->GetActorLocation();
 			bFlip = PlayerLocation.X < GetActorLocation().X;
 		}
-		
+
 		const FVector DestLocation = FVector(GetActorLocation().X + StatComponent->Speed * DeltaTime * (bFlip ? -1.0f : 1.0f), 0.0f, DestY);
 		const FVector EndLocation = FVector(DestLocation.X, DestLocation.Y, DestLocation.Z - 100.0f);
 		FHitResult HitResult;
@@ -226,9 +231,21 @@ void AMonster::Tick(const float DeltaTime) {
 
 		if (GetWorld()->LineTraceSingleByObjectType(HitResult, DestLocation, EndLocation, ObjectQueryParams)) {
 			AddActorWorldOffset({StatComponent->Speed * DeltaTime * (bFlip ? -1.0f : 1.0f), 0.0f, 0.0f});
+
+			if (AgroPlayer) {
+				UE_LOG(LogTemp, Warning, TEXT("Monster_%d_%lld Moved to %f, %f"), MobId, ObjectId, GetActorLocation().X - BaseX, GetActorLocation().Z - BaseY);
+			}
 		} else {
 			UE_LOG(LogTemp, Warning, TEXT("Monster_%d_%lld can't find the ground"), MobId, ObjectId);
 		}
+	}
+
+	if (!bFlip) {
+		SetActorRotation(FRotator(0.0f, 180.0f, 0.0f));
+		NameTag->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
+	} else {
+		SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
+		NameTag->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
 	}
 
 	if (StatComponent->Hp <= 0) {

@@ -19,6 +19,7 @@ namespace game {
     void OnEnter() override;
     void Update(float delta_time) override;
     void Attack();
+    void OnStatusUpdated();
 
     std::shared_ptr<Monster> GetSelf();
     uint32_t GetId() const;
@@ -57,8 +58,6 @@ namespace game {
 
   private:
     int64_t GetNextObjectId() override;
-    void SendSetAgro() const;
-    void SendRemoveAgro() const;
 
   private:
     static void InitMonsterStates();

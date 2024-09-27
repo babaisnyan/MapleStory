@@ -8,23 +8,7 @@
 #include "utils/randomizer.h"
 
 void MoveState::Enter(const std::shared_ptr<Monster>& mob) {
-  if (mob->HasTargetPosition()) {
-    protocol::GameServerMobMove move;
-    move.set_object_id(mob->GetObjectId());
-    move.set_x(mob->GetX());
-    move.set_y(mob->GetY());
-    move.set_flip(mob->IsFlipped());
-    move.set_state(mob->GetCurrentState());
-
-    const auto target_position = mob->GetTargetPosition();
-
-    if (target_position) {
-      move.set_target_x(target_position->x);
-      move.set_target_y(target_position->y);
-    }
-
-    mob->GetMap().lock()->BroadCast(move, nullptr);
-  }
+  mob->OnStatusUpdated();
 }
 
 void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
@@ -34,7 +18,12 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
 
   if (mob->HasTarget()) {
     if (mob->IsTargetInAttackRange()) {
-      mob->ChangeState(protocol::MOB_ACTION_TYPE_ATTACK);
+      if (mob->IsAttackReady()) {
+        mob->ChangeState(protocol::MOB_ACTION_TYPE_ATTACK);
+      } else {
+        mob->ChangeState(protocol::MOB_ACTION_TYPE_STAND);
+      }
+
       return;
     }
 
@@ -43,6 +32,7 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
     if (target) {
       mob->SetFlip(mob->GetX() > target->GetX());
       mob->SetTargetPosition(target->GetX(), mob->GetY());
+      std::cout << std::format("Monster {} set target position x: {}, y: {}\n", mob->GetId(), target->GetX(), mob->GetY());
     }
   } else {
     // TODO: 캐릭터 타겟 탐색
@@ -93,11 +83,17 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
       mob->GetMap().lock()->MoveObject(mob, old_x, old_y);
     }
 
-    // std::cout << std::format("Monster {} move to x: {}, y: {}, speed: {}\n", mob->GetId(), x, y, mob->GetSpeed());
+    if (mob->HasTarget()) {
+      std::cout << std::format("Monster {} move to x: {}, y: {}, speed: {}\n", mob->GetId(), x, y, mob->GetSpeed());
+    }
 
     if (std::abs(x - target_position->x) < 1.0f) {
-      mob->ResetTargetPosition();
-      mob->ChangeState(protocol::MOB_ACTION_TYPE_STAND);
+      if (mob->HasTarget()) {
+        mob->ChangeState(protocol::MOB_ACTION_TYPE_ATTACK);
+      } else {
+        mob->ResetTargetPosition();
+        mob->ChangeState(protocol::MOB_ACTION_TYPE_STAND);
+      }
     }
   } else {
     mob->ResetTargetPosition();

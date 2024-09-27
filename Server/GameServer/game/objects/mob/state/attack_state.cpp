@@ -3,9 +3,13 @@
 
 #include "game/objects/mob/monster.h"
 
-void AttackState::Enter(const std::shared_ptr<Monster>& mob) {}
+void AttackState::Enter(const std::shared_ptr<Monster>& mob) {
+  mob->OnStatusUpdated();
+}
 
 void AttackState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
+  mob->AddAnimationTime(delta);
+
   if (mob->GetTemplate()->CanBodyAttack()) {
     ProcessCollision(mob);
   }

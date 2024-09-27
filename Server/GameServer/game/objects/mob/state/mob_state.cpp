@@ -9,7 +9,7 @@
 void MobState::ProcessCollision(const std::shared_ptr<Monster>& mob) {
   const auto now = GetTickCount64();
   const auto& mob_position = mob->GetPosition();
-  const auto& [width , height] = mob->GetTemplate()->GetCollisionSize(mob->GetCurrentState());
+  const auto& [width , height] = mob->GetTemplate()->GetCollisionSize(protocol::MOB_ACTION_TYPE_STAND);
   const auto map = mob->GetMap().lock();
   const auto grid_x_radius = std::max(width / MsCoordinate::kGridSize / 2, 1);
   const auto grid_y_radius = std::max(height / MsCoordinate::kGridSize, 1);

@@ -58,8 +58,6 @@ public:
 	void RemoveObject(int64 ObjectId);
 	void UpdatePlayerPosition(const protocol::GameServerPlayerMove& Packet) const;
 	void UpdateMonsterPosition(const protocol::GameServerMobMove& Packet) const;
-	void SetMobAgro(const protocol::GameServerMobAgro& Packet) const;
-	void RemoveMobAgro(const protocol::GameServerRemoveMobAgro& Packet) const;
 	void PlayAttackAnimation(const protocol::GameServerMobAttack& Packet) const;
 
 private:

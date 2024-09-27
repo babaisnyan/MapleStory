@@ -31,8 +31,6 @@ public:
 	void AddMonster(const protocol::MobInfo& MonsterInfo);
 	void RemoveMonster(int64 ObjectId);
 	void UpdateMonsterPosition(const protocol::GameServerMobMove& Packet);
-	void SetMobAgro(const protocol::GameServerMobAgro& Packet);
-	void RemoveMobAgro(const protocol::GameServerRemoveMobAgro& Packet);
 	void PlayAttackAnimation(const protocol::GameServerMobAttack& Packet);
 
 	uint64_t GetExpForLevel(int32 Level) const;

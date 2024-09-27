@@ -30,8 +30,6 @@ public:
 
 	void SetCurrentAction(EMobActionType ActionType, bool bForce = false);
 	void Move(const protocol::GameServerMobMove& Packet);
-	void SetAgro(const TObjectPtr<AMsPlayerBase>& Player);
-	void RemoveAgro();
 
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 

@@ -6,6 +6,8 @@
 void HitState::Enter(const std::shared_ptr<Monster>& mob) {}
 
 void HitState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
+  mob->AddAnimationTime(delta);
+
   if (mob->GetTemplate()->CanBodyAttack()) {
     ProcessCollision(mob);
   }

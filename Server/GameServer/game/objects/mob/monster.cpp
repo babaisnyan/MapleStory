@@ -53,7 +53,6 @@ void Monster::OnEnter() {
 }
 
 void Monster::Update(const float delta_time) {
-  AddAnimationTime(delta_time);
   _states[_current_state]->Update(GetSelf(), delta_time);
 }
 
@@ -73,6 +72,34 @@ void Monster::Attack() {
   // TODO: 데미지 계산
 
   SetNextAttackTime(GetTickCount64() + 3000);
+}
+
+void Monster::OnStatusUpdated() {
+  const auto map = _map.lock();
+
+  if (!map) {
+    return;
+  }
+
+  protocol::GameServerMobMove move;
+  move.set_object_id(_object_id);
+  move.set_x(_position.x);
+  move.set_y(_position.y);
+  move.set_flip(_flip);
+  move.set_state(_current_state);
+
+  if (_current_state == protocol::MOB_ACTION_TYPE_MOVE) {
+    if (!_target.expired() && IsTargetAlive()) {
+      move.set_target_id(_target.lock()->GetObjectId());
+    }
+
+    if (_target_position) {
+      move.set_target_x(_target_position->x);
+      move.set_target_y(_target_position->y);
+    }
+  }
+
+  map->BroadCast(move, nullptr);
 }
 
 std::shared_ptr<Monster> Monster::GetSelf() {
@@ -116,7 +143,6 @@ void Monster::ResetAnimationTime() {
 }
 
 void Monster::ResetTarget() {
-  SendRemoveAgro();
   _target.reset();
 }
 
@@ -170,8 +196,8 @@ bool Monster::IsTargetInAttackRange() const {
   }
 
   const auto target = _target.lock();
-  const auto range_x = _mob_template->GetAttackWidth();
-  const auto range_y = _mob_template->GetAttackHeight();
+  const auto range_x = _mob_template->GetAttackWidth() / 2;
+  const auto range_y = _mob_template->GetAttackHeight() / 2;
 
   return _position.CheckInRangeDirection(target->GetPosition(), range_x, range_y, !_flip);
 }
@@ -207,45 +233,6 @@ protocol::MobActionType Monster::GetCurrentState() const {
 int64_t Monster::GetNextObjectId() {
   static std::atomic next_object_id = static_cast<int64_t>(kObjectRange) * static_cast<int32_t>(ObjectType::kMob);
   return next_object_id.fetch_add(1);
-}
-
-void Monster::SendSetAgro() const {
-  const auto target = _target.lock();
-
-  if (!target) {
-    return;
-  }
-
-  const auto map = _map.lock();
-
-  if (!map) {
-    return;
-  }
-
-  protocol::GameServerMobAgro packet;
-  packet.set_object_id(GetObjectId());
-  packet.set_target_id(target->GetObjectId());
-
-  map->BroadCast(packet, nullptr);
-}
-
-void Monster::SendRemoveAgro() const {
-  const auto target = _target.lock();
-
-  if (!target) {
-    return;
-  }
-
-  const auto map = _map.lock();
-
-  if (!map) {
-    return;
-  }
-
-  protocol::GameServerRemoveMobAgro packet;
-  packet.set_object_id(GetObjectId());
-
-  map->BroadCast(packet, nullptr);
 }
 
 void Monster::ChangeState(const protocol::MobActionType state) {

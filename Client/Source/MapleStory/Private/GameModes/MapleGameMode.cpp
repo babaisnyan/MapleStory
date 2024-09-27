@@ -104,22 +104,6 @@ void AMapleGameMode::UpdateMonsterPosition(const protocol::GameServerMobMove& Pa
 	}
 }
 
-void AMapleGameMode::SetMobAgro(const protocol::GameServerMobAgro& Packet) {
-	if (!Monsters.Contains(Packet.object_id()) || !Players.Contains(Packet.target_id())) {
-		return;
-	}
-
-	Monsters[Packet.object_id()]->SetAgro(Players[Packet.target_id()]);
-}
-
-void AMapleGameMode::RemoveMobAgro(const protocol::GameServerRemoveMobAgro& Packet) {
-	if (!Monsters.Contains(Packet.object_id())) {
-		return;
-	}
-
-	Monsters[Packet.object_id()]->RemoveAgro();
-}
-
 void AMapleGameMode::PlayAttackAnimation(const protocol::GameServerMobAttack& Packet) {
 	if (!Monsters.Contains(Packet.mob_id())) {
 		return;

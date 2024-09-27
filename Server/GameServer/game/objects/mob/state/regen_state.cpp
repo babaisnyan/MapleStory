@@ -9,6 +9,8 @@ void RegenState::Enter(const std::shared_ptr<Monster>& mob) {
 }
 
 void RegenState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
+  mob->AddAnimationTime(delta);
+
   if (GetTickCount64() >= mob->GetRegenEndTime()) {
     mob->SetCollisionEnabled(true);
     mob->ChangeState(protocol::MobActionType::MOB_ACTION_TYPE_STAND);
