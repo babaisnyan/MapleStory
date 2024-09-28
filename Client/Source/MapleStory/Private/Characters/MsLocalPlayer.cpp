@@ -14,6 +14,7 @@
 #include "Managers/KeySettingManager.h"
 #include "Managers/SoundManager.h"
 #include "Network/PacketCreator.h"
+#include "UI/ChatWidget.h"
 #include "UI/QuickSlotWidget.h"
 #include "UI/StatusBarHud.h"
 
@@ -47,11 +48,16 @@ AMsLocalPlayer::AMsLocalPlayer() {
 	if (QuickSlotWidgetFinder.Succeeded()) {
 		QuickSlotWidgetClass = QuickSlotWidgetFinder.Class;
 	}
-	
+
+	static ConstructorHelpers::FClassFinder<UChatWidget> ChatWidgetFinder(TEXT("/Game/UI/HUD/WBP_Chat.WBP_Chat_C"));
+	if (ChatWidgetFinder.Succeeded()) {
+		ChatWidgetClass = ChatWidgetFinder.Class;
+	}
+
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
 	MovementComponent->bEnablePhysicsInteraction = false;
 	GetSprite()->TranslucencySortPriority = 1000001;
-	
+
 	// const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
 	// if (Capsule) {
 	// 	Capsule->SetEnableGravity(true);
@@ -73,7 +79,7 @@ void AMsLocalPlayer::BeginPlay() {
 		FActorSpawnParameters SpawnParameters;
 		SpawnParameters.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButAlwaysSpawn;
 		PlayerCamera = GetWorld()->SpawnActor<APlayerCamera>(APlayerCamera::StaticClass(), GetActorLocation(), FRotator::ZeroRotator, SpawnParameters);
-		
+
 		PlayerController->SetViewTargetWithBlend(PlayerCamera);
 		PlayerController->bAutoManageActiveCameraTarget = false;
 		PlayerController->Possess(this);
@@ -92,6 +98,11 @@ void AMsLocalPlayer::BeginPlay() {
 		QuickSlotWidget = Window;
 		Window->AddToViewport(2);
 	}
+
+	if (ChatWidgetClass) {
+		UChatWidget* Window = CreateWidget<UChatWidget>(GetWorld(), ChatWidgetClass);
+		Window->AddToViewport(3);
+	}
 }
 
 void AMsLocalPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
@@ -106,9 +117,9 @@ void AMsLocalPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void AMsLocalPlayer::Tick(const float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
-	
+
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
-	
+
 	if (MovementComponent->Velocity.Length() > 0) {
 		AnimationType = protocol::PLAYER_ANIMATION_RUN;
 	} else {

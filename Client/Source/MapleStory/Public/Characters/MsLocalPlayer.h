@@ -4,6 +4,7 @@
 #include "Characters/MsPlayerBase.h"
 #include "MsLocalPlayer.generated.h"
 
+class UChatWidget;
 class UKeySettingManager;
 class UQuickSlotWidget;
 class UInputMappingContext;
@@ -45,6 +46,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UQuickSlotWidget> QuickSlotWidgetClass;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UChatWidget> ChatWidgetClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UStatusBarHud> StatusBarHud;

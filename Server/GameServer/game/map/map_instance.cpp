@@ -81,7 +81,7 @@ void MapInstance::MovePlayer(const std::shared_ptr<GameSession>& session, const 
 
   if (old_x != position.grid_x || old_y != position.grid_y) {
     // std::cout << std::format("Player {} moved from ({}, {}) to ({}, {})\n", player->GetId(), old_x, old_y, position.grid_x, position.grid_y);
-    std::erase(_grid[position.grid_y][position.grid_x], player);
+    std::erase(_grid[old_y][old_x], player);
     _grid[position.grid_y][position.grid_x].push_back(player);
   }
 
