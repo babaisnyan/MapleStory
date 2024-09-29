@@ -21,4 +21,6 @@ public:
 	static FSendBufferRef GetClientMove(int32 X, int32 Y, bool bFlip, protocol::PlayerAnimation AnimationType);
 
 	static FSendBufferRef GetChangeKeySetting(EKeyCode KeyCode, EKeyType KeyType, int32 ItemId = 0, int32 SkillId = 0);
+
+	static FSendBufferRef GetChat(const FString& Text);
 };

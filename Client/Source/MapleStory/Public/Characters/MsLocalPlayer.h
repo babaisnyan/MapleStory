@@ -33,6 +33,7 @@ protected:
 	void EnhancedMoveHorizontal(const FInputActionValue& Value);
 	void EnhancedMoveVertical(const FInputActionValue& Value);
 	void EnhancedJump(const FInputActionValue& Value);
+	void Enter(const FInputActionValue& Value);
 
 private:
 	void UpdateStatusBar() const;
@@ -46,7 +47,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UQuickSlotWidget> QuickSlotWidgetClass;
-	
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UChatWidget> ChatWidgetClass;
 
@@ -56,12 +57,18 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UQuickSlotWidget> QuickSlotWidget;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TObjectPtr<UChatWidget> ChatWidget;
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	TObjectPtr<UInputMappingContext> DefaultContext;
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	TObjectPtr<UInputAction> JumpAction;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	TObjectPtr<UInputAction> EnterAction;
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	TObjectPtr<UInputAction> MoveHorizontalAction;

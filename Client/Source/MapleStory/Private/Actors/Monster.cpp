@@ -232,9 +232,9 @@ void AMonster::Tick(const float DeltaTime) {
 		if (GetWorld()->LineTraceSingleByObjectType(HitResult, DestLocation, EndLocation, ObjectQueryParams)) {
 			AddActorWorldOffset({StatComponent->Speed * DeltaTime * (bFlip ? -1.0f : 1.0f), 0.0f, 0.0f});
 
-			if (AgroPlayer) {
-				UE_LOG(LogTemp, Warning, TEXT("Monster_%d_%lld Moved to %f, %f"), MobId, ObjectId, GetActorLocation().X - BaseX, GetActorLocation().Z - BaseY);
-			}
+			// if (AgroPlayer) {
+			// 	UE_LOG(LogTemp, Warning, TEXT("Monster_%d_%lld Moved to %f, %f"), MobId, ObjectId, GetActorLocation().X - BaseX, GetActorLocation().Z - BaseY);
+			// }
 		} else {
 			UE_LOG(LogTemp, Warning, TEXT("Monster_%d_%lld can't find the ground"), MobId, ObjectId);
 		}

@@ -1,8 +1,10 @@
 ﻿#include "Network/GameServerPacketHandler.h"
 
 #include "MapleGameInstance.h"
+#include "Characters/MsLocalPlayer.h"
 #include "Characters/MsPlayerBase.h"
 #include "GameModes/MapleGameMode.h"
+#include "UI/ChatWidget.h"
 
 
 bool FGameServerPacketHandler::HandleGameInvalid(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
@@ -73,5 +75,18 @@ bool FGameServerPacketHandler::HandleGameServerPlayerDamage(const TObjectPtr<UTC
 }
 
 bool FGameServerPacketHandler::HandleGameServerMobDamage(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobDamage& Packet) {
+	return true;
+}
+
+bool FGameServerPacketHandler::HandleGameServerChat(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerChat& Packet) {
+	if (GameInstance->CurrentPlayer) {
+		if (Packet.has_sender()) {
+			const FString Message = FString::Printf(TEXT("%s: %s"), UTF8_TO_TCHAR(Packet.sender().c_str()), UTF8_TO_TCHAR(Packet.message().c_str()));
+			GameInstance->CurrentPlayer->ChatWidget->AddChat(Message, Packet.type());
+		} else {
+			GameInstance->CurrentPlayer->ChatWidget->AddChat(UTF8_TO_TCHAR(Packet.message().c_str()), Packet.type());
+		}
+	}
+
 	return true;
 }

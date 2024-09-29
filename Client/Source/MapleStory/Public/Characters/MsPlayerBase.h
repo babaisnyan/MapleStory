@@ -7,6 +7,7 @@
 #include "Data/Enum/EAvatarType.h"
 #include "MsPlayerBase.generated.h"
 
+class UChatBalloon;
 class UWidgetComponent;
 class UPlayerStatComponent;
 class UPaperFlipbook;
@@ -29,6 +30,8 @@ public:
 	void Move(const protocol::GameServerPlayerMove& MovePacket);
 
 	void Blink();
+	void HideChatBalloon();
+	void OnChat(const FString& Text);
 	virtual void OnDamaged(int32 Damage);
 
 protected:
@@ -67,6 +70,12 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UWidgetComponent> NameTagWidget;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TObjectPtr<UWidgetComponent> ChatBalloonWidget;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UChatBalloon> ChatBalloonClass;
+
 	UPROPERTY()
 	TObjectPtr<UDataTable> AvatarTable;
 	
@@ -82,4 +91,7 @@ protected:
 	FTimerHandle BlinkTimer;
 	float Transparency = 1.0f;
 	int32 BlinkCount = 0;
+
+	UPROPERTY()
+	FTimerHandle ChatBalloonTimer;
 };

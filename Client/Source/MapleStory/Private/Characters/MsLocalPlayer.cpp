@@ -29,6 +29,11 @@ AMsLocalPlayer::AMsLocalPlayer() {
 		JumpAction = JumpActionFinder.Object;
 	}
 
+	static ConstructorHelpers::FObjectFinder<UInputAction> EnterActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Enter.IA_Enter'"));
+	if (EnterActionFinder.Succeeded()) {
+		EnterAction = EnterActionFinder.Object;
+	}
+
 	static ConstructorHelpers::FObjectFinder<UInputAction> MoveHorizontalActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_MoveHorizontal.IA_MoveHorizontal'"));
 	if (MoveHorizontalActionFinder.Succeeded()) {
 		MoveHorizontalAction = MoveHorizontalActionFinder.Object;
@@ -87,21 +92,19 @@ void AMsLocalPlayer::BeginPlay() {
 	}
 
 	if (StatusBarHudClass) {
-		UStatusBarHud* Window = CreateWidget<UStatusBarHud>(GetWorld(), StatusBarHudClass);
-		StatusBarHud = Window;
-		Window->AddToViewport(1);
+		StatusBarHud = CreateWidget<UStatusBarHud>(GetWorld(), StatusBarHudClass);
+		StatusBarHud->AddToViewport(1);
 		UpdateStatusBar();
 	}
 
 	if (QuickSlotWidgetClass) {
-		UQuickSlotWidget* Window = CreateWidget<UQuickSlotWidget>(GetWorld(), QuickSlotWidgetClass);
-		QuickSlotWidget = Window;
-		Window->AddToViewport(2);
+		QuickSlotWidget = CreateWidget<UQuickSlotWidget>(GetWorld(), QuickSlotWidgetClass);
+		QuickSlotWidget->AddToViewport(2);
 	}
 
 	if (ChatWidgetClass) {
-		UChatWidget* Window = CreateWidget<UChatWidget>(GetWorld(), ChatWidgetClass);
-		Window->AddToViewport(3);
+		ChatWidget = CreateWidget<UChatWidget>(GetWorld(), ChatWidgetClass);
+		ChatWidget->AddToViewport(3);
 	}
 }
 
@@ -112,12 +115,13 @@ void AMsLocalPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::EnhancedJump);
 		EnhancedInputComponent->BindAction(MoveHorizontalAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::EnhancedMoveHorizontal);
 		EnhancedInputComponent->BindAction(MoveVerticalAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::EnhancedMoveVertical);
+		EnhancedInputComponent->BindAction(EnterAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Enter);
 	}
 }
 
 void AMsLocalPlayer::Tick(const float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
-
+	
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
 
 	if (MovementComponent->Velocity.Length() > 0) {
@@ -206,6 +210,16 @@ void AMsLocalPlayer::EnhancedJump(const FInputActionValue& Value) {
 		Jump();
 		AnimationType = protocol::PLAYER_ANIMATION_JUMP;
 		SoundManager->PlaySoundEffect(ESoundEffectType::Jump, GetWorld());
+	}
+}
+
+void AMsLocalPlayer::Enter(const FInputActionValue& Value) {
+	if (!ChatWidget) {
+		return;
+	}
+
+	if (Value.Get<bool>()) {
+		ChatWidget->ToggleChat();
 	}
 }
 

@@ -11,12 +11,13 @@ void MobState::ProcessCollision(const std::shared_ptr<Monster>& mob) {
   const auto& mob_position = mob->GetPosition();
   const auto& [width , height] = mob->GetTemplate()->GetCollisionSize(protocol::MOB_ACTION_TYPE_STAND);
   const auto map = mob->GetMap().lock();
+  const auto map_size = map->GetSize();
   const auto grid_x_radius = std::max(width / MsCoordinate::kGridSize / 2, 1);
   const auto grid_y_radius = std::max(height / MsCoordinate::kGridSize, 1);
 
   for (int y = std::max(mob_position.grid_y, static_cast<int16_t>(0)); y > mob_position.grid_y - grid_y_radius; --y) {
     for (int x = std::max(mob_position.grid_x - grid_x_radius, 0); x < mob_position.grid_x + grid_x_radius; ++x) {
-      if (x < 0 || y < 0) {
+      if (x < 0 || y < 0 || x >= map_size.first / MsCoordinate::kGridSize || y >= map_size.second / MsCoordinate::kGridSize) {
         continue;
       }
 

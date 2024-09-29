@@ -87,3 +87,11 @@ FSendBufferRef FPacketCreator::GetChangeKeySetting(EKeyCode KeyCode, EKeyType Ke
 	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
 	return SendBuffer;
 }
+
+FSendBufferRef FPacketCreator::GetChat(const FString& Text) {
+	GameClientChat Packet;
+	Packet.set_message(TCHAR_TO_UTF8(*Text));
+
+	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
+	return SendBuffer;
+}

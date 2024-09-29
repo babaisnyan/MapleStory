@@ -104,6 +104,26 @@ void MapInstance::MoveObject(const std::shared_ptr<GameObject>& object, const in
   _grid[position.grid_y][position.grid_x].push_back(object);
 }
 
+void MapInstance::OnChat(const std::shared_ptr<GameSession>& session, const protocol::GameClientChat& packet) {
+  const auto player = session->GetPlayer();
+
+  if (!player) {
+    return;
+  }
+
+  const auto name = utils::ConvertToUtf8(player->GetName());
+
+  if (!name.has_value()) {
+    return;
+  }
+
+  protocol::GameServerChat response;
+  response.set_message(packet.message());
+  response.set_sender(name.value());
+  response.set_type(protocol::CHAT_TYPE_NORMAL);
+  BroadCast(response, session);
+}
+
 void MapInstance::Update(const float delta) {
   if (_players.empty()) {
     return;

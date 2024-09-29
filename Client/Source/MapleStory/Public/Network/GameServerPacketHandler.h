@@ -25,6 +25,8 @@ class FGameServerPacketHandler {
 		PKT_GAMESERVERMOBATTACK = 3010,
 		PKT_GAMESERVERPLAYERDAMAGE = 3011,
 		PKT_GAMESERVERMOBDAMAGE = 3012,
+		PKT_GAMECLIENTCHAT = 3013,
+		PKT_GAMESERVERCHAT = 3014,
 	};
 
 	static bool HandleGameInvalid(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len);
@@ -38,6 +40,7 @@ class FGameServerPacketHandler {
 	static bool HandleGameServerMobAttack(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobAttack& Packet);
 	static bool HandleGameServerPlayerDamage(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerPlayerDamage& Packet);
 	static bool HandleGameServerMobDamage(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobDamage& Packet);
+	static bool HandleGameServerChat(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerChat& Packet);
 
 public:
 	static void Init(const TWeakObjectPtr<UMapleGameInstance>& Instance) {
@@ -77,6 +80,9 @@ public:
 		PacketHandlers[PKT_GAMESERVERMOBDAMAGE] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
 			return HandlePacket<protocol::GameServerMobDamage>(HandleGameServerMobDamage, Client, Buffer, Len);
 		};
+		PacketHandlers[PKT_GAMESERVERCHAT] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
+			return HandlePacket<protocol::GameServerChat>(HandleGameServerChat, Client, Buffer, Len);
+		};
 	}
 
 	static bool HandlePacket(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
@@ -101,6 +107,9 @@ public:
 	}
 	static FSendBufferRef MakeSendBuffer(const protocol::GameClientChangeKeySetting& Packet) { 
 		return MakeSendBufferInternal(Packet, PKT_GAMECLIENTCHANGEKEYSETTING); 
+	}
+	static FSendBufferRef MakeSendBuffer(const protocol::GameClientChat& Packet) { 
+		return MakeSendBufferInternal(Packet, PKT_GAMECLIENTCHAT); 
 	}
 
 private:

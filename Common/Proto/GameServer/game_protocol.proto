@@ -76,3 +76,13 @@ message GameServerMobDamage {
   int32 damage = 2;
   bool is_critical = 3;
 }
+
+message GameClientChat {
+  string message = 1;
+}
+
+message GameServerChat {
+  string message = 1;
+  ChatType type = 2;
+  optional string sender = 3;
+}

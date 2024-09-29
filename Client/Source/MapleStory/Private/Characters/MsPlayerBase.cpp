@@ -1,8 +1,6 @@
 #include "Characters/MsPlayerBase.h"
 
 #include "PaperFlipbookComponent.h"
-#include "PoolManagerSubsystem.h"
-#include "PoolManagerTypes.h"
 #include "Actors/DamageTextActor.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/PlayerStatComponent.h"
@@ -12,6 +10,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
+#include "UI/ChatBalloon.h"
 #include "UI/NameTag.h"
 
 AMsPlayerBase::AMsPlayerBase() {
@@ -49,6 +48,24 @@ AMsPlayerBase::AMsPlayerBase() {
 		NameTagWidget->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		NameTagWidget->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 		NameTagWidget->TranslucencySortPriority = 1000;
+	}
+	
+	static ConstructorHelpers::FClassFinder<UChatBalloon> ChatBalloonFinder(TEXT("/Game/UI/Common/WBP_PlayerChatBalloon.WBP_PlayerChatBalloon_C"));
+	if (ChatBalloonFinder.Succeeded()) {
+		ChatBalloonClass = ChatBalloonFinder.Class;
+		ChatBalloonWidget = CreateDefaultSubobject<UWidgetComponent>(TEXT("ChatBalloon"));
+		ChatBalloonWidget->SetWidgetClass(ChatBalloonClass);
+		ChatBalloonWidget->SetWidgetSpace(EWidgetSpace::Screen);
+		ChatBalloonWidget->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
+		ChatBalloonWidget->SetRelativeLocation(FVector(0.0f, 10.0f, 70.0f));
+		ChatBalloonWidget->SetCollisionProfileName(TEXT("NoCollision"));
+		ChatBalloonWidget->SetGenerateOverlapEvents(false);
+		ChatBalloonWidget->SetSimulatePhysics(false);
+		ChatBalloonWidget->CanCharacterStepUpOn = ECB_No;
+		ChatBalloonWidget->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+		ChatBalloonWidget->TranslucencySortPriority = 1001;
+		ChatBalloonWidget->SetVisibility(false);
+		ChatBalloonWidget->SetDrawAtDesiredSize(true);
 	}
 
 	const TObjectPtr<UCharacterMovementComponent> Movement = GetCharacterMovement();
@@ -132,6 +149,29 @@ void AMsPlayerBase::Blink() {
 		GetSprite()->SetSpriteColor(FLinearColor{1.0f, 1.0f, 1.0f, 1.0f});
 		Transparency = 1.0f;
 		BlinkCount = 0;
+	}
+}
+
+void AMsPlayerBase::HideChatBalloon() {
+	if (ChatBalloonWidget) {
+		ChatBalloonWidget->SetVisibility(false);
+		GetWorldTimerManager().ClearTimer(ChatBalloonTimer);
+	}
+}
+
+void AMsPlayerBase::OnChat(const FString& Text) {
+	if (ChatBalloonWidget) {
+		if (const auto Widget = Cast<UChatBalloon>(ChatBalloonWidget->GetUserWidgetObject())) {
+			Widget->SetText(Text);
+			ChatBalloonWidget->SetVisibility(true);
+			UE_LOG(LogTemp, Warning, TEXT("%s"), *Text);
+
+			if (GetWorldTimerManager().IsTimerActive(ChatBalloonTimer)) {
+				GetWorldTimerManager().ClearTimer(ChatBalloonTimer);
+			}
+
+			GetWorldTimerManager().SetTimer(ChatBalloonTimer, this, &AMsPlayerBase::HideChatBalloon, 5.0f, false);
+		}
 	}
 }
 

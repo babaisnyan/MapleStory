@@ -18,7 +18,7 @@
 PROTOBUF_PRAGMA_INIT_SEG
 namespace protocol {
 }  // namespace protocol
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_game_5fenum_2eproto[4];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_game_5fenum_2eproto[5];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_game_5fenum_2eproto = nullptr;
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fenum_2eproto::offsets[1] = {};
 static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = nullptr;
@@ -74,12 +74,14 @@ const char descriptor_table_protodef_game_5fenum_2eproto[] PROTOBUF_SECTION_VARI
   "\031\n\025MOB_ACTION_TYPE_STAND\020\001\022\030\n\024MOB_ACTION"
   "_TYPE_MOVE\020\002\022\027\n\023MOB_ACTION_TYPE_HIT\020\003\022\032\n"
   "\026MOB_ACTION_TYPE_ATTACK\020\004\022\027\n\023MOB_ACTION_"
-  "TYPE_DIE\020\005\022\031\n\025MOB_ACTION_TYPE_REGEN\020\006b\006p"
-  "roto3"
+  "TYPE_DIE\020\005\022\031\n\025MOB_ACTION_TYPE_REGEN\020\006*Q\n"
+  "\010ChatType\022\031\n\025CHAT_TYPE_UNSPECIFIED\020\000\022\024\n\020"
+  "CHAT_TYPE_NORMAL\020\001\022\024\n\020CHAT_TYPE_SYSTEM\020\002"
+  "b\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_5fenum_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fenum_2eproto = {
-  false, false, 2005, descriptor_table_protodef_game_5fenum_2eproto, "game_enum.proto", 
+  false, false, 2088, descriptor_table_protodef_game_5fenum_2eproto, "game_enum.proto", 
   &descriptor_table_game_5fenum_2eproto_once, nullptr, 0, 0,
   schemas, file_default_instances, TableStruct_game_5fenum_2eproto::offsets,
   nullptr, file_level_enum_descriptors_game_5fenum_2eproto, file_level_service_descriptors_game_5fenum_2eproto,
@@ -228,6 +230,21 @@ bool MobActionType_IsValid(int value) {
     case 4:
     case 5:
     case 6:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* ChatType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_game_5fenum_2eproto);
+  return file_level_enum_descriptors_game_5fenum_2eproto[4];
+}
+bool ChatType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
       return true;
     default:
       return false;
