@@ -49,7 +49,7 @@ AMsPlayerBase::AMsPlayerBase() {
 		NameTagWidget->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 		NameTagWidget->TranslucencySortPriority = 1000;
 	}
-	
+
 	static ConstructorHelpers::FClassFinder<UChatBalloon> ChatBalloonFinder(TEXT("/Game/UI/Common/WBP_PlayerChatBalloon.WBP_PlayerChatBalloon_C"));
 	if (ChatBalloonFinder.Succeeded()) {
 		ChatBalloonClass = ChatBalloonFinder.Class;
@@ -66,6 +66,11 @@ AMsPlayerBase::AMsPlayerBase() {
 		ChatBalloonWidget->TranslucencySortPriority = 1001;
 		ChatBalloonWidget->SetVisibility(false);
 		ChatBalloonWidget->SetDrawAtDesiredSize(true);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UPaperFlipbook> DeadAnimationFinder(TEXT("/Game/Characters/FB_Tomb.FB_Tomb"));
+	if (DeadAnimationFinder.Succeeded()) {
+		DeadAnimation = DeadAnimationFinder.Object;
 	}
 
 	const TObjectPtr<UCharacterMovementComponent> Movement = GetCharacterMovement();
@@ -107,6 +112,7 @@ void AMsPlayerBase::BeginPlay() {
 
 void AMsPlayerBase::Setup(const protocol::PlayerInfo& Info) {
 	PlayerStat->Setup(Info);
+	ObjectId = Info.object_id();
 	AvatarType = static_cast<EAvatarType>(Info.type());
 	Name = UTF8_TO_TCHAR(Info.name().c_str());
 	StartX = Info.x();
@@ -117,6 +123,7 @@ void AMsPlayerBase::Setup(const protocol::PlayerInfo& Info) {
 
 void AMsPlayerBase::Setup(const protocol::OtherPlayerInfo& Info) {
 	PlayerStat->Setup(Info);
+	ObjectId = Info.object_id();
 	AvatarType = static_cast<EAvatarType>(Info.type());
 	Name = UTF8_TO_TCHAR(Info.name().c_str());
 	StartX = Info.x();
@@ -182,9 +189,14 @@ void AMsPlayerBase::OnDamaged(const int32 Damage) {
 	Text->SetDamage(Damage, true, false);
 	Text->FinishSpawning(FTransform(NewLocation));
 
-	if (Damage > 0) {
+	if (Damage > 0 && PlayerStat->Hp - Damage > 0) {
 		GetWorldTimerManager().SetTimer(BlinkTimer, this, &AMsPlayerBase::Blink, 0.3f, true, 0);
 	}
+}
+
+void AMsPlayerBase::OnDead() {
+	bIsDead = true;
+	GetSprite()->SetFlipbook(DeadAnimation);
 }
 
 void AMsPlayerBase::Tick(const float DeltaSeconds) {
@@ -227,6 +239,10 @@ void AMsPlayerBase::InitAnimation() {
 }
 
 void AMsPlayerBase::UpdateAnimation() const {
+	if (bIsDead) {
+		return;
+	}
+
 	switch (AnimationType) {
 		case protocol::PLAYER_ANIMATION_RUN:
 			GetSprite()->SetFlipbook(RunAnimation);

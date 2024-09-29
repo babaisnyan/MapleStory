@@ -79,13 +79,43 @@ bool FGameServerPacketHandler::HandleGameServerMobDamage(const TObjectPtr<UTCPCl
 }
 
 bool FGameServerPacketHandler::HandleGameServerChat(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerChat& Packet) {
-	if (GameInstance->CurrentPlayer) {
-		if (Packet.has_sender()) {
-			const FString Message = FString::Printf(TEXT("%s: %s"), UTF8_TO_TCHAR(Packet.sender().c_str()), UTF8_TO_TCHAR(Packet.message().c_str()));
-			GameInstance->CurrentPlayer->ChatWidget->AddChat(Message, Packet.type());
-		} else {
-			GameInstance->CurrentPlayer->ChatWidget->AddChat(UTF8_TO_TCHAR(Packet.message().c_str()), Packet.type());
-		}
+	const auto GameMode = GameInstance->GetWorld()->GetAuthGameMode<AMapleGameMode>();
+
+	if (!GameMode) {
+		return true;
+	}
+
+	if (!GameInstance->CurrentPlayer) {
+		return true;
+	}
+
+	if (Packet.has_sender() && GameMode->Players.Contains(Packet.sender())) {
+		AMsPlayerBase* Player = GameMode->Players[Packet.sender()];
+		const FString Message = FString::Printf(TEXT("%s: %s"), *Player->Name, UTF8_TO_TCHAR(Packet.message().c_str()));
+
+		GameInstance->CurrentPlayer->ChatWidget->AddChat(Message, Packet.type());
+		Player->OnChat(Message);
+	} else {
+		GameInstance->CurrentPlayer->ChatWidget->AddChat(UTF8_TO_TCHAR(Packet.message().c_str()), Packet.type());
+	}
+
+	return true;
+}
+
+bool FGameServerPacketHandler::HandleGameServerPlayerDead(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerPlayerDead& Packet) {
+	if (GameInstance->CurrentPlayer->ObjectId == Packet.object_id()) {
+		GameInstance->CurrentPlayer->OnDead();
+		return true;
+	}
+
+	const auto GameMode = GameInstance->GetWorld()->GetAuthGameMode<AMapleGameMode>();
+
+	if (!GameMode) {
+		return true;
+	}
+
+	if (GameMode->Players.Contains(Packet.object_id())) {
+		GameMode->Players[Packet.object_id()]->OnDead();
 	}
 
 	return true;

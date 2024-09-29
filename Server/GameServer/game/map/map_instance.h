@@ -25,8 +25,11 @@ namespace game {
     bool RemoveObject(const int64_t object_id);
     void MovePlayer(const std::shared_ptr<GameSession>& session, const protocol::GameClientPlayerMove& packet);
     void MoveObject(const std::shared_ptr<GameObject>& object, const int16_t old_x, int16_t old_y);
-    void OnChat(const std::shared_ptr<GameSession>& session, const protocol::GameClientChat& packet);
     void Update(float delta);
+
+    void OnChat(const std::shared_ptr<GameSession>& session, const protocol::GameClientChat& packet);
+    void NotifyPlayerDamage(int32_t damage, int64_t object_id);
+    void NotifyPlayerDeath(int64_t object_id);
 
     std::optional<std::shared_ptr<GameSession>> GetPlayer(int64_t object_id) const;
     std::optional<std::shared_ptr<GameSession>> GetPlayer(int32_t player_id) const;

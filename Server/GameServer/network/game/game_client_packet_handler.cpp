@@ -69,4 +69,8 @@ namespace game {
     map.value()->DoAsync(&MapInstance::OnChat, game_session, packet);
     return true;
   }
+
+  bool HandleGameClientRevive(const PacketSessionRef& session, const protocol::GameClientRevive& packet) {
+    return true;
+  }
 }

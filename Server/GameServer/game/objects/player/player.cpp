@@ -11,6 +11,7 @@
 #include "game/map/map_manager.h"
 #include "game/objects/mob/monster.h"
 
+#include "network/game/game_packet_creator.h"
 #include "network/protocol/game_protocol.pb.h"
 
 #include "utils/randomizer.h"
@@ -58,14 +59,12 @@ void Player::OnCollideMob(const std::shared_ptr<Monster>& mob, const uint64_t ti
   const auto damage = static_cast<int32_t>(std::max(calc - (calc2 + (calc1 + 0.28) * pad) - (calc - (calc2 + (calc1 + 0.28) * pad)) * 0.01, 0.0));
 
   const auto map = MapManager::GetInstance().GetMapInstance(_map);
-  protocol::GameServerPlayerDamage player_damage;
-  player_damage.set_target_id(GetObjectId());
-  player_damage.set_damage(damage);
 
   if (map.has_value()) {
-    map.value()->BroadCast(player_damage, nullptr);
-    OnDamage(damage);
+    map.value()->NotifyPlayerDamage(damage, _object_id);
   }
+
+  OnDamage(damage);
 
   std::cout << std::format("Player is in collision area. Mob: {}, Player: {}, Damage: {}\n", mob->GetObjectId(), GetObjectId(), damage);
 }
@@ -74,7 +73,16 @@ void Player::OnDamage(const int32_t damage) {
   _player_stat->SetHp(std::max(_player_stat->GetHp() - damage, 0));
 
   if (_player_stat->GetHp() <= 0) {
-    // TODO: 사망 처리
+    Kill();
+  }
+}
+
+void Player::Kill() {
+  _is_alive = false;
+  const auto map = MapManager::GetInstance().GetMapInstance(_map);
+
+  if (map.has_value()) {
+    map.value()->NotifyPlayerDeath(_object_id);
   }
 }
 
@@ -116,14 +124,6 @@ int32_t Player::GetMap() const {
 
 void Player::SetMap(const int32_t map) {
   _map = map;
-}
-
-void Player::SetAlive(const bool is_alive) {
-  _is_alive = is_alive;
-}
-
-bool Player::IsAlive() const {
-  return _is_alive;
 }
 
 std::shared_ptr<PlayerStat> Player::GetStat() const {

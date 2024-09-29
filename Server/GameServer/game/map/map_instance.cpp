@@ -111,17 +111,24 @@ void MapInstance::OnChat(const std::shared_ptr<GameSession>& session, const prot
     return;
   }
 
-  const auto name = utils::ConvertToUtf8(player->GetName());
-
-  if (!name.has_value()) {
-    return;
-  }
-
   protocol::GameServerChat response;
   response.set_message(packet.message());
-  response.set_sender(name.value());
+  response.set_sender(player->GetObjectId());
   response.set_type(protocol::CHAT_TYPE_NORMAL);
   BroadCast(response, session);
+}
+
+void MapInstance::NotifyPlayerDamage(const int32_t damage,const int64_t object_id) {
+  protocol::GameServerPlayerDamage player_damage;
+  player_damage.set_target_id(object_id);
+  player_damage.set_damage(damage);
+  BroadCast(player_damage, nullptr);
+}
+
+void MapInstance::NotifyPlayerDeath(const int64_t object_id) {
+  protocol::GameServerPlayerDead player_dead;
+  player_dead.set_object_id(object_id);
+  BroadCast(player_dead, nullptr);
 }
 
 void MapInstance::Update(const float delta) {

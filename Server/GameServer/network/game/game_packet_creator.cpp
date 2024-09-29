@@ -65,3 +65,11 @@ SendBufferRef GamePacketCreator::GetClientEnterSuccessResponse(const std::shared
   const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(packet);
   return send_buffer;
 }
+
+SendBufferRef GamePacketCreator::GetPlayerDead(const int64_t object_id) {
+  protocol::GameServerPlayerDead packet;
+  packet.set_object_id(object_id);
+
+  const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(packet);
+  return send_buffer;
+}

@@ -33,6 +33,7 @@ public:
 	void HideChatBalloon();
 	void OnChat(const FString& Text);
 	virtual void OnDamaged(int32 Damage);
+	virtual void OnDead();
 
 protected:
 	virtual void Tick(float DeltaSeconds) override;
@@ -51,9 +52,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
 	TObjectPtr<UPaperFlipbook> JumpAnimation;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
+	TObjectPtr<UPaperFlipbook> DeadAnimation;
 	
 	protocol::PlayerAnimation AnimationType = protocol::PlayerAnimation::PLAYER_ANIMATION_IDLE;
 
+	UPROPERTY()
+	uint64 ObjectId;
+	
 	UPROPERTY(EditDefaultsOnly, Category = "Avatar")
 	EAvatarType AvatarType;
 
@@ -94,4 +101,6 @@ protected:
 
 	UPROPERTY()
 	FTimerHandle ChatBalloonTimer;
+
+	bool bIsDead = false;
 };

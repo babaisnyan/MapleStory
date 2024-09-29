@@ -48,3 +48,11 @@ void GameObject::UpdatePosition(const float x, const float y, const bool flip) {
   _position.grid_y = std::abs(static_cast<int16_t>(_position.y) / MsCoordinate::kGridSize);
   _flip = flip;
 }
+
+void GameObject::SetAlive(const bool is_alive) {
+  _is_alive = is_alive;
+}
+
+bool GameObject::IsAlive() const {
+  return _is_alive;
+}

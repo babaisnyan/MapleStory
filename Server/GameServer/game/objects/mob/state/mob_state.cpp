@@ -28,6 +28,10 @@ void MobState::ProcessCollision(const std::shared_ptr<Monster>& mob) {
           continue;
         }
 
+        if (!object->IsAlive()) {
+          continue;
+        }
+
         const auto player = std::static_pointer_cast<Player>(object);
         const auto collision_width = static_cast<float>(width) / 2.0f;
         const auto collision_height = static_cast<float>(height) / 2.0f;
@@ -58,6 +62,10 @@ std::shared_ptr<Player> MobState::FindNearestPlayer(const std::shared_ptr<Monste
 
     for (const auto& game_object : objects) {
       if (game_object->GetObjectType() != GameObject::ObjectType::kPlayer) {
+        continue;
+      }
+
+      if (!game_object->IsAlive()) {
         continue;
       }
 

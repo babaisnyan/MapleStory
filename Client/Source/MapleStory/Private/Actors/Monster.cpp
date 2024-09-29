@@ -148,6 +148,9 @@ void AMonster::Move(const protocol::GameServerMobMove& Packet) {
 	} else if (Packet.has_target_x()) {
 		DestX = Packet.target_x();
 		SetActorLocation(FVector(Packet.x() + BaseX, 0.0f, DestY));
+		AgroPlayer = nullptr;
+	} else {
+		AgroPlayer = nullptr;
 	}
 
 	if (!bFlip) {

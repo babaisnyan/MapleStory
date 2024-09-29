@@ -33,6 +33,8 @@ namespace game {
     void SetFlip(bool flip);
     void SetBounds(const std::tuple<int32_t, int32_t, int32_t, int32_t>& bounds);
     void UpdatePosition(float x, float y, bool flip);
+    void SetAlive(bool is_alive);
+    bool IsAlive() const;
 
   protected:
     virtual int64_t GetNextObjectId() = 0;
@@ -41,5 +43,6 @@ namespace game {
     int64_t _object_id;
     MsCoordinate _position = {};
     bool _flip = false; // 기본값은 오른쪽임
+    bool _is_alive = true;
   };
 }

@@ -106,6 +106,8 @@ void AMsLocalPlayer::BeginPlay() {
 		ChatWidget = CreateWidget<UChatWidget>(GetWorld(), ChatWidgetClass);
 		ChatWidget->AddToViewport(3);
 	}
+
+	AddMovementInput(FVector(10.0f, 0.0f, 0.0f), 1.0f);
 }
 
 void AMsLocalPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
@@ -121,7 +123,7 @@ void AMsLocalPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 
 void AMsLocalPlayer::Tick(const float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
-	
+
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
 
 	if (MovementComponent->Velocity.Length() > 0) {
@@ -150,6 +152,7 @@ void AMsLocalPlayer::Tick(const float DeltaSeconds) {
 			return;
 		}
 
+		bFirstSent = true;
 		LastMovePacketLocation = NewLocation;
 		LastAnimationType = AnimationType;
 		MovePacketSendTimer = 0.1f;
@@ -183,17 +186,27 @@ void AMsLocalPlayer::OnDamaged(const int32 Damage) {
 		PlayerStat->Hp = FMath::Max(0, PlayerStat->Hp - Damage);
 		UpdateStatusBar();
 
-		GetCharacterMovement()->AddImpulse({bFlip ? 200.0f : -200.0f, 0.0f, 200.0f}, true);
+		if (PlayerStat->Hp > 0) {
+			GetCharacterMovement()->AddImpulse({bFlip ? 200.0f : -200.0f, 0.0f, 200.0f}, true);
+		}
 	}
 }
 
 void AMsLocalPlayer::EnhancedMoveHorizontal(const FInputActionValue& Value) {
+	if (bIsDead) {
+		return;
+	}
+
 	const FVector2D AxisValue = Value.Get<FVector2D>();
 	AnimationType = protocol::PLAYER_ANIMATION_RUN;
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), AxisValue.X);
 }
 
 void AMsLocalPlayer::EnhancedMoveVertical(const FInputActionValue& Value) {
+	if (bIsDead) {
+		return;
+	}
+
 	const FVector2D AxisValue = Value.Get<FVector2D>();
 
 	//TODO: Check if the player is colliding with the rope or ladder
@@ -206,6 +219,10 @@ void AMsLocalPlayer::EnhancedMoveVertical(const FInputActionValue& Value) {
 }
 
 void AMsLocalPlayer::EnhancedJump(const FInputActionValue& Value) {
+	if (bIsDead) {
+		return;
+	}
+
 	if (Value.Get<bool>() && !GetMovementComponent()->IsFalling()) {
 		Jump();
 		AnimationType = protocol::PLAYER_ANIMATION_JUMP;

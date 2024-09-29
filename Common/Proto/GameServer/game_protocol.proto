@@ -84,5 +84,12 @@ message GameClientChat {
 message GameServerChat {
   string message = 1;
   ChatType type = 2;
-  optional string sender = 3;
+  optional int64 sender = 3;
+}
+
+message GameServerPlayerDead {
+  int64 object_id = 1;
+}
+
+message GameClientRevive {
 }

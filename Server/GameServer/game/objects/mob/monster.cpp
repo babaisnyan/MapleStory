@@ -53,6 +53,13 @@ void Monster::OnEnter() {
 }
 
 void Monster::Update(const float delta_time) {
+  if (HasTarget() && !IsTargetAlive()) {
+    ResetTarget();
+    ResetTargetPosition();
+    ChangeState(protocol::MOB_ACTION_TYPE_STAND);
+    return;
+  }
+
   _states[_current_state]->Update(GetSelf(), delta_time);
 }
 
@@ -244,6 +251,7 @@ void Monster::ChangeState(const protocol::MobActionType state) {
 
   if (HasTarget() && !IsTargetAlive()) {
     ResetTarget();
+    ResetTargetPosition();
   }
 
   _current_state = state;

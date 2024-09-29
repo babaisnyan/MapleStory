@@ -28,7 +28,6 @@ public:
 
 	virtual void Setup(const protocol::PlayerInfo& Info) override;
 	virtual void OnDamaged(int32 Damage) override;
-
 protected:
 	void EnhancedMoveHorizontal(const FInputActionValue& Value);
 	void EnhancedMoveVertical(const FInputActionValue& Value);
@@ -84,5 +83,6 @@ private:
 
 	float MovePacketSendTimer = 0.1f;
 	FVector LastMovePacketLocation;
+	bool bFirstSent = false;
 	protocol::PlayerAnimation LastAnimationType = protocol::PLAYER_ANIMATION_UNSPECIFIED;
 };

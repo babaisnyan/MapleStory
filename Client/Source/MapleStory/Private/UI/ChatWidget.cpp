@@ -65,10 +65,9 @@ void UChatWidget::SendChat(const FString& InText) {
 
 	AddChat(FString::Printf(TEXT("%s: %s"), *GameInstance->CurrentPlayer->Name, *InText));
 	GameInstance->CurrentPlayer->OnChat(FString::Printf(TEXT("%s: %s"), *GameInstance->CurrentPlayer->Name, *InText));
-
-	// set input mode only game
+	
 	if (APlayerController* PlayerController = GetOwningPlayer()) {
-		FInputModeGameOnly InputMode;
+		const FInputModeGameOnly InputMode;
 		PlayerController->SetInputMode(InputMode);
 	}
 }
