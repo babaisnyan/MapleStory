@@ -28,6 +28,8 @@ public:
 
 	virtual void Setup(const protocol::PlayerInfo& Info) override;
 	virtual void OnDamaged(int32 Damage) override;
+	virtual void OnDead() override;
+	
 protected:
 	void EnhancedMoveHorizontal(const FInputActionValue& Value);
 	void EnhancedMoveVertical(const FInputActionValue& Value);

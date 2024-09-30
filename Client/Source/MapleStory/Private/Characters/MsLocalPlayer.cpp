@@ -192,6 +192,19 @@ void AMsLocalPlayer::OnDamaged(const int32 Damage) {
 	}
 }
 
+void AMsLocalPlayer::OnDead() {
+	Super::OnDead();
+
+	static auto WindowClass = StaticLoadClass(UUserWidget::StaticClass(), nullptr, TEXT("/Game/UI/Common/WBP_DeadNotice.WBP_DeadNotice_C"));
+
+	if (!WindowClass) {
+		return;
+	}
+
+	UUserWidget* Window = CreateWidget<UUserWidget>(GetGameInstance(), WindowClass);
+	Window->AddToViewport(100);
+}
+
 void AMsLocalPlayer::EnhancedMoveHorizontal(const FInputActionValue& Value) {
 	if (bIsDead) {
 		return;
