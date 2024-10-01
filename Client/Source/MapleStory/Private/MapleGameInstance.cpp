@@ -1,5 +1,6 @@
 #include "MapleGameInstance.h"
 
+#include "GameFramework/GameMode.h"
 #include "GameModes/MapleGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Network/GameServerPacketHandler.h"
@@ -16,8 +17,8 @@ void UMapleGameInstance::Init() {
 
 void UMapleGameInstance::BeginDestroy() {
 	Super::BeginDestroy();
-	
-	
+
+
 	if (Client) {
 		bIsConnected = false;
 		Client->CloseSocket();

@@ -5,6 +5,8 @@
 #include "game/objects/mob/monster.h"
 #include "game/objects/player/player.h"
 
+#include "network/game/game_packet_creator.h"
+
 MapInstance::MapInstance(const int32_t map_id, const std::pair<int32_t, int32_t> size, std::vector<GroundInfo> grounds, std::tuple<int32_t, int32_t, int32_t, int32_t> bounds) :
   _map_id(map_id),
   _size(size),
@@ -118,7 +120,27 @@ void MapInstance::OnChat(const std::shared_ptr<GameSession>& session, const prot
   BroadCast(response, session);
 }
 
-void MapInstance::NotifyPlayerDamage(const int32_t damage,const int64_t object_id) {
+void MapInstance::OnRevive(const std::shared_ptr<GameSession>& session, const std::shared_ptr<Player>& player) {
+  player->Revive();
+  player->UpdatePosition(0, 0, false);
+
+  protocol::GameServerRevive response;
+  response.set_object_id(player->GetObjectId());
+  BroadCast(response, nullptr);
+
+  protocol::GameServerTeleportPlayer teleport;
+  teleport.set_object_id(player->GetObjectId());
+  teleport.set_x(player->GetPosition().x);
+  teleport.set_y(player->GetPosition().y);
+  BroadCast(teleport, nullptr);
+
+  protocol::GameServerUpdatePlayerStat update_stat; // TODO: 개선
+  update_stat.set_hp(player->GetStat()->GetHp());
+  update_stat.set_mp(player->GetStat()->GetMp());
+  session->Send(GameClientPacketHandler::MakeSendBuffer(update_stat));
+}
+
+void MapInstance::NotifyPlayerDamage(const int32_t damage, const int64_t object_id) {
   protocol::GameServerPlayerDamage player_damage;
   player_damage.set_target_id(object_id);
   player_damage.set_damage(damage);

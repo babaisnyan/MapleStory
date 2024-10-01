@@ -81,7 +81,7 @@ public:
 	bool bIsConnected = false;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
-	int32 MapId = 0;
+	int32 MapId = -1;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<AMsLocalPlayer> CurrentPlayer;

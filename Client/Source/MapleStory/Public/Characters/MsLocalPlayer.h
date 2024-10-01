@@ -27,17 +27,21 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void Setup(const protocol::PlayerInfo& Info) override;
+	void UpdateStatusBar() const;
 	virtual void OnDamaged(int32 Damage) override;
 	virtual void OnDead() override;
+	virtual void OnRevive() override;
+
+public:
+	UFUNCTION(BlueprintCallable)
+	void OnClickedRevive();
 	
 protected:
 	void EnhancedMoveHorizontal(const FInputActionValue& Value);
 	void EnhancedMoveVertical(const FInputActionValue& Value);
 	void EnhancedJump(const FInputActionValue& Value);
 	void Enter(const FInputActionValue& Value);
-
-private:
-	void UpdateStatusBar() const;
+	
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
@@ -53,6 +57,9 @@ public:
 	TSubclassOf<UChatWidget> ChatWidgetClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UUserWidget> DeathNoticeClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UStatusBarHud> StatusBarHud;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
@@ -60,6 +67,9 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UChatWidget> ChatWidget;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TObjectPtr<UUserWidget> DeathNotice;
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = Input)
@@ -87,4 +97,5 @@ private:
 	FVector LastMovePacketLocation;
 	bool bFirstSent = false;
 	protocol::PlayerAnimation LastAnimationType = protocol::PLAYER_ANIMATION_UNSPECIFIED;
+	bool bSentRevive = false;
 };

@@ -29,11 +29,13 @@ public:
 	void Setup(const protocol::OtherPlayerInfo& Info);
 	void Move(const protocol::GameServerPlayerMove& MovePacket);
 
+	void Teleport(float X, float Y);
 	void Blink();
 	void HideChatBalloon();
 	void OnChat(const FString& Text);
 	virtual void OnDamaged(int32 Damage);
 	virtual void OnDead();
+	virtual void OnRevive();
 
 protected:
 	virtual void Tick(float DeltaSeconds) override;

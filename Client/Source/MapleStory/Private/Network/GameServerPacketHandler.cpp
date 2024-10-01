@@ -3,6 +3,7 @@
 #include "MapleGameInstance.h"
 #include "Characters/MsLocalPlayer.h"
 #include "Characters/MsPlayerBase.h"
+#include "Components/PlayerStatComponent.h"
 #include "GameModes/MapleGameMode.h"
 #include "UI/ChatWidget.h"
 
@@ -116,6 +117,54 @@ bool FGameServerPacketHandler::HandleGameServerPlayerDead(const TObjectPtr<UTCPC
 
 	if (GameMode->Players.Contains(Packet.object_id())) {
 		GameMode->Players[Packet.object_id()]->OnDead();
+	}
+
+	return true;
+}
+
+bool FGameServerPacketHandler::HandleGameServerRevive(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerRevive& Packet) {
+	if (GameInstance->CurrentPlayer->ObjectId == Packet.object_id()) {
+		GameInstance->CurrentPlayer->OnRevive();
+		return true;
+	}
+
+	const auto GameMode = GameInstance->GetWorld()->GetAuthGameMode<AMapleGameMode>();
+
+	if (!GameMode) {
+		return true;
+	}
+
+	if (GameMode->Players.Contains(Packet.object_id())) {
+		GameMode->Players[Packet.object_id()]->OnRevive();
+	}
+
+	return true;
+}
+
+bool FGameServerPacketHandler::HandleGameServerTeleportPlayer(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerTeleportPlayer& Packet) {
+	if (GameInstance->CurrentPlayer->ObjectId == Packet.object_id()) {
+		GameInstance->CurrentPlayer->Teleport(Packet.x(), Packet.y());
+		return true;
+	}
+
+	const auto GameMode = GameInstance->GetWorld()->GetAuthGameMode<AMapleGameMode>();
+
+	if (!GameMode) {
+		return true;
+	}
+
+	if (GameMode->Players.Contains(Packet.object_id())) {
+		GameMode->Players[Packet.object_id()]->Teleport(Packet.x(), Packet.y());
+	}
+
+	return true;
+}
+
+bool FGameServerPacketHandler::HandleGameServerUpdatePlayerStat(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerUpdatePlayerStat& Packet) {
+	if (GameInstance->CurrentPlayer) {
+		GameInstance->CurrentPlayer->PlayerStat->Hp = Packet.hp();
+		GameInstance->CurrentPlayer->PlayerStat->Mp = Packet.mp();
+		GameInstance->CurrentPlayer->UpdateStatusBar();
 	}
 
 	return true;

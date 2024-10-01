@@ -11,6 +11,7 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "GameModes/MapleGameMode.h"
+#include "Kismet/GameplayStatics.h"
 #include "Managers/KeySettingManager.h"
 #include "Managers/SoundManager.h"
 #include "Network/PacketCreator.h"
@@ -57,6 +58,11 @@ AMsLocalPlayer::AMsLocalPlayer() {
 	static ConstructorHelpers::FClassFinder<UChatWidget> ChatWidgetFinder(TEXT("/Game/UI/HUD/WBP_Chat.WBP_Chat_C"));
 	if (ChatWidgetFinder.Succeeded()) {
 		ChatWidgetClass = ChatWidgetFinder.Class;
+	}
+
+	static ConstructorHelpers::FClassFinder<UUserWidget> DeathNoticeFinder(TEXT("/Game/UI/Common/WBP_DeadNotice.WBP_DeadNotice_C"));
+	if (DeathNoticeFinder.Succeeded()) {
+		DeathNoticeClass = DeathNoticeFinder.Class;
 	}
 
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
@@ -195,14 +201,37 @@ void AMsLocalPlayer::OnDamaged(const int32 Damage) {
 void AMsLocalPlayer::OnDead() {
 	Super::OnDead();
 
-	static auto WindowClass = StaticLoadClass(UUserWidget::StaticClass(), nullptr, TEXT("/Game/UI/Common/WBP_DeadNotice.WBP_DeadNotice_C"));
-
-	if (!WindowClass) {
+	if (!DeathNoticeClass) {
 		return;
 	}
 
-	UUserWidget* Window = CreateWidget<UUserWidget>(GetGameInstance(), WindowClass);
-	Window->AddToViewport(100);
+	DeathNotice = CreateWidget<UUserWidget>(GetGameInstance(), DeathNoticeClass);
+	DeathNotice->AddToViewport(100);
+}
+
+void AMsLocalPlayer::OnRevive() {
+	Super::OnRevive();
+
+	bSentRevive = false;
+
+	if (DeathNotice) {
+		DeathNotice->RemoveFromParent();
+	}
+
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController())) {
+		const FInputModeGameOnly InputMode;
+		PlayerController->SetInputMode(InputMode);
+	}
+}
+
+void AMsLocalPlayer::OnClickedRevive() {
+	if (bSentRevive) {
+		return;
+	}
+
+	const auto Packet = FPacketCreator::GetReviveRequest();
+	SEND_PACKET(Packet);
+	bSentRevive = true;
 }
 
 void AMsLocalPlayer::EnhancedMoveHorizontal(const FInputActionValue& Value) {

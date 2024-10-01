@@ -95,3 +95,9 @@ FSendBufferRef FPacketCreator::GetChat(const FString& Text) {
 	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
 	return SendBuffer;
 }
+
+FSendBufferRef FPacketCreator::GetReviveRequest() {
+	const GameClientRevive Packet;
+	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
+	return SendBuffer;
+}

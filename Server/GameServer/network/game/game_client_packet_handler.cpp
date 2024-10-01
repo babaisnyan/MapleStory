@@ -71,6 +71,20 @@ namespace game {
   }
 
   bool HandleGameClientRevive(const PacketSessionRef& session, const protocol::GameClientRevive& packet) {
+    const auto game_session = std::static_pointer_cast<GameSession>(session);
+    const auto player = game_session->GetPlayer();
+
+    if (!player) {
+      return false;
+    }
+
+    const auto map = MapManager::GetInstance().GetMapInstance(player->GetMap());
+
+    if (!map.has_value()) {
+      return false;
+    }
+
+    map.value()->DoAsync(&MapInstance::OnRevive, game_session, player);
     return true;
   }
 }

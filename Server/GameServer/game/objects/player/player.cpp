@@ -86,6 +86,12 @@ void Player::Kill() {
   }
 }
 
+void Player::Revive() {
+  _player_stat->SetHp(_player_stat->GetMaxHp());
+  _player_stat->SetMp(_player_stat->GetMaxMp());
+  _is_alive = true;
+}
+
 int32_t Player::GetId() const {
   return _id;
 }

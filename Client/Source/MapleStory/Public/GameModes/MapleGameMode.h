@@ -53,6 +53,5 @@ public:
 
 private:
 	FVector PlayerStartLocation;
-
 	uint64 ExpTable[300];
 };

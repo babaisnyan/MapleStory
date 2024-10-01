@@ -147,6 +147,13 @@ void AMsPlayerBase::Move(const protocol::GameServerPlayerMove& MovePacket) {
 	UpdateAnimation();
 }
 
+void AMsPlayerBase::Teleport(const float X, const float Y) {
+	DestX = X;
+	DestY = Y;
+	bFlip = false;
+	SetActorLocation(FVector(DestX + BaseX, GetActorLocation().Y, DestY + BaseY));
+}
+
 void AMsPlayerBase::Blink() {
 	Transparency = Transparency == 0.5f ? 1.0f : 0.5f;
 	GetSprite()->SetSpriteColor(FLinearColor{1.0f, 1.0f, 1.0f, Transparency});
@@ -197,6 +204,11 @@ void AMsPlayerBase::OnDamaged(const int32 Damage) {
 void AMsPlayerBase::OnDead() {
 	bIsDead = true;
 	GetSprite()->SetFlipbook(DeadAnimation);
+}
+
+void AMsPlayerBase::OnRevive() {
+	bIsDead = false;
+	GetSprite()->SetFlipbook(IdleAnimation);
 }
 
 void AMsPlayerBase::Tick(const float DeltaSeconds) {

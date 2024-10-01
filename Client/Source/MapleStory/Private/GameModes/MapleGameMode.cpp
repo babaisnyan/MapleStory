@@ -17,6 +17,7 @@ AMapleGameMode::AMapleGameMode() {
 
 void AMapleGameMode::BeginPlay() {
 	Super::BeginPlay();
+	
 	const auto GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
 
 	const TObjectPtr<AActor> PlayerStart = UGameplayStatics::GetActorOfClass(GetWorld(), APlayerStart::StaticClass());

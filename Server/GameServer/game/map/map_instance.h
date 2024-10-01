@@ -28,6 +28,7 @@ namespace game {
     void Update(float delta);
 
     void OnChat(const std::shared_ptr<GameSession>& session, const protocol::GameClientChat& packet);
+    void OnRevive(const std::shared_ptr<GameSession>& session, const std::shared_ptr<Player>& player);
     void NotifyPlayerDamage(int32_t damage, int64_t object_id);
     void NotifyPlayerDeath(int64_t object_id);
 

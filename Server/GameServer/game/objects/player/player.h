@@ -16,6 +16,7 @@ namespace game {
     void OnCollideMob(const std::shared_ptr<Monster>& mob, uint64_t time);
     void OnDamage(int32_t damage);
     void Kill();
+    void Revive();
 
   public:
     int32_t GetId() const;

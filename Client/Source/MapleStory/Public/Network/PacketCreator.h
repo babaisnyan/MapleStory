@@ -23,4 +23,5 @@ public:
 	static FSendBufferRef GetChangeKeySetting(EKeyCode KeyCode, EKeyType KeyType, int32 ItemId = 0, int32 SkillId = 0);
 
 	static FSendBufferRef GetChat(const FString& Text);
+	static FSendBufferRef GetReviveRequest();
 };
