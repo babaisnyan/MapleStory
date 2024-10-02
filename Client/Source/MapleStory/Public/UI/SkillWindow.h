@@ -4,6 +4,7 @@
 #include "Blueprint/UserWidget.h"
 #include "SkillWindow.generated.h"
 
+class UScrollBox;
 class UTextBlock;
 
 UCLASS()
@@ -13,4 +14,7 @@ class MAPLESTORY_API USkillWindow : public UUserWidget {
 protected:
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UTextBlock> SkillPoint;
+
+	UPROPERTY(meta = (BindWidget))
+	TObjectPtr<UScrollBox> ScrollBox;
 };

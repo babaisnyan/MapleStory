@@ -1,5 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
 #pragma once
 
 #include "CoreMinimal.h"
@@ -44,6 +42,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
 	int32 Luk = 0;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
+	int32 Ap = 0;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
+	int32 Sp = 0;
+	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stat")
 	int32 Exp = 0;
 
