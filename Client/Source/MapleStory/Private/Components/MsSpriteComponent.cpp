@@ -65,6 +65,10 @@ void UMsSpriteComponent::Setup(const UDataTable* SpriteTable, const bool bAutoSt
 	SetRelativeLocation(FVector(0, BaseOffset.Y + ZOrders[CurrentIndex], -Offset.Y), false, nullptr, ETeleportType::ResetPhysics);
 }
 
+void UMsSpriteComponent::SetPriority(const int32 Priority) {
+	TranslucencySortPriority = Priority;
+}
+
 void UMsSpriteComponent::Reset() {
 	bStarted = false;
 	bEnded = false;

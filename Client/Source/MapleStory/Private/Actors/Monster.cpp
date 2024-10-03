@@ -66,18 +66,19 @@ bool AMonster::Init(const protocol::MobInfo& MonsterInfo, const float Y) {
 
 	SetActorLabel(FString::Printf(TEXT("Monster_%d_%lld"), MobId, ObjectId));
 
-	const UMobManager* MobManager = GetGameInstance()->GetSubsystem<UMobManager>();
+	UMobManager* MobManager = GetGameInstance()->GetSubsystem<UMobManager>();
 
 	if (!MobManager) {
 		return false;
 	}
 
-	const FMobTemplate* MobTemplate = MobManager->GetMobTemplate(MobId);
+	FMobTemplate* MobTemplate = MobManager->GetMobTemplate(MobId);
 
 	if (!MobTemplate) {
 		return false;
 	}
 
+	this->Template = MobTemplate; 
 	Setup(MobTemplate);
 
 	check(MobTemplate->HasStand);

@@ -28,6 +28,10 @@ public:
 		return CurrentAction;
 	}
 
+	const FMobTemplate* GetMobTemplate() const {
+		return Template;
+	}
+
 	void SetCurrentAction(EMobActionType ActionType, bool bForce = false);
 	void Move(const protocol::GameServerMobMove& Packet);
 
@@ -105,6 +109,8 @@ public:
 	TObjectPtr<AMsPlayerBase> AgroPlayer;
 
 private:
+	FMobTemplate* Template;
+
 	UPROPERTY(VisibleAnywhere)
 	float DestX;
 

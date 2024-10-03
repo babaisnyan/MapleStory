@@ -88,4 +88,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
 	TSoftObjectPtr<USoundWave> AttackSound;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Mob")
+	int32 AttackDelay;
 };

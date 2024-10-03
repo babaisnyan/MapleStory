@@ -8,7 +8,7 @@
 
 USoundManager::USoundManager() {
 	#if WITH_EDITOR
-	TObjectPtr<UEnum> SoundEffectEnum = StaticEnum<ESoundEffectType>();
+	const TObjectPtr<UEnum> SoundEffectEnum = StaticEnum<ESoundEffectType>();
 
 	if (SoundEffectEnum) {
 		for (int32 i = 0; i < SoundEffectEnum->NumEnums() - 1; i++) {
@@ -25,8 +25,12 @@ USoundManager::USoundManager() {
 }
 
 
-void USoundManager::PlaySoundEffect(const ESoundEffectType Type, const TObjectPtr<UWorld> World, const bool bIsUISound) const {
+void USoundManager::PlaySoundEffect(const ESoundEffectType Type, const TObjectPtr<UWorld>& World, const bool bIsUISound) const {
 	if (SoundEffects.Contains(Type)) {
 		UGameplayStatics::PlaySound2D(World.Get(), SoundEffects[Type].Get(), 1.5f, 1.0f, 0.0f, nullptr, nullptr, bIsUISound);
 	}
+}
+
+void USoundManager::PlaySoundEffect(const TObjectPtr<USoundWave>& Sound) const {
+	UGameplayStatics::PlaySound2D(GetWorld(), Sound.Get(), 1.0f, 1.0f, 0.0f, nullptr, nullptr, true);
 }

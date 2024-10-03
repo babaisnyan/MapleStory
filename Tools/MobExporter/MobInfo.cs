@@ -56,6 +56,5 @@ public class MobInfo(int mobId, string name)
     [Ignore]
     public Point AttackSize { get; set; }
 
-    [Ignore]
     public int AttackDelay { get; set; }
 }

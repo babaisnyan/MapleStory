@@ -18,6 +18,9 @@ public:
 	void Setup(const UDataTable* SpriteTable, bool bAutoStart = true, bool bLoop = true);
 
 	UFUNCTION(BlueprintCallable)
+	void SetPriority(int32 Priority);
+	
+	UFUNCTION(BlueprintCallable)
 	void Reset();
 
     UFUNCTION(BlueprintCallable)

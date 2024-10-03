@@ -16,10 +16,10 @@ private:
 	void Setup(int32 Id, const FString& Name, int32 Level);
 	
 public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Skill")
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Icon")
 	TObjectPtr<UTexture2D> SkillIcon;
 
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Skill")
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Icon")
 	TObjectPtr<UTexture2D> SkillIconHover;
 	
 protected:

@@ -71,6 +71,5 @@ public class MobInfo
     [Ignore]
     public Point AttackSize { get; init; }
 
-    [Ignore]
     public int AttackDelay { get; init; }
 }

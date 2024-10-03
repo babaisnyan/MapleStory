@@ -15,7 +15,7 @@ public:
 	UMobManager();
 
 public:
-	const FMobTemplate* GetMobTemplate(int32 Id) const;
+	FMobTemplate* GetMobTemplate(int32 Id);
 
 private:
 	UPROPERTY()

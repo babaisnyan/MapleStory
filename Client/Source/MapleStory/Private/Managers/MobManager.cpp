@@ -14,7 +14,7 @@ UMobManager::UMobManager() {
 	}
 }
 
-const FMobTemplate* UMobManager::GetMobTemplate(const int32 Id) const {
+FMobTemplate* UMobManager::GetMobTemplate(const int32 Id) {
 	if (MobData.Contains(Id)) {
 		return &MobData[Id];
 	}

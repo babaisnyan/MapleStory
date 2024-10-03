@@ -3,10 +3,13 @@
 #include "MapleGameInstance.h"
 #include "game_protocol.pb.h"
 #include "Actors/Monster.h"
+#include "Actors/MsSpriteActor.h"
 #include "Characters/MaplePlayerController.h"
 #include "Characters/MsLocalPlayer.h"
+#include "Data/Table/MobTemplate.h"
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
+#include "Managers/SoundManager.h"
 
 
 AMapleGameMode::AMapleGameMode() {
@@ -17,7 +20,7 @@ AMapleGameMode::AMapleGameMode() {
 
 void AMapleGameMode::BeginPlay() {
 	Super::BeginPlay();
-	
+
 	const auto GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
 
 	const TObjectPtr<AActor> PlayerStart = UGameplayStatics::GetActorOfClass(GetWorld(), APlayerStart::StaticClass());
@@ -110,7 +113,54 @@ void AMapleGameMode::PlayAttackAnimation(const protocol::GameServerMobAttack& Pa
 		return;
 	}
 
+	if (!Players.Contains(Packet.target_id())) {
+		return;
+	}
+
 	Monsters[Packet.mob_id()]->SetCurrentAction(EMobActionType::Attack, true);
+
+	const auto* Template = Monsters[Packet.mob_id()]->GetMobTemplate();
+	const FVector Location = Players[Packet.target_id()]->GetActorLocation();
+	const FVector NewLocation = FVector(Location.X, Location.Y + 10, Location.Z + 5);
+	AMsSpriteActor* Sprite = GetWorld()->SpawnActorDeferred<AMsSpriteActor>(AMsSpriteActor::StaticClass(), FTransform::Identity, this);
+	const UDataTable* SpriteTable = LoadObject<UDataTable>(nullptr, *FString::Printf(TEXT("/Game/Mob/%d/hit/DT_Frames.DT_Frames"), Template->MobId));
+
+	if (!SpriteTable) {
+		return;
+	}
+
+	Sprite->Setup(SpriteTable, Template->AttackDelay);
+	Sprite->SetPriority(10000000);
+	Sprite->FinishSpawning(FTransform(NewLocation));
+	Sprite->AttachToActor(Players[Packet.target_id()], FAttachmentTransformRules::KeepRelativeTransform);
+
+	const USoundManager* SoundManager = GetGameInstance()->GetSubsystem<USoundManager>();
+
+	if (!SoundManager) {
+		return;
+	}
+
+	if (Template->AttackSound.IsNull()) {
+		return;
+	}
+
+	SoundManager->PlaySoundEffect(Template->AttackSound.LoadSynchronous());
+
+	if (!Players[Packet.target_id()]->bIsLocalPlayer) {
+		return;
+	}
+
+
+	if (Template->CharHitSound.IsNull()) {
+		return;
+	}
+
+	FTimerHandle TimerHandle;
+	const float Delay = Template->AttackDelay * 0.9f / 1000.0f;
+
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, FTimerDelegate::CreateLambda([&Template, &SoundManager] {
+		SoundManager->PlaySoundEffect(Template->CharHitSound.LoadSynchronous());
+	}), Delay, false);
 }
 
 uint64_t AMapleGameMode::GetExpForLevel(const int32 Level) const {
