@@ -163,6 +163,7 @@ void AMsPlayerBase::Blink() {
 		GetSprite()->SetSpriteColor(FLinearColor{1.0f, 1.0f, 1.0f, 1.0f});
 		Transparency = 1.0f;
 		BlinkCount = 0;
+		bIsInvincible = false;
 	}
 }
 
@@ -197,6 +198,7 @@ void AMsPlayerBase::OnDamaged(const int32 Damage) {
 	Text->FinishSpawning(FTransform(NewLocation));
 
 	if (Damage > 0 && PlayerStat->Hp - Damage > 0) {
+		bIsInvincible = true;
 		GetWorldTimerManager().SetTimer(BlinkTimer, this, &AMsPlayerBase::Blink, 0.3f, true, 0);
 	}
 }

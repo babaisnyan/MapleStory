@@ -69,9 +69,6 @@
     <ClCompile Include="game\basic_stat.cpp">
       <Filter>game</Filter>
     </ClCompile>
-    <ClCompile Include="game\player_stat.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
     <ClCompile Include="game\objects\game_object.cpp">
       <Filter>game\objects</Filter>
     </ClCompile>
@@ -147,6 +144,15 @@
     <ClCompile Include="utils\timer\timer.cpp">
       <Filter>utils\timer</Filter>
     </ClCompile>
+    <ClCompile Include="game\objects\player\player_stat.cpp">
+      <Filter>game\objects\player</Filter>
+    </ClCompile>
+    <ClCompile Include="game\objects\mob\mob_stat.cpp">
+      <Filter>game\objects\mob</Filter>
+    </ClCompile>
+    <ClCompile Include="game\calc_damage.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -214,9 +220,6 @@
       <Filter>game</Filter>
     </ClInclude>
     <ClInclude Include="game\basic_stat.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="game\player_stat.h">
       <Filter>game</Filter>
     </ClInclude>
     <ClInclude Include="game\objects\game_object.h">
@@ -303,6 +306,15 @@
     <ClInclude Include="utils\timer\timer_manager.h">
       <Filter>utils\timer</Filter>
     </ClInclude>
+    <ClInclude Include="game\objects\player\player_stat.h">
+      <Filter>game\objects\player</Filter>
+    </ClInclude>
+    <ClInclude Include="game\objects\mob\mob_stat.h">
+      <Filter>game\objects\mob</Filter>
+    </ClInclude>
+    <ClInclude Include="game\calc_damage.h">
+      <Filter>game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="network">
@@ -365,5 +377,10 @@
     <Filter Include="utils\timer">
       <UniqueIdentifier>{a96ff5da-e5b9-4099-91c5-26e7c982ffc6}</UniqueIdentifier>
     </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\Common\proto\GameServer\game_enum.proto" />
+    <None Include="..\..\Common\proto\GameServer\game_protocol.proto" />
+    <None Include="..\..\Common\proto\GameServer\game_struct.proto" />
   </ItemGroup>
 </Project>

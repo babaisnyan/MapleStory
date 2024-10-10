@@ -15,7 +15,7 @@ void AttackState::Update(const std::shared_ptr<Monster>& mob, const float delta)
   }
 
   if (mob->IsAttackReady()) {
-    mob->Attack();
+    mob->Attack(GetTickCount64());
   }
 
   if (mob->GetAnimationTime() >= mob->GetTemplate()->GetActionLength(protocol::MOB_ACTION_TYPE_ATTACK)) {

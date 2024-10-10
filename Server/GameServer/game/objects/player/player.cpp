@@ -2,20 +2,17 @@
 #include "player.h"
 
 #include "key_map.h"
+#include "player_stat.h"
 
 #include "database/db_bind.h"
 #include "database/db_connection_pool.h"
 
-#include "game/player_stat.h"
+#include "game/calc_damage.h"
 #include "game/map/map_instance.h"
 #include "game/map/map_manager.h"
 #include "game/objects/mob/monster.h"
 
-#include "network/game/game_packet_creator.h"
 #include "network/protocol/game_protocol.pb.h"
-
-#include "utils/randomizer.h"
-
 
 Player::Player(const int32_t player_id): GameObject(GetNextObjectId()),
                                          _id(player_id), _player_stat(std::make_shared<PlayerStat>()),
@@ -32,44 +29,20 @@ void Player::OnCollideMob(const std::shared_ptr<Monster>& mob, const uint64_t ti
     return;
   }
 
-  _player_stat->SetLastCollisionTime(time);
-
-  const auto pad = min(1999, std::max(0, mob->GetTemplate()->GetPaDamage() * 2));
-  const auto low_damage = pad * 0.8;
-  const auto high_damage = pad * 0.85;
-  const auto calc = utils::random::RandDouble(low_damage, high_damage) * (pad * 0.01);
-  const auto player_level = _player_stat->GetLevel();
-  const auto mob_level = mob->GetTemplate()->GetLevel();
-  const auto player_pdd = player_level * 2.5;
-  const auto player_stat_base = (_player_stat->GetStr() + _player_stat->GetDex() + _player_stat->GetInt() + _player_stat->GetLuk()) * 0.25;
-  double calc1 = player_stat_base * 0.00125, calc2;
-
-  if (player_pdd > pad) {
-    calc1 = player_level * 0.001818181818181818 + player_stat_base * 0.00125 + 0.28;
-
-    if (player_level >= mob_level) {
-      calc2 = calc1 * (pad - player_pdd) * 13.0 / (player_level - mob_level + 13.0);
-    } else {
-      calc2 = calc1 * (pad - player_pdd) * 1.3;
-    }
-  } else {
-    calc2 = (player_stat_base * 0.0011111111111111 + player_level * 0.0007692307692307692 + 0.28) * (pad - player_pdd) * 0.7;
-  }
-
-  const auto damage = static_cast<int32_t>(std::max(calc - (calc2 + (calc1 + 0.28) * pad) - (calc - (calc2 + (calc1 + 0.28) * pad)) * 0.01, 0.0));
-
+  const auto damage = CalcDamage::GetInstance().CalcMobPhysicalDamage(mob->GetStat(), _player_stat);
   const auto map = MapManager::GetInstance().GetMapInstance(_map);
 
   if (map.has_value()) {
     map.value()->NotifyPlayerDamage(damage, _object_id);
   }
 
-  OnDamage(damage);
+  OnDamage(damage, time);
 
   std::cout << std::format("Player is in collision area. Mob: {}, Player: {}, Damage: {}\n", mob->GetObjectId(), GetObjectId(), damage);
 }
 
-void Player::OnDamage(const int32_t damage) {
+void Player::OnDamage(const int32_t damage, const uint64_t time) {
+  _player_stat->SetLastCollisionTime(time);
   _player_stat->SetHp(std::max(_player_stat->GetHp() - damage, 0));
 
   if (_player_stat->GetHp() <= 0) {
@@ -133,6 +106,10 @@ void Player::SetMap(const int32_t map) {
 }
 
 std::shared_ptr<PlayerStat> Player::GetStat() const {
+  if (_player_stat->IsDirty()) {
+    _player_stat->UpdateStats();
+  }
+
   return _player_stat;
 }
 

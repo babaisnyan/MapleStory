@@ -1,11 +1,15 @@
 ﻿#include "pch.h"
 #include "monster.h"
 
+#include "mob_stat.h"
+
 #include "data/spawn_point.h"
 #include "data/templates/mob_template.h"
 
 #include "game/map/map_instance.h"
+#include "game/map/map_manager.h"
 #include "game/objects/player/player.h"
+#include "game/objects/player/player_stat.h"
 
 #include "state/attack_state.h"
 #include "state/hit_state.h"
@@ -25,7 +29,7 @@ static constexpr std::array kMonsterActions = {
   protocol::MobActionType::MOB_ACTION_TYPE_REGEN,
 };
 
-Monster::Monster(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shared_ptr<MapInstance>& map) : GameObject(GetNextObjectId()), _spawn_point(spawn_point), _map(map) {
+Monster::Monster(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shared_ptr<MapInstance>& map) : GameObject(GetNextObjectId()), _mob_stat(std::make_shared<MobStat>()), _spawn_point(spawn_point), _map(map) {
   std::call_once(_init_flag, InitMonsterStates);
   SetBounds(map->GetBounds());
 }
@@ -43,6 +47,8 @@ void Monster::Init(const std::shared_ptr<MobTemplate>& mob_template) {
     }
   }
 }
+
+void Monster::InitStat() {}
 
 void Monster::OnEnter() {
   if (_mob_template->HasAction(protocol::MOB_ACTION_TYPE_REGEN)) {
@@ -63,7 +69,7 @@ void Monster::Update(const float delta_time) {
   _states[_current_state]->Update(GetSelf(), delta_time);
 }
 
-void Monster::Attack() {
+void Monster::Attack(const uint64_t time) {
   const auto target = GetTarget().lock();
   const auto map = GetMap().lock();
 
@@ -75,10 +81,19 @@ void Monster::Attack() {
   attack.set_target_id(target->GetObjectId());
   attack.set_mob_id(_object_id);
   map->BroadCast(attack, nullptr);
+  SetNextAttackTime(GetTickCount64() + 3000);
 
   // TODO: 데미지 계산
+  const auto damage = 100;
 
-  SetNextAttackTime(GetTickCount64() + 3000);
+  map->DoTimer(_mob_template->GetAttackDelay() * 0.9, [map, target, time] {
+    if (time - target->GetStat()->GetLastCollisionTime() < 1000) {
+      return;
+    }
+
+    map->NotifyPlayerDamage(damage, target->GetObjectId());
+    target->OnDamage(damage, time);
+  });
 }
 
 void Monster::OnStatusUpdated() {
@@ -115,6 +130,14 @@ std::shared_ptr<Monster> Monster::GetSelf() {
 
 uint32_t Monster::GetId() const {
   return _id;
+}
+
+std::shared_ptr<MobStat> Monster::GetStat() const {
+  if (_mob_stat->IsDirty()) {
+    _mob_stat->UpdateStats();
+  }
+
+  return _mob_stat;
 }
 
 std::shared_ptr<MobTemplate> Monster::GetTemplate() const {

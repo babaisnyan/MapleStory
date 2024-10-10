@@ -132,13 +132,15 @@ void UQuickSlotKeyWidget::OnClicked() {
 				Swap(ItemCount, TempCursor->ItemCount);
 				Swap(SkillId, TempCursor->SkillId);
 				SEND_PACKET(FPacketCreator::GetChangeKeySetting(KeyCode, KeyType, ItemId, SkillId));
+				UE_LOG(LogTemp, Warning, TEXT("KeyCode: %d, KeyType: %d, ItemId: %d, SkillId: %d"), KeyCode, KeyType, ItemId, SkillId);
 
 				TempCursor->PrevKeyWidget->KeyType = TempCursor->KeyType;
 				TempCursor->PrevKeyWidget->ItemId = TempCursor->ItemId;
 				TempCursor->PrevKeyWidget->ItemCount = TempCursor->ItemCount;
 				TempCursor->PrevKeyWidget->SkillId = TempCursor->SkillId;
 				SEND_PACKET(FPacketCreator::GetChangeKeySetting(TempCursor->PrevKeyWidget->KeyCode, TempCursor->PrevKeyWidget->KeyType, TempCursor->PrevKeyWidget->ItemId, TempCursor->PrevKeyWidget->SkillId));
-
+				UE_LOG(LogTemp, Warning, TEXT("KeyCode: %d, KeyType: %d, ItemId: %d, SkillId: %d"), TempCursor->PrevKeyWidget->KeyCode, TempCursor->PrevKeyWidget->KeyType, TempCursor->PrevKeyWidget->ItemId, TempCursor->PrevKeyWidget->SkillId);
+				
 				LoadKeyTexture();
 				TempCursor->PrevKeyWidget->LoadKeyTexture();
 

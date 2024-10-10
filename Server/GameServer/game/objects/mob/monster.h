@@ -4,9 +4,11 @@
 
 #include "game/objects/game_object.h"
 
+
 namespace game {
   class Player;
   class SpawnPoint;
+  class MobStat;
   class MobTemplate;
   class MapInstance;
   class MobState;
@@ -15,14 +17,16 @@ namespace game {
   public:
     Monster(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shared_ptr<MapInstance>& map);
     void Init(const std::shared_ptr<MobTemplate>& mob_template);
+    void InitStat();
 
     void OnEnter() override;
     void Update(float delta_time) override;
-    void Attack();
+    void Attack(uint64_t time);
     void OnStatusUpdated();
 
     std::shared_ptr<Monster> GetSelf();
     uint32_t GetId() const;
+    std::shared_ptr<MobStat> GetStat() const;
     std::shared_ptr<MobTemplate> GetTemplate() const;
     std::shared_ptr<SpawnPoint> GetSpawnPoint() const;
     std::weak_ptr<MapInstance> GetMap() const; // TODO: shared_ptr로 바꾸기
@@ -64,6 +68,7 @@ namespace game {
 
   private:
     uint32_t _id = 0;
+    std::shared_ptr<MobStat> _mob_stat = nullptr;
     std::shared_ptr<MobTemplate> _mob_template;
     std::shared_ptr<SpawnPoint> _spawn_point;
     std::weak_ptr<MapInstance> _map;

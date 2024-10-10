@@ -3,9 +3,9 @@
 
 #include "game_client_packet_handler.h"
 
-#include "game/player_stat.h"
 #include "game/objects/player/key_map.h"
 #include "game/objects/player/player.h"
+#include "game/objects/player/player_stat.h"
 
 #include "network/protocol/game_protocol.pb.h"
 

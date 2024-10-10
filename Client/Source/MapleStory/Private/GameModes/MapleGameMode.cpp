@@ -146,10 +146,13 @@ void AMapleGameMode::PlayAttackAnimation(const protocol::GameServerMobAttack& Pa
 
 	SoundManager->PlaySoundEffect(Template->AttackSound.LoadSynchronous());
 
-	if (!Players[Packet.target_id()]->bIsLocalPlayer) {
+	if (Players[Packet.target_id()]->bIsInvincible) {
 		return;
 	}
 
+	if (!Players[Packet.target_id()]->bIsLocalPlayer) {
+		return;
+	}
 
 	if (Template->CharHitSound.IsNull()) {
 		return;

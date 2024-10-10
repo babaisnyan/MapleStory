@@ -1,11 +1,9 @@
 ﻿#include "pch.h"
 #include "map_instance.h"
 
-#include "game/player_stat.h"
 #include "game/objects/mob/monster.h"
 #include "game/objects/player/player.h"
-
-#include "network/game/game_packet_creator.h"
+#include "game/objects/player/player_stat.h"
 
 MapInstance::MapInstance(const int32_t map_id, const std::pair<int32_t, int32_t> size, std::vector<GroundInfo> grounds, std::tuple<int32_t, int32_t, int32_t, int32_t> bounds) :
   _map_id(map_id),
