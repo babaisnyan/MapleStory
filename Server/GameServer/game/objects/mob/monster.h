@@ -17,7 +17,7 @@ namespace game {
   public:
     Monster(const std::shared_ptr<SpawnPoint>& spawn_point, const std::shared_ptr<MapInstance>& map);
     void Init(const std::shared_ptr<MobTemplate>& mob_template);
-    void InitStat();
+    void InitStat() const;
 
     void OnEnter() override;
     void Update(float delta_time) override;

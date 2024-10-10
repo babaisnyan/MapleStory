@@ -4,6 +4,8 @@
 void PlayerStat::UpdateStats() {
   _base_physical_defense = _level * 2.5;
   _base_magical_defense = _level * 2.5;
+  _base_magical_attack = _level * 1.5;
+  _base_physical_attack = _level * 1.5;
 
   // TODO: 장비, 버프에 의한 스탯 증가 적용
 

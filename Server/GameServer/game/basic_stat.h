@@ -26,6 +26,11 @@ namespace game {
     double GetMagicalAttack() const;
     double GetMagicalDefense() const;
 
+    void SetBasePhysicalAttack(double base_physical_attack);
+    void SetBasePhysicalDefense(double base_physical_defense);
+    void SetBaseMagicalAttack(double base_magical_attack);
+    void SetBaseMagicalDefense(double base_magical_defense);
+
   protected:
     bool _is_dirty = true;
 

@@ -55,3 +55,19 @@ double BasicStat::GetMagicalAttack() const {
 double BasicStat::GetMagicalDefense() const {
   return _magical_defense;
 }
+
+void BasicStat::SetBasePhysicalAttack(const double base_physical_attack) {
+  _base_physical_attack = base_physical_attack;
+}
+
+void BasicStat::SetBasePhysicalDefense(const double base_physical_defense) {
+  _base_physical_defense = base_physical_defense;
+}
+
+void BasicStat::SetBaseMagicalAttack(const double base_magical_attack) {
+  _base_magical_attack = base_magical_attack;
+}
+
+void BasicStat::SetBaseMagicalDefense(const double base_magical_defense) {
+  _base_magical_defense = base_magical_defense;
+}

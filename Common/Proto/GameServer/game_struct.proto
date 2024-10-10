@@ -43,6 +43,12 @@ message ItemInfo {
   int32 type = 2;
   int32 count = 3;
   int32 sub_type = 4;
+  bool equipped = 5;
+  optional ItemOption option = 6;
+}
+
+message ItemOption {
+  
 }
 
 message KeySetting {

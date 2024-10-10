@@ -1,6 +1,7 @@
 ﻿#include "pch.h"
 #include "player.h"
 
+#include "inventory.h"
 #include "key_map.h"
 #include "player_stat.h"
 
@@ -15,10 +16,13 @@
 #include "network/protocol/game_protocol.pb.h"
 
 Player::Player(const int32_t player_id): GameObject(GetNextObjectId()),
-                                         _id(player_id), _player_stat(std::make_shared<PlayerStat>()),
-                                         _key_map(std::make_shared<KeyMap>()) {}
+                                         _id(player_id),
+                                         _player_stat(std::make_shared<PlayerStat>()),
+                                         _key_map(std::make_shared<KeyMap>()),
+                                         _inventory(std::make_shared<Inventory>()) {}
 
 void Player::OnEnter() {
+  _player_stat->UpdateStats();
   // TODO: 기타 정보 보내주기
 }
 
@@ -43,6 +47,11 @@ void Player::OnCollideMob(const std::shared_ptr<Monster>& mob, const uint64_t ti
 
 void Player::OnDamage(const int32_t damage, const uint64_t time) {
   _player_stat->SetLastCollisionTime(time);
+
+  if (damage <= 0) {
+    return;
+  }
+
   _player_stat->SetHp(std::max(_player_stat->GetHp() - damage, 0));
 
   if (_player_stat->GetHp() <= 0) {
@@ -115,6 +124,10 @@ std::shared_ptr<PlayerStat> Player::GetStat() const {
 
 std::shared_ptr<KeyMap> Player::GetKeyMap() const {
   return _key_map;
+}
+
+std::shared_ptr<Inventory> Player::GetInventory() const {
+  return _inventory;
 }
 
 bool Player::TryLoadFromDb() {
@@ -199,7 +212,8 @@ bool Player::TryLoadFromDb() {
   }
 
   if (success) {
-    success = _key_map->TryLoadFromDb(_id);
+    success &= _key_map->TryLoadFromDb(_id);
+    success &= _inventory->TryLoadFromDb(_id);
   }
 
   return success;

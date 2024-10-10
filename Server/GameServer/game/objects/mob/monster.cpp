@@ -6,6 +6,7 @@
 #include "data/spawn_point.h"
 #include "data/templates/mob_template.h"
 
+#include "game/calc_damage.h"
 #include "game/map/map_instance.h"
 #include "game/map/map_manager.h"
 #include "game/objects/player/player.h"
@@ -46,9 +47,21 @@ void Monster::Init(const std::shared_ptr<MobTemplate>& mob_template) {
       _states[monster_action] = _monster_states[monster_action];
     }
   }
+
+  InitStat();
 }
 
-void Monster::InitStat() {}
+void Monster::InitStat() const {
+  _mob_stat->SetLevel(_mob_template->GetLevel());
+  _mob_stat->SetMaxHp(_mob_template->GetMaxHp());
+  _mob_stat->SetHp(_mob_template->GetMaxHp());
+  _mob_stat->SetExp(_mob_template->GetExp());
+  _mob_stat->SetBasePhysicalAttack(_mob_template->GetPaDamage());
+  _mob_stat->SetBasePhysicalDefense(_mob_template->GetPdDamage());
+  _mob_stat->SetBaseMagicalAttack(_mob_template->GetMaDamage());
+  _mob_stat->SetBaseMagicalDefense(_mob_template->GetMdDamage());
+  _mob_stat->UpdateStats();
+}
 
 void Monster::OnEnter() {
   if (_mob_template->HasAction(protocol::MOB_ACTION_TYPE_REGEN)) {
@@ -83,10 +96,9 @@ void Monster::Attack(const uint64_t time) {
   map->BroadCast(attack, nullptr);
   SetNextAttackTime(GetTickCount64() + 3000);
 
-  // TODO: 데미지 계산
-  const auto damage = 100;
+  const auto damage = CalcDamage::GetInstance().CalcMobMagicalDamage(_mob_stat, target->GetStat());
 
-  map->DoTimer(_mob_template->GetAttackDelay() * 0.9, [map, target, time] {
+  map->DoTimer(_mob_template->GetAttackDelay() * 0.9, [map, target, time, damage] {
     if (time - target->GetStat()->GetLastCollisionTime() < 1000) {
       return;
     }

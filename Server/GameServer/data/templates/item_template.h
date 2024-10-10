@@ -6,7 +6,7 @@ namespace game {
   enum class ItemType : uint8_t {
     kEquip,
     kUse,
-    kEtc,
+    kEtc
   };
 
   enum class EqpType : uint8_t {

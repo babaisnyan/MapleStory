@@ -3,6 +3,7 @@
 #include "game/objects/game_object.h"
 
 namespace game {
+  class Inventory;
   class Monster;
   class KeyMap;
   class PlayerStat;
@@ -32,6 +33,7 @@ namespace game {
 
     std::shared_ptr<PlayerStat> GetStat() const;
     std::shared_ptr<KeyMap> GetKeyMap() const;
+    std::shared_ptr<Inventory> GetInventory() const;
 
   public:
     bool TryLoadFromDb();
@@ -50,5 +52,6 @@ namespace game {
     int32_t _map = 0;
     std::shared_ptr<PlayerStat> _player_stat = nullptr;
     std::shared_ptr<KeyMap> _key_map = nullptr;
+    std::shared_ptr<Inventory> _inventory = nullptr;
   };
 }

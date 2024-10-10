@@ -3,6 +3,8 @@
 
 #include "game_client_packet_handler.h"
 
+#include "game/objects/player/inventory.h"
+#include "game/objects/player/item.h"
 #include "game/objects/player/key_map.h"
 #include "game/objects/player/player.h"
 #include "game/objects/player/player_stat.h"
@@ -59,6 +61,19 @@ SendBufferRef GamePacketCreator::GetClientEnterSuccessResponse(const std::shared
       } else if (entry->type == protocol::KEY_TYPE_SKILL) {
         key->set_skill_id(entry->data);
       }
+    }
+
+    const auto items = player->GetInventory()->GetAllItems();
+
+    for (const auto& item : items) {
+      const auto inventory_item = player_info->add_items();
+      inventory_item->set_id(item->GetItem()->GetItemTemplate()->GetId());
+      inventory_item->set_type(static_cast<int32_t>(item->GetItem()->GetItemTemplate()->GetItemType()));
+      inventory_item->set_count(item->GetCount());
+      inventory_item->set_sub_type(static_cast<int32_t>(item->GetItem()->GetItemTemplate()->GetSubType()));
+      inventory_item->set_equipped(false);
+
+      // TODO: 장비한 아이템 정보
     }
   }
 
