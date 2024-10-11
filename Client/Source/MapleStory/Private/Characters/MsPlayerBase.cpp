@@ -210,11 +210,13 @@ void AMsPlayerBase::OnDead() {
 
 void AMsPlayerBase::OnRevive() {
 	bIsDead = false;
+	AnimationType = protocol::PLAYER_ANIMATION_IDLE;
 	GetSprite()->SetFlipbook(IdleAnimation);
 }
 
 void AMsPlayerBase::Tick(const float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
+
 	if (NameTagWidget && NameTagWidget->GetDrawSize().X == 500) {
 		if (const auto Widget = Cast<UNameTag>(NameTagWidget->GetUserWidgetObject())) {
 			const auto Size = Widget->GetDesiredSize();
@@ -247,6 +249,7 @@ void AMsPlayerBase::InitAnimation() {
 		IdleAnimation = AvatarData->IdleAnimation;
 		RunAnimation = AvatarData->WalkAnimation;
 		JumpAnimation = AvatarData->JumpAnimation;
+		AttackAnimation = AvatarData->AttackAnimation;
 
 		GetSprite()->SetFlipbook(IdleAnimation);
 	}
@@ -263,6 +266,8 @@ void AMsPlayerBase::UpdateAnimation() const {
 			break;
 		case protocol::PLAYER_ANIMATION_JUMP:
 			GetSprite()->SetFlipbook(JumpAnimation);
+			break;
+		case protocol::PLAYER_ANIMATION_ATTACK:
 			break;
 		default:
 			GetSprite()->SetFlipbook(IdleAnimation);

@@ -5,7 +5,7 @@
 #include "Data/Enum/EAvatarType.h"
 #include "AvatarData.generated.h"
 
-USTRUCT(BlueprintType, meta=(DeprecatedStructure, DeprecationMessage="옷입히기 구현시 삭제할 예정"))
+USTRUCT(BlueprintType)
 struct MAPLESTORY_API FAvatarData : public FTableRowBase {
 	GENERATED_BODY()
 
@@ -21,4 +21,7 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Avatar")
 	TObjectPtr<UPaperFlipbook> JumpAnimation;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Avatar")
+	TObjectPtr<UPaperFlipbook> AttackAnimation;
 };

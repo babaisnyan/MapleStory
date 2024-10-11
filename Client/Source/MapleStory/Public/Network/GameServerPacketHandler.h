@@ -32,6 +32,8 @@ class FGameServerPacketHandler {
 		PKT_GAMESERVERREVIVE = 3017,
 		PKT_GAMESERVERTELEPORTPLAYER = 3018,
 		PKT_GAMESERVERUPDATEPLAYERSTAT = 3019,
+		PKT_GAMECLIENTATTACK = 3020,
+		PKT_GAMESERVERATTACK = 3021,
 	};
 
 	static bool HandleGameInvalid(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len);
@@ -50,6 +52,7 @@ class FGameServerPacketHandler {
 	static bool HandleGameServerRevive(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerRevive& Packet);
 	static bool HandleGameServerTeleportPlayer(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerTeleportPlayer& Packet);
 	static bool HandleGameServerUpdatePlayerStat(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerUpdatePlayerStat& Packet);
+	static bool HandleGameServerAttack(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerAttack& Packet);
 
 public:
 	static void Init(const TWeakObjectPtr<UMapleGameInstance>& Instance) {
@@ -104,6 +107,9 @@ public:
 		PacketHandlers[PKT_GAMESERVERUPDATEPLAYERSTAT] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
 			return HandlePacket<protocol::GameServerUpdatePlayerStat>(HandleGameServerUpdatePlayerStat, Client, Buffer, Len);
 		};
+		PacketHandlers[PKT_GAMESERVERATTACK] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
+			return HandlePacket<protocol::GameServerAttack>(HandleGameServerAttack, Client, Buffer, Len);
+		};
 	}
 
 	static bool HandlePacket(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
@@ -134,6 +140,9 @@ public:
 	}
 	static FSendBufferRef MakeSendBuffer(const protocol::GameClientRevive& Packet) { 
 		return MakeSendBufferInternal(Packet, PKT_GAMECLIENTREVIVE); 
+	}
+	static FSendBufferRef MakeSendBuffer(const protocol::GameClientAttack& Packet) { 
+		return MakeSendBufferInternal(Packet, PKT_GAMECLIENTATTACK); 
 	}
 
 private:

@@ -11,5 +11,6 @@ namespace game {
 
   private:
     std::shared_ptr<ItemTemplate> _item_template = nullptr;
+
   };
 }

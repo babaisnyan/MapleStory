@@ -26,6 +26,8 @@ namespace game {
     PKT_GAMESERVERREVIVE = 3017,
     PKT_GAMESERVERTELEPORTPLAYER = 3018,
     PKT_GAMESERVERUPDATEPLAYERSTAT = 3019,
+    PKT_GAMECLIENTATTACK = 3020,
+    PKT_GAMESERVERATTACK = 3021,
   };
 
   bool HandleGameInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
@@ -34,6 +36,7 @@ namespace game {
   bool HandleGameClientChangeKeySetting(const PacketSessionRef& session, const protocol::GameClientChangeKeySetting& packet);
   bool HandleGameClientChat(const PacketSessionRef& session, const protocol::GameClientChat& packet);
   bool HandleGameClientRevive(const PacketSessionRef& session, const protocol::GameClientRevive& packet);
+  bool HandleGameClientAttack(const PacketSessionRef& session, const protocol::GameClientAttack& packet);
 
   class GameClientPacketHandler {
   public:
@@ -59,6 +62,9 @@ namespace game {
       };
       _packet_handler_map[PKT_GAMECLIENTREVIVE] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
         return HandlePacket<protocol::GameClientRevive>(HandleGameClientRevive, session, buffer, len);
+      };
+      _packet_handler_map[PKT_GAMECLIENTATTACK] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+        return HandlePacket<protocol::GameClientAttack>(HandleGameClientAttack, session, buffer, len);
       };
     }
 
@@ -117,6 +123,9 @@ namespace game {
     }
     static SendBufferRef MakeSendBuffer(const protocol::GameServerUpdatePlayerStat& packet) { 
       return MakeSendBufferInternal(packet, PKT_GAMESERVERUPDATEPLAYERSTAT); 
+    }
+    static SendBufferRef MakeSendBuffer(const protocol::GameServerAttack& packet) { 
+      return MakeSendBufferInternal(packet, PKT_GAMESERVERATTACK); 
     }
 
   private:

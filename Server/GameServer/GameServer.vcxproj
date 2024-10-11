@@ -194,6 +194,7 @@
     <ClCompile Include="game\objects\mob\state\regen_state.cpp" />
     <ClCompile Include="game\objects\mob\state\stand_state.cpp" />
     <ClCompile Include="game\objects\player\inventory.cpp" />
+    <ClCompile Include="game\objects\player\inventory\inventory.cpp" />
     <ClCompile Include="game\objects\player\item.cpp" />
     <ClCompile Include="game\objects\player\key_map.cpp" />
     <ClCompile Include="game\objects\player\player.cpp" />
@@ -293,6 +294,7 @@
     <ClInclude Include="game\objects\mob\state\regen_state.h" />
     <ClInclude Include="game\objects\mob\state\stand_state.h" />
     <ClInclude Include="game\objects\player\inventory.h" />
+    <ClInclude Include="game\objects\player\inventory\inventory.h" />
     <ClInclude Include="game\objects\player\item.h" />
     <ClInclude Include="game\objects\player\key_map.h" />
     <ClInclude Include="game\objects\player\player.h" />

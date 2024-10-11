@@ -101,3 +101,9 @@ FSendBufferRef FPacketCreator::GetReviveRequest() {
 	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
 	return SendBuffer;
 }
+
+FSendBufferRef FPacketCreator::GetAttackRequest() {
+	const GameClientAttack Packet;
+	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
+	return SendBuffer;
+}

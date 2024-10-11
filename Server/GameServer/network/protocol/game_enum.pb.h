@@ -61,12 +61,13 @@ enum PlayerAnimation : int {
   PLAYER_ANIMATION_IDLE = 1,
   PLAYER_ANIMATION_RUN = 2,
   PLAYER_ANIMATION_JUMP = 3,
+  PLAYER_ANIMATION_ATTACK = 4,
   PlayerAnimation_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
   PlayerAnimation_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
 };
 bool PlayerAnimation_IsValid(int value);
 constexpr PlayerAnimation PlayerAnimation_MIN = PLAYER_ANIMATION_UNSPECIFIED;
-constexpr PlayerAnimation PlayerAnimation_MAX = PLAYER_ANIMATION_JUMP;
+constexpr PlayerAnimation PlayerAnimation_MAX = PLAYER_ANIMATION_ATTACK;
 constexpr int PlayerAnimation_ARRAYSIZE = PlayerAnimation_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* PlayerAnimation_descriptor();

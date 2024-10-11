@@ -6,6 +6,7 @@ enum PlayerAnimation {
   PLAYER_ANIMATION_IDLE = 1;
   PLAYER_ANIMATION_RUN = 2;
   PLAYER_ANIMATION_JUMP = 3;
+  PLAYER_ANIMATION_ATTACK = 4;
 }
 
 enum KeyCode {

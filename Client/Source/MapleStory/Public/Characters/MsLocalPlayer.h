@@ -38,11 +38,14 @@ public:
 	
 protected:
 	void EnhancedMoveHorizontal(const FInputActionValue& Value);
-	void EnhancedMoveVertical(const FInputActionValue& Value);
 	void EnhancedJump(const FInputActionValue& Value);
 	void Enter(const FInputActionValue& Value);
-	
+	void Attack(const FInputActionValue& Value);
 
+private:
+	UFUNCTION()
+	void OnAttackFinished();
+	
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	TObjectPtr<APlayerCamera> PlayerCamera;
@@ -79,14 +82,14 @@ private:
 	TObjectPtr<UInputAction> JumpAction;
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
+	TObjectPtr<UInputAction> AttackAction;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
 	TObjectPtr<UInputAction> EnterAction;
 
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	TObjectPtr<UInputAction> MoveHorizontalAction;
-
-	UPROPERTY(VisibleAnywhere, Category = Input)
-	TObjectPtr<UInputAction> MoveVerticalAction;
-
+	
 	UPROPERTY()
 	TObjectPtr<USoundManager> SoundManager;
 
@@ -98,4 +101,6 @@ private:
 	bool bFirstSent = false;
 	protocol::PlayerAnimation LastAnimationType = protocol::PLAYER_ANIMATION_UNSPECIFIED;
 	bool bSentRevive = false;
+	bool bIsAttacking = false;
+	double LastAttackTime = 0.0;
 };

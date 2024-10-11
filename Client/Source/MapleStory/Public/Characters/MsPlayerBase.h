@@ -56,6 +56,9 @@ public:
 	TObjectPtr<UPaperFlipbook> JumpAnimation;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
+	TObjectPtr<UPaperFlipbook> AttackAnimation;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
 	TObjectPtr<UPaperFlipbook> DeadAnimation;
 	
 	protocol::PlayerAnimation AnimationType = protocol::PlayerAnimation::PLAYER_ANIMATION_IDLE;

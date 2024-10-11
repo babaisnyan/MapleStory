@@ -62,19 +62,19 @@ SendBufferRef GamePacketCreator::GetClientEnterSuccessResponse(const std::shared
         key->set_skill_id(entry->data);
       }
     }
-
-    const auto items = player->GetInventory()->GetAllItems();
-
-    for (const auto& item : items) {
-      const auto inventory_item = player_info->add_items();
-      inventory_item->set_id(item->GetItem()->GetItemTemplate()->GetId());
-      inventory_item->set_type(static_cast<int32_t>(item->GetItem()->GetItemTemplate()->GetItemType()));
-      inventory_item->set_count(item->GetCount());
-      inventory_item->set_sub_type(static_cast<int32_t>(item->GetItem()->GetItemTemplate()->GetSubType()));
-      inventory_item->set_equipped(false);
-
-      // TODO: 장비한 아이템 정보
-    }
+    
+    // const auto items = player->GetInventory()->GetAllItems();
+    //
+    // for (const auto& item : items) {
+    //   const auto inventory_item = player_info->add_items();
+    //   inventory_item->set_id(item->GetItem()->GetItemTemplate()->GetId());
+    //   inventory_item->set_type(static_cast<int32_t>(item->GetItem()->GetItemTemplate()->GetItemType()));
+    //   inventory_item->set_count(item->GetCount());
+    //   inventory_item->set_sub_type(static_cast<int32_t>(item->GetItem()->GetItemTemplate()->GetSubType()));
+    //   inventory_item->set_equipped(false);
+    //
+    //   // TODO: 장비한 아이템 정보
+    // }
   }
 
   const auto send_buffer = GameClientPacketHandler::MakeSendBuffer(packet);

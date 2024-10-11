@@ -132,7 +132,7 @@ void MapInstance::OnRevive(const std::shared_ptr<GameSession>& session, const st
   teleport.set_y(player->GetPosition().y);
   BroadCast(teleport, nullptr);
 
-  protocol::GameServerUpdatePlayerStat update_stat; // TODO: 개선
+  protocol::GameServerUpdatePlayerStat update_stat;
   update_stat.set_hp(player->GetStat()->GetHp());
   update_stat.set_mp(player->GetStat()->GetMp());
   session->Send(GameClientPacketHandler::MakeSendBuffer(update_stat));

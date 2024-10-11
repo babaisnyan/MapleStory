@@ -24,4 +24,5 @@ public:
 
 	static FSendBufferRef GetChat(const FString& Text);
 	static FSendBufferRef GetReviveRequest();
+	static FSendBufferRef GetAttackRequest();
 };

@@ -29,6 +29,11 @@ AMsLocalPlayer::AMsLocalPlayer() {
 		JumpAction = JumpActionFinder.Object;
 	}
 
+	static ConstructorHelpers::FObjectFinder<UInputAction> AttackActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Attack.IA_Attack'"));
+	if (AttackActionFinder.Succeeded()) {
+		AttackAction = AttackActionFinder.Object;
+	}
+
 	static ConstructorHelpers::FObjectFinder<UInputAction> EnterActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Enter.IA_Enter'"));
 	if (EnterActionFinder.Succeeded()) {
 		EnterAction = EnterActionFinder.Object;
@@ -37,11 +42,6 @@ AMsLocalPlayer::AMsLocalPlayer() {
 	static ConstructorHelpers::FObjectFinder<UInputAction> MoveHorizontalActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_MoveHorizontal.IA_MoveHorizontal'"));
 	if (MoveHorizontalActionFinder.Succeeded()) {
 		MoveHorizontalAction = MoveHorizontalActionFinder.Object;
-	}
-
-	static ConstructorHelpers::FObjectFinder<UInputAction> MoveVerticalActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_MoveVertical.IA_MoveVertical'"));
-	if (MoveVerticalActionFinder.Succeeded()) {
-		MoveVerticalAction = MoveVerticalActionFinder.Object;
 	}
 
 	static ConstructorHelpers::FClassFinder<UStatusBarHud> StatusBarHudFinder(TEXT("/Game/UI/HUD/WB_StatusBar.WB_StatusBar_C"));
@@ -67,12 +67,7 @@ AMsLocalPlayer::AMsLocalPlayer() {
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
 	MovementComponent->bEnablePhysicsInteraction = false;
 	GetSprite()->TranslucencySortPriority = 1000001;
-
-	// const TObjectPtr<UCapsuleComponent> Capsule = GetCapsuleComponent();
-	// if (Capsule) {
-	// 	Capsule->SetEnableGravity(true);
-	// 	Capsule->SetSimulatePhysics(false);
-	// }
+	GetSprite()->OnFinishedPlaying.AddDynamic(this, &AMsLocalPlayer::OnAttackFinished);
 }
 
 void AMsLocalPlayer::BeginPlay() {
@@ -121,8 +116,8 @@ void AMsLocalPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::EnhancedJump);
 		EnhancedInputComponent->BindAction(MoveHorizontalAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::EnhancedMoveHorizontal);
-		EnhancedInputComponent->BindAction(MoveVerticalAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::EnhancedMoveVertical);
 		EnhancedInputComponent->BindAction(EnterAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Enter);
+		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Attack);
 	}
 }
 
@@ -131,14 +126,16 @@ void AMsLocalPlayer::Tick(const float DeltaSeconds) {
 
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
 
-	if (MovementComponent->Velocity.Length() > 0) {
-		AnimationType = protocol::PLAYER_ANIMATION_RUN;
-	} else {
-		AnimationType = protocol::PLAYER_ANIMATION_IDLE;
-	}
+	if (!bIsAttacking) {
+		if (MovementComponent->Velocity.Length() > 0) {
+			AnimationType = protocol::PLAYER_ANIMATION_RUN;
+		} else {
+			AnimationType = protocol::PLAYER_ANIMATION_IDLE;
+		}
 
-	if (MovementComponent->IsFalling()) {
-		AnimationType = protocol::PLAYER_ANIMATION_JUMP;
+		if (MovementComponent->IsFalling()) {
+			AnimationType = protocol::PLAYER_ANIMATION_JUMP;
+		}
 	}
 
 	if (MovementComponent->Velocity.X > 0) {
@@ -166,7 +163,9 @@ void AMsLocalPlayer::Tick(const float DeltaSeconds) {
 		SEND_PACKET(SendBuffer);
 	}
 
-	UpdateAnimation();
+	if (!bIsAttacking) {
+		UpdateAnimation();
+	}
 }
 
 void AMsLocalPlayer::Setup(const protocol::PlayerInfo& Info) {
@@ -234,7 +233,7 @@ void AMsLocalPlayer::OnClickedRevive() {
 }
 
 void AMsLocalPlayer::EnhancedMoveHorizontal(const FInputActionValue& Value) {
-	if (bIsDead) {
+	if (bIsDead || bIsAttacking) {
 		return;
 	}
 
@@ -243,24 +242,8 @@ void AMsLocalPlayer::EnhancedMoveHorizontal(const FInputActionValue& Value) {
 	AddMovementInput(FVector(1.0f, 0.0f, 0.0f), AxisValue.X);
 }
 
-void AMsLocalPlayer::EnhancedMoveVertical(const FInputActionValue& Value) {
-	if (bIsDead) {
-		return;
-	}
-
-	const FVector2D AxisValue = Value.Get<FVector2D>();
-
-	//TODO: Check if the player is colliding with the rope or ladder
-
-	if (AxisValue.X > 0.0f) {
-		UE_LOG(LogTemp, Warning, TEXT("Move Up"));
-	} else if (AxisValue.X < 0.0f) {
-		UE_LOG(LogTemp, Warning, TEXT("Move Down"));
-	}
-}
-
 void AMsLocalPlayer::EnhancedJump(const FInputActionValue& Value) {
-	if (bIsDead) {
+	if (bIsDead || bIsAttacking) {
 		return;
 	}
 
@@ -278,6 +261,42 @@ void AMsLocalPlayer::Enter(const FInputActionValue& Value) {
 
 	if (Value.Get<bool>()) {
 		ChatWidget->ToggleChat();
+	}
+}
+
+void AMsLocalPlayer::Attack(const FInputActionValue& Value) {
+	if (bIsDead) {
+		return;
+	}
+
+	const float Now = GetWorld()->GetTimeSeconds();
+
+	if (FMath::Abs(Now - LastAttackTime) < 0.7f) {
+		return;
+	}
+
+	if (Value.Get<bool>()) {
+		UE_LOG(LogTemp, Warning, TEXT("Attack"));
+
+		GetSprite()->SetLooping(false);
+		GetSprite()->SetFlipbook(AttackAnimation);
+		GetSprite()->Play();
+
+		bIsAttacking = true;
+		LastAttackTime = Now;
+
+		const auto Packet = FPacketCreator::GetAttackRequest();
+		SEND_PACKET(Packet);
+	}
+}
+
+void AMsLocalPlayer::OnAttackFinished() {
+	if (bIsAttacking) {
+		AnimationType = protocol::PLAYER_ANIMATION_IDLE;
+		GetSprite()->SetLooping(true);
+		GetSprite()->SetFlipbook(IdleAnimation);
+		GetSprite()->Play();
+		bIsAttacking = false;
 	}
 }
 

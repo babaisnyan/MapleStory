@@ -118,3 +118,11 @@ message GameServerUpdatePlayerStat {
   optional int32 ap = 11;
   optional int32 sp = 12;
 }
+
+message GameClientAttack {
+  
+}
+
+message GameServerAttack {
+  int64 object_id = 1;
+}

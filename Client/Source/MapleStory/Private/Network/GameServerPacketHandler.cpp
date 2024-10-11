@@ -169,3 +169,7 @@ bool FGameServerPacketHandler::HandleGameServerUpdatePlayerStat(const TObjectPtr
 
 	return true;
 }
+
+bool FGameServerPacketHandler::HandleGameServerAttack(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerAttack& Packet) {
+	return true;
+}
