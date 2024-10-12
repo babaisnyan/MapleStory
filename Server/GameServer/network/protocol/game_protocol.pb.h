@@ -3399,6 +3399,18 @@ class GameClientAttack final :
 
   // accessors -------------------------------------------------------
 
+  enum : int {
+    kTargetIdFieldNumber = 1,
+  };
+  // int64 target_id = 1;
+  void clear_target_id();
+  ::PROTOBUF_NAMESPACE_ID::int64 target_id() const;
+  void set_target_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_target_id() const;
+  void _internal_set_target_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
   // @@protoc_insertion_point(class_scope:protocol.GameClientAttack)
  private:
   class _Internal;
@@ -3406,6 +3418,7 @@ class GameClientAttack final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int64 target_id_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fprotocol_2eproto;
 };
@@ -5069,6 +5082,26 @@ inline void GameServerUpdatePlayerStat::set_sp(::PROTOBUF_NAMESPACE_ID::int32 va
 // -------------------------------------------------------------------
 
 // GameClientAttack
+
+// int64 target_id = 1;
+inline void GameClientAttack::clear_target_id() {
+  target_id_ = int64_t{0};
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 GameClientAttack::_internal_target_id() const {
+  return target_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 GameClientAttack::target_id() const {
+  // @@protoc_insertion_point(field_get:protocol.GameClientAttack.target_id)
+  return _internal_target_id();
+}
+inline void GameClientAttack::_internal_set_target_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  target_id_ = value;
+}
+inline void GameClientAttack::set_target_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_target_id(value);
+  // @@protoc_insertion_point(field_set:protocol.GameClientAttack.target_id)
+}
 
 // -------------------------------------------------------------------
 

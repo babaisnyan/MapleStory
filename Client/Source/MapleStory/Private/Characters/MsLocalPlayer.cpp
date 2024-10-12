@@ -6,7 +6,9 @@
 #include "InputMappingContext.h"
 #include "MapleGameInstance.h"
 #include "PaperFlipbookComponent.h"
+#include "Actors/Monster.h"
 #include "Characters/PlayerCamera.h"
+#include "Components/MobStatComponent.h"
 #include "Components/PlayerStatComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
@@ -282,11 +284,10 @@ void AMsLocalPlayer::Attack(const FInputActionValue& Value) {
 		GetSprite()->SetFlipbook(AttackAnimation);
 		GetSprite()->Play();
 
+		GetWorldTimerManager().SetTimer(AttackTimerHandle, this, &AMsLocalPlayer::CheckHitMob, 0.5f, false);
+
 		bIsAttacking = true;
 		LastAttackTime = Now;
-
-		const auto Packet = FPacketCreator::GetAttackRequest();
-		SEND_PACKET(Packet);
 	}
 }
 
@@ -300,6 +301,32 @@ void AMsLocalPlayer::OnAttackFinished() {
 	}
 }
 
+void AMsLocalPlayer::CheckHitMob() {
+	FVector Start = GetActorLocation();
+	FVector End = Start + GetActorForwardVector() * (bFlip ? -1.0f : 1.0f) * 100.0f;
+	Start.Y = 1.0f;
+	End.Y = 1.0f;
+
+	FHitResult HitResult;
+	FCollisionObjectQueryParams QueryParams;
+	QueryParams.AddObjectTypesToQuery(ECC_GameTraceChannel1);
+
+	DrawDebugLine(GetWorld(), Start, End, FColor::Red, false, 1.0f);
+
+	if (GetWorld()->LineTraceSingleByObjectType(HitResult, Start, End, QueryParams)) {
+		const AMonster* Mob = Cast<AMonster>(HitResult.GetActor());
+		if (Mob && Mob->StatComponent->Hp > 0) {
+			const auto Packet = FPacketCreator::GetAttackRequest(Mob->ObjectId);
+			SEND_PACKET(Packet);
+
+			return;
+		}
+	}
+
+	const auto Packet = FPacketCreator::GetAttackRequest(0);
+	SEND_PACKET(Packet);
+}
+
 void AMsLocalPlayer::UpdateStatusBar() const {
 	if (!StatusBarHud) {
 		return;
@@ -307,6 +334,7 @@ void AMsLocalPlayer::UpdateStatusBar() const {
 
 	auto* GameMode = GetWorld()->GetAuthGameMode<AMapleGameMode>();
 	uint64_t Exp = 1;
+
 	if (GameMode) {
 		Exp = GameMode->GetExpForLevel(PlayerStat->Level);
 	}

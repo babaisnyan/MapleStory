@@ -47,8 +47,15 @@ int32_t CalcDamage::CalcMobMagicalDamage(const std::shared_ptr<MobStat>& mob_sta
   return damage;
 }
 
-int32_t CalcDamage::CalcPlayerPhysicalDamage(std::shared_ptr<PlayerStat> player_stat, std::shared_ptr<MobStat> mob_stat) {
-  return 0;
+int32_t CalcDamage::CalcPlayerPhysicalDamage(const std::shared_ptr<PlayerStat>& player_stat, const std::shared_ptr<MobStat>& mob_stat) {
+  const auto mob_pdd = max(mob_stat->GetLevel(), mob_stat->GetPhysicalDefense());
+  const auto player_pad = player_stat->GetPhysicalAttack() * 2;
+  const auto mob_defence = mob_pdd - max(0, mob_stat->GetLevel() - player_stat->GetLevel());
+  const auto low_damage = max(0, (player_pad - mob_pdd)) * 0.7;
+  const auto high_damage = max(0, (player_pad - mob_pdd)) * 1.3;
+  const auto calc = utils::random::RandDouble(low_damage, high_damage);
+
+  return static_cast<int32_t>(max(calc - mob_defence, 0));
 }
 
 int32_t CalcDamage::CalcPlayerMagicalDamage(std::shared_ptr<PlayerStat> player_stat, std::shared_ptr<MobStat> mob_stat) {

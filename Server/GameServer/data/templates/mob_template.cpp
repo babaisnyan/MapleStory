@@ -71,7 +71,6 @@ bool MobTemplate::CanBodyAttack() const {
 }
 
 bool MobTemplate::CanFirstAttack() const {
-  return true;
   return _first_attack;
 }
 

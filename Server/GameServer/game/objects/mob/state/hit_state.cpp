@@ -3,7 +3,9 @@
 
 #include "game/objects/mob/monster.h"
 
-void HitState::Enter(const std::shared_ptr<Monster>& mob) {}
+void HitState::Enter(const std::shared_ptr<Monster>& mob) {
+  mob->OnStatusUpdated();
+}
 
 void HitState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
   mob->AddAnimationTime(delta);

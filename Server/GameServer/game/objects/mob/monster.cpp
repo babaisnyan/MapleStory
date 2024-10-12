@@ -136,6 +136,30 @@ void Monster::OnStatusUpdated() {
   map->BroadCast(move, nullptr);
 }
 
+void Monster::OnDamaged(const std::shared_ptr<Player>& attacker, const int32_t damage) {
+  _mob_stat->SetHp(_mob_stat->GetHp() - damage);
+
+  if (_mob_stat->GetHp() <= 0) {
+    _mob_stat->SetHp(0);
+    _is_alive = false;
+
+    const auto map = _map.lock();
+
+    if (map) {
+      map->RemoveObject(_object_id);
+    }
+
+    const auto exp = _mob_template->GetExp();
+    attacker->AddExp(exp);
+  } else {
+    if (_mob_template->HasAction(protocol::MOB_ACTION_TYPE_ATTACK)) {
+      ChangeTarget(attacker);
+    }
+
+    ChangeState(protocol::MOB_ACTION_TYPE_HIT);
+  }
+}
+
 std::shared_ptr<Monster> Monster::GetSelf() {
   return std::static_pointer_cast<Monster>(shared_from_this());
 }
@@ -256,7 +280,7 @@ bool Monster::IsCollisionEnabled() const {
   return _is_collision_enabled;
 }
 
-void Monster::SetCollisionEnabled(const bool enabled) { // TODO: 패킷 보내기?
+void Monster::SetCollisionEnabled(const bool enabled) {
   _is_collision_enabled = enabled;
 }
 

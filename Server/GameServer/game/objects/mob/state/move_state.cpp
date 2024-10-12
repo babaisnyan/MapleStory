@@ -32,7 +32,7 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
     if (target) {
       mob->SetFlip(mob->GetX() > target->GetX());
       mob->SetTargetPosition(target->GetX(), mob->GetY());
-      std::cout << std::format("Monster {} set target position x: {}, y: {}\n", mob->GetId(), target->GetX(), mob->GetY());
+      // std::cout << std::format("Monster {} set target position x: {}, y: {}\n", mob->GetId(), target->GetX(), mob->GetY());
     }
   } else {
     // TODO: 캐릭터 타겟 탐색
@@ -84,7 +84,7 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
     }
 
     if (mob->HasTarget()) {
-      std::cout << std::format("Monster {} move to x: {}, y: {}, speed: {}\n", mob->GetId(), x, y, mob->GetSpeed());
+      // std::cout << std::format("Monster {} move to x: {}, y: {}, speed: {}\n", mob->GetId(), x, y, mob->GetSpeed());
     }
 
     if (std::abs(x - target_position->x) < 1.0f) {

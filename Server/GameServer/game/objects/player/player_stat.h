@@ -36,6 +36,8 @@ namespace game {
 
     double GetStatBase() const;
 
+    uint64_t GetMaxExp() const;
+
   private:
     /*Static Stats*/
     int32_t _mp = 0;

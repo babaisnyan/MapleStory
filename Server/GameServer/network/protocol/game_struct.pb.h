@@ -1279,8 +1279,9 @@ class MobInfo final :
     kYFieldNumber = 4,
     kStateFieldNumber = 5,
     kFlipFieldNumber = 6,
-    kTargetXFieldNumber = 7,
-    kTargetYFieldNumber = 8,
+    kHpFieldNumber = 7,
+    kTargetXFieldNumber = 8,
+    kTargetYFieldNumber = 9,
   };
   // int64 object_id = 1;
   void clear_object_id();
@@ -1336,7 +1337,16 @@ class MobInfo final :
   void _internal_set_flip(bool value);
   public:
 
-  // optional float target_x = 7;
+  // int32 hp = 7;
+  void clear_hp();
+  ::PROTOBUF_NAMESPACE_ID::int32 hp() const;
+  void set_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_hp() const;
+  void _internal_set_hp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // optional float target_x = 8;
   bool has_target_x() const;
   private:
   bool _internal_has_target_x() const;
@@ -1349,7 +1359,7 @@ class MobInfo final :
   void _internal_set_target_x(float value);
   public:
 
-  // optional float target_y = 8;
+  // optional float target_y = 9;
   bool has_target_y() const;
   private:
   bool _internal_has_target_y() const;
@@ -1377,6 +1387,7 @@ class MobInfo final :
   float y_;
   int state_;
   bool flip_;
+  ::PROTOBUF_NAMESPACE_ID::int32 hp_;
   float target_x_;
   float target_y_;
   friend struct ::TableStruct_game_5fstruct_2eproto;
@@ -2479,7 +2490,27 @@ inline void MobInfo::set_flip(bool value) {
   // @@protoc_insertion_point(field_set:protocol.MobInfo.flip)
 }
 
-// optional float target_x = 7;
+// int32 hp = 7;
+inline void MobInfo::clear_hp() {
+  hp_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 MobInfo::_internal_hp() const {
+  return hp_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 MobInfo::hp() const {
+  // @@protoc_insertion_point(field_get:protocol.MobInfo.hp)
+  return _internal_hp();
+}
+inline void MobInfo::_internal_set_hp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  hp_ = value;
+}
+inline void MobInfo::set_hp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_hp(value);
+  // @@protoc_insertion_point(field_set:protocol.MobInfo.hp)
+}
+
+// optional float target_x = 8;
 inline bool MobInfo::_internal_has_target_x() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -2507,7 +2538,7 @@ inline void MobInfo::set_target_x(float value) {
   // @@protoc_insertion_point(field_set:protocol.MobInfo.target_x)
 }
 
-// optional float target_y = 8;
+// optional float target_y = 9;
 inline bool MobInfo::_internal_has_target_y() const {
   bool value = (_has_bits_[0] & 0x00000002u) != 0;
   return value;

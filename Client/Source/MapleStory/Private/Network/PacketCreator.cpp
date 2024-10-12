@@ -102,8 +102,9 @@ FSendBufferRef FPacketCreator::GetReviveRequest() {
 	return SendBuffer;
 }
 
-FSendBufferRef FPacketCreator::GetAttackRequest() {
-	const GameClientAttack Packet;
+FSendBufferRef FPacketCreator::GetAttackRequest(const int64 MobId) {
+	GameClientAttack Packet;
+	Packet.set_target_id(MobId);
 	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
 	return SendBuffer;
 }

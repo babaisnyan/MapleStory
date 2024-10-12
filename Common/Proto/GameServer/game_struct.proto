@@ -65,6 +65,7 @@ message MobInfo {
   float y = 4;
   MobActionType state = 5;
   bool flip = 6;
-  optional float target_x = 7;
-  optional float target_y = 8;
+  int32 hp = 7;
+  optional float target_x = 8;
+  optional float target_y = 9;
 }

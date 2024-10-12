@@ -11,7 +11,7 @@ int16_t BasicStat::GetLevel() const {
 
 void BasicStat::SetLevel(const int16_t level) {
   _is_dirty = true;
-  _level = level;
+  _level = min(300, level);
 }
 
 int32_t BasicStat::GetExp() const {

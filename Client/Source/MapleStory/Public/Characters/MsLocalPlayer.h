@@ -45,6 +45,8 @@ protected:
 private:
 	UFUNCTION()
 	void OnAttackFinished();
+
+	void CheckHitMob();
 	
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
@@ -103,4 +105,5 @@ private:
 	bool bSentRevive = false;
 	bool bIsAttacking = false;
 	double LastAttackTime = 0.0;
+	FTimerHandle AttackTimerHandle;
 };

@@ -23,7 +23,6 @@ Player::Player(const int32_t player_id): GameObject(GetNextObjectId()),
 
 void Player::OnEnter() {
   _player_stat->UpdateStats();
-  // TODO: 기타 정보 보내주기
 }
 
 void Player::Update(float delta_time) {}
@@ -74,6 +73,10 @@ void Player::Revive() {
   _is_alive = true;
 }
 
+void Player::Attack() {
+  _last_attack_time = GetTickCount64();
+}
+
 int32_t Player::GetId() const {
   return _id;
 }
@@ -112,6 +115,31 @@ int32_t Player::GetMap() const {
 
 void Player::SetMap(const int32_t map) {
   _map = map;
+}
+
+bool Player::CanAttack() const {
+  return _is_alive && GetTickCount64() - _last_attack_time > 700;
+}
+
+void Player::AddExp(const int32_t exp) {
+  const auto need_exp = _player_stat->GetMaxExp();
+
+  protocol::GameServerUpdatePlayerStat update;
+  _player_stat->SetExp(_player_stat->GetExp() + exp);
+
+  if (_player_stat->GetExp() >= need_exp) {
+    _player_stat->SetLevel(_player_stat->GetLevel() + 1);
+    _player_stat->SetExp(_player_stat->GetExp() - need_exp);
+    update.set_level(_player_stat->GetLevel());
+  }
+
+  update.set_exp(_player_stat->GetExp());
+
+  const auto map = MapManager::GetInstance().GetMapInstance(_map);
+
+  if (map.has_value()) {
+    map.value()->Send(update, _id);
+  }
 }
 
 std::shared_ptr<PlayerStat> Player::GetStat() const {

@@ -1,6 +1,8 @@
 ﻿#include "pch.h"
 #include "map_instance.h"
 
+#include "game/calc_damage.h"
+#include "game/objects/mob/mob_stat.h"
 #include "game/objects/mob/monster.h"
 #include "game/objects/player/player.h"
 #include "game/objects/player/player_stat.h"
@@ -62,6 +64,18 @@ bool MapInstance::RemoveObject(const int64_t object_id) {
     }
 
     OnPlayerLeave(player);
+  } else if (type == GameObject::ObjectType::kMob) {
+    const auto mob = std::static_pointer_cast<Monster>(object->second);
+    const auto spawn = mob->GetSpawnPoint();
+
+    if (spawn) {
+      _mobs.erase(spawn);
+    }
+
+    const auto test = _objects.erase(object_id);
+    std::cout << test << std::endl;
+  } else {
+    _objects.erase(object_id);
   }
 
   return true;
@@ -138,6 +152,46 @@ void MapInstance::OnRevive(const std::shared_ptr<GameSession>& session, const st
   session->Send(GameClientPacketHandler::MakeSendBuffer(update_stat));
 }
 
+void MapInstance::OnAttack(const std::shared_ptr<GameSession>& session, const std::shared_ptr<Player>& player, const protocol::GameClientAttack& packet) {
+  if (!player->CanAttack()) {
+    return;
+  }
+
+  player->Attack();
+
+  protocol::GameServerAttack attack;
+  attack.set_object_id(player->GetObjectId());
+  BroadCast(attack, player->GetId());
+
+  if (packet.target_id() == 0) {
+    return;
+  }
+
+  const auto target = _objects[packet.target_id()];
+  const auto target_type = static_cast<GameObject::ObjectType>(packet.target_id() / GameObject::kObjectRange);
+
+  if (target == nullptr || target_type != GameObject::ObjectType::kMob) {
+    return;
+  }
+
+  const auto mob = std::static_pointer_cast<Monster>(target);
+  const auto& player_pos = player->GetPosition();
+  const auto& mob_pos = mob->GetPosition();
+
+  if (!player_pos.CheckTargetGridRange(mob_pos, 3, !player->IsFlipped())) {
+    return;
+  }
+
+  const auto damage = CalcDamage::GetInstance().CalcPlayerPhysicalDamage(player->GetStat(), mob->GetStat());
+  protocol::GameServerMobDamage damage_packet;
+  damage_packet.set_target_id(mob->GetObjectId());
+  damage_packet.set_damage(damage);
+  damage_packet.set_is_critical(false);
+  BroadCast(damage_packet, nullptr);
+
+  mob->OnDamaged(player, damage);
+}
+
 void MapInstance::NotifyPlayerDamage(const int32_t damage, const int64_t object_id) {
   protocol::GameServerPlayerDamage player_damage;
   player_damage.set_target_id(object_id);
@@ -159,12 +213,14 @@ void MapInstance::Update(const float delta) {
   RespawnMobs();
 
   for (const auto& object : _objects | std::ranges::views::values) {
-    object->Update(delta);
+    if (object->IsAlive()) {
+      object->Update(delta);
+    }
   }
 }
 
 void MapInstance::RespawnMobs() {
-  if (_last_respawn_tick + 5000 > GetTickCount64()) {
+  if (_last_respawn_tick + 15000 > GetTickCount64()) {
     return;
   }
 
@@ -186,6 +242,7 @@ void MapInstance::RespawnMobs() {
       entry->set_y(spawn->GetY());
       entry->set_state(protocol::MOB_ACTION_TYPE_STAND);
       entry->set_flip(mob->IsFlipped());
+      entry->set_hp(mob->GetStat()->GetHp());
 
       _mobs.emplace(spawn, mob);
       _objects.emplace(mob->GetObjectId(), mob);
@@ -271,6 +328,7 @@ void MapInstance::OnPlayerEnter(const std::shared_ptr<GameSession>& session) {
     entry->set_y(mob->GetY());
     entry->set_state(mob->GetCurrentState());
     entry->set_flip(mob->IsFlipped());
+    entry->set_hp(mob->GetStat()->GetHp());
 
     if (mob->HasTargetPosition()) {
       const auto target_position = mob->GetTargetPosition();

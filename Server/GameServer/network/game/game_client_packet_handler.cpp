@@ -102,7 +102,7 @@ namespace game {
       return false;
     }
 
-    std::cout << "Attack" << std::endl;
+    map.value()->DoAsync(&MapInstance::OnAttack, game_session, player, packet);
 
     return true;
   }

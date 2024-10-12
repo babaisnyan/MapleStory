@@ -18,6 +18,7 @@ namespace game {
     void OnDamage(int32_t damage, uint64_t time);
     void Kill();
     void Revive();
+    void Attack();
 
   public:
     int32_t GetId() const;
@@ -30,6 +31,8 @@ namespace game {
     void SetMeso(int32_t meso);
     int32_t GetMap() const;
     void SetMap(int32_t map);
+    bool CanAttack() const;
+    void AddExp(int32_t exp);
 
     std::shared_ptr<PlayerStat> GetStat() const;
     std::shared_ptr<KeyMap> GetKeyMap() const;
@@ -50,6 +53,7 @@ namespace game {
     int16_t _job = 0;
     int32_t _meso = 0;
     int32_t _map = 0;
+    uint64_t _last_attack_time = 0;
     std::shared_ptr<PlayerStat> _player_stat = nullptr;
     std::shared_ptr<KeyMap> _key_map = nullptr;
     std::shared_ptr<Inventory> _inventory = nullptr;

@@ -23,6 +23,7 @@ namespace game {
     void Update(float delta_time) override;
     void Attack(uint64_t time);
     void OnStatusUpdated();
+    void OnDamaged(const std::shared_ptr<Player>& attacker, int32_t damage);
 
     std::shared_ptr<Monster> GetSelf();
     uint32_t GetId() const;

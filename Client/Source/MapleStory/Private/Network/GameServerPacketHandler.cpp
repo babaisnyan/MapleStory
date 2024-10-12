@@ -1,6 +1,7 @@
 ﻿#include "Network/GameServerPacketHandler.h"
 
 #include "MapleGameInstance.h"
+#include "Actors/Monster.h"
 #include "Characters/MsLocalPlayer.h"
 #include "Characters/MsPlayerBase.h"
 #include "Components/PlayerStatComponent.h"
@@ -76,6 +77,12 @@ bool FGameServerPacketHandler::HandleGameServerPlayerDamage(const TObjectPtr<UTC
 }
 
 bool FGameServerPacketHandler::HandleGameServerMobDamage(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerMobDamage& Packet) {
+	if (const auto GameMode = GameInstance->GetWorld()->GetAuthGameMode<AMapleGameMode>()) {
+		if (GameMode->Monsters.Contains(Packet.target_id())) {
+			GameMode->Monsters[Packet.target_id()]->OnDamaged(Packet.damage());
+		}
+	}
+
 	return true;
 }
 
@@ -162,8 +169,54 @@ bool FGameServerPacketHandler::HandleGameServerTeleportPlayer(const TObjectPtr<U
 
 bool FGameServerPacketHandler::HandleGameServerUpdatePlayerStat(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerUpdatePlayerStat& Packet) {
 	if (GameInstance->CurrentPlayer) {
-		GameInstance->CurrentPlayer->PlayerStat->Hp = Packet.hp();
-		GameInstance->CurrentPlayer->PlayerStat->Mp = Packet.mp();
+		if (Packet.has_level()) {
+			GameInstance->CurrentPlayer->PlayerStat->Level = Packet.level();
+		}
+
+		if (Packet.has_exp()) {
+			GameInstance->CurrentPlayer->PlayerStat->Exp = Packet.exp();
+		}
+
+		if (Packet.has_hp()) {
+			GameInstance->CurrentPlayer->PlayerStat->Hp = Packet.hp();
+		}
+
+		if (Packet.has_mp()) {
+			GameInstance->CurrentPlayer->PlayerStat->Mp = Packet.mp();
+		}
+
+		if (Packet.has_max_hp()) {
+			GameInstance->CurrentPlayer->PlayerStat->MaxHp = Packet.max_hp();
+		}
+
+		if (Packet.has_max_mp()) {
+			GameInstance->CurrentPlayer->PlayerStat->MaxMp = Packet.max_mp();
+		}
+
+		if (Packet.has_str()) {
+			GameInstance->CurrentPlayer->PlayerStat->Str = Packet.str();
+		}
+
+		if (Packet.has_dex()) {
+			GameInstance->CurrentPlayer->PlayerStat->Dex = Packet.dex();
+		}
+
+		if (Packet.has_int_()) {
+			GameInstance->CurrentPlayer->PlayerStat->Int = Packet.int_();
+		}
+
+		if (Packet.has_luk()) {
+			GameInstance->CurrentPlayer->PlayerStat->Luk = Packet.luk();
+		}
+
+		if (Packet.has_ap()) {
+			GameInstance->CurrentPlayer->PlayerStat->Ap = Packet.ap();
+		}
+
+		if (Packet.has_sp()) {
+			GameInstance->CurrentPlayer->PlayerStat->Sp = Packet.sp();
+		}
+
 		GameInstance->CurrentPlayer->UpdateStatusBar();
 	}
 

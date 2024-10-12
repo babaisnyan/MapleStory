@@ -12,6 +12,14 @@ namespace game {
       return abs(grid_x - target.grid_x) <= range && abs(grid_y - target.grid_y) <= range;
     }
 
+    bool CheckTargetGridRange(const MsCoordinate& target, const int16_t range, const bool check_right) const {
+      if (check_right) {
+        return grid_x < target.grid_x && abs(grid_x - target.grid_x) <= range && abs(grid_y - target.grid_y) <= range;
+      }
+
+      return grid_x > target.grid_x && abs(grid_x - target.grid_x) <= range && abs(grid_y - target.grid_y) <= range;
+    }
+
     bool CheckInRange(const MsCoordinate& target, const float range_x, const float range_y) const {
       return abs(x - target.x) <= (range_x / 2) && abs(y - target.y) <= (range_y / 2);
     }

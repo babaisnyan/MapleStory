@@ -297,7 +297,8 @@ struct GameServerUpdatePlayerStatDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameServerUpdatePlayerStatDefaultTypeInternal _GameServerUpdatePlayerStat_default_instance_;
 constexpr GameClientAttack::GameClientAttack(
-  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized){}
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : target_id_(int64_t{0}){}
 struct GameClientAttackDefaultTypeInternal {
   constexpr GameClientAttackDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -511,6 +512,7 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fprotocol_2eproto::offse
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::protocol::GameClientAttack, target_id_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::protocol::GameServerAttack, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -540,7 +542,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 144, -1, sizeof(::protocol::GameServerTeleportPlayer)},
   { 152, 169, sizeof(::protocol::GameServerUpdatePlayerStat)},
   { 181, -1, sizeof(::protocol::GameClientAttack)},
-  { 186, -1, sizeof(::protocol::GameServerAttack)},
+  { 187, -1, sizeof(::protocol::GameServerAttack)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -615,9 +617,9 @@ const char descriptor_table_protodef_game_5fprotocol_2eproto[] PROTOBUF_SECTION_
   "\n \001(\005H\t\210\001\001\022\017\n\002ap\030\013 \001(\005H\n\210\001\001\022\017\n\002sp\030\014 \001(\005H"
   "\013\210\001\001B\010\n\006_levelB\006\n\004_expB\005\n\003_hpB\005\n\003_mpB\t\n\007"
   "_max_hpB\t\n\007_max_mpB\006\n\004_strB\006\n\004_dexB\006\n\004_l"
-  "ukB\006\n\004_intB\005\n\003_apB\005\n\003_sp\"\022\n\020GameClientAt"
-  "tack\"%\n\020GameServerAttack\022\021\n\tobject_id\030\001 "
-  "\001(\003b\006proto3"
+  "ukB\006\n\004_intB\005\n\003_apB\005\n\003_sp\"%\n\020GameClientAt"
+  "tack\022\021\n\ttarget_id\030\001 \001(\003\"%\n\020GameServerAtt"
+  "ack\022\021\n\tobject_id\030\001 \001(\003b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_game_5fprotocol_2eproto_deps[2] = {
   &::descriptor_table_game_5fenum_2eproto,
@@ -625,7 +627,7 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_5fprotocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fprotocol_2eproto = {
-  false, false, 1931, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
+  false, false, 1950, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
   &descriptor_table_game_5fprotocol_2eproto_once, descriptor_table_game_5fprotocol_2eproto_deps, 2, 22,
   schemas, file_default_instances, TableStruct_game_5fprotocol_2eproto::offsets,
   file_level_metadata_game_5fprotocol_2eproto, file_level_enum_descriptors_game_5fprotocol_2eproto, file_level_service_descriptors_game_5fprotocol_2eproto,
@@ -5576,10 +5578,12 @@ GameClientAttack::GameClientAttack(::PROTOBUF_NAMESPACE_ID::Arena* arena)
 GameClientAttack::GameClientAttack(const GameClientAttack& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  target_id_ = from.target_id_;
   // @@protoc_insertion_point(copy_constructor:protocol.GameClientAttack)
 }
 
 void GameClientAttack::SharedCtor() {
+target_id_ = int64_t{0};
 }
 
 GameClientAttack::~GameClientAttack() {
@@ -5608,6 +5612,7 @@ void GameClientAttack::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  target_id_ = int64_t{0};
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -5616,6 +5621,16 @@ const char* GameClientAttack::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPA
   while (!ctx->Done(&ptr)) {
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int64 target_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          target_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
         if ((tag == 0) || ((tag & 7) == 4)) {
           CHK_(ptr);
           ctx->SetLastTag(tag);
@@ -5626,6 +5641,8 @@ const char* GameClientAttack::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPA
             ptr, ctx);
         CHK_(ptr != nullptr);
         continue;
+      }
+    }  // switch
   }  // while
 success:
   return ptr;
@@ -5640,6 +5657,12 @@ failure:
   // @@protoc_insertion_point(serialize_to_array_start:protocol.GameClientAttack)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
+
+  // int64 target_id = 1;
+  if (this->target_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_target_id(), target);
+  }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
@@ -5656,6 +5679,13 @@ size_t GameClientAttack::ByteSizeLong() const {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
+
+  // int64 target_id = 1;
+  if (this->target_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_target_id());
+  }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
@@ -5688,6 +5718,9 @@ void GameClientAttack::MergeFrom(const GameClientAttack& from) {
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (from.target_id() != 0) {
+    _internal_set_target_id(from._internal_target_id());
+  }
 }
 
 void GameClientAttack::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
@@ -5711,6 +5744,7 @@ bool GameClientAttack::IsInitialized() const {
 void GameClientAttack::InternalSwap(GameClientAttack* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(target_id_, other->target_id_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GameClientAttack::GetMetadata() const {

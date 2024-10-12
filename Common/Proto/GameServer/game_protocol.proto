@@ -120,7 +120,7 @@ message GameServerUpdatePlayerStat {
 }
 
 message GameClientAttack {
-  
+  int64 target_id = 1;
 }
 
 message GameServerAttack {

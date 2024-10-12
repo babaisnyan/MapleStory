@@ -36,12 +36,12 @@ void PlayerDbQueue::HandleClientEnter(const PacketSessionRef& session, const pro
     const auto response = GamePacketCreator::GetClientEnterSuccessResponse(player);
     game_session->Send(response);
 
-    player->OnEnter(); // TODO: 뭔가 이상함
+    player->OnEnter();
 
     const auto map = MapManager::GetInstance().GetMapInstance(player->GetMap());
 
     if (!map.has_value()) {
-      // TODO: 접속 끊기
+      game_session->Disconnect(L"Invalid map");
       return;
     }
 
@@ -58,6 +58,4 @@ void PlayerDbQueue::SavePlayer(const PacketSessionRef& session) {
   if (!player->TrySaveToDb()) {
     // TODO: Log
   }
-
-
 }

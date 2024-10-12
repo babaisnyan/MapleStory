@@ -3,7 +3,6 @@
 
 #include "game/objects/player/player.h"
 
-
 void PlayerManager::AddPlayer(const std::shared_ptr<Player>& player) {
   Accessor accessor;
   if (_players.insert(accessor, player->GetId())) {
