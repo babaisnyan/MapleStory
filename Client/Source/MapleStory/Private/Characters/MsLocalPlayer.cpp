@@ -69,7 +69,6 @@ AMsLocalPlayer::AMsLocalPlayer() {
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
 	MovementComponent->bEnablePhysicsInteraction = false;
 	GetSprite()->TranslucencySortPriority = 1000001;
-	GetSprite()->OnFinishedPlaying.AddDynamic(this, &AMsLocalPlayer::OnAttackFinished);
 }
 
 void AMsLocalPlayer::BeginPlay() {
@@ -278,8 +277,6 @@ void AMsLocalPlayer::Attack(const FInputActionValue& Value) {
 	}
 
 	if (Value.Get<bool>()) {
-		UE_LOG(LogTemp, Warning, TEXT("Attack"));
-
 		GetSprite()->SetLooping(false);
 		GetSprite()->SetFlipbook(AttackAnimation);
 		GetSprite()->Play();
@@ -288,16 +285,6 @@ void AMsLocalPlayer::Attack(const FInputActionValue& Value) {
 
 		bIsAttacking = true;
 		LastAttackTime = Now;
-	}
-}
-
-void AMsLocalPlayer::OnAttackFinished() {
-	if (bIsAttacking) {
-		AnimationType = protocol::PLAYER_ANIMATION_IDLE;
-		GetSprite()->SetLooping(true);
-		GetSprite()->SetFlipbook(IdleAnimation);
-		GetSprite()->Play();
-		bIsAttacking = false;
 	}
 }
 

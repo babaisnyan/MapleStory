@@ -32,6 +32,7 @@ namespace game {
     void OnAttack(const std::shared_ptr<GameSession>& session, const std::shared_ptr<Player>& player, const protocol::GameClientAttack& packet);
     void NotifyPlayerDamage(int32_t damage, int64_t object_id);
     void NotifyPlayerDeath(int64_t object_id);
+    void NotifyPlayerLevelUp(int64_t object_id, int32_t level);
 
     std::optional<std::shared_ptr<GameSession>> GetPlayer(int64_t object_id) const;
     std::optional<std::shared_ptr<GameSession>> GetPlayer(int32_t player_id) const;

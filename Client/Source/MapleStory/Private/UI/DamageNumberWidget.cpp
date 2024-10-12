@@ -39,7 +39,7 @@ void UDamageNumberWidget::SetDamageNumberPlayer(const int32 Damage, const bool b
 	NumberContainer->ClearChildren();
 
 	if (Damage <= 0) {
-		AddMissImage(NumberManager->GetMobMiss());
+		AddMissImage(NumberManager->GetPlayerMiss());
 		return;
 	}
 

@@ -320,8 +320,33 @@ struct GameServerAttackDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameServerAttackDefaultTypeInternal _GameServerAttack_default_instance_;
+constexpr GameServerPlayerLevelUp::GameServerPlayerLevelUp(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : object_id_(int64_t{0})
+  , level_(0){}
+struct GameServerPlayerLevelUpDefaultTypeInternal {
+  constexpr GameServerPlayerLevelUpDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~GameServerPlayerLevelUpDefaultTypeInternal() {}
+  union {
+    GameServerPlayerLevelUp _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameServerPlayerLevelUpDefaultTypeInternal _GameServerPlayerLevelUp_default_instance_;
+constexpr GameServerAddExpMessage::GameServerAddExpMessage(
+  ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
+  : exp_(0){}
+struct GameServerAddExpMessageDefaultTypeInternal {
+  constexpr GameServerAddExpMessageDefaultTypeInternal()
+    : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
+  ~GameServerAddExpMessageDefaultTypeInternal() {}
+  union {
+    GameServerAddExpMessage _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameServerAddExpMessageDefaultTypeInternal _GameServerAddExpMessage_default_instance_;
 }  // namespace protocol
-static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_game_5fprotocol_2eproto[22];
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_game_5fprotocol_2eproto[24];
 static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum_descriptors_game_5fprotocol_2eproto = nullptr;
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_game_5fprotocol_2eproto = nullptr;
 
@@ -519,6 +544,19 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fprotocol_2eproto::offse
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   PROTOBUF_FIELD_OFFSET(::protocol::GameServerAttack, object_id_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::protocol::GameServerPlayerLevelUp, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::protocol::GameServerPlayerLevelUp, object_id_),
+  PROTOBUF_FIELD_OFFSET(::protocol::GameServerPlayerLevelUp, level_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::protocol::GameServerAddExpMessage, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  PROTOBUF_FIELD_OFFSET(::protocol::GameServerAddExpMessage, exp_),
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, sizeof(::protocol::GameClientEnter)},
@@ -543,6 +581,8 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOB
   { 152, 169, sizeof(::protocol::GameServerUpdatePlayerStat)},
   { 181, -1, sizeof(::protocol::GameClientAttack)},
   { 187, -1, sizeof(::protocol::GameServerAttack)},
+  { 193, -1, sizeof(::protocol::GameServerPlayerLevelUp)},
+  { 200, -1, sizeof(::protocol::GameServerAddExpMessage)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -568,6 +608,8 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_GameServerUpdatePlayerStat_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_GameClientAttack_default_instance_),
   reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_GameServerAttack_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_GameServerPlayerLevelUp_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::protocol::_GameServerAddExpMessage_default_instance_),
 };
 
 const char descriptor_table_protodef_game_5fprotocol_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
@@ -619,7 +661,10 @@ const char descriptor_table_protodef_game_5fprotocol_2eproto[] PROTOBUF_SECTION_
   "_max_hpB\t\n\007_max_mpB\006\n\004_strB\006\n\004_dexB\006\n\004_l"
   "ukB\006\n\004_intB\005\n\003_apB\005\n\003_sp\"%\n\020GameClientAt"
   "tack\022\021\n\ttarget_id\030\001 \001(\003\"%\n\020GameServerAtt"
-  "ack\022\021\n\tobject_id\030\001 \001(\003b\006proto3"
+  "ack\022\021\n\tobject_id\030\001 \001(\003\";\n\027GameServerPlay"
+  "erLevelUp\022\021\n\tobject_id\030\001 \001(\003\022\r\n\005level\030\002 "
+  "\001(\005\"&\n\027GameServerAddExpMessage\022\013\n\003exp\030\001 "
+  "\001(\005b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_game_5fprotocol_2eproto_deps[2] = {
   &::descriptor_table_game_5fenum_2eproto,
@@ -627,8 +672,8 @@ static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_5fprotocol_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fprotocol_2eproto = {
-  false, false, 1950, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
-  &descriptor_table_game_5fprotocol_2eproto_once, descriptor_table_game_5fprotocol_2eproto_deps, 2, 22,
+  false, false, 2051, descriptor_table_protodef_game_5fprotocol_2eproto, "game_protocol.proto", 
+  &descriptor_table_game_5fprotocol_2eproto_once, descriptor_table_game_5fprotocol_2eproto_deps, 2, 24,
   schemas, file_default_instances, TableStruct_game_5fprotocol_2eproto::offsets,
   file_level_metadata_game_5fprotocol_2eproto, file_level_enum_descriptors_game_5fprotocol_2eproto, file_level_service_descriptors_game_5fprotocol_2eproto,
 };
@@ -5943,6 +5988,421 @@ void GameServerAttack::InternalSwap(GameServerAttack* other) {
       file_level_metadata_game_5fprotocol_2eproto[21]);
 }
 
+// ===================================================================
+
+class GameServerPlayerLevelUp::_Internal {
+ public:
+};
+
+GameServerPlayerLevelUp::GameServerPlayerLevelUp(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:protocol.GameServerPlayerLevelUp)
+}
+GameServerPlayerLevelUp::GameServerPlayerLevelUp(const GameServerPlayerLevelUp& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&object_id_, &from.object_id_,
+    static_cast<size_t>(reinterpret_cast<char*>(&level_) -
+    reinterpret_cast<char*>(&object_id_)) + sizeof(level_));
+  // @@protoc_insertion_point(copy_constructor:protocol.GameServerPlayerLevelUp)
+}
+
+void GameServerPlayerLevelUp::SharedCtor() {
+::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
+    reinterpret_cast<char*>(&object_id_) - reinterpret_cast<char*>(this)),
+    0, static_cast<size_t>(reinterpret_cast<char*>(&level_) -
+    reinterpret_cast<char*>(&object_id_)) + sizeof(level_));
+}
+
+GameServerPlayerLevelUp::~GameServerPlayerLevelUp() {
+  // @@protoc_insertion_point(destructor:protocol.GameServerPlayerLevelUp)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void GameServerPlayerLevelUp::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void GameServerPlayerLevelUp::ArenaDtor(void* object) {
+  GameServerPlayerLevelUp* _this = reinterpret_cast< GameServerPlayerLevelUp* >(object);
+  (void)_this;
+}
+void GameServerPlayerLevelUp::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void GameServerPlayerLevelUp::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void GameServerPlayerLevelUp::Clear() {
+// @@protoc_insertion_point(message_clear_start:protocol.GameServerPlayerLevelUp)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&object_id_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&level_) -
+      reinterpret_cast<char*>(&object_id_)) + sizeof(level_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GameServerPlayerLevelUp::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int64 object_id = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          object_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      // int32 level = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
+          level_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GameServerPlayerLevelUp::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protocol.GameServerPlayerLevelUp)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int64 object_id = 1;
+  if (this->object_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt64ToArray(1, this->_internal_object_id(), target);
+  }
+
+  // int32 level = 2;
+  if (this->level() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_level(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:protocol.GameServerPlayerLevelUp)
+  return target;
+}
+
+size_t GameServerPlayerLevelUp::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:protocol.GameServerPlayerLevelUp)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int64 object_id = 1;
+  if (this->object_id() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int64Size(
+        this->_internal_object_id());
+  }
+
+  // int32 level = 2;
+  if (this->level() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_level());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GameServerPlayerLevelUp::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:protocol.GameServerPlayerLevelUp)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GameServerPlayerLevelUp* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GameServerPlayerLevelUp>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:protocol.GameServerPlayerLevelUp)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:protocol.GameServerPlayerLevelUp)
+    MergeFrom(*source);
+  }
+}
+
+void GameServerPlayerLevelUp::MergeFrom(const GameServerPlayerLevelUp& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:protocol.GameServerPlayerLevelUp)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.object_id() != 0) {
+    _internal_set_object_id(from._internal_object_id());
+  }
+  if (from.level() != 0) {
+    _internal_set_level(from._internal_level());
+  }
+}
+
+void GameServerPlayerLevelUp::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:protocol.GameServerPlayerLevelUp)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GameServerPlayerLevelUp::CopyFrom(const GameServerPlayerLevelUp& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:protocol.GameServerPlayerLevelUp)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GameServerPlayerLevelUp::IsInitialized() const {
+  return true;
+}
+
+void GameServerPlayerLevelUp::InternalSwap(GameServerPlayerLevelUp* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(GameServerPlayerLevelUp, level_)
+      + sizeof(GameServerPlayerLevelUp::level_)
+      - PROTOBUF_FIELD_OFFSET(GameServerPlayerLevelUp, object_id_)>(
+          reinterpret_cast<char*>(&object_id_),
+          reinterpret_cast<char*>(&other->object_id_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GameServerPlayerLevelUp::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_game_5fprotocol_2eproto_getter, &descriptor_table_game_5fprotocol_2eproto_once,
+      file_level_metadata_game_5fprotocol_2eproto[22]);
+}
+
+// ===================================================================
+
+class GameServerAddExpMessage::_Internal {
+ public:
+};
+
+GameServerAddExpMessage::GameServerAddExpMessage(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
+  SharedCtor();
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:protocol.GameServerAddExpMessage)
+}
+GameServerAddExpMessage::GameServerAddExpMessage(const GameServerAddExpMessage& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  exp_ = from.exp_;
+  // @@protoc_insertion_point(copy_constructor:protocol.GameServerAddExpMessage)
+}
+
+void GameServerAddExpMessage::SharedCtor() {
+exp_ = 0;
+}
+
+GameServerAddExpMessage::~GameServerAddExpMessage() {
+  // @@protoc_insertion_point(destructor:protocol.GameServerAddExpMessage)
+  SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+void GameServerAddExpMessage::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void GameServerAddExpMessage::ArenaDtor(void* object) {
+  GameServerAddExpMessage* _this = reinterpret_cast< GameServerAddExpMessage* >(object);
+  (void)_this;
+}
+void GameServerAddExpMessage::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
+void GameServerAddExpMessage::SetCachedSize(int size) const {
+  _cached_size_.Set(size);
+}
+
+void GameServerAddExpMessage::Clear() {
+// @@protoc_insertion_point(message_clear_start:protocol.GameServerAddExpMessage)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  exp_ = 0;
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* GameServerAddExpMessage::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // int32 exp = 1;
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          exp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
+      default: {
+      handle_unusual:
+        if ((tag == 0) || ((tag & 7) == 4)) {
+          CHK_(ptr);
+          ctx->SetLastTag(tag);
+          goto success;
+        }
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
+      }
+    }  // switch
+  }  // while
+success:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto success;
+#undef CHK_
+}
+
+::PROTOBUF_NAMESPACE_ID::uint8* GameServerAddExpMessage::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:protocol.GameServerAddExpMessage)
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // int32 exp = 1;
+  if (this->exp() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_exp(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:protocol.GameServerAddExpMessage)
+  return target;
+}
+
+size_t GameServerAddExpMessage::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:protocol.GameServerAddExpMessage)
+  size_t total_size = 0;
+
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // int32 exp = 1;
+  if (this->exp() != 0) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+        this->_internal_exp());
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+  SetCachedSize(cached_size);
+  return total_size;
+}
+
+void GameServerAddExpMessage::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_merge_from_start:protocol.GameServerAddExpMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  const GameServerAddExpMessage* source =
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<GameServerAddExpMessage>(
+          &from);
+  if (source == nullptr) {
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:protocol.GameServerAddExpMessage)
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
+  } else {
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:protocol.GameServerAddExpMessage)
+    MergeFrom(*source);
+  }
+}
+
+void GameServerAddExpMessage::MergeFrom(const GameServerAddExpMessage& from) {
+// @@protoc_insertion_point(class_specific_merge_from_start:protocol.GameServerAddExpMessage)
+  GOOGLE_DCHECK_NE(&from, this);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from.exp() != 0) {
+    _internal_set_exp(from._internal_exp());
+  }
+}
+
+void GameServerAddExpMessage::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
+// @@protoc_insertion_point(generalized_copy_from_start:protocol.GameServerAddExpMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+void GameServerAddExpMessage::CopyFrom(const GameServerAddExpMessage& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:protocol.GameServerAddExpMessage)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool GameServerAddExpMessage::IsInitialized() const {
+  return true;
+}
+
+void GameServerAddExpMessage::InternalSwap(GameServerAddExpMessage* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  swap(exp_, other->exp_);
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata GameServerAddExpMessage::GetMetadata() const {
+  return ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(
+      &descriptor_table_game_5fprotocol_2eproto_getter, &descriptor_table_game_5fprotocol_2eproto_once,
+      file_level_metadata_game_5fprotocol_2eproto[23]);
+}
+
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace protocol
 PROTOBUF_NAMESPACE_OPEN
@@ -6011,6 +6471,12 @@ template<> PROTOBUF_NOINLINE ::protocol::GameClientAttack* Arena::CreateMaybeMes
 }
 template<> PROTOBUF_NOINLINE ::protocol::GameServerAttack* Arena::CreateMaybeMessage< ::protocol::GameServerAttack >(Arena* arena) {
   return Arena::CreateMessageInternal< ::protocol::GameServerAttack >(arena);
+}
+template<> PROTOBUF_NOINLINE ::protocol::GameServerPlayerLevelUp* Arena::CreateMaybeMessage< ::protocol::GameServerPlayerLevelUp >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::protocol::GameServerPlayerLevelUp >(arena);
+}
+template<> PROTOBUF_NOINLINE ::protocol::GameServerAddExpMessage* Arena::CreateMaybeMessage< ::protocol::GameServerAddExpMessage >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::protocol::GameServerAddExpMessage >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

@@ -7,6 +7,8 @@
 #include "game/objects/player/player.h"
 #include "game/objects/player/player_stat.h"
 
+#include "utils/randomizer.h"
+
 MapInstance::MapInstance(const int32_t map_id, const std::pair<int32_t, int32_t> size, std::vector<GroundInfo> grounds, std::tuple<int32_t, int32_t, int32_t, int32_t> bounds) :
   _map_id(map_id),
   _size(size),
@@ -182,11 +184,17 @@ void MapInstance::OnAttack(const std::shared_ptr<GameSession>& session, const st
     return;
   }
 
-  const auto damage = CalcDamage::GetInstance().CalcPlayerPhysicalDamage(player->GetStat(), mob->GetStat());
+  auto damage = CalcDamage::GetInstance().CalcPlayerPhysicalDamage(player->GetStat(), mob->GetStat());
+  const auto is_critical = utils::random::IsSuccess(25);
+
+  if (is_critical) {
+    damage *= 2;
+  }
+
   protocol::GameServerMobDamage damage_packet;
   damage_packet.set_target_id(mob->GetObjectId());
   damage_packet.set_damage(damage);
-  damage_packet.set_is_critical(false);
+  damage_packet.set_is_critical(is_critical);
   BroadCast(damage_packet, nullptr);
 
   mob->OnDamaged(player, damage);
@@ -203,6 +211,13 @@ void MapInstance::NotifyPlayerDeath(const int64_t object_id) {
   protocol::GameServerPlayerDead player_dead;
   player_dead.set_object_id(object_id);
   BroadCast(player_dead, nullptr);
+}
+
+void MapInstance::NotifyPlayerLevelUp(const int64_t object_id, const int32_t level) {
+  protocol::GameServerPlayerLevelUp level_up;
+  level_up.set_object_id(object_id);
+  level_up.set_level(level);
+  BroadCast(level_up, nullptr);
 }
 
 void MapInstance::Update(const float delta) {

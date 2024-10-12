@@ -1,7 +1,9 @@
 #include "Characters/MsPlayerBase.h"
 
+#include "PaperFlipbookActor.h"
 #include "PaperFlipbookComponent.h"
 #include "Actors/DamageTextActor.h"
+#include "Actors/SelfDestroyFlipbookActor.h"
 #include "Components/CapsuleComponent.h"
 #include "Components/PlayerStatComponent.h"
 #include "Components/TextBlock.h"
@@ -86,6 +88,7 @@ AMsPlayerBase::AMsPlayerBase() {
 	GetSprite()->SetRelativeLocation(FVector(0.0f, 1.0f, 0.0f));
 	GetSprite()->SetFlipbook(IdleAnimation);
 	GetSprite()->TranslucencySortPriority = 1000000;
+	GetSprite()->OnFinishedPlaying.AddDynamic(this, &AMsPlayerBase::OnAttackFinished);
 
 	PlayerStat = CreateDefaultSubobject<UPlayerStatComponent>(TEXT("PlayerStat"));
 }
@@ -134,9 +137,12 @@ void AMsPlayerBase::Setup(const protocol::OtherPlayerInfo& Info) {
 
 void AMsPlayerBase::Move(const protocol::GameServerPlayerMove& MovePacket) {
 	bFlip = MovePacket.flip();
-	AnimationType = MovePacket.animation();
 	DestX = MovePacket.x();
 	DestY = MovePacket.y();
+
+	if (!bIsAttacking) {
+		AnimationType = MovePacket.animation();
+	}
 
 	if (!bFlip) {
 		GetSprite()->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
@@ -188,6 +194,26 @@ void AMsPlayerBase::OnChat(const FString& Text) {
 			GetWorldTimerManager().SetTimer(ChatBalloonTimer, this, &AMsPlayerBase::HideChatBalloon, 5.0f, false);
 		}
 	}
+}
+
+void AMsPlayerBase::OnAttack() {
+	GetSprite()->SetLooping(false);
+	GetSprite()->SetFlipbook(AttackAnimation);
+	GetSprite()->Play();
+
+	AnimationType = protocol::PLAYER_ANIMATION_ATTACK;
+	bIsAttacking = true;
+}
+
+void AMsPlayerBase::OnLevelUp() {
+	const TObjectPtr<UPaperFlipbook> LevelUpAnimation = LoadObject<UPaperFlipbook>(nullptr, TEXT("/Game/Characters/FB_LevelUp.FB_LevelUp"));
+	const FVector Location = GetActorLocation();
+	const FVector NewLocation = FVector(Location.X, Location.Y + 10, Location.Z + 15);
+	ASelfDestroyFlipbookActor* LevelUp = GetWorld()->SpawnActorDeferred<ASelfDestroyFlipbookActor>(ASelfDestroyFlipbookActor::StaticClass(), FTransform::Identity, this);
+	
+	LevelUp->GetRenderComponent()->SetFlipbook(LevelUpAnimation);
+	LevelUp->GetRenderComponent()->SetLooping(false);
+	LevelUp->FinishSpawning(FTransform(NewLocation));
 }
 
 void AMsPlayerBase::OnDamaged(const int32 Damage) {
@@ -272,5 +298,15 @@ void AMsPlayerBase::UpdateAnimation() const {
 		default:
 			GetSprite()->SetFlipbook(IdleAnimation);
 			break;
+	}
+}
+
+void AMsPlayerBase::OnAttackFinished() {
+	if (bIsAttacking) {
+		AnimationType = protocol::PLAYER_ANIMATION_IDLE;
+		GetSprite()->SetLooping(true);
+		GetSprite()->SetFlipbook(IdleAnimation);
+		GetSprite()->Play();
+		bIsAttacking = false;
 	}
 }

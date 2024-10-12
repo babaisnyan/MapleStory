@@ -48,7 +48,7 @@ struct TableStruct_game_5fprotocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[22]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[24]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -74,6 +74,9 @@ extern GameClientPlayerMoveDefaultTypeInternal _GameClientPlayerMove_default_ins
 class GameClientRevive;
 struct GameClientReviveDefaultTypeInternal;
 extern GameClientReviveDefaultTypeInternal _GameClientRevive_default_instance_;
+class GameServerAddExpMessage;
+struct GameServerAddExpMessageDefaultTypeInternal;
+extern GameServerAddExpMessageDefaultTypeInternal _GameServerAddExpMessage_default_instance_;
 class GameServerAddMonster;
 struct GameServerAddMonsterDefaultTypeInternal;
 extern GameServerAddMonsterDefaultTypeInternal _GameServerAddMonster_default_instance_;
@@ -107,6 +110,9 @@ extern GameServerPlayerDamageDefaultTypeInternal _GameServerPlayerDamage_default
 class GameServerPlayerDead;
 struct GameServerPlayerDeadDefaultTypeInternal;
 extern GameServerPlayerDeadDefaultTypeInternal _GameServerPlayerDead_default_instance_;
+class GameServerPlayerLevelUp;
+struct GameServerPlayerLevelUpDefaultTypeInternal;
+extern GameServerPlayerLevelUpDefaultTypeInternal _GameServerPlayerLevelUp_default_instance_;
 class GameServerPlayerMove;
 struct GameServerPlayerMoveDefaultTypeInternal;
 extern GameServerPlayerMoveDefaultTypeInternal _GameServerPlayerMove_default_instance_;
@@ -130,6 +136,7 @@ template<> ::protocol::GameClientChat* Arena::CreateMaybeMessage<::protocol::Gam
 template<> ::protocol::GameClientEnter* Arena::CreateMaybeMessage<::protocol::GameClientEnter>(Arena*);
 template<> ::protocol::GameClientPlayerMove* Arena::CreateMaybeMessage<::protocol::GameClientPlayerMove>(Arena*);
 template<> ::protocol::GameClientRevive* Arena::CreateMaybeMessage<::protocol::GameClientRevive>(Arena*);
+template<> ::protocol::GameServerAddExpMessage* Arena::CreateMaybeMessage<::protocol::GameServerAddExpMessage>(Arena*);
 template<> ::protocol::GameServerAddMonster* Arena::CreateMaybeMessage<::protocol::GameServerAddMonster>(Arena*);
 template<> ::protocol::GameServerAddPlayer* Arena::CreateMaybeMessage<::protocol::GameServerAddPlayer>(Arena*);
 template<> ::protocol::GameServerAttack* Arena::CreateMaybeMessage<::protocol::GameServerAttack>(Arena*);
@@ -141,6 +148,7 @@ template<> ::protocol::GameServerMobDamage* Arena::CreateMaybeMessage<::protocol
 template<> ::protocol::GameServerMobMove* Arena::CreateMaybeMessage<::protocol::GameServerMobMove>(Arena*);
 template<> ::protocol::GameServerPlayerDamage* Arena::CreateMaybeMessage<::protocol::GameServerPlayerDamage>(Arena*);
 template<> ::protocol::GameServerPlayerDead* Arena::CreateMaybeMessage<::protocol::GameServerPlayerDead>(Arena*);
+template<> ::protocol::GameServerPlayerLevelUp* Arena::CreateMaybeMessage<::protocol::GameServerPlayerLevelUp>(Arena*);
 template<> ::protocol::GameServerPlayerMove* Arena::CreateMaybeMessage<::protocol::GameServerPlayerMove>(Arena*);
 template<> ::protocol::GameServerRemoveObject* Arena::CreateMaybeMessage<::protocol::GameServerRemoveObject>(Arena*);
 template<> ::protocol::GameServerRevive* Arena::CreateMaybeMessage<::protocol::GameServerRevive>(Arena*);
@@ -3554,6 +3562,281 @@ class GameServerAttack final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fprotocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class GameServerPlayerLevelUp final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.GameServerPlayerLevelUp) */ {
+ public:
+  inline GameServerPlayerLevelUp() : GameServerPlayerLevelUp(nullptr) {}
+  ~GameServerPlayerLevelUp() override;
+  explicit constexpr GameServerPlayerLevelUp(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GameServerPlayerLevelUp(const GameServerPlayerLevelUp& from);
+  GameServerPlayerLevelUp(GameServerPlayerLevelUp&& from) noexcept
+    : GameServerPlayerLevelUp() {
+    *this = ::std::move(from);
+  }
+
+  inline GameServerPlayerLevelUp& operator=(const GameServerPlayerLevelUp& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GameServerPlayerLevelUp& operator=(GameServerPlayerLevelUp&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GameServerPlayerLevelUp& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GameServerPlayerLevelUp* internal_default_instance() {
+    return reinterpret_cast<const GameServerPlayerLevelUp*>(
+               &_GameServerPlayerLevelUp_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    22;
+
+  friend void swap(GameServerPlayerLevelUp& a, GameServerPlayerLevelUp& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GameServerPlayerLevelUp* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GameServerPlayerLevelUp* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GameServerPlayerLevelUp* New() const final {
+    return new GameServerPlayerLevelUp();
+  }
+
+  GameServerPlayerLevelUp* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GameServerPlayerLevelUp>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GameServerPlayerLevelUp& from);
+  void MergeFrom(const GameServerPlayerLevelUp& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GameServerPlayerLevelUp* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.GameServerPlayerLevelUp";
+  }
+  protected:
+  explicit GameServerPlayerLevelUp(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kObjectIdFieldNumber = 1,
+    kLevelFieldNumber = 2,
+  };
+  // int64 object_id = 1;
+  void clear_object_id();
+  ::PROTOBUF_NAMESPACE_ID::int64 object_id() const;
+  void set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int64 _internal_object_id() const;
+  void _internal_set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value);
+  public:
+
+  // int32 level = 2;
+  void clear_level();
+  ::PROTOBUF_NAMESPACE_ID::int32 level() const;
+  void set_level(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_level() const;
+  void _internal_set_level(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protocol.GameServerPlayerLevelUp)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int64 object_id_;
+  ::PROTOBUF_NAMESPACE_ID::int32 level_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_game_5fprotocol_2eproto;
+};
+// -------------------------------------------------------------------
+
+class GameServerAddExpMessage final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.GameServerAddExpMessage) */ {
+ public:
+  inline GameServerAddExpMessage() : GameServerAddExpMessage(nullptr) {}
+  ~GameServerAddExpMessage() override;
+  explicit constexpr GameServerAddExpMessage(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GameServerAddExpMessage(const GameServerAddExpMessage& from);
+  GameServerAddExpMessage(GameServerAddExpMessage&& from) noexcept
+    : GameServerAddExpMessage() {
+    *this = ::std::move(from);
+  }
+
+  inline GameServerAddExpMessage& operator=(const GameServerAddExpMessage& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GameServerAddExpMessage& operator=(GameServerAddExpMessage&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GameServerAddExpMessage& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GameServerAddExpMessage* internal_default_instance() {
+    return reinterpret_cast<const GameServerAddExpMessage*>(
+               &_GameServerAddExpMessage_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    23;
+
+  friend void swap(GameServerAddExpMessage& a, GameServerAddExpMessage& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GameServerAddExpMessage* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GameServerAddExpMessage* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GameServerAddExpMessage* New() const final {
+    return new GameServerAddExpMessage();
+  }
+
+  GameServerAddExpMessage* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GameServerAddExpMessage>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GameServerAddExpMessage& from);
+  void MergeFrom(const GameServerAddExpMessage& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GameServerAddExpMessage* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.GameServerAddExpMessage";
+  }
+  protected:
+  explicit GameServerAddExpMessage(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kExpFieldNumber = 1,
+  };
+  // int32 exp = 1;
+  void clear_exp();
+  ::PROTOBUF_NAMESPACE_ID::int32 exp() const;
+  void set_exp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_exp() const;
+  void _internal_set_exp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protocol.GameServerAddExpMessage)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 exp_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_game_5fprotocol_2eproto;
+};
 // ===================================================================
 
 
@@ -5127,9 +5410,81 @@ inline void GameServerAttack::set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value
   // @@protoc_insertion_point(field_set:protocol.GameServerAttack.object_id)
 }
 
+// -------------------------------------------------------------------
+
+// GameServerPlayerLevelUp
+
+// int64 object_id = 1;
+inline void GameServerPlayerLevelUp::clear_object_id() {
+  object_id_ = int64_t{0};
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 GameServerPlayerLevelUp::_internal_object_id() const {
+  return object_id_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int64 GameServerPlayerLevelUp::object_id() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerPlayerLevelUp.object_id)
+  return _internal_object_id();
+}
+inline void GameServerPlayerLevelUp::_internal_set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  
+  object_id_ = value;
+}
+inline void GameServerPlayerLevelUp::set_object_id(::PROTOBUF_NAMESPACE_ID::int64 value) {
+  _internal_set_object_id(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerPlayerLevelUp.object_id)
+}
+
+// int32 level = 2;
+inline void GameServerPlayerLevelUp::clear_level() {
+  level_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerPlayerLevelUp::_internal_level() const {
+  return level_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerPlayerLevelUp::level() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerPlayerLevelUp.level)
+  return _internal_level();
+}
+inline void GameServerPlayerLevelUp::_internal_set_level(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  level_ = value;
+}
+inline void GameServerPlayerLevelUp::set_level(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_level(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerPlayerLevelUp.level)
+}
+
+// -------------------------------------------------------------------
+
+// GameServerAddExpMessage
+
+// int32 exp = 1;
+inline void GameServerAddExpMessage::clear_exp() {
+  exp_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerAddExpMessage::_internal_exp() const {
+  return exp_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerAddExpMessage::exp() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerAddExpMessage.exp)
+  return _internal_exp();
+}
+inline void GameServerAddExpMessage::_internal_set_exp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  exp_ = value;
+}
+inline void GameServerAddExpMessage::set_exp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_exp(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerAddExpMessage.exp)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

@@ -35,7 +35,7 @@ public:
 
 	void SetCurrentAction(EMobActionType ActionType, bool bForce = false);
 	void Move(const protocol::GameServerMobMove& Packet);
-	void OnDamaged(int32 Damage);
+	void OnDamaged(int32 Damage, bool bCritical);
 
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 

@@ -43,9 +43,6 @@ protected:
 	void Attack(const FInputActionValue& Value);
 
 private:
-	UFUNCTION()
-	void OnAttackFinished();
-
 	void CheckHitMob();
 	
 public:
@@ -103,7 +100,5 @@ private:
 	bool bFirstSent = false;
 	protocol::PlayerAnimation LastAnimationType = protocol::PLAYER_ANIMATION_UNSPECIFIED;
 	bool bSentRevive = false;
-	bool bIsAttacking = false;
 	double LastAttackTime = 0.0;
-	FTimerHandle AttackTimerHandle;
 };

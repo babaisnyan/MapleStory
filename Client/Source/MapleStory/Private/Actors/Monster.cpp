@@ -210,11 +210,11 @@ void AMonster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChan
 	#endif
 }
 
-void AMonster::OnDamaged(const int32 Damage) {
+void AMonster::OnDamaged(const int32 Damage, bool bCritical) {
 	const FVector Location = GetActorLocation();
 	const FVector NewLocation = FVector(Location.X, Location.Y + 1, Location.Z + 20.0f);
 	ADamageTextActor* Text = GetWorld()->SpawnActorDeferred<ADamageTextActor>(ADamageTextActor::StaticClass(), FTransform(NewLocation), this);
-	Text->SetDamage(Damage, false, false);
+	Text->SetDamage(Damage, false, bCritical);
 	Text->FinishSpawning(FTransform(NewLocation));
 
 	StatComponent->Hp -= Damage;

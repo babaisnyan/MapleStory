@@ -33,6 +33,8 @@ public:
 	void Blink();
 	void HideChatBalloon();
 	void OnChat(const FString& Text);
+	void OnAttack();
+	void OnLevelUp();
 	virtual void OnDamaged(int32 Damage);
 	virtual void OnDead();
 	virtual void OnRevive();
@@ -41,7 +43,10 @@ protected:
 	virtual void Tick(float DeltaSeconds) override;
 	void UpdatePosition();
 	void UpdateAnimation() const;
-	
+
+	UFUNCTION()
+	void OnAttackFinished();
+
 private:
 	void InitAnimation();
 
@@ -57,15 +62,15 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
 	TObjectPtr<UPaperFlipbook> AttackAnimation;
-	
+
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Animation")
 	TObjectPtr<UPaperFlipbook> DeadAnimation;
-	
+
 	protocol::PlayerAnimation AnimationType = protocol::PlayerAnimation::PLAYER_ANIMATION_IDLE;
 
 	UPROPERTY()
 	uint64 ObjectId;
-	
+
 	UPROPERTY(EditDefaultsOnly, Category = "Avatar")
 	EAvatarType AvatarType;
 
@@ -93,7 +98,7 @@ protected:
 
 	UPROPERTY()
 	TObjectPtr<UDataTable> AvatarTable;
-	
+
 	bool bFlip = true;
 	int32 StartX;
 	int32 StartY;
@@ -111,4 +116,7 @@ protected:
 	FTimerHandle ChatBalloonTimer;
 
 	bool bIsDead = false;
+
+	bool bIsAttacking = false;
+	FTimerHandle AttackTimerHandle;
 };

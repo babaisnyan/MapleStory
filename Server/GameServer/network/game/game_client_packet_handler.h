@@ -28,6 +28,8 @@ namespace game {
     PKT_GAMESERVERUPDATEPLAYERSTAT = 3019,
     PKT_GAMECLIENTATTACK = 3020,
     PKT_GAMESERVERATTACK = 3021,
+    PKT_GAMESERVERPLAYERLEVELUP = 3022,
+    PKT_GAMESERVERADDEXPMESSAGE = 3023,
   };
 
   bool HandleGameInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
@@ -126,6 +128,12 @@ namespace game {
     }
     static SendBufferRef MakeSendBuffer(const protocol::GameServerAttack& packet) { 
       return MakeSendBufferInternal(packet, PKT_GAMESERVERATTACK); 
+    }
+    static SendBufferRef MakeSendBuffer(const protocol::GameServerPlayerLevelUp& packet) { 
+      return MakeSendBufferInternal(packet, PKT_GAMESERVERPLAYERLEVELUP); 
+    }
+    static SendBufferRef MakeSendBuffer(const protocol::GameServerAddExpMessage& packet) { 
+      return MakeSendBufferInternal(packet, PKT_GAMESERVERADDEXPMESSAGE); 
     }
 
   private:

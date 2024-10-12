@@ -122,15 +122,41 @@ bool Player::CanAttack() const {
 }
 
 void Player::AddExp(const int32_t exp) {
+  if (_player_stat->GetLevel() == 300) {
+    return;
+  }
+
+  protocol::GameServerAddExpMessage message;
+  message.set_exp(exp);
+
   const auto need_exp = _player_stat->GetMaxExp();
+  bool level_up = false;
 
   protocol::GameServerUpdatePlayerStat update;
   _player_stat->SetExp(_player_stat->GetExp() + exp);
 
   if (_player_stat->GetExp() >= need_exp) {
+    level_up = true;
     _player_stat->SetLevel(_player_stat->GetLevel() + 1);
     _player_stat->SetExp(_player_stat->GetExp() - need_exp);
+    _player_stat->SetStr(_player_stat->GetStr() + 5);
+    _player_stat->SetDex(_player_stat->GetDex() + 5);
+    _player_stat->SetLuk(_player_stat->GetLuk() + 5);
+    _player_stat->SetInt(_player_stat->GetInt() + 5);
+    _player_stat->SetMaxHp(_player_stat->GetMaxHp() + 50);
+    _player_stat->SetMaxMp(_player_stat->GetMaxMp() + 50);
+
+    if (_player_stat->GetLevel() == 300) {
+      _player_stat->SetExp(0);
+    }
+
     update.set_level(_player_stat->GetLevel());
+    update.set_max_hp(_player_stat->GetMaxHp());
+    update.set_max_mp(_player_stat->GetMaxMp());
+    update.set_str(_player_stat->GetStr());
+    update.set_dex(_player_stat->GetDex());
+    update.set_luk(_player_stat->GetLuk());
+    update.set_int_(_player_stat->GetInt());
   }
 
   update.set_exp(_player_stat->GetExp());
@@ -139,6 +165,11 @@ void Player::AddExp(const int32_t exp) {
 
   if (map.has_value()) {
     map.value()->Send(update, _id);
+    map.value()->Send(message, _id);
+
+    if (level_up) {
+      map.value()->NotifyPlayerLevelUp(_object_id, _player_stat->GetLevel());
+    }
   }
 }
 
