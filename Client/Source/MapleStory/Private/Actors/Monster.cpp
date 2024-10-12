@@ -1,6 +1,5 @@
 #include "Actors/Monster.h"
 
-#include "PoolManagerSubsystem.h"
 #include "Actors/DamageTextActor.h"
 #include "Characters/MsLocalPlayer.h"
 #include "Components/BoxComponent.h"
@@ -12,6 +11,7 @@
 #include "GameModes/MapleGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/MobManager.h"
+#include "UI/MobHpBar.h"
 #include "UI/MobNameTag.h"
 
 class AMapleGameMode;
@@ -47,6 +47,22 @@ AMonster::AMonster() {
 		NameTag->TranslucencySortPriority = 100;
 	}
 
+	static ConstructorHelpers::FClassFinder<UMobHpBar> HpBarFinder(TEXT("/Game/UI/Common/WBP_MobHpBar.WBP_MobHpBar_C"));
+	if (HpBarFinder.Succeeded()) {
+		HpBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("HpBar"));
+		HpBar->SetWidgetClass(HpBarFinder.Class);
+		HpBar->SetWidgetSpace(EWidgetSpace::Screen);
+		HpBar->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
+		HpBar->SetCollisionProfileName(TEXT("NoCollision"));
+		HpBar->SetGenerateOverlapEvents(false);
+		HpBar->SetSimulatePhysics(false);
+		HpBar->CanCharacterStepUpOn = ECB_No;
+		HpBar->SetBlendMode(EWidgetBlendMode::Transparent);
+		HpBar->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		HpBar->SetDrawAtDesiredSize(true);
+		HpBar->TranslucencySortPriority = 101;
+	}
+
 	StatComponent = CreateDefaultSubobject<UMobStatComponent>(TEXT("StatComponent"));
 
 	static int32 Z = 0;
@@ -78,7 +94,7 @@ bool AMonster::Init(const protocol::MobInfo& MonsterInfo, const float Y) {
 		return false;
 	}
 
-	this->Template = MobTemplate; 
+	this->Template = MobTemplate;
 	Setup(MobTemplate);
 
 	check(MobTemplate->HasStand);
@@ -106,6 +122,10 @@ bool AMonster::Init(const protocol::MobInfo& MonsterInfo, const float Y) {
 
 	NameTag->AttachToComponent(SpriteComponents[EMobActionType::Stand], FAttachmentTransformRules::KeepRelativeTransform);
 	NameTag->SetRelativeLocation({0.0f, 0.0f, -55.5f});
+	HpBar->AttachToComponent(SpriteComponents[EMobActionType::Stand], FAttachmentTransformRules::KeepRelativeTransform);
+	HpBar->SetRelativeLocation({0.0f, 0.0f, 55.5f});
+	StatComponent->Hp = MonsterInfo.hp();
+
 	return true;
 }
 
@@ -126,6 +146,7 @@ void AMonster::SetCurrentAction(const EMobActionType ActionType, const bool bFor
 		}
 	}
 
+	LastAction = CurrentAction;
 	CurrentAction = ActionType;
 
 	if (SpriteComponents.Contains(CurrentAction)) {
@@ -139,17 +160,21 @@ void AMonster::SetCurrentAction(const EMobActionType ActionType, const bool bFor
 void AMonster::Move(const protocol::GameServerMobMove& Packet) {
 	bFlip = Packet.flip();
 
-	if (Packet.has_target_id()) {
-		const auto GameMode = GetWorld()->GetAuthGameMode<AMapleGameMode>();
-		check(GameMode);
-		check(GameMode->Players.Contains(Packet.target_id()));
+	if (Packet.state() != protocol::MOB_ACTION_TYPE_HIT) {
+		if (Packet.has_target_id()) {
+			const auto GameMode = GetWorld()->GetAuthGameMode<AMapleGameMode>();
+			check(GameMode);
+			check(GameMode->Players.Contains(Packet.target_id()));
 
-		AgroPlayer = GameMode->Players[Packet.target_id()];
-		DestX = AgroPlayer->GetActorLocation().X - BaseX;
-	} else if (Packet.has_target_x()) {
-		DestX = Packet.target_x();
-		SetActorLocation(FVector(Packet.x() + BaseX, 0.0f, DestY));
-		AgroPlayer = nullptr;
+			AgroPlayer = GameMode->Players[Packet.target_id()];
+			DestX = AgroPlayer->GetActorLocation().X - BaseX;
+		} else if (Packet.has_target_x()) {
+			DestX = Packet.target_x();
+			SetActorLocation(FVector(Packet.x() + BaseX, 0.0f, DestY));
+			AgroPlayer = nullptr;
+		} else {
+			AgroPlayer = nullptr;
+		}
 	} else {
 		AgroPlayer = nullptr;
 	}
@@ -157,9 +182,11 @@ void AMonster::Move(const protocol::GameServerMobMove& Packet) {
 	if (!bFlip) {
 		SetActorRotation(FRotator(0.0f, 180.0f, 0.0f));
 		NameTag->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
+		HpBar->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 	} else {
 		SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
 		NameTag->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
+		HpBar->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
 	}
 
 	if (static_cast<EMobActionType>(Packet.state()) == EMobActionType::Attack) {
@@ -183,6 +210,29 @@ void AMonster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChan
 	#endif
 }
 
+void AMonster::OnDamaged(const int32 Damage) {
+	const FVector Location = GetActorLocation();
+	const FVector NewLocation = FVector(Location.X, Location.Y + 1, Location.Z + 20.0f);
+	ADamageTextActor* Text = GetWorld()->SpawnActorDeferred<ADamageTextActor>(ADamageTextActor::StaticClass(), FTransform(NewLocation), this);
+	Text->SetDamage(Damage, false, false);
+	Text->FinishSpawning(FTransform(NewLocation));
+
+	StatComponent->Hp -= Damage;
+
+	if (Damage > 0 && StatComponent->Hp > 0) {
+		SetCurrentAction(EMobActionType::Hit, true);
+	} else {
+		SetCurrentAction(EMobActionType::Die, true);
+	}
+
+	if (HpBar) {
+		if (const auto Widget = Cast<UMobHpBar>(HpBar->GetUserWidgetObject())) {
+			Widget->CurrentHp = FMath::Max(0, StatComponent->Hp);
+			Widget->UpdateHpBar();
+		}
+	}
+}
+
 void AMonster::BeginPlay() {
 	Super::BeginPlay();
 
@@ -197,9 +247,11 @@ void AMonster::BeginPlay() {
 	if (!bFlip) {
 		SetActorRotation({0, 180.0f, 0.0f});
 		NameTag->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
+		HpBar->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 	} else {
 		SetActorRotation({0, 0, 0});
 		NameTag->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
+		HpBar->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
 	}
 
 	check(SpriteComponents.Contains(CurrentAction));
@@ -215,6 +267,17 @@ void AMonster::BeginPlay() {
 	NameTag->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
 	NameTag->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 	NameTag->SetRelativeLocation({0.0f, 0.0f, NameTagDelta});
+
+	HpBar->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
+	HpBar->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
+
+	const auto Bar = Cast<UMobHpBar>(HpBar->GetUserWidgetObject());
+
+	if (Bar) {
+		Bar->MaxHp = StatComponent->MaxHp;
+		Bar->CurrentHp = StatComponent->Hp;
+		Bar->UpdateHpBar();
+	}
 }
 
 
@@ -235,21 +298,29 @@ void AMonster::Tick(const float DeltaTime) {
 
 		if (GetWorld()->LineTraceSingleByObjectType(HitResult, DestLocation, EndLocation, ObjectQueryParams)) {
 			AddActorWorldOffset({StatComponent->Speed * DeltaTime * (bFlip ? -1.0f : 1.0f), 0.0f, 0.0f});
-
-			// if (AgroPlayer) {
-			// 	UE_LOG(LogTemp, Warning, TEXT("Monster_%d_%lld Moved to %f, %f"), MobId, ObjectId, GetActorLocation().X - BaseX, GetActorLocation().Z - BaseY);
-			// }
 		} else {
 			UE_LOG(LogTemp, Warning, TEXT("Monster_%d_%lld can't find the ground"), MobId, ObjectId);
+		}
+	}
+
+	if (HpBar && HpBar->GetDrawSize().X == 500) {
+		if (const auto Widget = Cast<UMobHpBar>(HpBar->GetUserWidgetObject())) {
+			const auto Size = Widget->GetDesiredSize();
+
+			if (Size.X > 0 && Size.Y > 0) {
+				HpBar->SetDrawSize(Size);
+			}
 		}
 	}
 
 	if (!bFlip) {
 		SetActorRotation(FRotator(0.0f, 180.0f, 0.0f));
 		NameTag->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
+		HpBar->SetRelativeRotation(FRotator(0.0f, -90.0f, 0.0f));
 	} else {
 		SetActorRotation(FRotator(0.0f, 0.0f, 0.0f));
 		NameTag->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
+		HpBar->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
 	}
 
 	if (StatComponent->Hp <= 0) {
@@ -262,6 +333,7 @@ void AMonster::Setup(const FMobTemplate* MobTemplate) {
 	Level = MobTemplate->Level;
 	StatComponent->Level = MobTemplate->Level;
 	StatComponent->Hp = MobTemplate->MaxHp;
+	StatComponent->MaxHp = MobTemplate->MaxHp;
 	BodyAttack = MobTemplate->BodyAttack;
 	FirstAttack = MobTemplate->FirstAttack;
 	StatComponent->Speed = (1.0f + static_cast<float>(MobTemplate->Speed) / 100.0f) * 70.0f;
@@ -307,12 +379,14 @@ void AMonster::OnFinishedPlaying(UMsSpriteComponent* SpriteComponent) {
 		return;
 	}
 
-	// TODO: 몹 ai 적용
+	// log last action and current action. print enum name
+	UE_LOG(LogTemp, Warning, TEXT("Monster_%d_%lld Finished playing %s"), MobId, ObjectId, *UEnum::GetValueAsString(CurrentAction));
+
 	switch (CurrentAction) {
 		case EMobActionType::Hit:
 		case EMobActionType::Regen:
 		case EMobActionType::Attack:
-			SetCurrentAction(EMobActionType::Stand);
+			SetCurrentAction(EMobActionType::Stand, true);
 			break;
 		case EMobActionType::Die:
 			Destroy();

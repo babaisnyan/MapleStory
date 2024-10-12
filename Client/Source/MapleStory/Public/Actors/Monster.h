@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Monster.generated.h"
 
+class UMobHpBar;
 class AMsPlayerBase;
 class UWidgetComponent;
 class UNavMovementComponent;
@@ -34,6 +35,7 @@ public:
 
 	void SetCurrentAction(EMobActionType ActionType, bool bForce = false);
 	void Move(const protocol::GameServerMobMove& Packet);
+	void OnDamaged(int32 Damage);
 
 	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 
@@ -67,6 +69,9 @@ public:
 	TObjectPtr<UWidgetComponent> NameTag;
 
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
+	TObjectPtr<UWidgetComponent> HpBar;
+
+	UPROPERTY(VisibleAnywhere, Category = "Mob")
 	TObjectPtr<UMobStatComponent> StatComponent;
 
 	UPROPERTY(VisibleAnywhere, Category = "Mob")
@@ -98,6 +103,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = "Mob")
 	EMobActionType CurrentAction = EMobActionType::None;
+
+	UPROPERTY(EditAnywhere, Category = "Mob")
+	EMobActionType LastAction = EMobActionType::None;
 
 	UPROPERTY(EditAnywhere, Category = "Mob")
 	bool bCanDamaged = true;
