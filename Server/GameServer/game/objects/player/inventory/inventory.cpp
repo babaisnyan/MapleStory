@@ -1,12 +1,24 @@
 ﻿#include "pch.h"
 #include "inventory.h"
 
+#include "data/item_provider.h"
+
 #include "database/db_bind.h"
 #include "database/db_connection_pool.h"
 
 #include "game/objects/player/item.h"
 
+#include <pugixml.hpp>
+
+Inventory::Inventory() {
+  _removed_items.reserve(15);
+}
+
 bool Inventory::AddItem(const InventoryType type, int32_t pos, const std::shared_ptr<Item>& item) {
+  if (pos < 0 || pos >= kMaxSlot) {
+    return false;
+  }
+
   std::unique_lock lock(_items_mutex[type]);
   return _items[type].emplace(pos, item).second;
 }
@@ -35,7 +47,7 @@ bool Inventory::AddItem(const InventoryType type, const std::shared_ptr<ItemTemp
 
   const auto max_count = item_template->GetSlotMax();
 
-  for (auto& [_, inventory_item] : _items[type]) {
+  for (const auto& inventory_item : _items[type] | std::views::values) {
     if (quantity == 0) {
       return true;
     }
@@ -74,6 +86,10 @@ bool Inventory::AddItem(const InventoryType type, const std::shared_ptr<ItemTemp
 }
 
 std::optional<std::shared_ptr<Item>> Inventory::GetItem(const InventoryType type, const int32_t pos) const {
+  if (pos < 0 || pos >= kMaxSlot) {
+    return std::nullopt;
+  }
+
   std::shared_lock lock(_items_mutex[type]);
   const auto it = _items[type].find(pos);
 
@@ -85,6 +101,10 @@ std::optional<std::shared_ptr<Item>> Inventory::GetItem(const InventoryType type
 }
 
 void Inventory::SwapItem(const InventoryType type, const int32_t src, const int32_t dst) {
+  if (src < 0 || src >= kMaxSlot || dst < 0 || dst >= kMaxSlot) {
+    return;
+  }
+
   std::unique_lock lock(_items_mutex[type]);
 
   const auto src_it = _items[type].find(src);
@@ -98,16 +118,57 @@ void Inventory::SwapItem(const InventoryType type, const int32_t src, const int3
 }
 
 bool Inventory::RemoveItem(const InventoryType type, const int32_t pos) {
+  if (pos < 0 || pos >= kMaxSlot) {
+    return false;
+  }
+
   std::unique_lock lock(_items_mutex[type]);
-  return _items[type].erase(pos);
+
+  if (_items[type].erase(pos)) {
+    std::shared_lock remove_lock(_removed_items_mutex);
+
+    _removed_items.emplace_back(type, pos);
+    return true;
+  }
+
+  return false;
 }
 
-std::vector<std::shared_ptr<Item>> Inventory::GetAllItems(const InventoryType type) const {
-  std::shared_lock lock(_items_mutex[type]);
-  std::vector<std::shared_ptr<Item>> items;
+bool Inventory::RemoveItem(const InventoryType type, const int32_t pos, const int32_t quantity) {
+  if (quantity <= 0) {
+    return false;
+  }
 
-  for (const auto& [_, item] : _items[type]) {
-    items.push_back(item);
+  std::unique_lock lock(_items_mutex[type]);
+  const auto it = _items[type].find(pos);
+
+  if (it == _items[type].end()) {
+    return false;
+  }
+
+  const auto current_count = it->second->GetQuantity();
+
+  if (current_count <= quantity) {
+    if (_items[type].erase(pos)) {
+      std::shared_lock remove_lock(_removed_items_mutex);
+
+      _removed_items.emplace_back(type, pos);
+      return true;
+    }
+
+    return false;
+  }
+
+  it->second->SetQuantity(current_count - quantity);
+  return true;
+}
+
+std::map<int32_t, std::shared_ptr<Item>> Inventory::GetAllItems(const InventoryType type) const {
+  std::shared_lock lock(_items_mutex[type]);
+  std::map<int32_t, std::shared_ptr<Item>> items;
+
+  for (const auto& item : _items[type]) {
+    items.emplace(item.first, item.second);
   }
 
   return items;
@@ -120,7 +181,7 @@ bool Inventory::CanHold(const InventoryType type, const uint32_t id, int32_t qua
     return _items[type].size() + quantity <= kMaxSlot;
   }
 
-  for (const auto& [_, inventory_item] : _items[type]) {
+  for (const auto& inventory_item : _items[type] | std::views::values) {
     if (inventory_item->GetId() != id) {
       continue;
     }
@@ -139,24 +200,37 @@ bool Inventory::CanHold(const InventoryType type, const uint32_t id, int32_t qua
 
 bool Inventory::TryLoadFromDb(int32_t player_id) {
   bool success = true;
+  std::unique_lock equip_lock(_items_mutex[kEquip]);
+  std::unique_lock use_lock(_items_mutex[kUse]);
+  std::unique_lock etc_lock(_items_mutex[kEtc]);
+  std::unique_lock equipped_lock(_items_mutex[kEquipped]);
+  std::unique_lock remove_lock(_removed_items_mutex);
+
+  _removed_items.clear();
+
+  for (auto& items : _items) {
+    items.clear();
+  }
 
   if (const auto connection = DbConnectionPool::GetInstance().GetConnection()) {
-    DbBind<1, 3> bind(*connection, L"{CALL dbo.spLoadInventory(?)}");
+    DbBind<1, 4> bind(*connection, L"{CALL dbo.spLoadInventory(?)}");
     bind.BindParam(0, player_id);
 
     int32_t item_id = 0;
     bind.BindCol(0, item_id);
+    int32_t type = 0;
+    bind.BindCol(1, type);
     int32_t index = 0;
-    bind.BindCol(1, index);
+    bind.BindCol(2, index);
     int32_t quantity = 0;
-    bind.BindCol(2, quantity);
+    bind.BindCol(3, quantity);
 
     if (bind.Execute()) {
       do {
         int16_t count;
         bind.GetResultColumnCount(&count);
 
-        if (count != 3) {
+        if (count != 4) {
           success = false;
           break;
         }
@@ -166,25 +240,19 @@ bool Inventory::TryLoadFromDb(int32_t player_id) {
             continue;
           }
 
-          const auto temp = item_id / 1000000;
-          auto item_type = ItemType::kEquip;
+          const auto item_template = ItemProvider::GetInstance().GetItem(static_cast<uint32_t>(item_id));
 
-          switch (temp) {
-            case 1:
-              item_type = ItemType::kEquip;
-              break;
-            case 2:
-              item_type = ItemType::kUse;
-              break;
-            case 4:
-              item_type = ItemType::kEtc;
-              break;
-            default:
-              CRASH(L"Invalid item type.");
-              return false;
+          if (!item_template.has_value()) {
+            success = false;
+            break;
           }
 
-          // TODO: 아이템 추가
+          const auto item = std::make_shared<Item>(*item_template, quantity);
+
+          if (!_items[type].emplace(index, item).second) {
+            success = false;
+            break;
+          }
         }
       } while (bind.GetMoreResult() != SQL_NO_DATA);
     }
@@ -196,5 +264,74 @@ bool Inventory::TryLoadFromDb(int32_t player_id) {
 }
 
 bool Inventory::TrySaveToDb(int32_t player_id) {
-  return true;
+  const auto xml = SerializeToXml();
+
+  bool success = false;
+
+  if (const auto connection = DbConnectionPool::GetInstance().GetConnection()) {
+    DbBind<2, 1> bind(*connection, L"{CALL dbo.spSaveItemsXml(?, ?)}");
+
+    bind.BindParam(0, player_id);
+    bind.BindParam(1, xml);
+
+    int temp = 0;
+    bind.BindCol(0, temp);
+
+    if (bind.Execute()) {
+      do {
+        int16_t count;
+        bind.GetResultColumnCount(&count);
+
+        if (count == 0) {
+          break;
+        }
+
+        while (bind.Fetch()) {
+          success = true;
+        }
+      } while (bind.GetMoreResult() != SQL_NO_DATA);
+    }
+
+    DbConnectionPool::GetInstance().ReleaseConnection(connection);
+  }
+
+  return success;
+}
+
+std::wstring Inventory::SerializeToXml() {
+  pugi::xml_document doc;
+  auto root = doc.append_child("ms");
+  auto children = root.append_child("items");
+  auto removed = root.append_child("removed");
+
+  std::shared_lock remove_lock(_removed_items_mutex);
+
+  for (const auto& [type, pos] : _removed_items) {
+    auto child = removed.append_child("item");
+    child.append_attribute("type").set_value(type);
+    child.append_attribute("pos").set_value(pos);
+  }
+
+  _removed_items.clear();
+
+  for (int i = 0; i < kEnd; i++) {
+    std::shared_lock lock(_items_mutex[i]);
+
+    if (_items[i].empty()) {
+      continue;
+    }
+
+    for (const auto& [key, entry] : _items[i]) {
+      auto child = children.append_child("item");
+      child.append_attribute("type").set_value(i);
+      child.append_attribute("pos").set_value(key);
+      child.append_attribute("id").set_value(entry->GetId());
+      child.append_attribute("quantity").set_value(entry->GetQuantity());
+    }
+  }
+
+  std::wstringstream stream;
+  doc.save(stream);
+
+  return stream.str();
 }

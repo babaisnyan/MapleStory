@@ -27,6 +27,7 @@ public:
   bool BindParam(int32_t param_index, int16_t* value, SQLLEN* index);
   bool BindParam(int32_t param_index, int32_t* value, SQLLEN* index);
   bool BindParam(int32_t param_index, int64_t* value, SQLLEN* index);
+  bool BindParam(int32_t param_index, uint64_t* value, SQLLEN* index);
   bool BindParam(int32_t param_index, TIMESTAMP_STRUCT* value, SQLLEN* index);
   bool BindParam(int32_t param_index, const wchar_t* str, SQLLEN* index);
   bool BindParam(int32_t param_index, const std::byte* data, int32_t size, SQLLEN* index);
@@ -38,6 +39,7 @@ public:
   bool BindCol(int32_t col_index, int16_t* value, SQLLEN* index);
   bool BindCol(int32_t col_index, int32_t* value, SQLLEN* index);
   bool BindCol(int32_t col_index, int64_t* value, SQLLEN* index);
+  bool BindCol(int32_t col_index, uint64_t* value, SQLLEN* index);
   bool BindCol(int32_t col_index, TIMESTAMP_STRUCT* value, SQLLEN* index);
   bool BindCol(int32_t col_index, wchar_t* str, int32_t size, SQLLEN* index);
   bool BindCol(int32_t col_index, std::byte* data, int32_t size, SQLLEN* index);

@@ -14,11 +14,11 @@ void BasicStat::SetLevel(const int16_t level) {
   _level = min(300, level);
 }
 
-int32_t BasicStat::GetExp() const {
+uint64_t BasicStat::GetExp() const {
   return _exp;
 }
 
-void BasicStat::SetExp(const int32_t exp) {
+void BasicStat::SetExp(const uint64_t exp) {
   _exp = exp;
 }
 

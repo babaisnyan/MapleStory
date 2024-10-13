@@ -193,6 +193,10 @@ std::shared_ptr<Inventory> Player::GetInventory() const {
 bool Player::TryLoadFromDb() {
   bool success = true;
 
+  if (_player_stat == nullptr || _key_map == nullptr || _inventory == nullptr) {
+    return false;
+  }
+
   if (const auto connection = DbConnectionPool::GetInstance().GetConnection()) {
     DbBind<1, 21> bind(*connection, L"{CALL dbo.spLoadCharacter(?)}");
     bind.BindParam(0, _id);
@@ -210,7 +214,7 @@ bool Player::TryLoadFromDb() {
     bind.BindCol(index++, level);
     int16_t job;
     bind.BindCol(index++, job);
-    int32_t exp;
+    uint64_t exp;
     bind.BindCol(index++, exp);
     int32_t meso;
     bind.BindCol(index++, meso);
@@ -254,7 +258,7 @@ bool Player::TryLoadFromDb() {
 
       GetStat()->SetLevel(level);
       GetStat()->SetHp(std::max(50, hp));
-      GetStat()->SetMp(mp);
+      GetStat()->SetMp(std::max(50, mp));
       GetStat()->SetMaxHp(max_hp);
       GetStat()->SetMaxMp(max_mp);
       GetStat()->SetStr(str);
@@ -280,8 +284,7 @@ bool Player::TryLoadFromDb() {
 }
 
 bool Player::TrySaveToDb() {
-  //TODO: 다른 정보들도 체크하기 (인벤, 스킬, 기타등등)
-  if (_player_stat == nullptr || _key_map == nullptr) {
+  if (_player_stat == nullptr || _key_map == nullptr || _inventory == nullptr) {
     return false;
   }
 
@@ -295,7 +298,7 @@ bool Player::TrySaveToDb() {
     int16_t level = _player_stat->GetLevel();
     bind.BindParam(index++, level);
     bind.BindParam(index++, _job);
-    int32_t exp = _player_stat->GetExp();
+    uint64_t exp = _player_stat->GetExp();
     bind.BindParam(index++, exp);
     bind.BindParam(index++, _meso);
     bind.BindParam(index++, _map);
@@ -335,7 +338,8 @@ bool Player::TrySaveToDb() {
   }
 
   if (success) {
-    success = _key_map->TrySaveToDb(_id);
+    success &= _key_map->TrySaveToDb(_id);
+    success &= _inventory->TrySaveToDb(_id);
   }
 
   return success;

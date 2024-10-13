@@ -47,7 +47,7 @@ struct TableStruct_game_5fstruct_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[6]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[5]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -58,9 +58,6 @@ namespace protocol {
 class ItemInfo;
 struct ItemInfoDefaultTypeInternal;
 extern ItemInfoDefaultTypeInternal _ItemInfo_default_instance_;
-class ItemOption;
-struct ItemOptionDefaultTypeInternal;
-extern ItemOptionDefaultTypeInternal _ItemOption_default_instance_;
 class KeySetting;
 struct KeySettingDefaultTypeInternal;
 extern KeySettingDefaultTypeInternal _KeySetting_default_instance_;
@@ -76,7 +73,6 @@ extern PlayerInfoDefaultTypeInternal _PlayerInfo_default_instance_;
 }  // namespace protocol
 PROTOBUF_NAMESPACE_OPEN
 template<> ::protocol::ItemInfo* Arena::CreateMaybeMessage<::protocol::ItemInfo>(Arena*);
-template<> ::protocol::ItemOption* Arena::CreateMaybeMessage<::protocol::ItemOption>(Arena*);
 template<> ::protocol::KeySetting* Arena::CreateMaybeMessage<::protocol::KeySetting>(Arena*);
 template<> ::protocol::MobInfo* Arena::CreateMaybeMessage<::protocol::MobInfo>(Arena*);
 template<> ::protocol::OtherPlayerInfo* Arena::CreateMaybeMessage<::protocol::OtherPlayerInfo>(Arena*);
@@ -200,8 +196,8 @@ class PlayerInfo final :
     kObjectIdFieldNumber = 1,
     kIdFieldNumber = 2,
     kTypeFieldNumber = 4,
-    kLevelFieldNumber = 5,
     kExpFieldNumber = 6,
+    kLevelFieldNumber = 5,
     kMesoFieldNumber = 7,
     kHpFieldNumber = 8,
     kMpFieldNumber = 9,
@@ -293,6 +289,15 @@ class PlayerInfo final :
   void _internal_set_type(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
+  // uint64 exp = 6;
+  void clear_exp();
+  ::PROTOBUF_NAMESPACE_ID::uint64 exp() const;
+  void set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_exp() const;
+  void _internal_set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
   // int32 level = 5;
   void clear_level();
   ::PROTOBUF_NAMESPACE_ID::int32 level() const;
@@ -300,15 +305,6 @@ class PlayerInfo final :
   private:
   ::PROTOBUF_NAMESPACE_ID::int32 _internal_level() const;
   void _internal_set_level(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // int32 exp = 6;
-  void clear_exp();
-  ::PROTOBUF_NAMESPACE_ID::int32 exp() const;
-  void set_exp(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_exp() const;
-  void _internal_set_exp(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // int32 meso = 7;
@@ -441,8 +437,8 @@ class PlayerInfo final :
   ::PROTOBUF_NAMESPACE_ID::int64 object_id_;
   ::PROTOBUF_NAMESPACE_ID::uint32 id_;
   ::PROTOBUF_NAMESPACE_ID::int32 type_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 exp_;
   ::PROTOBUF_NAMESPACE_ID::int32 level_;
-  ::PROTOBUF_NAMESPACE_ID::int32 exp_;
   ::PROTOBUF_NAMESPACE_ID::int32 meso_;
   ::PROTOBUF_NAMESPACE_ID::int32 hp_;
   ::PROTOBUF_NAMESPACE_ID::int32 mp_;
@@ -783,31 +779,11 @@ class ItemInfo final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kOptionFieldNumber = 6,
     kIdFieldNumber = 1,
     kTypeFieldNumber = 2,
     kCountFieldNumber = 3,
-    kSubTypeFieldNumber = 4,
-    kEquippedFieldNumber = 5,
+    kPosFieldNumber = 4,
   };
-  // optional .protocol.ItemOption option = 6;
-  bool has_option() const;
-  private:
-  bool _internal_has_option() const;
-  public:
-  void clear_option();
-  const ::protocol::ItemOption& option() const;
-  PROTOBUF_FUTURE_MUST_USE_RESULT ::protocol::ItemOption* release_option();
-  ::protocol::ItemOption* mutable_option();
-  void set_allocated_option(::protocol::ItemOption* option);
-  private:
-  const ::protocol::ItemOption& _internal_option() const;
-  ::protocol::ItemOption* _internal_mutable_option();
-  public:
-  void unsafe_arena_set_allocated_option(
-      ::protocol::ItemOption* option);
-  ::protocol::ItemOption* unsafe_arena_release_option();
-
   // uint32 id = 1;
   void clear_id();
   ::PROTOBUF_NAMESPACE_ID::uint32 id() const;
@@ -835,22 +811,13 @@ class ItemInfo final :
   void _internal_set_count(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
-  // int32 sub_type = 4;
-  void clear_sub_type();
-  ::PROTOBUF_NAMESPACE_ID::int32 sub_type() const;
-  void set_sub_type(::PROTOBUF_NAMESPACE_ID::int32 value);
+  // int32 pos = 4;
+  void clear_pos();
+  ::PROTOBUF_NAMESPACE_ID::int32 pos() const;
+  void set_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_sub_type() const;
-  void _internal_set_sub_type(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // bool equipped = 5;
-  void clear_equipped();
-  bool equipped() const;
-  void set_equipped(bool value);
-  private:
-  bool _internal_equipped() const;
-  void _internal_set_equipped(bool value);
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_pos() const;
+  void _internal_set_pos(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // @@protoc_insertion_point(class_scope:protocol.ItemInfo)
@@ -860,132 +827,10 @@ class ItemInfo final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  ::protocol::ItemOption* option_;
   ::PROTOBUF_NAMESPACE_ID::uint32 id_;
   ::PROTOBUF_NAMESPACE_ID::int32 type_;
   ::PROTOBUF_NAMESPACE_ID::int32 count_;
-  ::PROTOBUF_NAMESPACE_ID::int32 sub_type_;
-  bool equipped_;
-  friend struct ::TableStruct_game_5fstruct_2eproto;
-};
-// -------------------------------------------------------------------
-
-class ItemOption final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.ItemOption) */ {
- public:
-  inline ItemOption() : ItemOption(nullptr) {}
-  ~ItemOption() override;
-  explicit constexpr ItemOption(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
-
-  ItemOption(const ItemOption& from);
-  ItemOption(ItemOption&& from) noexcept
-    : ItemOption() {
-    *this = ::std::move(from);
-  }
-
-  inline ItemOption& operator=(const ItemOption& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline ItemOption& operator=(ItemOption&& from) noexcept {
-    if (this == &from) return *this;
-    if (GetOwningArena() == from.GetOwningArena()) {
-      InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return default_instance().GetMetadata().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return default_instance().GetMetadata().reflection;
-  }
-  static const ItemOption& default_instance() {
-    return *internal_default_instance();
-  }
-  static inline const ItemOption* internal_default_instance() {
-    return reinterpret_cast<const ItemOption*>(
-               &_ItemOption_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    3;
-
-  friend void swap(ItemOption& a, ItemOption& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(ItemOption* other) {
-    if (other == this) return;
-    if (GetOwningArena() == other->GetOwningArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(ItemOption* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline ItemOption* New() const final {
-    return new ItemOption();
-  }
-
-  ItemOption* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<ItemOption>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const ItemOption& from);
-  void MergeFrom(const ItemOption& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  void SharedCtor();
-  void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(ItemOption* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "protocol.ItemOption";
-  }
-  protected:
-  explicit ItemOption(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  // @@protoc_insertion_point(class_scope:protocol.ItemOption)
- private:
-  class _Internal;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 pos_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fstruct_2eproto;
 };
@@ -1035,7 +880,7 @@ class KeySetting final :
                &_KeySetting_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    3;
 
   friend void swap(KeySetting& a, KeySetting& b) {
     a.Swap(&b);
@@ -1209,7 +1054,7 @@ class MobInfo final :
                &_MobInfo_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    4;
 
   friend void swap(MobInfo& a, MobInfo& b) {
     a.Swap(&b);
@@ -1528,22 +1373,22 @@ inline void PlayerInfo::set_level(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.level)
 }
 
-// int32 exp = 6;
+// uint64 exp = 6;
 inline void PlayerInfo::clear_exp() {
-  exp_ = 0;
+  exp_ = uint64_t{0u};
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 PlayerInfo::_internal_exp() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PlayerInfo::_internal_exp() const {
   return exp_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 PlayerInfo::exp() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint64 PlayerInfo::exp() const {
   // @@protoc_insertion_point(field_get:protocol.PlayerInfo.exp)
   return _internal_exp();
 }
-inline void PlayerInfo::_internal_set_exp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void PlayerInfo::_internal_set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   
   exp_ = value;
 }
-inline void PlayerInfo::set_exp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void PlayerInfo::set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   _internal_set_exp(value);
   // @@protoc_insertion_point(field_set:protocol.PlayerInfo.exp)
 }
@@ -2139,132 +1984,25 @@ inline void ItemInfo::set_count(::PROTOBUF_NAMESPACE_ID::int32 value) {
   // @@protoc_insertion_point(field_set:protocol.ItemInfo.count)
 }
 
-// int32 sub_type = 4;
-inline void ItemInfo::clear_sub_type() {
-  sub_type_ = 0;
+// int32 pos = 4;
+inline void ItemInfo::clear_pos() {
+  pos_ = 0;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 ItemInfo::_internal_sub_type() const {
-  return sub_type_;
+inline ::PROTOBUF_NAMESPACE_ID::int32 ItemInfo::_internal_pos() const {
+  return pos_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 ItemInfo::sub_type() const {
-  // @@protoc_insertion_point(field_get:protocol.ItemInfo.sub_type)
-  return _internal_sub_type();
+inline ::PROTOBUF_NAMESPACE_ID::int32 ItemInfo::pos() const {
+  // @@protoc_insertion_point(field_get:protocol.ItemInfo.pos)
+  return _internal_pos();
 }
-inline void ItemInfo::_internal_set_sub_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void ItemInfo::_internal_set_pos(::PROTOBUF_NAMESPACE_ID::int32 value) {
   
-  sub_type_ = value;
+  pos_ = value;
 }
-inline void ItemInfo::set_sub_type(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_sub_type(value);
-  // @@protoc_insertion_point(field_set:protocol.ItemInfo.sub_type)
+inline void ItemInfo::set_pos(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_pos(value);
+  // @@protoc_insertion_point(field_set:protocol.ItemInfo.pos)
 }
-
-// bool equipped = 5;
-inline void ItemInfo::clear_equipped() {
-  equipped_ = false;
-}
-inline bool ItemInfo::_internal_equipped() const {
-  return equipped_;
-}
-inline bool ItemInfo::equipped() const {
-  // @@protoc_insertion_point(field_get:protocol.ItemInfo.equipped)
-  return _internal_equipped();
-}
-inline void ItemInfo::_internal_set_equipped(bool value) {
-  
-  equipped_ = value;
-}
-inline void ItemInfo::set_equipped(bool value) {
-  _internal_set_equipped(value);
-  // @@protoc_insertion_point(field_set:protocol.ItemInfo.equipped)
-}
-
-// optional .protocol.ItemOption option = 6;
-inline bool ItemInfo::_internal_has_option() const {
-  bool value = (_has_bits_[0] & 0x00000001u) != 0;
-  PROTOBUF_ASSUME(!value || option_ != nullptr);
-  return value;
-}
-inline bool ItemInfo::has_option() const {
-  return _internal_has_option();
-}
-inline void ItemInfo::clear_option() {
-  if (option_ != nullptr) option_->Clear();
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline const ::protocol::ItemOption& ItemInfo::_internal_option() const {
-  const ::protocol::ItemOption* p = option_;
-  return p != nullptr ? *p : reinterpret_cast<const ::protocol::ItemOption&>(
-      ::protocol::_ItemOption_default_instance_);
-}
-inline const ::protocol::ItemOption& ItemInfo::option() const {
-  // @@protoc_insertion_point(field_get:protocol.ItemInfo.option)
-  return _internal_option();
-}
-inline void ItemInfo::unsafe_arena_set_allocated_option(
-    ::protocol::ItemOption* option) {
-  if (GetArenaForAllocation() == nullptr) {
-    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(option_);
-  }
-  option_ = option;
-  if (option) {
-    _has_bits_[0] |= 0x00000001u;
-  } else {
-    _has_bits_[0] &= ~0x00000001u;
-  }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:protocol.ItemInfo.option)
-}
-inline ::protocol::ItemOption* ItemInfo::release_option() {
-  _has_bits_[0] &= ~0x00000001u;
-  ::protocol::ItemOption* temp = option_;
-  option_ = nullptr;
-  if (GetArenaForAllocation() != nullptr) {
-    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
-  }
-  return temp;
-}
-inline ::protocol::ItemOption* ItemInfo::unsafe_arena_release_option() {
-  // @@protoc_insertion_point(field_release:protocol.ItemInfo.option)
-  _has_bits_[0] &= ~0x00000001u;
-  ::protocol::ItemOption* temp = option_;
-  option_ = nullptr;
-  return temp;
-}
-inline ::protocol::ItemOption* ItemInfo::_internal_mutable_option() {
-  _has_bits_[0] |= 0x00000001u;
-  if (option_ == nullptr) {
-    auto* p = CreateMaybeMessage<::protocol::ItemOption>(GetArenaForAllocation());
-    option_ = p;
-  }
-  return option_;
-}
-inline ::protocol::ItemOption* ItemInfo::mutable_option() {
-  // @@protoc_insertion_point(field_mutable:protocol.ItemInfo.option)
-  return _internal_mutable_option();
-}
-inline void ItemInfo::set_allocated_option(::protocol::ItemOption* option) {
-  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
-  if (message_arena == nullptr) {
-    delete option_;
-  }
-  if (option) {
-    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
-        ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper<::protocol::ItemOption>::GetOwningArena(option);
-    if (message_arena != submessage_arena) {
-      option = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
-          message_arena, option, submessage_arena);
-    }
-    _has_bits_[0] |= 0x00000001u;
-  } else {
-    _has_bits_[0] &= ~0x00000001u;
-  }
-  option_ = option;
-  // @@protoc_insertion_point(field_set_allocated:protocol.ItemInfo.option)
-}
-
-// -------------------------------------------------------------------
-
-// ItemOption
 
 // -------------------------------------------------------------------
 
@@ -2569,8 +2307,6 @@ inline void MobInfo::set_target_y(float value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

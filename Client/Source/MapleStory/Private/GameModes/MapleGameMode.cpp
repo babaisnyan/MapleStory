@@ -28,7 +28,7 @@ void AMapleGameMode::BeginPlay() {
 	if (PlayerStart) {
 		PlayerStartLocation = PlayerStart->GetActorLocation();
 	}
-
+	
 	GameInstance->CurrentPlayer = GetWorld()->SpawnActorDeferred<AMsLocalPlayer>(AMsLocalPlayer::StaticClass(), FTransform::Identity);
 	GameInstance->CurrentPlayer->Setup(GameInstance->PlayerInfoTemp.GetValue());
 	GameInstance->CurrentPlayer->FinishSpawning(FTransform::Identity);

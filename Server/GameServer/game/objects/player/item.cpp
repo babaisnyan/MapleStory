@@ -9,7 +9,7 @@ const std::shared_ptr<ItemTemplate>& Item::GetItemTemplate() const {
   return _item_template;
 }
 
-int32_t Item::GetId() const {
+uint32_t Item::GetId() const {
   return _id;
 }
 

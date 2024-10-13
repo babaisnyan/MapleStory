@@ -3106,8 +3106,8 @@ class GameServerUpdatePlayerStat final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kLevelFieldNumber = 1,
     kExpFieldNumber = 2,
+    kLevelFieldNumber = 1,
     kHpFieldNumber = 3,
     kMpFieldNumber = 4,
     kMaxHpFieldNumber = 5,
@@ -3119,6 +3119,19 @@ class GameServerUpdatePlayerStat final :
     kApFieldNumber = 11,
     kSpFieldNumber = 12,
   };
+  // optional uint64 exp = 2;
+  bool has_exp() const;
+  private:
+  bool _internal_has_exp() const;
+  public:
+  void clear_exp();
+  ::PROTOBUF_NAMESPACE_ID::uint64 exp() const;
+  void set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_exp() const;
+  void _internal_set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
   // optional int32 level = 1;
   bool has_level() const;
   private:
@@ -3130,19 +3143,6 @@ class GameServerUpdatePlayerStat final :
   private:
   ::PROTOBUF_NAMESPACE_ID::int32 _internal_level() const;
   void _internal_set_level(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
-  // optional int32 exp = 2;
-  bool has_exp() const;
-  private:
-  bool _internal_has_exp() const;
-  public:
-  void clear_exp();
-  ::PROTOBUF_NAMESPACE_ID::int32 exp() const;
-  void set_exp(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_exp() const;
-  void _internal_set_exp(::PROTOBUF_NAMESPACE_ID::int32 value);
   public:
 
   // optional int32 hp = 3;
@@ -3284,8 +3284,8 @@ class GameServerUpdatePlayerStat final :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 exp_;
   ::PROTOBUF_NAMESPACE_ID::int32 level_;
-  ::PROTOBUF_NAMESPACE_ID::int32 exp_;
   ::PROTOBUF_NAMESPACE_ID::int32 hp_;
   ::PROTOBUF_NAMESPACE_ID::int32 mp_;
   ::PROTOBUF_NAMESPACE_ID::int32 max_hp_;
@@ -3817,13 +3817,13 @@ class GameServerAddExpMessage final :
   enum : int {
     kExpFieldNumber = 1,
   };
-  // int32 exp = 1;
+  // uint64 exp = 1;
   void clear_exp();
-  ::PROTOBUF_NAMESPACE_ID::int32 exp() const;
-  void set_exp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint64 exp() const;
+  void set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value);
   private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_exp() const;
-  void _internal_set_exp(::PROTOBUF_NAMESPACE_ID::int32 value);
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_exp() const;
+  void _internal_set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
   // @@protoc_insertion_point(class_scope:protocol.GameServerAddExpMessage)
@@ -3833,7 +3833,7 @@ class GameServerAddExpMessage final :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::int32 exp_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 exp_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fprotocol_2eproto;
 };
@@ -5028,7 +5028,7 @@ inline void GameServerTeleportPlayer::set_y(float value) {
 
 // optional int32 level = 1;
 inline bool GameServerUpdatePlayerStat::_internal_has_level() const {
-  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  bool value = (_has_bits_[0] & 0x00000002u) != 0;
   return value;
 }
 inline bool GameServerUpdatePlayerStat::has_level() const {
@@ -5036,7 +5036,7 @@ inline bool GameServerUpdatePlayerStat::has_level() const {
 }
 inline void GameServerUpdatePlayerStat::clear_level() {
   level_ = 0;
-  _has_bits_[0] &= ~0x00000001u;
+  _has_bits_[0] &= ~0x00000002u;
 }
 inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerUpdatePlayerStat::_internal_level() const {
   return level_;
@@ -5046,7 +5046,7 @@ inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerUpdatePlayerStat::level() const 
   return _internal_level();
 }
 inline void GameServerUpdatePlayerStat::_internal_set_level(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _has_bits_[0] |= 0x00000001u;
+  _has_bits_[0] |= 0x00000002u;
   level_ = value;
 }
 inline void GameServerUpdatePlayerStat::set_level(::PROTOBUF_NAMESPACE_ID::int32 value) {
@@ -5054,30 +5054,30 @@ inline void GameServerUpdatePlayerStat::set_level(::PROTOBUF_NAMESPACE_ID::int32
   // @@protoc_insertion_point(field_set:protocol.GameServerUpdatePlayerStat.level)
 }
 
-// optional int32 exp = 2;
+// optional uint64 exp = 2;
 inline bool GameServerUpdatePlayerStat::_internal_has_exp() const {
-  bool value = (_has_bits_[0] & 0x00000002u) != 0;
+  bool value = (_has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
 inline bool GameServerUpdatePlayerStat::has_exp() const {
   return _internal_has_exp();
 }
 inline void GameServerUpdatePlayerStat::clear_exp() {
-  exp_ = 0;
-  _has_bits_[0] &= ~0x00000002u;
+  exp_ = uint64_t{0u};
+  _has_bits_[0] &= ~0x00000001u;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerUpdatePlayerStat::_internal_exp() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GameServerUpdatePlayerStat::_internal_exp() const {
   return exp_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerUpdatePlayerStat::exp() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GameServerUpdatePlayerStat::exp() const {
   // @@protoc_insertion_point(field_get:protocol.GameServerUpdatePlayerStat.exp)
   return _internal_exp();
 }
-inline void GameServerUpdatePlayerStat::_internal_set_exp(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _has_bits_[0] |= 0x00000002u;
+inline void GameServerUpdatePlayerStat::_internal_set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _has_bits_[0] |= 0x00000001u;
   exp_ = value;
 }
-inline void GameServerUpdatePlayerStat::set_exp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameServerUpdatePlayerStat::set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   _internal_set_exp(value);
   // @@protoc_insertion_point(field_set:protocol.GameServerUpdatePlayerStat.exp)
 }
@@ -5458,22 +5458,22 @@ inline void GameServerPlayerLevelUp::set_level(::PROTOBUF_NAMESPACE_ID::int32 va
 
 // GameServerAddExpMessage
 
-// int32 exp = 1;
+// uint64 exp = 1;
 inline void GameServerAddExpMessage::clear_exp() {
-  exp_ = 0;
+  exp_ = uint64_t{0u};
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerAddExpMessage::_internal_exp() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GameServerAddExpMessage::_internal_exp() const {
   return exp_;
 }
-inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerAddExpMessage::exp() const {
+inline ::PROTOBUF_NAMESPACE_ID::uint64 GameServerAddExpMessage::exp() const {
   // @@protoc_insertion_point(field_get:protocol.GameServerAddExpMessage.exp)
   return _internal_exp();
 }
-inline void GameServerAddExpMessage::_internal_set_exp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameServerAddExpMessage::_internal_set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   
   exp_ = value;
 }
-inline void GameServerAddExpMessage::set_exp(::PROTOBUF_NAMESPACE_ID::int32 value) {
+inline void GameServerAddExpMessage::set_exp(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   _internal_set_exp(value);
   // @@protoc_insertion_point(field_set:protocol.GameServerAddExpMessage.exp)
 }

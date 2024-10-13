@@ -12,8 +12,8 @@ namespace game {
     int16_t GetLevel() const;
     void SetLevel(int16_t level);
 
-    int32_t GetExp() const;
-    void SetExp(int32_t exp);
+    uint64_t GetExp() const;
+    void SetExp(uint64_t exp);
 
     int32_t GetHp() const;
     void SetHp(int32_t hp);
@@ -36,7 +36,7 @@ namespace game {
 
     /*Static Stats*/
     int16_t _level = 0;
-    int32_t _exp = 0;
+    uint64_t _exp = 0;
     int32_t _hp = 0;
     int32_t _max_hp = 0;
 

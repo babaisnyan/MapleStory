@@ -51,9 +51,9 @@ void UQuickSlotKeyWidget::LoadKeyTexture() {
 			KeyImage->SetBrushFromTexture(KeyTexture, false);
 		}
 
-		if (ItemCountText) {
+		if (ItemCountText && bShowCount) {
 			ItemCountText->SetText(FText::FromString(FString::Printf(TEXT("%d"), ItemCount)));
-			ItemCountText->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 1.0f));
+			ItemCountText->SetColorAndOpacity(CountColor);
 		}
 	} else if (KeyType == EKeyType::Skill) {} else {
 		if (!KeyTexturePaths.Contains(KeyType)) {

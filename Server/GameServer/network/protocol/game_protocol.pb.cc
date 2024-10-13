@@ -275,8 +275,8 @@ struct GameServerTeleportPlayerDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameServerTeleportPlayerDefaultTypeInternal _GameServerTeleportPlayer_default_instance_;
 constexpr GameServerUpdatePlayerStat::GameServerUpdatePlayerStat(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : level_(0)
-  , exp_(0)
+  : exp_(uint64_t{0u})
+  , level_(0)
   , hp_(0)
   , mp_(0)
   , max_hp_(0)
@@ -335,7 +335,7 @@ struct GameServerPlayerLevelUpDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT GameServerPlayerLevelUpDefaultTypeInternal _GameServerPlayerLevelUp_default_instance_;
 constexpr GameServerAddExpMessage::GameServerAddExpMessage(
   ::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized)
-  : exp_(0){}
+  : exp_(uint64_t{0u}){}
 struct GameServerAddExpMessageDefaultTypeInternal {
   constexpr GameServerAddExpMessageDefaultTypeInternal()
     : _instance(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized{}) {}
@@ -520,8 +520,8 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fprotocol_2eproto::offse
   PROTOBUF_FIELD_OFFSET(::protocol::GameServerUpdatePlayerStat, int__),
   PROTOBUF_FIELD_OFFSET(::protocol::GameServerUpdatePlayerStat, ap_),
   PROTOBUF_FIELD_OFFSET(::protocol::GameServerUpdatePlayerStat, sp_),
-  0,
   1,
+  0,
   2,
   3,
   4,
@@ -652,7 +652,7 @@ const char descriptor_table_protodef_game_5fprotocol_2eproto[] PROTOBUF_SECTION_
   " \001(\003\"C\n\030GameServerTeleportPlayer\022\021\n\tobje"
   "ct_id\030\001 \001(\003\022\t\n\001x\030\002 \001(\002\022\t\n\001y\030\003 \001(\002\"\334\002\n\032Ga"
   "meServerUpdatePlayerStat\022\022\n\005level\030\001 \001(\005H"
-  "\000\210\001\001\022\020\n\003exp\030\002 \001(\005H\001\210\001\001\022\017\n\002hp\030\003 \001(\005H\002\210\001\001\022"
+  "\000\210\001\001\022\020\n\003exp\030\002 \001(\004H\001\210\001\001\022\017\n\002hp\030\003 \001(\005H\002\210\001\001\022"
   "\017\n\002mp\030\004 \001(\005H\003\210\001\001\022\023\n\006max_hp\030\005 \001(\005H\004\210\001\001\022\023\n"
   "\006max_mp\030\006 \001(\005H\005\210\001\001\022\020\n\003str\030\007 \001(\005H\006\210\001\001\022\020\n\003"
   "dex\030\010 \001(\005H\007\210\001\001\022\020\n\003luk\030\t \001(\005H\010\210\001\001\022\020\n\003int\030"
@@ -664,7 +664,7 @@ const char descriptor_table_protodef_game_5fprotocol_2eproto[] PROTOBUF_SECTION_
   "ack\022\021\n\tobject_id\030\001 \001(\003\";\n\027GameServerPlay"
   "erLevelUp\022\021\n\tobject_id\030\001 \001(\003\022\r\n\005level\030\002 "
   "\001(\005\"&\n\027GameServerAddExpMessage\022\013\n\003exp\030\001 "
-  "\001(\005b\006proto3"
+  "\001(\004b\006proto3"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_game_5fprotocol_2eproto_deps[2] = {
   &::descriptor_table_game_5fenum_2eproto,
@@ -5085,10 +5085,10 @@ class GameServerUpdatePlayerStat::_Internal {
  public:
   using HasBits = decltype(std::declval<GameServerUpdatePlayerStat>()._has_bits_);
   static void set_has_level(HasBits* has_bits) {
-    (*has_bits)[0] |= 1u;
+    (*has_bits)[0] |= 2u;
   }
   static void set_has_exp(HasBits* has_bits) {
-    (*has_bits)[0] |= 2u;
+    (*has_bits)[0] |= 1u;
   }
   static void set_has_hp(HasBits* has_bits) {
     (*has_bits)[0] |= 4u;
@@ -5132,17 +5132,17 @@ GameServerUpdatePlayerStat::GameServerUpdatePlayerStat(const GameServerUpdatePla
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::memcpy(&level_, &from.level_,
+  ::memcpy(&exp_, &from.exp_,
     static_cast<size_t>(reinterpret_cast<char*>(&sp_) -
-    reinterpret_cast<char*>(&level_)) + sizeof(sp_));
+    reinterpret_cast<char*>(&exp_)) + sizeof(sp_));
   // @@protoc_insertion_point(copy_constructor:protocol.GameServerUpdatePlayerStat)
 }
 
 void GameServerUpdatePlayerStat::SharedCtor() {
 ::memset(reinterpret_cast<char*>(this) + static_cast<size_t>(
-    reinterpret_cast<char*>(&level_) - reinterpret_cast<char*>(this)),
+    reinterpret_cast<char*>(&exp_) - reinterpret_cast<char*>(this)),
     0, static_cast<size_t>(reinterpret_cast<char*>(&sp_) -
-    reinterpret_cast<char*>(&level_)) + sizeof(sp_));
+    reinterpret_cast<char*>(&exp_)) + sizeof(sp_));
 }
 
 GameServerUpdatePlayerStat::~GameServerUpdatePlayerStat() {
@@ -5173,9 +5173,9 @@ void GameServerUpdatePlayerStat::Clear() {
 
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x000000ffu) {
-    ::memset(&level_, 0, static_cast<size_t>(
+    ::memset(&exp_, 0, static_cast<size_t>(
         reinterpret_cast<char*>(&dex_) -
-        reinterpret_cast<char*>(&level_)) + sizeof(dex_));
+        reinterpret_cast<char*>(&exp_)) + sizeof(dex_));
   }
   if (cached_has_bits & 0x00000f00u) {
     ::memset(&luk_, 0, static_cast<size_t>(
@@ -5201,7 +5201,7 @@ const char* GameServerUpdatePlayerStat::_InternalParse(const char* ptr, ::PROTOB
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
-      // optional int32 exp = 2;
+      // optional uint64 exp = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 16)) {
           _Internal::set_has_exp(&has_bits);
@@ -5325,10 +5325,10 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_level(), target);
   }
 
-  // optional int32 exp = 2;
+  // optional uint64 exp = 2;
   if (_internal_has_exp()) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(2, this->_internal_exp(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(2, this->_internal_exp(), target);
   }
 
   // optional int32 hp = 3;
@@ -5409,18 +5409,18 @@ size_t GameServerUpdatePlayerStat::ByteSizeLong() const {
 
   cached_has_bits = _has_bits_[0];
   if (cached_has_bits & 0x000000ffu) {
-    // optional int32 level = 1;
+    // optional uint64 exp = 2;
     if (cached_has_bits & 0x00000001u) {
       total_size += 1 +
-        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-          this->_internal_level());
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+          this->_internal_exp());
     }
 
-    // optional int32 exp = 2;
+    // optional int32 level = 1;
     if (cached_has_bits & 0x00000002u) {
       total_size += 1 +
         ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
-          this->_internal_exp());
+          this->_internal_level());
     }
 
     // optional int32 hp = 3;
@@ -5530,10 +5530,10 @@ void GameServerUpdatePlayerStat::MergeFrom(const GameServerUpdatePlayerStat& fro
   cached_has_bits = from._has_bits_[0];
   if (cached_has_bits & 0x000000ffu) {
     if (cached_has_bits & 0x00000001u) {
-      level_ = from.level_;
+      exp_ = from.exp_;
     }
     if (cached_has_bits & 0x00000002u) {
-      exp_ = from.exp_;
+      level_ = from.level_;
     }
     if (cached_has_bits & 0x00000004u) {
       hp_ = from.hp_;
@@ -5597,9 +5597,9 @@ void GameServerUpdatePlayerStat::InternalSwap(GameServerUpdatePlayerStat* other)
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(GameServerUpdatePlayerStat, sp_)
       + sizeof(GameServerUpdatePlayerStat::sp_)
-      - PROTOBUF_FIELD_OFFSET(GameServerUpdatePlayerStat, level_)>(
-          reinterpret_cast<char*>(&level_),
-          reinterpret_cast<char*>(&other->level_));
+      - PROTOBUF_FIELD_OFFSET(GameServerUpdatePlayerStat, exp_)>(
+          reinterpret_cast<char*>(&exp_),
+          reinterpret_cast<char*>(&other->exp_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata GameServerUpdatePlayerStat::GetMetadata() const {
@@ -6233,7 +6233,7 @@ GameServerAddExpMessage::GameServerAddExpMessage(const GameServerAddExpMessage& 
 }
 
 void GameServerAddExpMessage::SharedCtor() {
-exp_ = 0;
+exp_ = uint64_t{0u};
 }
 
 GameServerAddExpMessage::~GameServerAddExpMessage() {
@@ -6262,7 +6262,7 @@ void GameServerAddExpMessage::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  exp_ = 0;
+  exp_ = uint64_t{0u};
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -6272,7 +6272,7 @@ const char* GameServerAddExpMessage::_InternalParse(const char* ptr, ::PROTOBUF_
     ::PROTOBUF_NAMESPACE_ID::uint32 tag;
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int32 exp = 1;
+      // uint64 exp = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
           exp_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
@@ -6308,10 +6308,10 @@ failure:
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 exp = 1;
+  // uint64 exp = 1;
   if (this->exp() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteInt32ToArray(1, this->_internal_exp(), target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(1, this->_internal_exp(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -6330,10 +6330,10 @@ size_t GameServerAddExpMessage::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int32 exp = 1;
+  // uint64 exp = 1;
   if (this->exp() != 0) {
     total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::Int32Size(
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
         this->_internal_exp());
   }
 

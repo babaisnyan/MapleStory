@@ -106,7 +106,7 @@ message GameServerTeleportPlayer {
 
 message GameServerUpdatePlayerStat {
   optional int32 level = 1;
-  optional int32 exp = 2;
+  optional uint64 exp = 2;
   optional int32 hp = 3;
   optional int32 mp = 4;
   optional int32 max_hp = 5;
@@ -133,5 +133,5 @@ message GameServerPlayerLevelUp {
 }
 
 message GameServerAddExpMessage {
-  int32 exp = 1;
+  uint64 exp = 1;
 }

@@ -125,6 +125,10 @@ bool DbConnection::BindParam(const int32_t param_index, int64_t* value, SQLLEN* 
   return BindParam(param_index, SQL_C_SBIGINT, SQL_BIGINT, size32(int64_t), value, index);
 }
 
+bool DbConnection::BindParam(const int32_t param_index, uint64_t* value, SQLLEN* index) {
+  return BindParam(param_index, SQL_C_UBIGINT, SQL_BIGINT, size32(uint64_t), value, index);
+}
+
 bool DbConnection::BindParam(const int32_t param_index, TIMESTAMP_STRUCT* value, SQLLEN* index) {
   return BindParam(param_index, SQL_C_TYPE_TIMESTAMP, SQL_TYPE_TIMESTAMP, size32(TIMESTAMP_STRUCT), value, index);
 }
@@ -181,6 +185,10 @@ bool DbConnection::BindCol(const int32_t col_index, int32_t* value, SQLLEN* inde
 
 bool DbConnection::BindCol(const int32_t col_index, int64_t* value, SQLLEN* index) {
   return BindCol(col_index, SQL_C_SBIGINT, size32(int64_t), value, index);
+}
+
+bool DbConnection::BindCol(const int32_t col_index, uint64_t* value, SQLLEN* index) {
+  return BindCol(col_index, SQL_C_UBIGINT, size32(uint64_t), value, index);
 }
 
 bool DbConnection::BindCol(const int32_t col_index, TIMESTAMP_STRUCT* value, SQLLEN* index) {

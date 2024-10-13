@@ -10,9 +10,12 @@
 #include "Characters/PlayerCamera.h"
 #include "Components/MobStatComponent.h"
 #include "Components/PlayerStatComponent.h"
+#include "Data/Item.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/PawnMovementComponent.h"
 #include "GameModes/MapleGameMode.h"
+#include "Managers/InventoryManager.h"
+#include "Managers/ItemManager.h"
 #include "Managers/KeySettingManager.h"
 #include "Managers/SoundManager.h"
 #include "Network/PacketCreator.h"
@@ -173,11 +176,35 @@ void AMsLocalPlayer::Setup(const protocol::PlayerInfo& Info) {
 	Super::Setup(Info);
 
 	KeySettingManager = GetGameInstance()->GetSubsystem<UKeySettingManager>();
+	InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();
+	ItemManager = GetGameInstance()->GetSubsystem<UItemManager>();
 	KeySettingManager->Clear();
+	InventoryManager->Clear();
 
 	for (const protocol::KeySetting& Key_Setting : Info.key_settings()) {
 		const EKeyCode KeyCode = static_cast<EKeyCode>(Key_Setting.key_code());
 		KeySettingManager->Set(KeyCode, Key_Setting);
+	}
+
+	for (const protocol::ItemInfo& ItemInfo : Info.items()) {
+		TObjectPtr<UItem> Item = NewObject<UItem>();
+		Item->Template = *ItemManager->GetItemTemplate(ItemInfo.id());
+		Item->Quantity = ItemInfo.count();
+		
+		switch (ItemInfo.type()) {
+			case 0:
+				InventoryManager->EquipInventory.Emplace(ItemInfo.pos(), Item);
+				break;
+			case 1:
+				InventoryManager->UseInventory.Emplace(ItemInfo.pos(), Item);
+				break;
+			case 2:
+				InventoryManager->EtcInventory.Emplace(ItemInfo.pos(), Item);
+				break;
+			case 3:
+				InventoryManager->EquippedInventory.Emplace(ItemInfo.pos(), Item);
+				break;
+		}
 	}
 
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();

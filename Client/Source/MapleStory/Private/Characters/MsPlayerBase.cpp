@@ -185,7 +185,6 @@ void AMsPlayerBase::OnChat(const FString& Text) {
 		if (const auto Widget = Cast<UChatBalloon>(ChatBalloonWidget->GetUserWidgetObject())) {
 			Widget->SetText(Text);
 			ChatBalloonWidget->SetVisibility(true);
-			UE_LOG(LogTemp, Warning, TEXT("%s"), *Text);
 
 			if (GetWorldTimerManager().IsTimerActive(ChatBalloonTimer)) {
 				GetWorldTimerManager().ClearTimer(ChatBalloonTimer);

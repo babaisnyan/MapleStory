@@ -9,7 +9,7 @@ message PlayerInfo {
   string name = 3;
   int32 type = 4;
   int32 level = 5;
-  int32 exp = 6;
+  uint64 exp = 6;
   int32 meso = 7;
   int32 hp = 8;
   int32 mp = 9;
@@ -42,13 +42,7 @@ message ItemInfo {
   uint32 id = 1;
   int32 type = 2;
   int32 count = 3;
-  int32 sub_type = 4;
-  bool equipped = 5;
-  optional ItemOption option = 6;
-}
-
-message ItemOption {
-  
+  int32 pos = 4;
 }
 
 message KeySetting {

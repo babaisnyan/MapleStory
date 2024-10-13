@@ -4,6 +4,8 @@
 #include "Characters/MsPlayerBase.h"
 #include "MsLocalPlayer.generated.h"
 
+class UItemManager;
+class UInventoryManager;
 class UChatWidget;
 class UKeySettingManager;
 class UQuickSlotWidget;
@@ -94,6 +96,12 @@ private:
 
 	UPROPERTY()
 	TObjectPtr<UKeySettingManager> KeySettingManager;
+
+	UPROPERTY()
+	TObjectPtr<UInventoryManager> InventoryManager;
+
+	UPROPERTY()
+	TObjectPtr<UItemManager> ItemManager;
 
 	float MovePacketSendTimer = 0.1f;
 	FVector LastMovePacketLocation;

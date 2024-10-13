@@ -45,6 +45,12 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	int32 SkillId = 0;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FLinearColor CountColor = FLinearColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	bool bShowCount = true;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, meta = (DisplayThumbnail = "true"))
 	TObjectPtr<UTexture2D> KeyTexture;
 
