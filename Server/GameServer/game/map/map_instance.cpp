@@ -74,8 +74,7 @@ bool MapInstance::RemoveObject(const int64_t object_id) {
       _mobs.erase(spawn);
     }
 
-    const auto test = _objects.erase(object_id);
-    std::cout << test << std::endl;
+    _objects.erase(object_id);
   } else {
     _objects.erase(object_id);
   }

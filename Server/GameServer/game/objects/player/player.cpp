@@ -1,7 +1,6 @@
 ﻿#include "pch.h"
 #include "player.h"
 
-#include "inventory.h"
 #include "key_map.h"
 #include "player_stat.h"
 
@@ -12,6 +11,8 @@
 #include "game/map/map_instance.h"
 #include "game/map/map_manager.h"
 #include "game/objects/mob/monster.h"
+
+#include "inventory/inventory.h"
 
 #include "network/protocol/game_protocol.pb.h"
 

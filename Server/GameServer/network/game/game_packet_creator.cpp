@@ -3,8 +3,6 @@
 
 #include "game_client_packet_handler.h"
 
-#include "game/objects/player/inventory.h"
-#include "game/objects/player/item.h"
 #include "game/objects/player/key_map.h"
 #include "game/objects/player/player.h"
 #include "game/objects/player/player_stat.h"
