@@ -5,6 +5,7 @@
 #include "Data/Enum/EKeyType.h"
 #include "MsCursor.generated.h"
 
+class UInventorySlot;
 class UQuickSlotKeyWidget;
 class UImage;
 class UPaperFlipbookUserWidget;
@@ -35,6 +36,12 @@ public:
 	int32 ItemId = 0;
 
 	UPROPERTY()
+	int32 ItemType = 0;
+
+	UPROPERTY()
+	int32 ItemPos = 0;
+	
+	UPROPERTY()
 	int32 ItemCount = 0;
 	
 	UPROPERTY()
@@ -42,6 +49,9 @@ public:
 
 	UPROPERTY()
 	TObjectPtr<UQuickSlotKeyWidget> PrevKeyWidget;
+
+	UPROPERTY()
+	TObjectPtr<UInventorySlot> PrevInventorySlot;
 	
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UPaperFlipbookUserWidget> CursorImage;

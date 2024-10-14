@@ -243,7 +243,7 @@ bool Player::TryLoadFromDb() {
     int16_t ap;
     bind.BindCol(index++, ap);
     int16_t sp;
-    bind.BindCol(index++, sp);
+    bind.BindCol(index, sp);
 
     if (bind.Execute() && bind.Fetch()) {
       _id = id;
@@ -325,7 +325,7 @@ bool Player::TrySaveToDb() {
     int32_t ap = _player_stat->GetAp();
     bind.BindParam(index++, ap);
     int32_t sp = _player_stat->GetSp();
-    bind.BindParam(index++, sp);
+    bind.BindParam(index, sp);
 
     int temp = 0;
     bind.BindCol(0, temp);

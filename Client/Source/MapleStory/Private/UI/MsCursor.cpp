@@ -18,10 +18,13 @@ void UMsCursor::Attach(UTexture2D* InSprite) {
 
 void UMsCursor::Clear() {
 	PrevKeyWidget = nullptr;
+	PrevInventorySlot = nullptr;
 	KeyType = EKeyType::None;
 	ItemId = 0;
 	ItemCount = 0;
 	SkillId = 0;
+	ItemType = -1;
+	ItemPos = -1;
 }
 
 void UMsCursor::ApplyCursorFlipbook() const {

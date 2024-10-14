@@ -75,6 +75,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UUserWidget> DeathNotice;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stat")
+	int32 Meso = 0;
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	TObjectPtr<UInputMappingContext> DefaultContext;

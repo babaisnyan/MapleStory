@@ -1,7 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "QuickSlotKeyWidget.h"
+#include "InventorySlot.h"
 #include "Blueprint/UserWidget.h"
 #include "InventoryWindow.generated.h"
 
@@ -26,7 +26,7 @@ protected:
 
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
-	TSubclassOf<UQuickSlotKeyWidget> QuickSlotKeyWidgetClass;
+	TSubclassOf<UInventorySlot> QuickSlotKeyWidgetClass;
 	
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> EquipButton;

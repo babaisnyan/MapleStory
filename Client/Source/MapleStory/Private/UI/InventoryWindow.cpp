@@ -4,6 +4,7 @@
 #include "Components/WrapBox.h"
 #include "Data/Item.h"
 #include "Managers/InventoryManager.h"
+#include "UI/InventorySlot.h"
 
 void UInventoryWindow::ShowEquip() {
 	if (CurrentTabIndex == 0) {
@@ -18,6 +19,19 @@ void UInventoryWindow::ShowEquip() {
 
 	CurrentTabIndex = 0;
 	WrapBox->ClearChildren();
+
+	for (int i = 0; i < 128; i++) {
+		UInventorySlot* KeyWidget = CreateWidget<UInventorySlot>(GetGameInstance(), QuickSlotKeyWidgetClass);
+		KeyWidget->Type = CurrentTabIndex;
+		KeyWidget->Pos = i;
+
+		if (InventoryManager->EquipInventory.Contains(i)) {
+			KeyWidget->ItemId = InventoryManager->EquipInventory[i]->Template.ItemId;
+			KeyWidget->ItemCount = InventoryManager->EquipInventory[i]->Quantity;
+		}
+
+		WrapBox->AddChild(KeyWidget);
+	}
 
 	ScrollBox->ScrollToStart();
 }
@@ -37,22 +51,16 @@ void UInventoryWindow::ShowUse() {
 	WrapBox->ClearChildren();
 
 	for (int i = 0; i < 128; i++) {
-		UQuickSlotKeyWidget* QuickSlotKeyWidget = CreateWidget<UQuickSlotKeyWidget>(GetGameInstance(), QuickSlotKeyWidgetClass);
-		QuickSlotKeyWidget->CountColor = FLinearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		QuickSlotKeyWidget->KeyType = EKeyType::Item;
-		QuickSlotKeyWidget->KeyCode = EKeyCode::None;
-		QuickSlotKeyWidget->bShowCount = false;
-		QuickSlotKeyWidget->SetRenderScale(FVector2D(1.0f, 1.0f));
+		UInventorySlot* KeyWidget = CreateWidget<UInventorySlot>(GetGameInstance(), QuickSlotKeyWidgetClass);
+		KeyWidget->Type = CurrentTabIndex;
+		KeyWidget->Pos = i;
 
 		if (InventoryManager->UseInventory.Contains(i)) {
-			QuickSlotKeyWidget->ItemId = InventoryManager->UseInventory[i]->Template.ItemId;
-			QuickSlotKeyWidget->ItemCount = InventoryManager->UseInventory[i]->Quantity;
-			QuickSlotKeyWidget->bShowCount = true;
-		} else {
-			QuickSlotKeyWidget->SetIsEnabled(false);
+			KeyWidget->ItemId = InventoryManager->UseInventory[i]->Template.ItemId;
+			KeyWidget->ItemCount = InventoryManager->UseInventory[i]->Quantity;
 		}
 
-		WrapBox->AddChild(QuickSlotKeyWidget);
+		WrapBox->AddChild(KeyWidget);
 	}
 
 	ScrollBox->ScrollToStart();
@@ -71,6 +79,19 @@ void UInventoryWindow::ShowEtc() {
 
 	CurrentTabIndex = 2;
 	WrapBox->ClearChildren();
+
+	for (int i = 0; i < 128; i++) {
+		UInventorySlot* KeyWidget = CreateWidget<UInventorySlot>(GetGameInstance(), QuickSlotKeyWidgetClass);
+		KeyWidget->Type = CurrentTabIndex;
+		KeyWidget->Pos = i;
+
+		if (InventoryManager->EtcInventory.Contains(i)) {
+			KeyWidget->ItemId = InventoryManager->EtcInventory[i]->Template.ItemId;
+			KeyWidget->ItemCount = InventoryManager->EtcInventory[i]->Quantity;
+		}
+
+		WrapBox->AddChild(KeyWidget);
+	}
 
 	ScrollBox->ScrollToStart();
 }

@@ -181,6 +181,8 @@ void AMsLocalPlayer::Setup(const protocol::PlayerInfo& Info) {
 	KeySettingManager->Clear();
 	InventoryManager->Clear();
 
+	Meso = Info.meso();
+
 	for (const protocol::KeySetting& Key_Setting : Info.key_settings()) {
 		const EKeyCode KeyCode = static_cast<EKeyCode>(Key_Setting.key_code());
 		KeySettingManager->Set(KeyCode, Key_Setting);
