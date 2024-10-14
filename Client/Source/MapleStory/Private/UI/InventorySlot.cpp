@@ -1,9 +1,14 @@
 #include "UI/InventorySlot.h"
 
+#include "MapleGameInstance.h"
+#include "MapleStory.h"
 #include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Managers/InventoryManager.h"
+#include "Network/PacketCreator.h"
+#include "UI/InventoryWindow.h"
 #include "UI/MsCursor.h"
 
 bool UInventorySlot::Initialize() {
@@ -32,7 +37,7 @@ void UInventorySlot::LoadItemTexture() {
 		ItemImage->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 0.0f));
 		return;
 	}
-	
+
 	DummyButton->SetCursor(EMouseCursor::GrabHand);
 
 	if (ItemCount == 0) {
@@ -54,10 +59,14 @@ void UInventorySlot::LoadItemTexture() {
 }
 
 void UInventorySlot::OnClicked() {
+	if (Type == 3) {
+		return;
+	}
+
 	TArray<UUserWidget*> Cursors;
 	UMsCursor* TempCursor = nullptr;
 	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), Cursors, UMsCursor::StaticClass(), false);
-
+	const TObjectPtr<UInventoryManager> InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();
 
 	if (ItemId == 0) {
 		for (const auto Object : Cursors) {
@@ -70,16 +79,32 @@ void UInventorySlot::OnClicked() {
 		}
 
 		if (TempCursor && Type == TempCursor->ItemType) {
-			ItemId = TempCursor->ItemId;
-			ItemCount = TempCursor->ItemCount;
-			UE_LOG(LogTemp, Warning, TEXT("ItemId: %d, SrcPos: %d, DestPos: %d"), ItemId, TempCursor->ItemPos, Pos);
+			if (TempCursor->PrevInventorySlot) {
+				ItemId = TempCursor->ItemId;
+				ItemCount = TempCursor->ItemCount;
+				LoadItemTexture();
+				SetCursor(EMouseCursor::GrabHand);
 
-			LoadItemTexture();
-			SetCursor(EMouseCursor::GrabHand);
-			// SEND_PACKET(FPacketCreator::GetChangeKeySetting(KeyCode, KeyType, ItemId, SkillId));
+				if (Pos == TempCursor->ItemPos) {
+					SEND_PACKET(FPacketCreator::GetUseItemRequest(Pos));
+					InventoryManager->UseItem(Pos);
+				} else {
+					SEND_PACKET(FPacketCreator::GetMoveItemRequest(Type, TempCursor->ItemPos, Pos));
 
-			if (TempCursor->PrevKeyWidget) {
-				// SEND_PACKET(FPacketCreator::GetChangeKeySetting(TempCursor->PrevKeyWidget->KeyCode, EKeyType::None, 0, 0));
+					switch (Type) {
+						case 0:
+							InventoryManager->MoveItemEquip(TempCursor->ItemPos, Pos);
+							break;
+						case 1:
+							InventoryManager->MoveItemUse(TempCursor->ItemPos, Pos);
+							break;
+						case 2:
+							InventoryManager->MoveItemEtc(TempCursor->ItemPos, Pos);
+							break;
+					}
+				}
+
+				TempCursor->PrevInventorySlot = nullptr;
 			}
 		}
 
@@ -98,7 +123,37 @@ void UInventorySlot::OnClicked() {
 		}
 
 		if (TempCursor) {
-			if (TempCursor->PrevInventorySlot) {} else {
+			if (TempCursor->PrevInventorySlot && TempCursor && Type == TempCursor->ItemType) {
+				SetCursor(EMouseCursor::GrabHand);
+
+				switch (Type) {
+					case 0:
+						InventoryManager->MoveItemEquip(TempCursor->ItemPos, Pos);
+						break;
+					case 1:
+						InventoryManager->MoveItemUse(TempCursor->ItemPos, Pos);
+						break;
+					case 2:
+						InventoryManager->MoveItemEtc(TempCursor->ItemPos, Pos);
+						break;
+				}
+
+				SEND_PACKET(FPacketCreator::GetMoveItemRequest(Type, TempCursor->ItemPos, Pos));
+
+				Swap(ItemId, TempCursor->ItemId);
+				Swap(ItemCount, TempCursor->ItemCount);
+				TempCursor->PrevInventorySlot->ItemId = TempCursor->ItemId;
+				TempCursor->PrevInventorySlot->ItemCount = TempCursor->ItemCount;
+
+				LoadItemTexture();
+				TempCursor->PrevInventorySlot->LoadItemTexture();
+
+				for (const auto Object : Cursors) {
+					UMsCursor* MsCursor = Cast<UMsCursor>(Object);
+					MsCursor->ClearImage();
+					MsCursor->Clear();
+				}
+			} else {
 				for (const auto Object : Cursors) {
 					UMsCursor* MsCursor = Cast<UMsCursor>(Object);
 
@@ -119,4 +174,64 @@ void UInventorySlot::OnClicked() {
 			}
 		}
 	}
+}
+
+void UInventorySlot::OnRightClicked() {
+	const TObjectPtr<UInventoryManager> InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();
+
+	if (!InventoryManager) {
+		return;
+	}
+
+	if (Type == 0) {
+		const int32 EquipPos = InventoryManager->Equip(Pos);
+
+		if (EquipPos == -1) {
+			return;
+		}
+
+		SEND_PACKET(FPacketCreator::GetEquipItemRequest(Pos, EquipPos));
+	} else if (Type == 3) {
+		const int32 UnEquipPos = InventoryManager->UnEquip(Pos);
+
+		if (UnEquipPos == -1) {
+			return;
+		}
+
+		SEND_PACKET(FPacketCreator::GetUnEquipItemRequest(Pos, UnEquipPos));
+	}
+
+	TArray<UUserWidget*> Windows;
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), Windows, UInventoryWindow::StaticClass(), false);
+
+	for (const auto Object : Windows) {
+		UInventoryWindow* InventoryWindow = Cast<UInventoryWindow>(Object);
+
+		if (InventoryWindow) {
+			InventoryWindow->RefreshEquip();
+		}
+	}
+
+	ItemId = 0;
+	LoadItemTexture();
+}
+
+FReply UInventorySlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) {
+	if (InMouseEvent.GetEffectingButton() != EKeys::RightMouseButton) {
+		return FReply::Handled();
+	}
+
+	if (Type != 0 && Type != 3 && ItemId == 0) {
+		return FReply::Handled();
+	}
+
+	if(!GetGameInstance()) {
+		return FReply::Handled();
+	}
+	
+	AsyncTask(ENamedThreads::GameThread, [this] {
+		OnRightClicked();
+	});
+
+	return Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
 }

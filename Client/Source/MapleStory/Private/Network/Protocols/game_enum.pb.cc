@@ -18,7 +18,7 @@
 PROTOBUF_PRAGMA_INIT_SEG
 namespace protocol {
 }  // namespace protocol
-static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_game_5fenum_2eproto[5];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_game_5fenum_2eproto[6];
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_game_5fenum_2eproto = nullptr;
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_game_5fenum_2eproto::offsets[1] = {};
 static constexpr ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema* schemas = nullptr;
@@ -77,11 +77,21 @@ const char descriptor_table_protodef_game_5fenum_2eproto[] PROTOBUF_SECTION_VARI
   "_TYPE_ATTACK\020\004\022\027\n\023MOB_ACTION_TYPE_DIE\020\005\022"
   "\031\n\025MOB_ACTION_TYPE_REGEN\020\006*Q\n\010ChatType\022\031"
   "\n\025CHAT_TYPE_UNSPECIFIED\020\000\022\024\n\020CHAT_TYPE_N"
-  "ORMAL\020\001\022\024\n\020CHAT_TYPE_SYSTEM\020\002b\006proto3"
+  "ORMAL\020\001\022\024\n\020CHAT_TYPE_SYSTEM\020\002*\216\003\n\rEquipS"
+  "lotType\022\037\n\033EQUIP_SLOT_TYPE_UNSPECIFIED\020\000"
+  "\022\027\n\023EQUIP_SLOT_TYPE_CAP\020\001\022\030\n\024EQUIP_SLOT_"
+  "TYPE_FACE\020\002\022\030\n\024EQUIP_SLOT_TYPE_RING\020\003\022\027\n"
+  "\023EQUIP_SLOT_TYPE_EYE\020\004\022\027\n\023EQUIP_SLOT_TYP"
+  "E_EAR\020\005\022\034\n\030EQUIP_SLOT_TYPE_SHOULDER\020\006\022\033\n"
+  "\027EQUIP_SLOT_TYPE_CLOTHES\020\007\022\033\n\027EQUIP_SLOT"
+  "_TYPE_PENDANT\020\010\022\032\n\026EQUIP_SLOT_TYPE_WEAPO"
+  "N\020\t\022\031\n\025EQUIP_SLOT_TYPE_GLOVE\020\n\022\031\n\025EQUIP_"
+  "SLOT_TYPE_PANTS\020\013\022\030\n\024EQUIP_SLOT_TYPE_BEL"
+  "T\020\014\022\031\n\025EQUIP_SLOT_TYPE_SHOES\020\rb\006proto3"
   ;
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_game_5fenum_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_game_5fenum_2eproto = {
-  false, false, 2117, descriptor_table_protodef_game_5fenum_2eproto, "game_enum.proto", 
+  false, false, 2518, descriptor_table_protodef_game_5fenum_2eproto, "game_enum.proto", 
   &descriptor_table_game_5fenum_2eproto_once, nullptr, 0, 0,
   schemas, file_default_instances, TableStruct_game_5fenum_2eproto::offsets,
   nullptr, file_level_enum_descriptors_game_5fenum_2eproto, file_level_service_descriptors_game_5fenum_2eproto,
@@ -246,6 +256,32 @@ bool ChatType_IsValid(int value) {
     case 0:
     case 1:
     case 2:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EquipSlotType_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_game_5fenum_2eproto);
+  return file_level_enum_descriptors_game_5fenum_2eproto[5];
+}
+bool EquipSlotType_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
+    case 13:
       return true;
     default:
       return false;

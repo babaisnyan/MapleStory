@@ -3,9 +3,14 @@
 #include "game/basic_stat.h"
 
 namespace game {
+  class Inventory;
+}
+
+namespace game {
   class PlayerStat final : public BasicStat {
   public:
     void UpdateStats() override;
+    void ApplyEquip(const std::shared_ptr<Inventory>& inventory);
 
     int32_t GetStr() const;
     void SetStr(int32_t str);
@@ -51,6 +56,14 @@ namespace game {
     uint64_t _last_collision_time = 0;
 
     /*Dynamic Stats*/
+    int32_t _extra_str = 0;
+    int32_t _extra_dex = 0;
+    int32_t _extra_int = 0;
+    int32_t _extra_luk = 0;
+    int32_t _extra_pad = 0;
+    int32_t _extra_pdd = 0;
+    int32_t _extra_mad = 0;
+    int32_t _extra_mdd = 0;
     double _stat_base = 0.0;
   };
 }

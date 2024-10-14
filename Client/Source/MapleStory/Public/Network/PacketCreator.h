@@ -25,4 +25,9 @@ public:
 	static FSendBufferRef GetChat(const FString& Text);
 	static FSendBufferRef GetReviveRequest();
 	static FSendBufferRef GetAttackRequest(int64 MobId);
+
+	static FSendBufferRef GetMoveItemRequest(int32 Type, int32 From, int32 To);
+	static FSendBufferRef GetUseItemRequest(int32 Pos);
+	static FSendBufferRef GetEquipItemRequest(int32 From, int32 To);
+	static FSendBufferRef GetUnEquipItemRequest(int32 From, int32 To);
 };

@@ -86,6 +86,12 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TObjectPtr<AMsLocalPlayer> CurrentPlayer;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bIsInventoryOpen = false;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bIsEquipOpen = false;
+
 	TOptional<protocol::PlayerInfo> PlayerInfoTemp = TOptional<protocol::PlayerInfo>();
 
 	TQueue<TOptional<protocol::OtherPlayerInfo>> OtherPlayersQueue;

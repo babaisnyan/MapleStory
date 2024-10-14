@@ -13,7 +13,12 @@ class UTextBlock;
 UCLASS()
 class MAPLESTORY_API UInventoryWindow : public UUserWidget {
 	GENERATED_BODY()
-	
+
+public:
+	void RefreshEquip();
+	void RefreshUse();
+	void RefreshEtc();
+
 protected:
 	UFUNCTION(BlueprintCallable)
 	void ShowEquip();
@@ -27,7 +32,7 @@ protected:
 protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "UI")
 	TSubclassOf<UInventorySlot> QuickSlotKeyWidgetClass;
-	
+
 	UPROPERTY(meta = (BindWidget))
 	TObjectPtr<UButton> EquipButton;
 

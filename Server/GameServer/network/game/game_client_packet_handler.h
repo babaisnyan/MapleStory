@@ -30,6 +30,10 @@ namespace game {
     PKT_GAMESERVERATTACK = 3021,
     PKT_GAMESERVERPLAYERLEVELUP = 3022,
     PKT_GAMESERVERADDEXPMESSAGE = 3023,
+    PKT_GAMECLIENTMOVEINVENTORY = 3024,
+    PKT_GAMECLIENTUSEITEM = 3025,
+    PKT_GAMECLIENTEQUIPITEM = 3026,
+    PKT_GAMECLIENTUNEQUIPITEM = 3027,
   };
 
   bool HandleGameInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
@@ -39,6 +43,10 @@ namespace game {
   bool HandleGameClientChat(const PacketSessionRef& session, const protocol::GameClientChat& packet);
   bool HandleGameClientRevive(const PacketSessionRef& session, const protocol::GameClientRevive& packet);
   bool HandleGameClientAttack(const PacketSessionRef& session, const protocol::GameClientAttack& packet);
+  bool HandleGameClientMoveInventory(const PacketSessionRef& session, const protocol::GameClientMoveInventory& packet);
+  bool HandleGameClientUseItem(const PacketSessionRef& session, const protocol::GameClientUseItem& packet);
+  bool HandleGameClientEquipItem(const PacketSessionRef& session, const protocol::GameClientEquipItem& packet);
+  bool HandleGameClientUnequipItem(const PacketSessionRef& session, const protocol::GameClientUnequipItem& packet);
 
   class GameClientPacketHandler {
   public:
@@ -67,6 +75,18 @@ namespace game {
       };
       _packet_handler_map[PKT_GAMECLIENTATTACK] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
         return HandlePacket<protocol::GameClientAttack>(HandleGameClientAttack, session, buffer, len);
+      };
+      _packet_handler_map[PKT_GAMECLIENTMOVEINVENTORY] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+        return HandlePacket<protocol::GameClientMoveInventory>(HandleGameClientMoveInventory, session, buffer, len);
+      };
+      _packet_handler_map[PKT_GAMECLIENTUSEITEM] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+        return HandlePacket<protocol::GameClientUseItem>(HandleGameClientUseItem, session, buffer, len);
+      };
+      _packet_handler_map[PKT_GAMECLIENTEQUIPITEM] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+        return HandlePacket<protocol::GameClientEquipItem>(HandleGameClientEquipItem, session, buffer, len);
+      };
+      _packet_handler_map[PKT_GAMECLIENTUNEQUIPITEM] = [](PacketSessionRef& session, std::byte* buffer, const int32_t len) {
+        return HandlePacket<protocol::GameClientUnequipItem>(HandleGameClientUnequipItem, session, buffer, len);
       };
     }
 

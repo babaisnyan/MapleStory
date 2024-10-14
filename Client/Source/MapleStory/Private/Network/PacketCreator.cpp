@@ -108,3 +108,39 @@ FSendBufferRef FPacketCreator::GetAttackRequest(const int64 MobId) {
 	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
 	return SendBuffer;
 }
+
+FSendBufferRef FPacketCreator::GetMoveItemRequest(const int32 Type, const int32 From, const int32 To) {
+	GameClientMoveInventory Packet;
+	Packet.set_type(Type);
+	Packet.set_src_pos(From);
+	Packet.set_dest_pos(To);
+
+	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
+	return SendBuffer;
+}
+
+FSendBufferRef FPacketCreator::GetUseItemRequest(const int32 Pos) {
+	GameClientUseItem Packet;
+	Packet.set_pos(Pos);
+
+	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
+	return SendBuffer;
+}
+
+FSendBufferRef FPacketCreator::GetEquipItemRequest(const int32 From, const int32 To) {
+	GameClientEquipItem Packet;
+	Packet.set_src_pos(From);
+	Packet.set_dest_pos(To);
+
+	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
+	return SendBuffer;
+}
+
+FSendBufferRef FPacketCreator::GetUnEquipItemRequest(const int32 From, const int32 To) {
+	GameClientUnequipItem Packet;
+	Packet.set_src_pos(From);
+	Packet.set_dest_pos(To);
+
+	const auto SendBuffer = FGameServerPacketHandler::MakeSendBuffer(Packet);
+	return SendBuffer;
+}

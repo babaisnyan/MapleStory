@@ -23,7 +23,10 @@ Player::Player(const int32_t player_id): GameObject(GetNextObjectId()),
                                          _inventory(std::make_shared<Inventory>()) {}
 
 void Player::OnEnter() {
-  _player_stat->UpdateStats();
+  if (_player_stat->IsDirty()) {
+    _player_stat->ApplyEquip(_inventory);
+    _player_stat->UpdateStats();
+  }
 }
 
 void Player::Update(float delta_time) {}
@@ -176,6 +179,7 @@ void Player::AddExp(const int32_t exp) {
 
 std::shared_ptr<PlayerStat> Player::GetStat() const {
   if (_player_stat->IsDirty()) {
+    _player_stat->ApplyEquip(_inventory);
     _player_stat->UpdateStats();
   }
 

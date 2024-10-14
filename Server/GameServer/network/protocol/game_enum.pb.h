@@ -270,6 +270,43 @@ inline bool ChatType_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<ChatType>(
     ChatType_descriptor(), name, value);
 }
+enum EquipSlotType : int {
+  EQUIP_SLOT_TYPE_UNSPECIFIED = 0,
+  EQUIP_SLOT_TYPE_CAP = 1,
+  EQUIP_SLOT_TYPE_FACE = 2,
+  EQUIP_SLOT_TYPE_RING = 3,
+  EQUIP_SLOT_TYPE_EYE = 4,
+  EQUIP_SLOT_TYPE_EAR = 5,
+  EQUIP_SLOT_TYPE_SHOULDER = 6,
+  EQUIP_SLOT_TYPE_CLOTHES = 7,
+  EQUIP_SLOT_TYPE_PENDANT = 8,
+  EQUIP_SLOT_TYPE_WEAPON = 9,
+  EQUIP_SLOT_TYPE_GLOVE = 10,
+  EQUIP_SLOT_TYPE_PANTS = 11,
+  EQUIP_SLOT_TYPE_BELT = 12,
+  EQUIP_SLOT_TYPE_SHOES = 13,
+  EquipSlotType_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::min(),
+  EquipSlotType_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<::PROTOBUF_NAMESPACE_ID::int32>::max()
+};
+bool EquipSlotType_IsValid(int value);
+constexpr EquipSlotType EquipSlotType_MIN = EQUIP_SLOT_TYPE_UNSPECIFIED;
+constexpr EquipSlotType EquipSlotType_MAX = EQUIP_SLOT_TYPE_SHOES;
+constexpr int EquipSlotType_ARRAYSIZE = EquipSlotType_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* EquipSlotType_descriptor();
+template<typename T>
+inline const std::string& EquipSlotType_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, EquipSlotType>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function EquipSlotType_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    EquipSlotType_descriptor(), enum_t_value);
+}
+inline bool EquipSlotType_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, EquipSlotType* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<EquipSlotType>(
+    EquipSlotType_descriptor(), name, value);
+}
 // ===================================================================
 
 
@@ -316,6 +353,11 @@ template <> struct is_proto_enum< ::protocol::ChatType> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::protocol::ChatType>() {
   return ::protocol::ChatType_descriptor();
+}
+template <> struct is_proto_enum< ::protocol::EquipSlotType> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::protocol::EquipSlotType>() {
+  return ::protocol::EquipSlotType_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

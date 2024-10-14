@@ -11,13 +11,36 @@ void UInventoryWindow::ShowEquip() {
 		return;
 	}
 
+	CurrentTabIndex = 0;
+	RefreshEquip();
+}
+
+void UInventoryWindow::ShowUse() {
+	if (CurrentTabIndex == 1) {
+		return;
+	}
+
+	CurrentTabIndex = 1;
+	RefreshUse();
+}
+
+void UInventoryWindow::ShowEtc() {
+	if (CurrentTabIndex == 2) {
+		return;
+	}
+
+	CurrentTabIndex = 2;
+	RefreshEtc();
+}
+
+void UInventoryWindow::RefreshEquip() {
 	const UInventoryManager* InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();
 
 	if (!InventoryManager) {
 		return;
 	}
 
-	CurrentTabIndex = 0;
+
 	WrapBox->ClearChildren();
 
 	for (int i = 0; i < 128; i++) {
@@ -36,18 +59,14 @@ void UInventoryWindow::ShowEquip() {
 	ScrollBox->ScrollToStart();
 }
 
-void UInventoryWindow::ShowUse() {
-	if (CurrentTabIndex == 1) {
-		return;
-	}
-
+void UInventoryWindow::RefreshUse() {
 	const UInventoryManager* InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();
 
 	if (!InventoryManager) {
 		return;
 	}
 
-	CurrentTabIndex = 1;
+
 	WrapBox->ClearChildren();
 
 	for (int i = 0; i < 128; i++) {
@@ -66,18 +85,14 @@ void UInventoryWindow::ShowUse() {
 	ScrollBox->ScrollToStart();
 }
 
-void UInventoryWindow::ShowEtc() {
-	if (CurrentTabIndex == 2) {
-		return;
-	}
-
+void UInventoryWindow::RefreshEtc() {
 	const UInventoryManager* InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();
 
 	if (!InventoryManager) {
 		return;
 	}
 
-	CurrentTabIndex = 2;
+
 	WrapBox->ClearChildren();
 
 	for (int i = 0; i < 128; i++) {

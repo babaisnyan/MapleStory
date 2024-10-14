@@ -105,16 +105,42 @@ void Inventory::SwapItem(const InventoryType type, const int32_t src, const int3
     return;
   }
 
+  if (src == dst) {
+    return;
+  }
+
   std::unique_lock lock(_items_mutex[type]);
+  std::unique_lock remove_lock(_removed_items_mutex);
 
   const auto src_it = _items[type].find(src);
   const auto dst_it = _items[type].find(dst);
 
-  if (src_it == _items[type].end() || dst_it == _items[type].end()) {
+  if (src_it == _items[type].end()) {
     return;
   }
 
-  std::swap(src_it->second, dst_it->second);
+  if (dst_it == _items[type].end()) {
+    _items.at(type).emplace(dst, src_it->second);
+    _items.at(type).erase(src);
+    _removed_items.emplace_back(type, src);
+  } else {
+    if (src_it->second->GetId() != dst_it->second->GetId()) {
+      std::swap(src_it->second, dst_it->second);
+      return;
+    }
+
+    const auto max_count = src_it->second->GetItemTemplate()->GetSlotMax();
+
+    if (src_it->second->GetQuantity() + dst_it->second->GetQuantity() > max_count) {
+      const auto diff = src_it->second->GetQuantity() + dst_it->second->GetQuantity() - max_count;
+      dst_it->second->SetQuantity(max_count);
+      src_it->second->SetQuantity(diff);
+    } else {
+      dst_it->second->SetQuantity(src_it->second->GetQuantity() + dst_it->second->GetQuantity());
+      _items[type].erase(src);
+      _removed_items.emplace_back(type, src);
+    }
+  }
 }
 
 bool Inventory::RemoveItem(const InventoryType type, const int32_t pos) {

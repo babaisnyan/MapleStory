@@ -4,8 +4,11 @@
 #include "game/calc_damage.h"
 #include "game/objects/mob/mob_stat.h"
 #include "game/objects/mob/monster.h"
+#include "game/objects/player/item.h"
+#include "game/objects/player/key_map.h"
 #include "game/objects/player/player.h"
 #include "game/objects/player/player_stat.h"
+#include "game/objects/player/inventory/inventory.h"
 
 #include "utils/randomizer.h"
 
@@ -199,6 +202,34 @@ void MapInstance::OnAttack(const std::shared_ptr<GameSession>& session, const st
   mob->OnDamaged(player, damage);
 }
 
+void MapInstance::OnMoveItem(const std::shared_ptr<Player>& player, const protocol::GameClientMoveInventory& packet) {
+  player->GetInventory()->SwapItem(static_cast<Inventory::InventoryType>(packet.type()), packet.src_pos(), packet.dest_pos());
+}
+
+void MapInstance::OnUseItem(const std::shared_ptr<Player>& player, const protocol::GameClientUseItem& packet) {
+  if (!player->GetInventory()->RemoveItem(Inventory::kUse, packet.pos(), 1)) {
+    return;
+  }
+
+  const auto item = player->GetInventory()->GetItem(Inventory::kUse, packet.pos());
+
+  if (!item.has_value()) {
+    return;
+  }
+
+  const auto item_template = item.value()->GetItemTemplate();
+
+  player->GetStat()->SetHp(min(player->GetStat()->GetHp() + item_template->GetHp(), player->GetStat()->GetMaxHp()));
+  player->GetStat()->SetMp(min(player->GetStat()->GetMp() + item_template->GetMp(), player->GetStat()->GetMaxMp()));
+
+
+  protocol::GameServerUpdatePlayerStat update_stat;
+  update_stat.set_hp(player->GetStat()->GetHp());
+  update_stat.set_mp(player->GetStat()->GetMp());
+
+  Send(update_stat, player->GetId());
+}
+
 void MapInstance::NotifyPlayerDamage(const int32_t damage, const int64_t object_id) {
   protocol::GameServerPlayerDamage player_damage;
   player_damage.set_target_id(object_id);
@@ -230,6 +261,34 @@ void MapInstance::Update(const float delta) {
     if (object->IsAlive()) {
       object->Update(delta);
     }
+  }
+}
+
+void MapInstance::OnChangeKeySetting(const std::shared_ptr<GameSession>& session, const protocol::GameClientChangeKeySetting& packet) {
+  const auto player = session->GetPlayer();
+
+  if (!player) {
+    return;
+  }
+
+  const auto key_map = player->GetKeyMap();
+
+  if (!key_map) {
+    return;
+  }
+
+  return;
+
+  switch (packet.key_setting().key_type()) {
+    case protocol::KEY_TYPE_ITEM:
+      key_map->SetItem(packet.key_setting().key_code(), packet.key_setting().item_id());
+      break;
+    case protocol::KEY_TYPE_SKILL:
+      key_map->SetSkill(packet.key_setting().key_code(), packet.key_setting().skill_id());
+      break;
+    default:
+      key_map->SetKey(packet.key_setting().key_code(), packet.key_setting().key_type());
+      break;
   }
 }
 

@@ -1,6 +1,10 @@
 ﻿#include "pch.h"
 #include "player_stat.h"
 
+#include "item.h"
+
+#include "inventory/inventory.h"
+
 constexpr uint64_t kExpTable[] = {
   0, 15, 34, 57, 92, 135, 372, 560, 840, 1242,
   1242, 1242, 1242, 1242, 1242, 1490, 1788, 2145, 2574, 3088,
@@ -40,16 +44,38 @@ void PlayerStat::UpdateStats() {
   _base_magical_attack = _level * 1.5;
   _base_physical_attack = _level * 1.5;
 
-  // TODO: 장비, 버프에 의한 스탯 증가 적용
+  _physical_defense = _base_physical_defense + _extra_pdd;
+  _magical_defense = _base_magical_defense + _extra_mdd;
+  _magical_attack = _base_magical_attack + _extra_mad;
+  _physical_attack = _base_physical_attack + _extra_pad;
 
-  _physical_defense = _base_physical_defense;
-  _magical_defense = _base_magical_defense;
-  _magical_attack = _base_magical_attack;
-  _physical_attack = _base_physical_attack;
-
-  _stat_base = (_str + _dex + _int + _luk) * 0.25;
+  _stat_base = (_str + _extra_str + _dex + _extra_dex + _int + _extra_int + _luk + _extra_luk) * 0.25;
 
   _is_dirty = false;
+}
+
+void PlayerStat::ApplyEquip(const std::shared_ptr<Inventory>& inventory) {
+  _extra_str = 0;
+  _extra_dex = 0;
+  _extra_int = 0;
+  _extra_luk = 0;
+  _extra_pad = 0;
+  _extra_pdd = 0;
+  _extra_mad = 0;
+  _extra_mdd = 0;
+
+  for (const auto& item : inventory->GetAllItems(Inventory::kEquipped) | std::views::values) {
+    const auto item_template = item->GetItemTemplate();
+
+    _extra_str += item_template->GetIncStr();
+    _extra_dex += item_template->GetIncDex();
+    _extra_int += item_template->GetIncInt();
+    _extra_luk += item_template->GetIncLuk();
+    _extra_pad += item_template->GetIncPad();
+    _extra_pdd += item_template->GetIncPdd();
+    _extra_mad += item_template->GetIncMad();
+    _extra_mdd += item_template->GetIncMdd();
+  }
 }
 
 int32_t PlayerStat::GetStr() const {

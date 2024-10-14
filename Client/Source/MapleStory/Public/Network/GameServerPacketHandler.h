@@ -36,6 +36,10 @@ class FGameServerPacketHandler {
 		PKT_GAMESERVERATTACK = 3021,
 		PKT_GAMESERVERPLAYERLEVELUP = 3022,
 		PKT_GAMESERVERADDEXPMESSAGE = 3023,
+		PKT_GAMECLIENTMOVEINVENTORY = 3024,
+		PKT_GAMECLIENTUSEITEM = 3025,
+		PKT_GAMECLIENTEQUIPITEM = 3026,
+		PKT_GAMECLIENTUNEQUIPITEM = 3027,
 	};
 
 	static bool HandleGameInvalid(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len);
@@ -153,6 +157,18 @@ public:
 	}
 	static FSendBufferRef MakeSendBuffer(const protocol::GameClientAttack& Packet) { 
 		return MakeSendBufferInternal(Packet, PKT_GAMECLIENTATTACK); 
+	}
+	static FSendBufferRef MakeSendBuffer(const protocol::GameClientMoveInventory& Packet) { 
+		return MakeSendBufferInternal(Packet, PKT_GAMECLIENTMOVEINVENTORY); 
+	}
+	static FSendBufferRef MakeSendBuffer(const protocol::GameClientUseItem& Packet) { 
+		return MakeSendBufferInternal(Packet, PKT_GAMECLIENTUSEITEM); 
+	}
+	static FSendBufferRef MakeSendBuffer(const protocol::GameClientEquipItem& Packet) { 
+		return MakeSendBufferInternal(Packet, PKT_GAMECLIENTEQUIPITEM); 
+	}
+	static FSendBufferRef MakeSendBuffer(const protocol::GameClientUnequipItem& Packet) { 
+		return MakeSendBufferInternal(Packet, PKT_GAMECLIENTUNEQUIPITEM); 
 	}
 
 private:

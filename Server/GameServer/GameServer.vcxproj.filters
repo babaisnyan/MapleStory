@@ -45,9 +45,6 @@
     <ClCompile Include="network\protocol\game_struct.pb.cc">
       <Filter>network\protocol</Filter>
     </ClCompile>
-    <ClCompile Include="handler\game\player_handler.cpp">
-      <Filter>handler\game</Filter>
-    </ClCompile>
     <ClCompile Include="handler\center\center_handler.cpp">
       <Filter>handler\center</Filter>
     </ClCompile>
@@ -204,9 +201,6 @@
     <ClInclude Include="network\protocol\game_struct.pb.h">
       <Filter>network\protocol</Filter>
     </ClInclude>
-    <ClInclude Include="handler\game\player_handler.h">
-      <Filter>handler\game</Filter>
-    </ClInclude>
     <ClInclude Include="handler\center\center_handler.h">
       <Filter>handler\center</Filter>
     </ClInclude>
@@ -343,9 +337,6 @@
     </Filter>
     <Filter Include="handler">
       <UniqueIdentifier>{7d021d63-4eb7-4d71-a0a4-60730e219125}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="handler\game">
-      <UniqueIdentifier>{4128f66f-913c-4ce3-86fa-f12ce19c7763}</UniqueIdentifier>
     </Filter>
     <Filter Include="handler\center">
       <UniqueIdentifier>{bec933fa-0d54-4812-809d-b33869a47a38}</UniqueIdentifier>

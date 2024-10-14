@@ -8,6 +8,7 @@ namespace game {
     virtual void UpdateStats() = 0;
 
     bool IsDirty() const;
+    void SetDirty();
 
     int16_t GetLevel() const;
     void SetLevel(int16_t level);

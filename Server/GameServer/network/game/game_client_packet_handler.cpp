@@ -8,8 +8,6 @@
 #include "game/objects/player/key_map.h"
 #include "game/objects/player/player.h"
 
-#include "handler/game/player_handler.h"
-
 #include "manager/job_queue/game_tick.h"
 #include "manager/job_queue/player_db_queue.h"
 
@@ -42,13 +40,20 @@ namespace game {
   }
 
   bool HandleGameClientChangeKeySetting(const PacketSessionRef& session, const protocol::GameClientChangeKeySetting& packet) {
-    if (!packet.has_key_setting()) {
+    const auto game_session = std::static_pointer_cast<GameSession>(session);
+    const auto player = game_session->GetPlayer();
+
+    if (!player) {
       return false;
     }
 
-    const auto game_session = std::static_pointer_cast<GameSession>(session);
-    GameTick::GetInstance()->DoAsync(&GameTick::HandleKeySettingChange, game_session, packet);
+    const auto map = MapManager::GetInstance().GetMapInstance(player->GetMap());
 
+    if (!map.has_value()) {
+      return false;
+    }
+
+    map.value()->DoAsync(&MapInstance::OnChangeKeySetting, game_session, packet);
     return true;
   }
 
@@ -104,6 +109,52 @@ namespace game {
 
     map.value()->DoAsync(&MapInstance::OnAttack, game_session, player, packet);
 
+    return true;
+  }
+
+  bool HandleGameClientMoveInventory(const PacketSessionRef& session, const protocol::GameClientMoveInventory& packet) {
+    const auto game_session = std::static_pointer_cast<GameSession>(session);
+    const auto player = game_session->GetPlayer();
+
+    if (!player) {
+      return false;
+    }
+
+    const auto map = MapManager::GetInstance().GetMapInstance(player->GetMap());
+
+    if (!map.has_value()) {
+      return false;
+    }
+
+    map.value()->DoAsync(&MapInstance::OnMoveItem, player, packet);
+
+    return true;
+  }
+
+  bool HandleGameClientUseItem(const PacketSessionRef& session, const protocol::GameClientUseItem& packet) {
+    const auto game_session = std::static_pointer_cast<GameSession>(session);
+    const auto player = game_session->GetPlayer();
+
+    if (!player) {
+      return false;
+    }
+
+    const auto map = MapManager::GetInstance().GetMapInstance(player->GetMap());
+
+    if (!map.has_value()) {
+      return false;
+    }
+
+    map.value()->DoAsync(&MapInstance::OnUseItem, player, packet);
+
+    return true;
+  }
+
+  bool HandleGameClientEquipItem(const PacketSessionRef& session, const protocol::GameClientEquipItem& packet) {
+    return true;
+  }
+
+  bool HandleGameClientUnequipItem(const PacketSessionRef& session, const protocol::GameClientUnequipItem& packet) {
     return true;
   }
 }

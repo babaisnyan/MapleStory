@@ -15,20 +15,7 @@ namespace game {
 
     void Start();
 
-    template <typename T, typename Ret, typename... Args>
-    void DoAsync(Ret (T::*func)(Args...), Args&&... args);
-
-  public:
-    void HandleKeySettingChange(const GameSessionRef& session, const protocol::GameClientChangeKeySetting& packet);
-
   private:
     std::atomic<bool> _is_running = true;
-    tbb::concurrent_queue<JobRef> _job_queue;
   };
-
-  template <typename T, typename Ret, typename... Args>
-  void GameTick::DoAsync(Ret (T::*func)(Args...), Args&&... args) {
-    const auto shared_obj = std::static_pointer_cast<T>(shared_from_this());
-    _job_queue.push(ObjectPool<Job>::MakeShared(shared_obj, func, std::forward<Args>(args)...));
-  }
 }

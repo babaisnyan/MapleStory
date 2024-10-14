@@ -5,6 +5,10 @@ bool BasicStat::IsDirty() const {
   return _is_dirty;
 }
 
+void BasicStat::SetDirty() {
+  _is_dirty = true;
+}
+
 int16_t BasicStat::GetLevel() const {
   return _level;
 }

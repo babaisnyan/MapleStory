@@ -5,6 +5,7 @@
 #include "InventorySlot.generated.h"
 
 
+class UInventoryManager;
 class UButton;
 class UImage;
 class UTextBlock;
@@ -23,6 +24,9 @@ public:
 private:
 	UFUNCTION()
 	void OnClicked();
+	void OnRightClicked();
+	
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

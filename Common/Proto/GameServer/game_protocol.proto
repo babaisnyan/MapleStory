@@ -135,3 +135,23 @@ message GameServerPlayerLevelUp {
 message GameServerAddExpMessage {
   uint64 exp = 1;
 }
+
+message GameClientMoveInventory {
+  int32 type = 1;
+  int32 src_pos = 2;
+  int32 dest_pos = 3;
+}
+
+message GameClientUseItem {
+  int32 pos = 1;
+}
+
+message GameClientEquipItem {
+  int32 src_pos = 1;
+  int32 dest_pos = 2;
+}
+
+message GameClientUnequipItem {
+  int32 src_pos = 1;
+  int32 dest_pos = 2;
+}

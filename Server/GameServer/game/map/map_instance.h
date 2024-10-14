@@ -27,9 +27,13 @@ namespace game {
     void MoveObject(const std::shared_ptr<GameObject>& object, const int16_t old_x, int16_t old_y);
     void Update(float delta);
 
+    void OnChangeKeySetting(const std::shared_ptr<GameSession>& session, const protocol::GameClientChangeKeySetting& packet);
     void OnChat(const std::shared_ptr<GameSession>& session, const protocol::GameClientChat& packet);
     void OnRevive(const std::shared_ptr<GameSession>& session, const std::shared_ptr<Player>& player);
     void OnAttack(const std::shared_ptr<GameSession>& session, const std::shared_ptr<Player>& player, const protocol::GameClientAttack& packet);
+    void OnMoveItem(const std::shared_ptr<Player>& player, const protocol::GameClientMoveInventory& packet);
+    void OnUseItem(const std::shared_ptr<Player>& player, const protocol::GameClientUseItem& packet);
+
     void NotifyPlayerDamage(int32_t damage, int64_t object_id);
     void NotifyPlayerDeath(int64_t object_id);
     void NotifyPlayerLevelUp(int64_t object_id, int32_t level);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Data/Enum/ESubItemType.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "InventoryManager.generated.h"
 
@@ -13,6 +14,17 @@ class MAPLESTORY_API UInventoryManager : public UGameInstanceSubsystem {
 public:
 	virtual void Deinitialize() override;
 	void Clear();
+
+	void MoveItemEquip(int32 From, int32 To);
+	void MoveItemUse(int32 From, int32 To);
+	void MoveItemEtc(int32 From, int32 To);
+	int32 Equip(int32 From);
+	int32 UnEquip(int32 From);
+	void UseItem(int32 Pos);
+
+private:
+	void MoveItem(TMap<int32, TObjectPtr<UItem>>& Inventory, int32 From, int32 To);
+	int32 GetEquipPos(ESubItemType Type, int32 ItemId);
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory")
