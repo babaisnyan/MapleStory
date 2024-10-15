@@ -34,6 +34,10 @@ void UInventoryWindow::ShowEtc() {
 }
 
 void UInventoryWindow::RefreshEquip() {
+	if (CurrentTabIndex != 0) {
+		return;
+	}
+
 	const UInventoryManager* InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();
 
 	if (!InventoryManager) {
@@ -60,6 +64,10 @@ void UInventoryWindow::RefreshEquip() {
 }
 
 void UInventoryWindow::RefreshUse() {
+	if (CurrentTabIndex != 1) {
+		return;
+	}
+
 	const UInventoryManager* InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();
 
 	if (!InventoryManager) {
@@ -86,6 +94,10 @@ void UInventoryWindow::RefreshUse() {
 }
 
 void UInventoryWindow::RefreshEtc() {
+	if (CurrentTabIndex != 2) {
+		return;
+	}
+
 	const UInventoryManager* InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();
 
 	if (!InventoryManager) {

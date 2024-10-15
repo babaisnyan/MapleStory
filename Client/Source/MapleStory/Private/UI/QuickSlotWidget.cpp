@@ -5,6 +5,21 @@
 #include "Managers/KeySettingManager.h"
 #include "UI/QuickSlotKeyWidget.h"
 
+void UQuickSlotWidget::Refresh() {
+	for (const auto Pair : QuickSlotKeyWidgets) {
+		const TObjectPtr<UQuickSlotKeyWidget> QuickSlotKeyWidget = Pair.Value;
+
+		if (QuickSlotKeyWidget->KeyType == EKeyType::Item) {
+			UInventoryManager* InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();
+
+			if (InventoryManager) {
+				QuickSlotKeyWidget->ItemCount = InventoryManager->GetUseItemCount(QuickSlotKeyWidget->ItemId);
+				QuickSlotKeyWidget->LoadKeyTexture();
+			}
+		}
+	}
+}
+
 void UQuickSlotWidget::InitializeQuickSlotKeyWidgets() {
 	const UKeySettingManager* KeySettingManager = GetGameInstance()->GetSubsystem<UKeySettingManager>();
 	UInventoryManager* InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();

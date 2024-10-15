@@ -120,7 +120,7 @@ void UQuickSlotKeyWidget::OnClicked() {
 			UMsCursor* MsCursor = Cast<UMsCursor>(Object);
 			MsCursor->Clear();
 		}
-	} else {
+	} else if (KeyType == EKeyType::Item) {
 		for (const auto Object : Cursors) {
 			UMsCursor* MsCursor = Cast<UMsCursor>(Object);
 
@@ -210,7 +210,7 @@ void UQuickSlotKeyWidget::OnRightClicked() {
 	ItemId = 0;
 	ItemCount = 0;
 
-	SEND_PACKET(FPacketCreator::GetChangeKeySetting(KeyCode, KeyType, ItemId, SkillId) );
+	SEND_PACKET(FPacketCreator::GetChangeKeySetting(KeyCode, KeyType, ItemId, SkillId));
 }
 
 FReply UQuickSlotKeyWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) {

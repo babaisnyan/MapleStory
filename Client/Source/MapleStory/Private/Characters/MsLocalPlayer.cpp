@@ -7,6 +7,7 @@
 #include "MapleGameInstance.h"
 #include "PaperFlipbookComponent.h"
 #include "Actors/Monster.h"
+#include "Blueprint/WidgetBlueprintLibrary.h"
 #include "Characters/PlayerCamera.h"
 #include "Components/MobStatComponent.h"
 #include "Components/PlayerStatComponent.h"
@@ -29,39 +30,106 @@ AMsLocalPlayer::AMsLocalPlayer() {
 		DefaultContext = DefaultContextFinder.Object;
 	}
 
+	for (int32 i = 1; i <= 6; i++) {
+		ConstructorHelpers::FObjectFinder<UInputAction> QuickSlotActionFinder(*FString::Printf(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_%d.IA_%d'"), i, i));
+		if (QuickSlotActionFinder.Succeeded()) {
+			Actions.Add(static_cast<EAction>(i - 1), QuickSlotActionFinder.Object);
+		}
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> AActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_A.IA_A'"));
+	if (AActionFinder.Succeeded()) {
+		Actions.Add(EAction::A, AActionFinder.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> DeleteActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Delete.IA_Delete'"));
+	if (DeleteActionFinder.Succeeded()) {
+		Actions.Add(EAction::Delete, DeleteActionFinder.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> EndActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_End.IA_End'"));
+	if (EndActionFinder.Succeeded()) {
+		Actions.Add(EAction::End, EndActionFinder.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> HomeActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Home.IA_Home'"));
+	if (HomeActionFinder.Succeeded()) {
+		Actions.Add(EAction::Home, HomeActionFinder.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> InsertActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Insert.IA_Insert'"));
+	if (InsertActionFinder.Succeeded()) {
+		Actions.Add(EAction::Insert, InsertActionFinder.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> PageDownActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Pdn.IA_Pdn'"));
+	if (PageDownActionFinder.Succeeded()) {
+		Actions.Add(EAction::PageDown, PageDownActionFinder.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> PageUpActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Pup.IA_Pup'"));
+	if (PageUpActionFinder.Succeeded()) {
+		Actions.Add(EAction::PageUp, PageUpActionFinder.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> QActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Q.IA_Q'"));
+	if (QActionFinder.Succeeded()) {
+		Actions.Add(EAction::Q, QActionFinder.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> RActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_R.IA_R'"));
+	if (RActionFinder.Succeeded()) {
+		Actions.Add(EAction::R, RActionFinder.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> ShiftActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Shift.IA_Shift'"));
+	if (ShiftActionFinder.Succeeded()) {
+		Actions.Add(EAction::Shift, ShiftActionFinder.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> TActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_T.IA_T'"));
+	if (TActionFinder.Succeeded()) {
+		Actions.Add(EAction::T, TActionFinder.Object);
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> WActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_W.IA_W'"));
+	if (WActionFinder.Succeeded()) {
+		Actions.Add(EAction::W, WActionFinder.Object);
+	}
+
 	static ConstructorHelpers::FObjectFinder<UInputAction> JumpActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Jump.IA_Jump'"));
 	if (JumpActionFinder.Succeeded()) {
-		JumpAction = JumpActionFinder.Object;
+		Actions.Add(EAction::Jump, JumpActionFinder.Object);
 	}
 
 	static ConstructorHelpers::FObjectFinder<UInputAction> AttackActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Attack.IA_Attack'"));
 	if (AttackActionFinder.Succeeded()) {
-		AttackAction = AttackActionFinder.Object;
+		Actions.Add(EAction::Attack, AttackActionFinder.Object);
 	}
 
 	static ConstructorHelpers::FObjectFinder<UInputAction> EnterActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Enter.IA_Enter'"));
 	if (EnterActionFinder.Succeeded()) {
-		EnterAction = EnterActionFinder.Object;
+		Actions.Add(EAction::Enter, EnterActionFinder.Object);
 	}
 
 	static ConstructorHelpers::FObjectFinder<UInputAction> EquipActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Equip.IA_Equip'"));
 	if (EquipActionFinder.Succeeded()) {
-		EquipAction = EquipActionFinder.Object;
+		Actions.Add(EAction::Equip, EquipActionFinder.Object);
 	}
 
 	static ConstructorHelpers::FObjectFinder<UInputAction> InventoryActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Inventory.IA_Inventory'"));
 	if (InventoryActionFinder.Succeeded()) {
-		InventoryAction = InventoryActionFinder.Object;
+		Actions.Add(EAction::Inventory, InventoryActionFinder.Object);
 	}
 
 	static ConstructorHelpers::FObjectFinder<UInputAction> StatActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Stat.IA_Stat'"));
 	if (StatActionFinder.Succeeded()) {
-		StatAction = StatActionFinder.Object;
+		Actions.Add(EAction::Stat, StatActionFinder.Object);
 	}
 
 	static ConstructorHelpers::FObjectFinder<UInputAction> MoveHorizontalActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_MoveHorizontal.IA_MoveHorizontal'"));
 	if (MoveHorizontalActionFinder.Succeeded()) {
-		MoveHorizontalAction = MoveHorizontalActionFinder.Object;
+		Actions.Add(EAction::MoveHorizontal, MoveHorizontalActionFinder.Object);
 	}
 
 	static ConstructorHelpers::FClassFinder<UStatusBarHud> StatusBarHudFinder(TEXT("/Game/UI/HUD/WB_StatusBar.WB_StatusBar_C"));
@@ -148,13 +216,31 @@ void AMsLocalPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::EnhancedJump);
-		EnhancedInputComponent->BindAction(MoveHorizontalAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::EnhancedMoveHorizontal);
-		EnhancedInputComponent->BindAction(EnterAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Enter);
-		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Attack);
-		EnhancedInputComponent->BindAction(EquipAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Equip);
-		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Inventory);
-		EnhancedInputComponent->BindAction(StatAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Stat);
+		EnhancedInputComponent->BindAction(Actions[EAction::Jump], ETriggerEvent::Triggered, this, &AMsLocalPlayer::EnhancedJump);
+		EnhancedInputComponent->BindAction(Actions[EAction::MoveHorizontal], ETriggerEvent::Triggered, this, &AMsLocalPlayer::EnhancedMoveHorizontal);
+		EnhancedInputComponent->BindAction(Actions[EAction::Enter], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Enter);
+		EnhancedInputComponent->BindAction(Actions[EAction::Attack], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Attack);
+		EnhancedInputComponent->BindAction(Actions[EAction::Equip], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Equip);
+		EnhancedInputComponent->BindAction(Actions[EAction::Inventory], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Inventory);
+		EnhancedInputComponent->BindAction(Actions[EAction::Stat], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Stat);
+		EnhancedInputComponent->BindAction(Actions[EAction::Num1], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Num1);
+		EnhancedInputComponent->BindAction(Actions[EAction::Num2], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Num2);
+		EnhancedInputComponent->BindAction(Actions[EAction::Num3], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Num3);
+		EnhancedInputComponent->BindAction(Actions[EAction::Num4], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Num4);
+		EnhancedInputComponent->BindAction(Actions[EAction::Num5], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Num5);
+		EnhancedInputComponent->BindAction(Actions[EAction::Num6], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Num6);
+		EnhancedInputComponent->BindAction(Actions[EAction::A], ETriggerEvent::Triggered, this, &AMsLocalPlayer::A);
+		EnhancedInputComponent->BindAction(Actions[EAction::Delete], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Delete);
+		EnhancedInputComponent->BindAction(Actions[EAction::End], ETriggerEvent::Triggered, this, &AMsLocalPlayer::End);
+		EnhancedInputComponent->BindAction(Actions[EAction::Home], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Home);
+		EnhancedInputComponent->BindAction(Actions[EAction::Insert], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Insert);
+		EnhancedInputComponent->BindAction(Actions[EAction::PageDown], ETriggerEvent::Triggered, this, &AMsLocalPlayer::PageDown);
+		EnhancedInputComponent->BindAction(Actions[EAction::PageUp], ETriggerEvent::Triggered, this, &AMsLocalPlayer::PageUp);
+		EnhancedInputComponent->BindAction(Actions[EAction::Q], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Q);
+		EnhancedInputComponent->BindAction(Actions[EAction::R], ETriggerEvent::Triggered, this, &AMsLocalPlayer::R);
+		EnhancedInputComponent->BindAction(Actions[EAction::Shift], ETriggerEvent::Triggered, this, &AMsLocalPlayer::Shift);
+		EnhancedInputComponent->BindAction(Actions[EAction::T], ETriggerEvent::Triggered, this, &AMsLocalPlayer::T);
+		EnhancedInputComponent->BindAction(Actions[EAction::W], ETriggerEvent::Triggered, this, &AMsLocalPlayer::W);
 	}
 }
 
@@ -418,6 +504,114 @@ void AMsLocalPlayer::Stat(const FInputActionValue& Value) {
 	}
 }
 
+void AMsLocalPlayer::Num1(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::One);
+	}
+}
+
+void AMsLocalPlayer::Num2(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::Two);
+	}
+}
+
+void AMsLocalPlayer::Num3(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::Three);
+	}
+}
+
+void AMsLocalPlayer::Num4(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::Four);
+	}
+}
+
+void AMsLocalPlayer::Num5(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::Five);
+	}
+}
+
+void AMsLocalPlayer::Num6(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::Six);
+	}
+}
+
+void AMsLocalPlayer::A(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::A);
+	}
+}
+
+void AMsLocalPlayer::Delete(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::Delete);
+	}
+}
+
+void AMsLocalPlayer::End(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::End);
+	}
+}
+
+void AMsLocalPlayer::Home(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::Home);
+	}
+}
+
+void AMsLocalPlayer::Insert(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::Insert);
+	}
+}
+
+void AMsLocalPlayer::PageDown(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::PageDown);
+	}
+}
+
+void AMsLocalPlayer::PageUp(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::PageUp);
+	}
+}
+
+void AMsLocalPlayer::Q(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::Q);
+	}
+}
+
+void AMsLocalPlayer::R(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::R);
+	}
+}
+
+void AMsLocalPlayer::Shift(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::Shift);
+	}
+}
+
+void AMsLocalPlayer::T(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::T);
+	}
+}
+
+void AMsLocalPlayer::W(const FInputActionValue& Value) {
+	if (Value.Get<bool>()) {
+		OnQuickSlotKey(EKeyCode::W);
+	}
+}
+
 void AMsLocalPlayer::CheckHitMob() {
 	FVector Start = GetActorLocation();
 	FVector End = Start + GetActorForwardVector() * (bFlip ? -1.0f : 1.0f) * 100.0f;
@@ -442,6 +636,53 @@ void AMsLocalPlayer::CheckHitMob() {
 
 	const auto Packet = FPacketCreator::GetAttackRequest(0);
 	SEND_PACKET(Packet);
+}
+
+void AMsLocalPlayer::OnQuickSlotKey(const EKeyCode Action) {
+	if (bIsDead || !QuickSlotWidget) {
+		return;
+	}
+
+	if (!LastKeyTime.Contains(Action)) {
+		LastKeyTime.Add(Action, GetWorld()->GetTimeSeconds());
+	} else if (FMath::Abs(GetWorld()->GetTimeSeconds() - LastKeyTime[Action]) < 0.25f) {
+		return;
+	}
+
+	if (!InventoryManager || !KeySettingManager) {
+		return;
+	}
+
+	const TSharedPtr<protocol::KeySetting> KeySetting = KeySettingManager->Get(Action);
+
+	if (!KeySetting) {
+		return;
+	}
+
+	if (KeySetting->key_type() != protocol::KEY_TYPE_ITEM || !KeySetting->has_item_id() || KeySetting->item_id() == 0) {
+		return;
+	}
+
+	const int32 Pos = InventoryManager->UseItemById(KeySetting->item_id());
+
+	if (Pos == -1) {
+		return;
+	}
+
+	TArray<UUserWidget*> Windows;
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), Windows, UInventoryWindow::StaticClass(), false);
+
+	for (const auto Object : Windows) {
+		UInventoryWindow* InventoryWindow = Cast<UInventoryWindow>(Object);
+
+		if (InventoryWindow && InventoryWindow->IsInViewport()) {
+			InventoryWindow->RefreshUse();
+		}
+	}
+
+	QuickSlotWidget->Refresh();
+	LastKeyTime[Action] = GetWorld()->GetTimeSeconds();
+	SEND_PACKET(FPacketCreator::GetUseItemRequest(Pos));
 }
 
 void AMsLocalPlayer::UpdateStatusBar() const {

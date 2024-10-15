@@ -91,9 +91,9 @@ void UInventoryManager::UseItem(const int32 Pos) {
 	}
 }
 
-void UInventoryManager::UseItemById(const int32 ItemId) {
+int32 UInventoryManager::UseItemById(const int32 ItemId) {
 	if (GetUseItemCount(ItemId) < 1) {
-		return;
+		return -1;
 	}
 
 	for (const auto Pair : UseInventory) {
@@ -101,9 +101,11 @@ void UInventoryManager::UseItemById(const int32 ItemId) {
 
 		if (Item->Template.ItemId == ItemId) {
 			UseItem(Pair.Key);
-			break;
+			return Pair.Key;
 		}
 	}
+
+	return -1;
 }
 
 int32 UInventoryManager::GetUseItemCount(const int32 ItemId) {

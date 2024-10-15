@@ -11,6 +11,9 @@ UCLASS()
 class MAPLESTORY_API UQuickSlotWidget : public UUserWidget {
 	GENERATED_BODY()
 
+public:
+	void Refresh();
+	
 protected:
 	UFUNCTION(BlueprintCallable)
 	void InitializeQuickSlotKeyWidgets();

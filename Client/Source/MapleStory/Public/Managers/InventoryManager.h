@@ -21,7 +21,7 @@ public:
 	int32 Equip(int32 From);
 	int32 UnEquip(int32 From);
 	void UseItem(int32 Pos);
-	void UseItemById(int32 ItemId);
+	int32 UseItemById(int32 ItemId);
 	int32 GetUseItemCount(int32 ItemId);
 	bool CanEquip(int32 Pos);
 
