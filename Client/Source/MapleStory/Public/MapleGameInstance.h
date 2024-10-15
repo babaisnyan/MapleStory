@@ -92,6 +92,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool bIsEquipOpen = false;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bIsStatOpen = false;
+
 	TOptional<protocol::PlayerInfo> PlayerInfoTemp = TOptional<protocol::PlayerInfo>();
 
 	TQueue<TOptional<protocol::OtherPlayerInfo>> OtherPlayersQueue;
