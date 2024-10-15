@@ -10,7 +10,9 @@ namespace game {
   class Inventory {
   public:
     enum : uint8_t {
-      kMaxSlot = 128
+      kMaxSlot = 128,
+      kMinEquipSlot = 1,
+      kMaxEquipSlot = 13
     };
 
     enum InventoryType : uint8_t {
@@ -31,6 +33,8 @@ namespace game {
     bool RemoveItem(InventoryType type, int32_t pos);
     bool RemoveItem(InventoryType type, int32_t pos, int32_t quantity);
     [[nodiscard]] std::map<int32_t, std::shared_ptr<Item>> GetAllItems(InventoryType type) const;
+    bool Equip(int32_t src, int32_t dst);
+    bool Unequip(int32_t src, int32_t dst);
 
     bool CanHold(InventoryType type, uint32_t id, int32_t quantity, int32_t max_count) const;
 

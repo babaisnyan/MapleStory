@@ -33,6 +33,7 @@ namespace game {
     void SetMap(int32_t map);
     bool CanAttack() const;
     void AddExp(int32_t exp);
+    void AddMeso(int32_t meso);
 
     std::shared_ptr<PlayerStat> GetStat() const;
     std::shared_ptr<KeyMap> GetKeyMap() const;

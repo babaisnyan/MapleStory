@@ -243,7 +243,7 @@ bool FGameServerPacketHandler::HandleGameServerPlayerLevelUp(const TObjectPtr<UT
 	if (!GameMode) {
 		return true;
 	}
-	
+
 	if (Packet.object_id() == GameInstance->CurrentPlayer->ObjectId) {
 		GameInstance->CurrentPlayer->OnLevelUp();
 	} else {
@@ -254,6 +254,13 @@ bool FGameServerPacketHandler::HandleGameServerPlayerLevelUp(const TObjectPtr<UT
 }
 
 bool FGameServerPacketHandler::HandleGameServerAddExpMessage(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerAddExpMessage& Packet) {
-	
+	return true;
+}
+
+bool FGameServerPacketHandler::HandleGameServerAddMeso(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerAddMeso& Packet) {
+	if (GameInstance->CurrentPlayer) {
+		GameInstance->CurrentPlayer->Meso += Packet.meso();
+	}
+
 	return true;
 }

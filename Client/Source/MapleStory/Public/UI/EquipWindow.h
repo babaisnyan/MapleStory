@@ -9,7 +9,7 @@ UCLASS()
 class MAPLESTORY_API UEquipWindow : public UUserWidget {
 	GENERATED_BODY()
 
-protected:
+public:
 	UFUNCTION(BlueprintCallable)
 	void LoadIcons();
 

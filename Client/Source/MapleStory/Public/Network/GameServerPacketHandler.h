@@ -40,6 +40,7 @@ class FGameServerPacketHandler {
 		PKT_GAMECLIENTUSEITEM = 3025,
 		PKT_GAMECLIENTEQUIPITEM = 3026,
 		PKT_GAMECLIENTUNEQUIPITEM = 3027,
+		PKT_GAMESERVERADDMESO = 3028,
 	};
 
 	static bool HandleGameInvalid(const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len);
@@ -61,6 +62,7 @@ class FGameServerPacketHandler {
 	static bool HandleGameServerAttack(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerAttack& Packet);
 	static bool HandleGameServerPlayerLevelUp(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerPlayerLevelUp& Packet);
 	static bool HandleGameServerAddExpMessage(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerAddExpMessage& Packet);
+	static bool HandleGameServerAddMeso(const TObjectPtr<UTCPClientComponent>& Client, const protocol::GameServerAddMeso& Packet);
 
 public:
 	static void Init(const TWeakObjectPtr<UMapleGameInstance>& Instance) {
@@ -123,6 +125,9 @@ public:
 		};
 		PacketHandlers[PKT_GAMESERVERADDEXPMESSAGE] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
 			return HandlePacket<protocol::GameServerAddExpMessage>(HandleGameServerAddExpMessage, Client, Buffer, Len);
+		};
+		PacketHandlers[PKT_GAMESERVERADDMESO] = [](const TObjectPtr<UTCPClientComponent>& Client, const uint8* Buffer, const int32 Len) {
+			return HandlePacket<protocol::GameServerAddMeso>(HandleGameServerAddMeso, Client, Buffer, Len);
 		};
 	}
 

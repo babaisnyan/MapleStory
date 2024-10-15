@@ -72,7 +72,7 @@ void Player::Kill() {
 }
 
 void Player::Revive() {
-  _player_stat->SetHp(_player_stat->GetMaxHp());
+  _player_stat->SetHp(_player_stat->GetBuffedMaxHp());
   _player_stat->SetMp(_player_stat->GetMaxMp());
   _is_alive = true;
 }
@@ -174,6 +174,19 @@ void Player::AddExp(const int32_t exp) {
     if (level_up) {
       map.value()->NotifyPlayerLevelUp(_object_id, _player_stat->GetLevel());
     }
+  }
+}
+
+void Player::AddMeso(const int32_t meso) {
+  _meso += meso;
+
+  protocol::GameServerAddMeso message;
+  message.set_meso(meso);
+
+  const auto map = MapManager::GetInstance().GetMapInstance(_map);
+
+  if (map.has_value()) {
+    map.value()->Send(message, _id);
   }
 }
 

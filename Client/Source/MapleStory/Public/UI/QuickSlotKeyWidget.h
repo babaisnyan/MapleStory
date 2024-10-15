@@ -6,6 +6,7 @@
 #include "Data/Enum/EKeyType.h"
 #include "QuickSlotKeyWidget.generated.h"
 
+class UMsCursor;
 class UButton;
 class UTextBlock;
 class UImage;
@@ -28,6 +29,10 @@ protected:
 private:
 	UFUNCTION()
 	void OnClicked();
+	void OnAssignItem(UMsCursor* MsCursor);
+	void OnRightClicked();
+	
+	virtual FReply NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) override;
 	
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)

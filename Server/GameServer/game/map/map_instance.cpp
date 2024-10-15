@@ -219,15 +219,40 @@ void MapInstance::OnUseItem(const std::shared_ptr<Player>& player, const protoco
 
   const auto item_template = item.value()->GetItemTemplate();
 
-  player->GetStat()->SetHp(min(player->GetStat()->GetHp() + item_template->GetHp(), player->GetStat()->GetMaxHp()));
+  player->GetStat()->SetHp(min(player->GetStat()->GetHp() + item_template->GetHp(), player->GetStat()->GetBuffedMaxHp()));
   player->GetStat()->SetMp(min(player->GetStat()->GetMp() + item_template->GetMp(), player->GetStat()->GetMaxMp()));
 
+  NotifyPlayerStatChange(player);
+}
 
-  protocol::GameServerUpdatePlayerStat update_stat;
-  update_stat.set_hp(player->GetStat()->GetHp());
-  update_stat.set_mp(player->GetStat()->GetMp());
+void MapInstance::OnEquipItem(const std::shared_ptr<Player>& player, const protocol::GameClientEquipItem& packet) {
+  if (!player->GetInventory()->Equip(packet.src_pos(), packet.dest_pos())) {
+    return;
+  }
 
-  Send(update_stat, player->GetId());
+  player->GetStat()->ApplyEquip(player->GetInventory());
+  player->GetStat()->UpdateStats();
+
+  if (player->GetStat()->GetHp() > player->GetStat()->GetBuffedMaxHp()) {
+    player->GetStat()->SetHp(player->GetStat()->GetBuffedMaxHp());
+  }
+
+  NotifyPlayerStatChange(player);
+}
+
+void MapInstance::OnUnequipItem(const std::shared_ptr<Player>& player, const protocol::GameClientUnequipItem& packet) {
+  if (!player->GetInventory()->Unequip(packet.src_pos(), packet.dest_pos())) {
+    return;
+  }
+
+  player->GetStat()->ApplyEquip(player->GetInventory());
+  player->GetStat()->UpdateStats();
+
+  if (player->GetStat()->GetHp() > player->GetStat()->GetBuffedMaxHp()) {
+    player->GetStat()->SetHp(player->GetStat()->GetBuffedMaxHp());
+  }
+
+  NotifyPlayerStatChange(player);
 }
 
 void MapInstance::NotifyPlayerDamage(const int32_t damage, const int64_t object_id) {
@@ -248,6 +273,20 @@ void MapInstance::NotifyPlayerLevelUp(const int64_t object_id, const int32_t lev
   level_up.set_object_id(object_id);
   level_up.set_level(level);
   BroadCast(level_up, nullptr);
+}
+
+void MapInstance::NotifyPlayerStatChange(const std::shared_ptr<Player>& player) {
+  protocol::GameServerUpdatePlayerStat update_stat;
+  update_stat.set_hp(player->GetStat()->GetHp());
+  update_stat.set_max_hp(player->GetStat()->GetBuffedMaxHp());
+  update_stat.set_mp(player->GetStat()->GetMp());
+  update_stat.set_max_mp(player->GetStat()->GetMaxMp());
+  update_stat.set_str(player->GetStat()->GetStr());
+  update_stat.set_dex(player->GetStat()->GetDex());
+  update_stat.set_luk(player->GetStat()->GetLuk());
+  update_stat.set_int_(player->GetStat()->GetInt());
+  update_stat.set_level(player->GetStat()->GetLevel());
+  Send(update_stat, player->GetId());
 }
 
 void MapInstance::Update(const float delta) {
@@ -276,8 +315,6 @@ void MapInstance::OnChangeKeySetting(const std::shared_ptr<GameSession>& session
   if (!key_map) {
     return;
   }
-
-  return;
 
   switch (packet.key_setting().key_type()) {
     case protocol::KEY_TYPE_ITEM:

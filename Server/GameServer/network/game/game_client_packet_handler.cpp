@@ -151,10 +151,40 @@ namespace game {
   }
 
   bool HandleGameClientEquipItem(const PacketSessionRef& session, const protocol::GameClientEquipItem& packet) {
+    const auto game_session = std::static_pointer_cast<GameSession>(session);
+    const auto player = game_session->GetPlayer();
+
+    if (!player) {
+      return false;
+    }
+
+    const auto map = MapManager::GetInstance().GetMapInstance(player->GetMap());
+
+    if (!map.has_value()) {
+      return false;
+    }
+
+    map.value()->DoAsync(&MapInstance::OnEquipItem, player, packet);
+
     return true;
   }
 
   bool HandleGameClientUnequipItem(const PacketSessionRef& session, const protocol::GameClientUnequipItem& packet) {
+    const auto game_session = std::static_pointer_cast<GameSession>(session);
+    const auto player = game_session->GetPlayer();
+
+    if (!player) {
+      return false;
+    }
+
+    const auto map = MapManager::GetInstance().GetMapInstance(player->GetMap());
+
+    if (!map.has_value()) {
+      return false;
+    }
+
+    map.value()->DoAsync(&MapInstance::OnUnequipItem, player, packet);
+
     return true;
   }
 }

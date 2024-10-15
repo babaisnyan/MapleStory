@@ -55,6 +55,7 @@ void PlayerStat::UpdateStats() {
 }
 
 void PlayerStat::ApplyEquip(const std::shared_ptr<Inventory>& inventory) {
+  _is_dirty = true;
   _extra_str = 0;
   _extra_dex = 0;
   _extra_int = 0;
@@ -63,6 +64,7 @@ void PlayerStat::ApplyEquip(const std::shared_ptr<Inventory>& inventory) {
   _extra_pdd = 0;
   _extra_mad = 0;
   _extra_mdd = 0;
+  _extra_hp = 0;
 
   for (const auto& item : inventory->GetAllItems(Inventory::kEquipped) | std::views::values) {
     const auto item_template = item->GetItemTemplate();
@@ -75,6 +77,7 @@ void PlayerStat::ApplyEquip(const std::shared_ptr<Inventory>& inventory) {
     _extra_pdd += item_template->GetIncPdd();
     _extra_mad += item_template->GetIncMad();
     _extra_mdd += item_template->GetIncMdd();
+    _extra_hp += item_template->GetIncMhp();
   }
 }
 
@@ -128,6 +131,10 @@ int32_t PlayerStat::GetSp() const {
 
 void PlayerStat::SetSp(const int32_t sp) {
   _sp = sp;
+}
+
+int32_t PlayerStat::GetBuffedMaxHp() const {
+  return _extra_hp + _max_hp;
 }
 
 int32_t PlayerStat::GetMp() const {

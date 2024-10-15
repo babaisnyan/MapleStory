@@ -150,6 +150,8 @@ void Monster::OnDamaged(const std::shared_ptr<Player>& attacker, const int32_t d
     }
 
     const auto exp = _mob_template->GetExp();
+
+    attacker->AddMeso(_mob_template->GetLevel() * 200);
     attacker->AddExp(exp * 100);
   } else {
     if (_mob_template->HasAction(protocol::MOB_ACTION_TYPE_ATTACK)) {

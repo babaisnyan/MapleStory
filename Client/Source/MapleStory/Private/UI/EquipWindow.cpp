@@ -4,10 +4,10 @@
 #include "Managers/InventoryManager.h"
 
 void UEquipWindow::LoadIcons() {
-	if (ItemWidgets.Num() != 12) {
+	if (ItemWidgets.Num() != 13) {
 		return;
 	}
-
+	
 	const TObjectPtr<UInventoryManager> InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();
 
 	if (!InventoryManager) {

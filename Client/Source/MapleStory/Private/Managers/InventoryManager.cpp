@@ -1,5 +1,8 @@
 #include "Managers/InventoryManager.h"
 
+#include "MapleGameInstance.h"
+#include "Characters/MsLocalPlayer.h"
+#include "Components/PlayerStatComponent.h"
 #include "Data/Item.h"
 
 void UInventoryManager::Deinitialize() {
@@ -33,6 +36,11 @@ int32 UInventoryManager::Equip(const int32 From) {
 
 	const TObjectPtr<UItem>& Item = EquipInventory[From];
 	const int32 Pos = GetEquipPos(Item->Template.SubType, Item->Template.ItemId);
+
+	if (EquippedInventory.Contains(Pos)) {
+		Swap(EquippedInventory[Pos], EquipInventory[From]);
+		return Pos;
+	}
 
 	if (Pos == 0) {
 		return -1;
@@ -81,6 +89,73 @@ void UInventoryManager::UseItem(const int32 Pos) {
 	if (--Item->Quantity <= 0) {
 		UseInventory.Remove(Pos);
 	}
+}
+
+void UInventoryManager::UseItemById(const int32 ItemId) {
+	if (GetUseItemCount(ItemId) < 1) {
+		return;
+	}
+
+	for (const auto Pair : UseInventory) {
+		const TObjectPtr<UItem>& Item = Pair.Value;
+
+		if (Item->Template.ItemId == ItemId) {
+			UseItem(Pair.Key);
+			break;
+		}
+	}
+}
+
+int32 UInventoryManager::GetUseItemCount(const int32 ItemId) {
+	int32 Count = 0;
+
+	for (const auto Pair : UseInventory) {
+		const TObjectPtr<UItem>& Item = Pair.Value;
+
+		if (Item->Template.ItemId == ItemId) {
+			Count += Item->Quantity;
+		}
+	}
+
+	return Count;
+}
+
+bool UInventoryManager::CanEquip(const int32 Pos) {
+	if (!EquipInventory.Contains(Pos)) {
+		return false;
+	}
+
+	const UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
+
+	if (!GameInstance) {
+		return false;
+	}
+
+	const TObjectPtr<UItem> Item = EquipInventory[Pos];
+	const FItemTemplate& ItemInfo = Item->Template;
+	const TObjectPtr<UPlayerStatComponent> PlayerStat = GameInstance->CurrentPlayer->PlayerStat;
+
+	if (ItemInfo.ReqLevel > PlayerStat->Level) {
+		return false;
+	}
+
+	if (ItemInfo.ReqStr > PlayerStat->Str) {
+		return false;
+	}
+
+	if (ItemInfo.ReqDex > PlayerStat->Dex) {
+		return false;
+	}
+
+	if (ItemInfo.ReqInt > PlayerStat->Int) {
+		return false;
+	}
+
+	if (ItemInfo.ReqLuk > PlayerStat->Luk) {
+		return false;
+	}
+
+	return true;
 }
 
 void UInventoryManager::MoveItem(TMap<int32, TObjectPtr<UItem>>& Inventory, const int32 From, const int32 To) {

@@ -155,3 +155,7 @@ message GameClientUnequipItem {
   int32 src_pos = 1;
   int32 dest_pos = 2;
 }
+
+message GameServerAddMeso {
+  int32 meso = 1;
+}

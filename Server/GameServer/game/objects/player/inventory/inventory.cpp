@@ -200,6 +200,60 @@ std::map<int32_t, std::shared_ptr<Item>> Inventory::GetAllItems(const InventoryT
   return items;
 }
 
+bool Inventory::Equip(const int32_t src, const int32_t dst) {
+  if (src < 0 || src >= kMaxSlot || dst < kMinEquipSlot || dst >= kMaxEquipSlot) {
+    return false;
+  }
+
+  std::unique_lock lock(_items_mutex[kEquip]);
+  std::unique_lock equipped_lock(_items_mutex[kEquipped]);
+  std::unique_lock remove_lock(_removed_items_mutex);
+
+  const auto src_it = _items[kEquip].find(src);
+  const auto dst_it = _items[kEquipped].find(dst);
+
+  if (src_it == _items[kEquip].end()) {
+    return false;
+  }
+
+  if (dst_it != _items[kEquipped].end()) {
+    std::swap(src_it->second, dst_it->second);
+  } else {
+    _items[kEquipped].emplace(dst, src_it->second);
+    _items[kEquip].erase(src);
+    _removed_items.emplace_back(kEquip, src);
+  }
+
+  return true;
+}
+
+bool Inventory::Unequip(int32_t src, int32_t dst) {
+  if (src < kMinEquipSlot || src >= kMaxEquipSlot || dst < 0 || dst >= kMaxSlot) {
+    return false;
+  }
+
+  std::unique_lock lock(_items_mutex[kEquip]);
+  std::unique_lock equipped_lock(_items_mutex[kEquipped]);
+  std::unique_lock remove_lock(_removed_items_mutex);
+
+  if (_items[kEquipped].size() >= kMaxSlot) {
+    return false;
+  }
+
+  const auto src_it = _items[kEquipped].find(src);
+  const auto dst_it = _items[kEquip].find(dst);
+
+  if (src_it == _items[kEquipped].end()) {
+    return false;
+  }
+
+  _items[kEquip].emplace(dst, src_it->second);
+  _items[kEquipped].erase(src);
+  _removed_items.emplace_back(kEquipped, src);
+
+  return true;
+}
+
 bool Inventory::CanHold(const InventoryType type, const uint32_t id, int32_t quantity, const int32_t max_count) const {
   std::shared_lock lock(_items_mutex[type]);
 

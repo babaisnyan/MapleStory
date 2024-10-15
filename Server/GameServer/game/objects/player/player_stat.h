@@ -30,6 +30,8 @@ namespace game {
     int32_t GetSp() const;
     void SetSp(int32_t sp);
 
+    int32_t GetBuffedMaxHp() const;
+
     int32_t GetMp() const;
     void SetMp(int32_t mp);
 
@@ -64,6 +66,7 @@ namespace game {
     int32_t _extra_pdd = 0;
     int32_t _extra_mad = 0;
     int32_t _extra_mdd = 0;
+    int32_t _extra_hp = 0;
     double _stat_base = 0.0;
   };
 }

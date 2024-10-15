@@ -44,6 +44,21 @@ AMsLocalPlayer::AMsLocalPlayer() {
 		EnterAction = EnterActionFinder.Object;
 	}
 
+	static ConstructorHelpers::FObjectFinder<UInputAction> EquipActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Equip.IA_Equip'"));
+	if (EquipActionFinder.Succeeded()) {
+		EquipAction = EquipActionFinder.Object;
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> InventoryActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Inventory.IA_Inventory'"));
+	if (InventoryActionFinder.Succeeded()) {
+		InventoryAction = InventoryActionFinder.Object;
+	}
+
+	static ConstructorHelpers::FObjectFinder<UInputAction> StatActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_Stat.IA_Stat'"));
+	if (StatActionFinder.Succeeded()) {
+		StatAction = StatActionFinder.Object;
+	}
+
 	static ConstructorHelpers::FObjectFinder<UInputAction> MoveHorizontalActionFinder(TEXT("/Script/EnhancedInput.InputAction'/Game/Misc/Input/IA_MoveHorizontal.IA_MoveHorizontal'"));
 	if (MoveHorizontalActionFinder.Succeeded()) {
 		MoveHorizontalAction = MoveHorizontalActionFinder.Object;
@@ -67,6 +82,21 @@ AMsLocalPlayer::AMsLocalPlayer() {
 	static ConstructorHelpers::FClassFinder<UUserWidget> DeathNoticeFinder(TEXT("/Game/UI/Common/WBP_DeadNotice.WBP_DeadNotice_C"));
 	if (DeathNoticeFinder.Succeeded()) {
 		DeathNoticeClass = DeathNoticeFinder.Class;
+	}
+
+	static ConstructorHelpers::FClassFinder<UEquipWindow> EquipWindowFinder(TEXT("/Game/UI/Windows/WBP_EquipWindow.WBP_EquipWindow_C"));
+	if (EquipWindowFinder.Succeeded()) {
+		EquipWindowClass = EquipWindowFinder.Class;
+	}
+
+	static ConstructorHelpers::FClassFinder<UInventoryWindow> InventoryWindowFinder(TEXT("/Game/UI/Windows/WBP_InventoryWindow.WBP_InventoryWindow_C"));
+	if (InventoryWindowFinder.Succeeded()) {
+		InventoryWindowClass = InventoryWindowFinder.Class;
+	}
+
+	static ConstructorHelpers::FClassFinder<UStatWindow> StatWindowFinder(TEXT("/Game/UI/Windows/WBP_StatWindow.WBP_StatWindow_C"));
+	if (StatWindowFinder.Succeeded()) {
+		StatWindowClass = StatWindowFinder.Class;
 	}
 
 	UCharacterMovementComponent* MovementComponent = GetCharacterMovement();
@@ -122,6 +152,9 @@ void AMsLocalPlayer::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 		EnhancedInputComponent->BindAction(MoveHorizontalAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::EnhancedMoveHorizontal);
 		EnhancedInputComponent->BindAction(EnterAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Enter);
 		EnhancedInputComponent->BindAction(AttackAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Attack);
+		EnhancedInputComponent->BindAction(EquipAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Equip);
+		EnhancedInputComponent->BindAction(InventoryAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Inventory);
+		EnhancedInputComponent->BindAction(StatAction, ETriggerEvent::Triggered, this, &AMsLocalPlayer::Stat);
 	}
 }
 
@@ -192,7 +225,7 @@ void AMsLocalPlayer::Setup(const protocol::PlayerInfo& Info) {
 		TObjectPtr<UItem> Item = NewObject<UItem>();
 		Item->Template = *ItemManager->GetItemTemplate(ItemInfo.id());
 		Item->Quantity = ItemInfo.count();
-		
+
 		switch (ItemInfo.type()) {
 			case 0:
 				InventoryManager->EquipInventory.Emplace(ItemInfo.pos(), Item);
@@ -314,6 +347,74 @@ void AMsLocalPlayer::Attack(const FInputActionValue& Value) {
 
 		bIsAttacking = true;
 		LastAttackTime = Now;
+	}
+}
+
+void AMsLocalPlayer::Equip(const FInputActionValue& Value) {
+	if (bIsDead) {
+		return;
+	}
+
+	UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
+
+	if (!GameInstance) {
+		return;
+	}
+
+	if (GameInstance->bIsEquipOpen) {
+		return;
+	}
+
+	if (EquipWindowClass) {
+		UEquipWindow* EquipWindow = CreateWidget<UEquipWindow>(GetWorld(), EquipWindowClass);
+		EquipWindow->AddToViewport(4);
+		EquipWindow->LoadIcons();
+		GameInstance->bIsEquipOpen = true;
+	}
+}
+
+void AMsLocalPlayer::Inventory(const FInputActionValue& Value) {
+	if (bIsDead) {
+		return;
+	}
+
+	UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
+
+	if (!GameInstance) {
+		return;
+	}
+
+	if (GameInstance->bIsInventoryOpen) {
+		return;
+	}
+
+	if (InventoryWindowClass) {
+		UInventoryWindow* InventoryWindow = CreateWidget<UInventoryWindow>(GetWorld(), InventoryWindowClass);
+		InventoryWindow->AddToViewport(5);
+		InventoryWindow->RefreshEquip();
+		GameInstance->bIsInventoryOpen = true;
+	}
+}
+
+void AMsLocalPlayer::Stat(const FInputActionValue& Value) {
+	if (bIsDead) {
+		return;
+	}
+
+	UMapleGameInstance* GameInstance = Cast<UMapleGameInstance>(GetGameInstance());
+
+	if (!GameInstance) {
+		return;
+	}
+
+	if (GameInstance->bIsStatOpen) {
+		return;
+	}
+
+	if (StatWindowClass) {
+		UStatWindow* StatWindow = CreateWidget<UStatWindow>(GetWorld(), StatWindowClass);
+		StatWindow->AddToViewport(6);
+		GameInstance->bIsStatOpen = true;
 	}
 }
 

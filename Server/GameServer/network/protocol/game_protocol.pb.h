@@ -48,7 +48,7 @@ struct TableStruct_game_5fprotocol_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[28]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[29]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -89,6 +89,9 @@ extern GameClientUseItemDefaultTypeInternal _GameClientUseItem_default_instance_
 class GameServerAddExpMessage;
 struct GameServerAddExpMessageDefaultTypeInternal;
 extern GameServerAddExpMessageDefaultTypeInternal _GameServerAddExpMessage_default_instance_;
+class GameServerAddMeso;
+struct GameServerAddMesoDefaultTypeInternal;
+extern GameServerAddMesoDefaultTypeInternal _GameServerAddMeso_default_instance_;
 class GameServerAddMonster;
 struct GameServerAddMonsterDefaultTypeInternal;
 extern GameServerAddMonsterDefaultTypeInternal _GameServerAddMonster_default_instance_;
@@ -153,6 +156,7 @@ template<> ::protocol::GameClientRevive* Arena::CreateMaybeMessage<::protocol::G
 template<> ::protocol::GameClientUnequipItem* Arena::CreateMaybeMessage<::protocol::GameClientUnequipItem>(Arena*);
 template<> ::protocol::GameClientUseItem* Arena::CreateMaybeMessage<::protocol::GameClientUseItem>(Arena*);
 template<> ::protocol::GameServerAddExpMessage* Arena::CreateMaybeMessage<::protocol::GameServerAddExpMessage>(Arena*);
+template<> ::protocol::GameServerAddMeso* Arena::CreateMaybeMessage<::protocol::GameServerAddMeso>(Arena*);
 template<> ::protocol::GameServerAddMonster* Arena::CreateMaybeMessage<::protocol::GameServerAddMonster>(Arena*);
 template<> ::protocol::GameServerAddPlayer* Arena::CreateMaybeMessage<::protocol::GameServerAddPlayer>(Arena*);
 template<> ::protocol::GameServerAttack* Arena::CreateMaybeMessage<::protocol::GameServerAttack>(Arena*);
@@ -4425,6 +4429,138 @@ class GameClientUnequipItem final :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   friend struct ::TableStruct_game_5fprotocol_2eproto;
 };
+// -------------------------------------------------------------------
+
+class GameServerAddMeso final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:protocol.GameServerAddMeso) */ {
+ public:
+  inline GameServerAddMeso() : GameServerAddMeso(nullptr) {}
+  ~GameServerAddMeso() override;
+  explicit constexpr GameServerAddMeso(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  GameServerAddMeso(const GameServerAddMeso& from);
+  GameServerAddMeso(GameServerAddMeso&& from) noexcept
+    : GameServerAddMeso() {
+    *this = ::std::move(from);
+  }
+
+  inline GameServerAddMeso& operator=(const GameServerAddMeso& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline GameServerAddMeso& operator=(GameServerAddMeso&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const GameServerAddMeso& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const GameServerAddMeso* internal_default_instance() {
+    return reinterpret_cast<const GameServerAddMeso*>(
+               &_GameServerAddMeso_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    28;
+
+  friend void swap(GameServerAddMeso& a, GameServerAddMeso& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(GameServerAddMeso* other) {
+    if (other == this) return;
+    if (GetOwningArena() == other->GetOwningArena()) {
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(GameServerAddMeso* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  inline GameServerAddMeso* New() const final {
+    return new GameServerAddMeso();
+  }
+
+  GameServerAddMeso* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
+    return CreateMaybeMessage<GameServerAddMeso>(arena);
+  }
+  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
+  void CopyFrom(const GameServerAddMeso& from);
+  void MergeFrom(const GameServerAddMeso& from);
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
+      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _cached_size_.Get(); }
+
+  private:
+  void SharedCtor();
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(GameServerAddMeso* other);
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "protocol.GameServerAddMeso";
+  }
+  protected:
+  explicit GameServerAddMeso(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  private:
+  static void ArenaDtor(void* object);
+  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
+  public:
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kMesoFieldNumber = 1,
+  };
+  // int32 meso = 1;
+  void clear_meso();
+  ::PROTOBUF_NAMESPACE_ID::int32 meso() const;
+  void set_meso(::PROTOBUF_NAMESPACE_ID::int32 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::int32 _internal_meso() const;
+  void _internal_set_meso(::PROTOBUF_NAMESPACE_ID::int32 value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:protocol.GameServerAddMeso)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  ::PROTOBUF_NAMESPACE_ID::int32 meso_;
+  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  friend struct ::TableStruct_game_5fprotocol_2eproto;
+};
 // ===================================================================
 
 
@@ -6242,9 +6378,35 @@ inline void GameClientUnequipItem::set_dest_pos(::PROTOBUF_NAMESPACE_ID::int32 v
   // @@protoc_insertion_point(field_set:protocol.GameClientUnequipItem.dest_pos)
 }
 
+// -------------------------------------------------------------------
+
+// GameServerAddMeso
+
+// int32 meso = 1;
+inline void GameServerAddMeso::clear_meso() {
+  meso_ = 0;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerAddMeso::_internal_meso() const {
+  return meso_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::int32 GameServerAddMeso::meso() const {
+  // @@protoc_insertion_point(field_get:protocol.GameServerAddMeso.meso)
+  return _internal_meso();
+}
+inline void GameServerAddMeso::_internal_set_meso(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  
+  meso_ = value;
+}
+inline void GameServerAddMeso::set_meso(::PROTOBUF_NAMESPACE_ID::int32 value) {
+  _internal_set_meso(value);
+  // @@protoc_insertion_point(field_set:protocol.GameServerAddMeso.meso)
+}
+
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

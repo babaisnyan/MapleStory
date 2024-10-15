@@ -2,6 +2,9 @@
 
 #include "CoreMinimal.h"
 #include "Characters/MsPlayerBase.h"
+#include "UI/EquipWindow.h"
+#include "UI/InventoryWindow.h"
+#include "UI/StatWindow.h"
 #include "MsLocalPlayer.generated.h"
 
 class UItemManager;
@@ -43,6 +46,9 @@ protected:
 	void EnhancedJump(const FInputActionValue& Value);
 	void Enter(const FInputActionValue& Value);
 	void Attack(const FInputActionValue& Value);
+	void Equip(const FInputActionValue& Value);
+	void Inventory(const FInputActionValue& Value);
+	void Stat(const FInputActionValue& Value);
 
 private:
 	void CheckHitMob();
@@ -64,6 +70,15 @@ public:
 	TSubclassOf<UUserWidget> DeathNoticeClass;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UEquipWindow> EquipWindowClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UInventoryWindow> InventoryWindowClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
+	TSubclassOf<UStatWindow> StatWindowClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UStatusBarHud> StatusBarHud;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
@@ -74,7 +89,7 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "UI")
 	TObjectPtr<UUserWidget> DeathNotice;
-
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Stat")
 	int32 Meso = 0;
 
@@ -91,6 +106,15 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	TObjectPtr<UInputAction> EnterAction;
 
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	TObjectPtr<UInputAction> EquipAction;
+
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	TObjectPtr<UInputAction> StatAction;
+	
+	UPROPERTY(VisibleAnywhere, Category = Input)
+	TObjectPtr<UInputAction> InventoryAction;
+	
 	UPROPERTY(VisibleAnywhere, Category = Input)
 	TObjectPtr<UInputAction> MoveHorizontalAction;
 	

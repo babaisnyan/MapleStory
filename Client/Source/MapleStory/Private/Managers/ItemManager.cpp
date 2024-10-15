@@ -6,6 +6,8 @@ UItemManager::UItemManager() {
 	static ConstructorHelpers::FObjectFinder<UDataTable> ItemDataFinder(TEXT("/Game/Data/DT_Item.DT_Item"));
 
 	if (ItemDataFinder.Succeeded()) {
+		ItemData.Empty();
+		
 		for (const auto& Row : ItemDataFinder.Object->GetRowNames()) {
 			const FItemTemplate* Data = ItemDataFinder.Object->FindRow<FItemTemplate>(Row, "");
 

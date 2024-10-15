@@ -6,7 +6,9 @@
 #include "Components/Button.h"
 #include "Components/Image.h"
 #include "Components/TextBlock.h"
+#include "Managers/KeySettingManager.h"
 #include "Network/PacketCreator.h"
+#include "UI/InventorySlot.h"
 #include "UI/MsCursor.h"
 
 bool UQuickSlotKeyWidget::Initialize() {
@@ -95,6 +97,11 @@ void UQuickSlotKeyWidget::OnClicked() {
 		}
 
 		if (TempCursor) {
+			if (TempCursor->PrevInventorySlot) {
+				OnAssignItem(TempCursor);
+				return;
+			}
+
 			KeyType = TempCursor->KeyType;
 			ItemId = TempCursor->ItemId;
 			ItemCount = TempCursor->ItemCount;
@@ -140,7 +147,7 @@ void UQuickSlotKeyWidget::OnClicked() {
 				TempCursor->PrevKeyWidget->SkillId = TempCursor->SkillId;
 				SEND_PACKET(FPacketCreator::GetChangeKeySetting(TempCursor->PrevKeyWidget->KeyCode, TempCursor->PrevKeyWidget->KeyType, TempCursor->PrevKeyWidget->ItemId, TempCursor->PrevKeyWidget->SkillId));
 				UE_LOG(LogTemp, Warning, TEXT("KeyCode: %d, KeyType: %d, ItemId: %d, SkillId: %d"), TempCursor->PrevKeyWidget->KeyCode, TempCursor->PrevKeyWidget->KeyType, TempCursor->PrevKeyWidget->ItemId, TempCursor->PrevKeyWidget->SkillId);
-				
+
 				LoadKeyTexture();
 				TempCursor->PrevKeyWidget->LoadKeyTexture();
 
@@ -172,4 +179,58 @@ void UQuickSlotKeyWidget::OnClicked() {
 			}
 		}
 	}
+}
+
+void UQuickSlotKeyWidget::OnAssignItem(UMsCursor* MsCursor) {
+	ItemId = MsCursor->ItemId;
+	ItemCount = MsCursor->ItemCount;
+	KeyType = EKeyType::Item;
+
+	MsCursor->PrevInventorySlot->ItemId = ItemId;
+	MsCursor->PrevInventorySlot->ItemCount = ItemCount;
+	MsCursor->PrevInventorySlot->LoadItemTexture();
+	MsCursor->PrevInventorySlot->SetCursor(EMouseCursor::GrabHand);
+
+	MsCursor->Clear();
+
+	LoadKeyTexture();
+	SetCursor(EMouseCursor::GrabHand);
+
+	SEND_PACKET(FPacketCreator::GetChangeKeySetting(KeyCode, KeyType, ItemId, SkillId));
+}
+
+void UQuickSlotKeyWidget::OnRightClicked() {
+	const TObjectPtr<UKeySettingManager> KeySettingManager = GetGameInstance()->GetSubsystem<UKeySettingManager>();
+
+	if (!KeySettingManager) {
+		return;
+	}
+
+	KeyType = EKeyType::None;
+	ItemId = 0;
+	ItemCount = 0;
+
+	SEND_PACKET(FPacketCreator::GetChangeKeySetting(KeyCode, KeyType, ItemId, SkillId) );
+}
+
+FReply UQuickSlotKeyWidget::NativeOnMouseButtonDown(const FGeometry& InGeometry, const FPointerEvent& InMouseEvent) {
+	if (InMouseEvent.GetEffectingButton() != EKeys::RightMouseButton) {
+		return FReply::Handled();
+	}
+
+	if (KeyType != EKeyType::Item) {
+		return FReply::Handled();
+	}
+
+	if (!GetGameInstance()) {
+		return FReply::Handled();
+	}
+
+	AsyncTask(ENamedThreads::GameThread, [this] {
+		if (GetGameInstance()) {
+			OnRightClicked();
+		}
+	});
+
+	return Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
 }

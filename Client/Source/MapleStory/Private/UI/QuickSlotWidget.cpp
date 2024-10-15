@@ -1,13 +1,15 @@
 #include "UI/QuickSlotWidget.h"
 
 #include "Blueprint/WidgetTree.h"
+#include "Managers/InventoryManager.h"
 #include "Managers/KeySettingManager.h"
 #include "UI/QuickSlotKeyWidget.h"
 
 void UQuickSlotWidget::InitializeQuickSlotKeyWidgets() {
-	UKeySettingManager* KeySettingManager = GetGameInstance()->GetSubsystem<UKeySettingManager>();
+	const UKeySettingManager* KeySettingManager = GetGameInstance()->GetSubsystem<UKeySettingManager>();
+	UInventoryManager* InventoryManager = GetGameInstance()->GetSubsystem<UInventoryManager>();
 
-	if (!KeySettingManager) {
+	if (!KeySettingManager || !InventoryManager) {
 		return;
 	}
 
@@ -30,7 +32,7 @@ void UQuickSlotWidget::InitializeQuickSlotKeyWidgets() {
 
 			if (KeySetting->has_item_id()) {
 				QuickSlotKeyWidget->ItemId = KeySetting->item_id();
-				QuickSlotKeyWidget->ItemCount = 0; // TODO: 인벤토리 연동
+				QuickSlotKeyWidget->ItemCount = InventoryManager->GetUseItemCount(KeySetting->item_id());
 			} else if (KeySetting->has_skill_id()) {
 				QuickSlotKeyWidget->SkillId = KeySetting->skill_id();
 			}

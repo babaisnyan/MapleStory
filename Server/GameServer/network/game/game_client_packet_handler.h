@@ -34,6 +34,7 @@ namespace game {
     PKT_GAMECLIENTUSEITEM = 3025,
     PKT_GAMECLIENTEQUIPITEM = 3026,
     PKT_GAMECLIENTUNEQUIPITEM = 3027,
+    PKT_GAMESERVERADDMESO = 3028,
   };
 
   bool HandleGameInvalid(PacketSessionRef& session, std::byte* buffer, const int32_t len);
@@ -154,6 +155,9 @@ namespace game {
     }
     static SendBufferRef MakeSendBuffer(const protocol::GameServerAddExpMessage& packet) { 
       return MakeSendBufferInternal(packet, PKT_GAMESERVERADDEXPMESSAGE); 
+    }
+    static SendBufferRef MakeSendBuffer(const protocol::GameServerAddMeso& packet) { 
+      return MakeSendBufferInternal(packet, PKT_GAMESERVERADDMESO); 
     }
 
   private:

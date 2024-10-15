@@ -8,6 +8,7 @@
 #include "Components/TextBlock.h"
 #include "Managers/InventoryManager.h"
 #include "Network/PacketCreator.h"
+#include "UI/EquipWindow.h"
 #include "UI/InventoryWindow.h"
 #include "UI/MsCursor.h"
 
@@ -40,7 +41,7 @@ void UInventorySlot::LoadItemTexture() {
 
 	DummyButton->SetCursor(EMouseCursor::GrabHand);
 
-	if (ItemCount == 0) {
+	if (ItemCount == 0 || Type == 0 || Type == 3) {
 		ItemCountText->SetColorAndOpacity(FLinearColor(1.0f, 1.0f, 1.0f, 0.0f));
 	} else {
 		ItemCountText->SetText(FText::FromString(FString::Printf(TEXT("%d"), ItemCount)));
@@ -184,6 +185,11 @@ void UInventorySlot::OnRightClicked() {
 	}
 
 	if (Type == 0) {
+		if (!InventoryManager->CanEquip(Pos)) {
+			// TODO: 조건 안되서 못낌
+			return;
+		}
+
 		const int32 EquipPos = InventoryManager->Equip(Pos);
 
 		if (EquipPos == -1) {
@@ -212,6 +218,16 @@ void UInventorySlot::OnRightClicked() {
 		}
 	}
 
+	UWidgetBlueprintLibrary::GetAllWidgetsOfClass(GetWorld(), Windows, UEquipWindow::StaticClass(), false);
+
+	for (const auto Object : Windows) {
+		UEquipWindow* EquipWindow = Cast<UEquipWindow>(Object);
+
+		if (EquipWindow) {
+			EquipWindow->LoadIcons();
+		}
+	}
+
 	ItemId = 0;
 	LoadItemTexture();
 }
@@ -225,12 +241,10 @@ FReply UInventorySlot::NativeOnMouseButtonDown(const FGeometry& InGeometry, cons
 		return FReply::Handled();
 	}
 
-	if(!GetGameInstance()) {
-		return FReply::Handled();
-	}
-	
 	AsyncTask(ENamedThreads::GameThread, [this] {
-		OnRightClicked();
+		if (GetGameInstance()) {
+			OnRightClicked();
+		}
 	});
 
 	return Super::NativeOnMouseButtonDown(InGeometry, InMouseEvent);
