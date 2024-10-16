@@ -6,6 +6,7 @@
 #include "GameFramework/Actor.h"
 #include "Monster.generated.h"
 
+class USoundManager;
 class UMobHpBar;
 class AMsPlayerBase;
 class UWidgetComponent;
@@ -133,4 +134,7 @@ private:
 
 	UPROPERTY()
 	int32 ZIndex;
+
+	UPROPERTY()
+	TObjectPtr<USoundManager> SoundManager;
 };

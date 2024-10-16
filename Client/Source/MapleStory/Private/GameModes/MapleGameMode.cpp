@@ -59,7 +59,7 @@ void AMapleGameMode::BeginPlay() {
 	// const FIntPoint NewResolution(1920, 1080);
 	// GEngine->GameUserSettings->SetScreenResolution(NewResolution);
 	// GEngine->GameUserSettings->ApplyResolutionSettings(false);
-	GEngine->Exec(GetWorld(), TEXT("r.setRes 1920x1080w"));
+	GEngine->Exec(GetWorld(), TEXT("r.setRes 1280x720w"));
 }
 
 void AMapleGameMode::AddPlayer(const protocol::OtherPlayerInfo& OtherPlayerInfo) {
@@ -144,7 +144,7 @@ void AMapleGameMode::PlayAttackAnimation(const protocol::GameServerMobAttack& Pa
 		return;
 	}
 
-	SoundManager->PlaySoundEffect(Template->AttackSound.LoadSynchronous());
+	SoundManager->PlaySoundEffect(Template->AttackSound);
 
 	if (Players[Packet.target_id()]->bIsInvincible) {
 		return;
@@ -162,7 +162,7 @@ void AMapleGameMode::PlayAttackAnimation(const protocol::GameServerMobAttack& Pa
 	const float Delay = Template->AttackDelay * 0.9f / 1000.0f;
 
 	GetWorld()->GetTimerManager().SetTimer(TimerHandle, FTimerDelegate::CreateLambda([&Template, &SoundManager] {
-		SoundManager->PlaySoundEffect(Template->CharHitSound.LoadSynchronous());
+		SoundManager->PlaySoundEffect(Template->CharHitSound);
 	}), Delay, false);
 }
 

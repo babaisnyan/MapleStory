@@ -5,6 +5,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "InventoryManager.generated.h"
 
+class USoundManager;
 class UItem;
 
 UCLASS()
@@ -12,6 +13,7 @@ class MAPLESTORY_API UInventoryManager : public UGameInstanceSubsystem {
 	GENERATED_BODY()
 
 public:
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 	void Clear();
 
@@ -41,4 +43,11 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Inventory")
 	TMap<int32, TObjectPtr<UItem>> EquippedInventory;
+
+private:
+	UPROPERTY()
+	TObjectPtr<USoundManager> SoundManager;
+
+	UPROPERTY()
+	TSoftObjectPtr<USoundWave> UseSound;
 };

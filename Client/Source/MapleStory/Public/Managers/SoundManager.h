@@ -13,7 +13,7 @@ public:
 	explicit USoundManager();
 
 	void PlaySoundEffect(ESoundEffectType Type, const TObjectPtr<UWorld>& World, bool bIsUISound = false) const;
-	void PlaySoundEffect(const TObjectPtr<USoundWave>& Sound) const;
+	void PlaySoundEffect(const TSoftObjectPtr<USoundWave>& Sound) const;
 
 private:
 	TMap<ESoundEffectType, TObjectPtr<USoundBase>> SoundEffects;

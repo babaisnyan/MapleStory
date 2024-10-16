@@ -1,4 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -7,9 +6,7 @@
 #include "LoginCharNamePlate.generated.h"
 
 class UTextBlock;
-/**
- * 
- */
+
 UCLASS()
 class MAPLESTORY_API ULoginCharNamePlate : public UUserWidget
 {

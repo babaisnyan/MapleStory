@@ -154,8 +154,11 @@ void Player::AddExp(const int32_t exp) {
       _player_stat->SetExp(0);
     }
 
+    _player_stat->ApplyEquip(_inventory);
+    _player_stat->UpdateStats();
+
     update.set_level(_player_stat->GetLevel());
-    update.set_max_hp(_player_stat->GetMaxHp());
+    update.set_max_hp(_player_stat->GetBuffedMaxHp());
     update.set_max_mp(_player_stat->GetMaxMp());
     update.set_str(_player_stat->GetStr());
     update.set_dex(_player_stat->GetDex());

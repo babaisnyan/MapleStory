@@ -418,7 +418,7 @@ void MapInstance::OnPlayerEnter(const std::shared_ptr<GameSession>& session) {
     player_info->set_type(info->GetType());
     player_info->set_level(info->GetStat()->GetLevel());
     player_info->set_hp(info->GetStat()->GetHp());
-    player_info->set_max_hp(info->GetStat()->GetMaxHp());
+    player_info->set_max_hp(info->GetStat()->GetBuffedMaxHp());
     player_info->set_x(info->GetPosition().x);
     player_info->set_y(info->GetPosition().y);
   }
@@ -460,7 +460,7 @@ void MapInstance::OnPlayerEnter(const std::shared_ptr<GameSession>& session) {
   info->set_type(player->GetType());
   info->set_level(player->GetStat()->GetLevel());
   info->set_hp(player->GetStat()->GetHp());
-  info->set_max_hp(player->GetStat()->GetMaxHp());
+  info->set_max_hp(player->GetStat()->GetBuffedMaxHp());
   info->set_x(player->GetPosition().x);
   info->set_y(player->GetPosition().y);
 

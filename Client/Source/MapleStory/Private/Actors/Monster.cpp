@@ -11,6 +11,7 @@
 #include "GameModes/MapleGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Managers/MobManager.h"
+#include "Managers/SoundManager.h"
 #include "UI/MobHpBar.h"
 #include "UI/MobNameTag.h"
 
@@ -210,7 +211,11 @@ void AMonster::PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChan
 	#endif
 }
 
-void AMonster::OnDamaged(const int32 Damage, bool bCritical) {
+void AMonster::OnDamaged(const int32 Damage, const bool bCritical) {
+	if (Damage <= 0) {
+		return;
+	}
+
 	const FVector Location = GetActorLocation();
 	const FVector NewLocation = FVector(Location.X, Location.Y + 1, Location.Z + 20.0f);
 	ADamageTextActor* Text = GetWorld()->SpawnActorDeferred<ADamageTextActor>(ADamageTextActor::StaticClass(), FTransform(NewLocation), this);
@@ -219,14 +224,22 @@ void AMonster::OnDamaged(const int32 Damage, bool bCritical) {
 
 	StatComponent->Hp -= Damage;
 
-	if (Damage > 0 && StatComponent->Hp > 0) {
+	if (!Template->HitSound.IsNull()) {
+		SoundManager->PlaySoundEffect(Template->HitSound);
+	}
+
+	if (StatComponent->Hp > 0) {
 		SetCurrentAction(EMobActionType::Hit, true);
 	} else {
+		if (!Template->DieSound.IsNull()) {
+			SoundManager->PlaySoundEffect(Template->DieSound);
+		}
+
 		SetCurrentAction(EMobActionType::Die, true);
 	}
 
 	if (HpBar) {
-		if (const auto Widget = Cast<UMobHpBar>(HpBar->GetUserWidgetObject())) {
+		if (UMobHpBar* Widget = Cast<UMobHpBar>(HpBar->GetUserWidgetObject())) {
 			Widget->CurrentHp = FMath::Max(0, StatComponent->Hp);
 			Widget->UpdateHpBar();
 		}
@@ -271,12 +284,18 @@ void AMonster::BeginPlay() {
 	HpBar->DetachFromComponent(FDetachmentTransformRules::KeepRelativeTransform);
 	HpBar->AttachToComponent(RootComponent, FAttachmentTransformRules::KeepRelativeTransform);
 
-	const auto Bar = Cast<UMobHpBar>(HpBar->GetUserWidgetObject());
+	UMobHpBar* Bar = Cast<UMobHpBar>(HpBar->GetUserWidgetObject());
 
 	if (Bar) {
 		Bar->MaxHp = StatComponent->MaxHp;
 		Bar->CurrentHp = StatComponent->Hp;
 		Bar->UpdateHpBar();
+	}
+
+	USoundManager* Manager = GetGameInstance()->GetSubsystem<USoundManager>();
+
+	if (Manager) {
+		SoundManager = Manager;
 	}
 }
 
@@ -378,9 +397,6 @@ void AMonster::OnFinishedPlaying(UMsSpriteComponent* SpriteComponent) {
 	if (!SpriteComponent) {
 		return;
 	}
-
-	// log last action and current action. print enum name
-	UE_LOG(LogTemp, Warning, TEXT("Monster_%d_%lld Finished playing %s"), MobId, ObjectId, *UEnum::GetValueAsString(CurrentAction));
 
 	switch (CurrentAction) {
 		case EMobActionType::Hit:

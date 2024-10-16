@@ -82,7 +82,7 @@ void PlayerStat::ApplyEquip(const std::shared_ptr<Inventory>& inventory) {
 }
 
 int32_t PlayerStat::GetStr() const {
-  return _str;
+  return _str + _extra_str;
 }
 
 void PlayerStat::SetStr(const int32_t str) {
@@ -91,7 +91,7 @@ void PlayerStat::SetStr(const int32_t str) {
 }
 
 int32_t PlayerStat::GetDex() const {
-  return _dex;
+  return _dex + _extra_dex;
 }
 
 void PlayerStat::SetDex(const int32_t dex) {
@@ -100,7 +100,7 @@ void PlayerStat::SetDex(const int32_t dex) {
 }
 
 int32_t PlayerStat::GetInt() const {
-  return _int;
+  return _int + _extra_int;
 }
 
 void PlayerStat::SetInt(const int32_t int_) {
@@ -109,7 +109,7 @@ void PlayerStat::SetInt(const int32_t int_) {
 }
 
 int32_t PlayerStat::GetLuk() const {
-  return _luk;
+  return _luk + _extra_luk;
 }
 
 void PlayerStat::SetLuk(const int32_t luk) {

@@ -1,6 +1,3 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "Managers/SoundManager.h"
 
 #include "Kismet/GameplayStatics.h"
@@ -31,6 +28,10 @@ void USoundManager::PlaySoundEffect(const ESoundEffectType Type, const TObjectPt
 	}
 }
 
-void USoundManager::PlaySoundEffect(const TObjectPtr<USoundWave>& Sound) const {
-	UGameplayStatics::PlaySound2D(GetWorld(), Sound.Get(), 1.0f, 1.0f, 0.0f, nullptr, nullptr, true);
+void USoundManager::PlaySoundEffect(const TSoftObjectPtr<USoundWave>& Sound) const {
+	USoundWave* Asset = Sound.LoadSynchronous();
+
+	if (Asset) {
+		UGameplayStatics::PlaySound2D(GetWorld(), Asset, 1.0f, 1.0f, 0.0f, nullptr, nullptr, true);
+	}
 }

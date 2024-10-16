@@ -38,7 +38,7 @@ SendBufferRef GamePacketCreator::GetClientEnterSuccessResponse(const std::shared
     player_info->set_meso(player->GetMeso());
     player_info->set_hp(player->GetStat()->GetHp());
     player_info->set_mp(player->GetStat()->GetMp());
-    player_info->set_max_hp(player->GetStat()->GetMaxHp());
+    player_info->set_max_hp(player->GetStat()->GetBuffedMaxHp());
     player_info->set_max_mp(player->GetStat()->GetMaxMp());
     player_info->set_str(player->GetStat()->GetStr());
     player_info->set_dex(player->GetStat()->GetDex());

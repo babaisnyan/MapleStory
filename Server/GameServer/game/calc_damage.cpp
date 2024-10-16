@@ -7,13 +7,13 @@
 #include "utils/randomizer.h"
 
 int32_t CalcDamage::CalcMobPhysicalDamage(const std::shared_ptr<MobStat>& mob_stat, const std::shared_ptr<PlayerStat>& player_stat) {
-  const auto mob_pad = min(1999, max(0, mob_stat->GetPhysicalAttack() * 2));
+  const auto mob_pad = min(1999, max(0, mob_stat->GetPhysicalAttack() * 1.2));
   const auto low_damage = mob_pad * 0.8;
   const auto high_damage = mob_pad * 0.85;
   const auto calc = utils::random::RandDouble(low_damage, high_damage) * (mob_pad * 0.01);
   const auto player_level = player_stat->GetLevel();
   const auto mob_level = mob_stat->GetLevel();
-  const auto player_pdd = player_stat->GetPhysicalDefense();
+  const auto player_pdd = player_stat->GetPhysicalDefense() * 2.5;
   const auto player_stat_base = player_stat->GetStatBase();
   double calc1 = player_stat_base * 0.00125;
   double calc2;
@@ -40,7 +40,7 @@ int32_t CalcDamage::CalcMobMagicalDamage(const std::shared_ptr<MobStat>& mob_sta
   const auto low_damage = mob_mad * 0.75;
   const auto high_damage = mob_mad * 0.8;
   const auto calc = utils::random::RandDouble(low_damage, high_damage) * (mob_mad * 0.01);
-  const auto player_mdd = max(0, player_stat->GetMagicalDefense() * 2);
+  const auto player_mdd = max(0, player_stat->GetMagicalDefense() * 2.5);
   const auto reduce = player_stat->GetStr() * 0.14285714285714 + player_stat->GetLuk() * 0.2 + player_stat->GetDex() * 0.1666666666667 + player_mdd;
   const auto damage = static_cast<int32_t>(max(calc - reduce, 0));
 
@@ -49,7 +49,7 @@ int32_t CalcDamage::CalcMobMagicalDamage(const std::shared_ptr<MobStat>& mob_sta
 
 int32_t CalcDamage::CalcPlayerPhysicalDamage(const std::shared_ptr<PlayerStat>& player_stat, const std::shared_ptr<MobStat>& mob_stat) {
   const auto mob_pdd = max(mob_stat->GetPhysicalDefense(), mob_stat->GetLevel());
-  const auto player_pad = player_stat->GetPhysicalAttack() + player_stat->GetStatBase();
+  const auto player_pad = (player_stat->GetPhysicalAttack() + player_stat->GetStatBase()) * 2;
   const auto low_damage = max(0, (player_pad - mob_pdd)) * 0.7;
   const auto high_damage = max(0, (player_pad - mob_pdd)) * 1.3;
   const auto calc = utils::random::RandDouble(low_damage, high_damage);

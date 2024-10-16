@@ -4,6 +4,18 @@
 #include "Characters/MsLocalPlayer.h"
 #include "Components/PlayerStatComponent.h"
 #include "Data/Item.h"
+#include "Managers/SoundManager.h"
+
+void UInventoryManager::Initialize(FSubsystemCollectionBase& Collection) {
+	Super::Initialize(Collection);
+
+	if (!GetGameInstance()) {
+		return;
+	}
+
+	SoundManager = GetGameInstance()->GetSubsystem<USoundManager>();
+	UseSound = LoadObject<USoundWave>(nullptr, TEXT("/Game/Sound/Sfx/SFX_Use.SFX_Use"));
+}
 
 void UInventoryManager::Deinitialize() {
 	Super::Deinitialize();
@@ -88,6 +100,10 @@ void UInventoryManager::UseItem(const int32 Pos) {
 
 	if (--Item->Quantity <= 0) {
 		UseInventory.Remove(Pos);
+	}
+
+	if (SoundManager && UseSound) {
+		SoundManager->PlaySoundEffect(UseSound);
 	}
 }
 

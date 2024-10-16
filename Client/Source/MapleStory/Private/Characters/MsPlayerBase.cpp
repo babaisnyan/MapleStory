@@ -97,7 +97,7 @@ void AMsPlayerBase::BeginPlay() {
 	Super::BeginPlay();
 
 	const TObjectPtr<AActor> PlayerStart = UGameplayStatics::GetActorOfClass(GetWorld(), APlayerStart::StaticClass());
-
+	
 	if (PlayerStart) {
 		const FVector SpawnPointLocation = PlayerStart->GetActorLocation();
 		BaseX = SpawnPointLocation.X;
@@ -120,6 +120,8 @@ void AMsPlayerBase::Setup(const protocol::PlayerInfo& Info) {
 	Name = UTF8_TO_TCHAR(Info.name().c_str());
 	StartX = Info.x();
 	StartY = Info.y();
+	DestX = StartX;
+	DestY = StartY;
 	bIsLocalPlayer = true;
 	InitAnimation();
 }
@@ -131,6 +133,8 @@ void AMsPlayerBase::Setup(const protocol::OtherPlayerInfo& Info) {
 	Name = UTF8_TO_TCHAR(Info.name().c_str());
 	StartX = Info.x();
 	StartY = Info.y();
+	DestX = StartX;
+	DestY = StartY;
 	bIsLocalPlayer = false;
 	InitAnimation();
 }
@@ -209,7 +213,7 @@ void AMsPlayerBase::OnLevelUp() {
 	const FVector Location = GetActorLocation();
 	const FVector NewLocation = FVector(Location.X, Location.Y + 10, Location.Z + 15);
 	ASelfDestroyFlipbookActor* LevelUp = GetWorld()->SpawnActorDeferred<ASelfDestroyFlipbookActor>(ASelfDestroyFlipbookActor::StaticClass(), FTransform::Identity, this);
-	
+
 	LevelUp->GetRenderComponent()->SetFlipbook(LevelUpAnimation);
 	LevelUp->GetRenderComponent()->SetLooping(false);
 	LevelUp->FinishSpawning(FTransform(NewLocation));
