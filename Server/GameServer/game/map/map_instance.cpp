@@ -93,10 +93,6 @@ void MapInstance::OnPlayerMove(const std::shared_ptr<GameSession>& session, cons
   }
 
   auto& position = player->GetPosition();
-  const auto diff_x = abs(position.x - packet.x());
-  const auto diff_y = abs(position.y - packet.y());
-  std::cout << std::format("{}, {}\n", diff_x, diff_y);
-
   const auto old_x = position.grid_x;
   const auto old_y = position.grid_y;
   player->UpdatePosition(packet.x(), packet.y(), packet.flip());
@@ -186,7 +182,7 @@ void MapInstance::OnAttack(const std::shared_ptr<GameSession>& session, const st
   const auto& player_pos = player->GetPosition();
   const auto& mob_pos = mob->GetPosition();
 
-  if (!player_pos.CheckTargetGridRange(mob_pos, 3, !player->IsFlipped())) {
+  if (!player_pos.CheckTargetGridRange(mob_pos, 5, !player->IsFlipped())) {
     return;
   }
 
