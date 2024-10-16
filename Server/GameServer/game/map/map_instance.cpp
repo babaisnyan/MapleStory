@@ -85,7 +85,7 @@ bool MapInstance::RemoveObject(const int64_t object_id) {
   return true;
 }
 
-void MapInstance::MovePlayer(const std::shared_ptr<GameSession>& session, const protocol::GameClientPlayerMove& packet) {
+void MapInstance::OnPlayerMove(const std::shared_ptr<GameSession>& session, const protocol::GameClientPlayerMove& packet) {
   const auto player = session->GetPlayer();
 
   if (!player) {
@@ -93,6 +93,10 @@ void MapInstance::MovePlayer(const std::shared_ptr<GameSession>& session, const 
   }
 
   auto& position = player->GetPosition();
+  const auto diff_x = abs(position.x - packet.x());
+  const auto diff_y = abs(position.y - packet.y());
+  std::cout << std::format("{}, {}\n", diff_x, diff_y);
+
   const auto old_x = position.grid_x;
   const auto old_y = position.grid_y;
   player->UpdatePosition(packet.x(), packet.y(), packet.flip());

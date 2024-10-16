@@ -23,10 +23,11 @@ namespace game {
     /* DoAsync를 통해서 호출 */
     bool AddPlayer(const std::shared_ptr<GameSession>& session);
     bool RemoveObject(const int64_t object_id);
-    void MovePlayer(const std::shared_ptr<GameSession>& session, const protocol::GameClientPlayerMove& packet);
     void MoveObject(const std::shared_ptr<GameObject>& object, const int16_t old_x, int16_t old_y);
     void Update(float delta);
 
+    /* 플레이어 핸들러 */
+    void OnPlayerMove(const std::shared_ptr<GameSession>& session, const protocol::GameClientPlayerMove& packet);
     void OnChangeKeySetting(const std::shared_ptr<GameSession>& session, const protocol::GameClientChangeKeySetting& packet);
     void OnChat(const std::shared_ptr<GameSession>& session, const protocol::GameClientChat& packet);
     void OnRevive(const std::shared_ptr<GameSession>& session, const std::shared_ptr<Player>& player);

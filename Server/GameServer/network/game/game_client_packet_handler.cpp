@@ -35,7 +35,7 @@ namespace game {
       return false;
     }
 
-    map.value()->DoAsync(&MapInstance::MovePlayer, game_session, packet);
+    map.value()->DoAsync(&MapInstance::OnPlayerMove, game_session, packet);
     return true;
   }
 

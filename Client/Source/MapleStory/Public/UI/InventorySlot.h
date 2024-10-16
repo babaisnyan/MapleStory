@@ -1,6 +1,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "NoticeWindow.h"
 #include "Blueprint/UserWidget.h"
 #include "InventorySlot.generated.h"
 
@@ -53,6 +54,9 @@ protected:
 
 	UPROPERTY(BlueprintReadWrite, meta = (BindWidget))
 	TObjectPtr<UButton> DummyButton;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TSubclassOf<UNoticeWindow> NoticeWindowClass;
 
 private:
 	bool bInitialized = false;

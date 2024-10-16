@@ -383,6 +383,9 @@
     <Filter Include="game\objects\player\inventory">
       <UniqueIdentifier>{aa6790b7-9b1b-40a8-8a29-0f6d1666606a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="handler\game">
+      <UniqueIdentifier>{1c44e1ba-745d-43ba-b702-2ae1ce8d73cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\Common\proto\GameServer\game_enum.proto" />

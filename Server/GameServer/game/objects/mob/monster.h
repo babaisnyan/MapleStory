@@ -30,7 +30,7 @@ namespace game {
     std::shared_ptr<MobStat> GetStat() const;
     std::shared_ptr<MobTemplate> GetTemplate() const;
     std::shared_ptr<SpawnPoint> GetSpawnPoint() const;
-    std::weak_ptr<MapInstance> GetMap() const; // TODO: shared_ptr로 바꾸기
+    std::weak_ptr<MapInstance> GetMap() const;
     std::weak_ptr<Player> GetTarget() const;
     float GetSpeed() const;
 

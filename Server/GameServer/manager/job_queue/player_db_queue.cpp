@@ -47,7 +47,7 @@ void PlayerDbQueue::HandleClientEnter(const PacketSessionRef& session, const pro
 
     map.value()->DoAsync(&MapInstance::AddPlayer, game_session);
   } else {
-    // TODO: 오류 메시지 전송
+    game_session->Disconnect(L"Failed to load player");
   }
 }
 
@@ -56,6 +56,6 @@ void PlayerDbQueue::SavePlayer(const PacketSessionRef& session) {
   const auto player = game_session->GetPlayer();
 
   if (!player->TrySaveToDb()) {
-    // TODO: Log
+    session->Disconnect(L"Failed to save player");
   }
 }

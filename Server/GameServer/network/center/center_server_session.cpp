@@ -8,7 +8,6 @@
 void CenterServerSession::OnConnected() {
   std::cout << "CenterServerSession Connected\n";
 
-  //TODO: 설정으로 빼기
   const auto name = utils::ConvertToUtf8(L"Game01");
   const auto ip = utils::ConvertToUtf8(L"127.0.0.1");
 

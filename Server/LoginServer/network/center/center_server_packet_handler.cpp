@@ -15,8 +15,6 @@ namespace login {
       LoginServer::GetInstance().StartLoginServer();
     }
 
-    // TODO: 로그
-
     return true;
   }
 

@@ -186,7 +186,9 @@ void UInventorySlot::OnRightClicked() {
 
 	if (Type == 0) {
 		if (!InventoryManager->CanEquip(Pos)) {
-			// TODO: 조건 안되서 못낌
+			UNoticeWindow* NoticeWindow = CreateWidget<UNoticeWindow>(GetGameInstance(), NoticeWindowClass);
+			NoticeWindow->Text = FText::FromString(TEXT("착용 능력치가 부족합니다."));
+			NoticeWindow->AddToViewport(100);
 			return;
 		}
 

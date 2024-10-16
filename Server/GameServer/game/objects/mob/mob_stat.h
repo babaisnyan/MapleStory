@@ -5,7 +5,5 @@ namespace game {
   class MobStat final : public BasicStat {
   public:
     void UpdateStats() override;
-
-  private:
   };
 }

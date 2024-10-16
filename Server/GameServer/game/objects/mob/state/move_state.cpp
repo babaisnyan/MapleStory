@@ -35,7 +35,21 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
       // std::cout << std::format("Monster {} set target position x: {}, y: {}\n", mob->GetId(), target->GetX(), mob->GetY());
     }
   } else {
-    // TODO: 캐릭터 타겟 탐색
+    if (mob->GetTemplate()->HasAction(protocol::MOB_ACTION_TYPE_ATTACK) && mob->GetTemplate()->CanFirstAttack()) {
+      const auto target = FindNearestPlayer(mob);
+
+      if (target) {
+        mob->ChangeTarget(target);
+
+        if (mob->IsAttackReady() && mob->IsTargetInAttackRange()) {
+          mob->ChangeState(protocol::MOB_ACTION_TYPE_ATTACK);
+        } else {
+          mob->ChangeState(protocol::MOB_ACTION_TYPE_MOVE);
+        }
+
+        return;
+      }
+    }
   }
 
   if (!mob->HasTargetPosition()) {
@@ -81,10 +95,6 @@ void MoveState::Update(const std::shared_ptr<Monster>& mob, const float delta) {
 
     if (position.grid_x != old_x || position.grid_y != old_y) {
       mob->GetMap().lock()->MoveObject(mob, old_x, old_y);
-    }
-
-    if (mob->HasTarget()) {
-      // std::cout << std::format("Monster {} move to x: {}, y: {}, speed: {}\n", mob->GetId(), x, y, mob->GetSpeed());
     }
 
     if (std::abs(x - target_position->x) < 1.0f) {
