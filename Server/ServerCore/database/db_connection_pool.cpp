@@ -21,7 +21,7 @@ bool DbConnectionPool::Connect(const int32_t connection_count, const wchar_t* co
   }
 
   for (int32_t i = 0; i < connection_count; i++) {
-    DbConnection* connection = MsNew<DbConnection>();
+    auto connection = MsNew<DbConnection>();
 
     if (!connection->Connect(_env, connection_string)) {
       return false;
@@ -41,7 +41,7 @@ void DbConnectionPool::Clear() {
     _env = nullptr;
   }
 
-  for (DbConnection* connection : _connections) {
+  for (auto connection : _connections) {
     MsDelete(connection);
   }
 
@@ -55,7 +55,7 @@ DbConnection* DbConnectionPool::GetConnection() {
     return nullptr;
   }
 
-  DbConnection* connection = _connections.back();
+  auto connection = _connections.back();
   _connections.pop_back();
   return connection;
 }

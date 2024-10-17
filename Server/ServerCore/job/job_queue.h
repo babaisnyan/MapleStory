@@ -18,7 +18,7 @@ public:
   }
 
   void DoTimer(const uint64_t tick_after, CallBackType&& callback) {
-    const JobRef job = ObjectPool<Job>::MakeShared(std::move(callback));
+    const auto job = ObjectPool<Job>::MakeShared(std::move(callback));
     JobTimer::GetInstance().Reserve(tick_after, shared_from_this(), job);
   }
 

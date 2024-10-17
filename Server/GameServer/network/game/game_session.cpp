@@ -52,8 +52,8 @@ void GameSession::OnDisconnected() {
 }
 
 void GameSession::OnRecvPacket(std::byte* buffer, const int32_t len) {
-  PacketSessionRef session = GetPacketSession();
-  PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
+  auto session = GetPacketSession();
+  auto header = reinterpret_cast<PacketHeader*>(buffer);
 
   GameClientPacketHandler::HandlePacket(session, buffer, len);
 }

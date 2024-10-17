@@ -20,7 +20,7 @@ void DeadLockProfiler::PushLock(const char* name) {
     const int32_t prev_id = LLockStack.top();
 
     if (lock_id != prev_id) {
-      std::set<int32_t>& history = _lock_history[prev_id];
+      auto& history = _lock_history[prev_id];
 
       if (history.find(lock_id) == history.end()) {
         history.insert(lock_id);
@@ -78,7 +78,7 @@ void DeadLockProfiler::Dfs(const int32_t here) {
     return;
   }
 
-  const std::set<int32_t>& next_set = find_it->second;
+  const auto& next_set = find_it->second;
 
   for (const int32_t there : next_set) {
     if (_discovered_order[there] == -1) {

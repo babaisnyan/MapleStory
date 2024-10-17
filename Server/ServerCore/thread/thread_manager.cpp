@@ -25,7 +25,7 @@ void ThreadManager::Launch(const std::function<void()>& callback) {
 }
 
 void ThreadManager::Join() {
-  for (std::thread& thread : _threads) {
+  for (auto& thread : _threads) {
     if (thread.joinable()) {
       thread.join();
     }
@@ -49,7 +49,7 @@ void ThreadManager::FlushGlobalQueue() {
       break;
     }
 
-    std::optional<JobQueueRef> queue = GlobalQueue::GetInstance().Pop();
+    auto queue = GlobalQueue::GetInstance().Pop();
 
     if (!queue.has_value()) {
       break;

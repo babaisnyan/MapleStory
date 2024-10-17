@@ -19,8 +19,8 @@ void LoginSession::OnDisconnected() {
 }
 
 void LoginSession::OnRecvPacket(std::byte* buffer, const int32_t len) {
-  PacketSessionRef session = GetPacketSession();
-  PacketHeader* header = reinterpret_cast<PacketHeader*>(buffer);
+  auto session = GetPacketSession();
+  auto header = reinterpret_cast<PacketHeader*>(buffer);
 
   LoginClientPacketHandler::HandlePacket(session, buffer, len);
 }

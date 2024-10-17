@@ -273,7 +273,7 @@ void CenterClientRegisterRequest::SharedDtor() {
 }
 
 void CenterClientRegisterRequest::ArenaDtor(void* object) {
-  CenterClientRegisterRequest* _this = reinterpret_cast< CenterClientRegisterRequest* >(object);
+  const CenterClientRegisterRequest* _this = reinterpret_cast< CenterClientRegisterRequest* >(object);
   (void)_this;
 }
 void CenterClientRegisterRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
@@ -284,7 +284,7 @@ void CenterClientRegisterRequest::SetCachedSize(int size) const {
 
 void CenterClientRegisterRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:protocol.CenterClientRegisterRequest)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -312,7 +312,7 @@ const char* CenterClientRegisterRequest::_InternalParse(const char* ptr, ::PROTO
       // string name = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          auto str = _internal_mutable_name();
+          const auto str = _internal_mutable_name();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "protocol.CenterClientRegisterRequest.name"));
           CHK_(ptr);
@@ -321,7 +321,7 @@ const char* CenterClientRegisterRequest::_InternalParse(const char* ptr, ::PROTO
       // string ip = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          auto str = _internal_mutable_ip();
+          const auto str = _internal_mutable_ip();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "protocol.CenterClientRegisterRequest.ip"));
           CHK_(ptr);
@@ -368,7 +368,7 @@ failure:
 ::PROTOBUF_NAMESPACE_ID::uint8* CenterClientRegisterRequest::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:protocol.CenterClientRegisterRequest)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // int32 version = 1;
@@ -422,7 +422,7 @@ size_t CenterClientRegisterRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:protocol.CenterClientRegisterRequest)
   size_t total_size = 0;
 
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -464,7 +464,7 @@ size_t CenterClientRegisterRequest::ByteSizeLong() const {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
   }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+const int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
@@ -488,7 +488,7 @@ void CenterClientRegisterRequest::MergeFrom(const CenterClientRegisterRequest& f
 // @@protoc_insertion_point(class_specific_merge_from_start:protocol.CenterClientRegisterRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (!from.name().empty()) {
@@ -587,7 +587,7 @@ void CenterServerRegisterResponse::SharedDtor() {
 }
 
 void CenterServerRegisterResponse::ArenaDtor(void* object) {
-  CenterServerRegisterResponse* _this = reinterpret_cast< CenterServerRegisterResponse* >(object);
+  const CenterServerRegisterResponse* _this = reinterpret_cast< CenterServerRegisterResponse* >(object);
   (void)_this;
 }
 void CenterServerRegisterResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
@@ -598,7 +598,7 @@ void CenterServerRegisterResponse::SetCachedSize(int size) const {
 
 void CenterServerRegisterResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:protocol.CenterServerRegisterResponse)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -646,7 +646,7 @@ failure:
 ::PROTOBUF_NAMESPACE_ID::uint8* CenterServerRegisterResponse::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:protocol.CenterServerRegisterResponse)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // .protocol.ServerRegisterResult result = 1;
@@ -668,7 +668,7 @@ size_t CenterServerRegisterResponse::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:protocol.CenterServerRegisterResponse)
   size_t total_size = 0;
 
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -682,7 +682,7 @@ size_t CenterServerRegisterResponse::ByteSizeLong() const {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
   }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+const int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
@@ -706,7 +706,7 @@ void CenterServerRegisterResponse::MergeFrom(const CenterServerRegisterResponse&
 // @@protoc_insertion_point(class_specific_merge_from_start:protocol.CenterServerRegisterResponse)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.result() != 0) {
@@ -792,7 +792,7 @@ void CenterClientMigrationRequest::SharedDtor() {
 }
 
 void CenterClientMigrationRequest::ArenaDtor(void* object) {
-  CenterClientMigrationRequest* _this = reinterpret_cast< CenterClientMigrationRequest* >(object);
+  const CenterClientMigrationRequest* _this = reinterpret_cast< CenterClientMigrationRequest* >(object);
   (void)_this;
 }
 void CenterClientMigrationRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
@@ -803,7 +803,7 @@ void CenterClientMigrationRequest::SetCachedSize(int size) const {
 
 void CenterClientMigrationRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:protocol.CenterClientMigrationRequest)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -829,7 +829,7 @@ const char* CenterClientMigrationRequest::_InternalParse(const char* ptr, ::PROT
       // string ip = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
-          auto str = _internal_mutable_ip();
+          const auto str = _internal_mutable_ip();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "protocol.CenterClientMigrationRequest.ip"));
           CHK_(ptr);
@@ -838,7 +838,7 @@ const char* CenterClientMigrationRequest::_InternalParse(const char* ptr, ::PROT
       // string server_name = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
-          auto str = _internal_mutable_server_name();
+          const auto str = _internal_mutable_server_name();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "protocol.CenterClientMigrationRequest.server_name"));
           CHK_(ptr);
@@ -870,7 +870,7 @@ failure:
 ::PROTOBUF_NAMESPACE_ID::uint8* CenterClientMigrationRequest::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:protocol.CenterClientMigrationRequest)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // int32 character_id = 1;
@@ -911,7 +911,7 @@ size_t CenterClientMigrationRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:protocol.CenterClientMigrationRequest)
   size_t total_size = 0;
 
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -940,7 +940,7 @@ size_t CenterClientMigrationRequest::ByteSizeLong() const {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
   }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+const int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
@@ -964,7 +964,7 @@ void CenterClientMigrationRequest::MergeFrom(const CenterClientMigrationRequest&
 // @@protoc_insertion_point(class_specific_merge_from_start:protocol.CenterClientMigrationRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (!from.ip().empty()) {
@@ -1080,7 +1080,7 @@ void CenterServerMigrationResponse::SharedDtor() {
 }
 
 void CenterServerMigrationResponse::ArenaDtor(void* object) {
-  CenterServerMigrationResponse* _this = reinterpret_cast< CenterServerMigrationResponse* >(object);
+  const CenterServerMigrationResponse* _this = reinterpret_cast< CenterServerMigrationResponse* >(object);
   (void)_this;
 }
 void CenterServerMigrationResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
@@ -1171,7 +1171,7 @@ failure:
 ::PROTOBUF_NAMESPACE_ID::uint8* CenterServerMigrationResponse::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:protocol.CenterServerMigrationResponse)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // bool success = 1;
@@ -1247,7 +1247,7 @@ size_t CenterServerMigrationResponse::ByteSizeLong() const {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
   }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+const int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
@@ -1271,7 +1271,7 @@ void CenterServerMigrationResponse::MergeFrom(const CenterServerMigrationRespons
 // @@protoc_insertion_point(class_specific_merge_from_start:protocol.CenterServerMigrationResponse)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from._internal_has_server()) {
@@ -1358,7 +1358,7 @@ void CenterServerMigrationRequest::SharedDtor() {
 }
 
 void CenterServerMigrationRequest::ArenaDtor(void* object) {
-  CenterServerMigrationRequest* _this = reinterpret_cast< CenterServerMigrationRequest* >(object);
+  const CenterServerMigrationRequest* _this = reinterpret_cast< CenterServerMigrationRequest* >(object);
   (void)_this;
 }
 void CenterServerMigrationRequest::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
@@ -1369,7 +1369,7 @@ void CenterServerMigrationRequest::SetCachedSize(int size) const {
 
 void CenterServerMigrationRequest::Clear() {
 // @@protoc_insertion_point(message_clear_start:protocol.CenterServerMigrationRequest)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -1416,7 +1416,7 @@ failure:
 ::PROTOBUF_NAMESPACE_ID::uint8* CenterServerMigrationRequest::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:protocol.CenterServerMigrationRequest)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // int32 character_id = 1;
@@ -1437,7 +1437,7 @@ size_t CenterServerMigrationRequest::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:protocol.CenterServerMigrationRequest)
   size_t total_size = 0;
 
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -1452,7 +1452,7 @@ size_t CenterServerMigrationRequest::ByteSizeLong() const {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
   }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+const int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
@@ -1476,7 +1476,7 @@ void CenterServerMigrationRequest::MergeFrom(const CenterServerMigrationRequest&
 // @@protoc_insertion_point(class_specific_merge_from_start:protocol.CenterServerMigrationRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.character_id() != 0) {
@@ -1558,7 +1558,7 @@ void CenterClientMigrationResponse::SharedDtor() {
 }
 
 void CenterClientMigrationResponse::ArenaDtor(void* object) {
-  CenterClientMigrationResponse* _this = reinterpret_cast< CenterClientMigrationResponse* >(object);
+  const CenterClientMigrationResponse* _this = reinterpret_cast< CenterClientMigrationResponse* >(object);
   (void)_this;
 }
 void CenterClientMigrationResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
@@ -1569,7 +1569,7 @@ void CenterClientMigrationResponse::SetCachedSize(int size) const {
 
 void CenterClientMigrationResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:protocol.CenterClientMigrationResponse)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
@@ -1637,7 +1637,7 @@ failure:
 ::PROTOBUF_NAMESPACE_ID::uint8* CenterClientMigrationResponse::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:protocol.CenterClientMigrationResponse)
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   // bool success = 1;
@@ -1698,7 +1698,7 @@ size_t CenterClientMigrationResponse::ByteSizeLong() const {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
   }
-  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
+const int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
@@ -1722,7 +1722,7 @@ void CenterClientMigrationResponse::MergeFrom(const CenterClientMigrationRespons
 // @@protoc_insertion_point(class_specific_merge_from_start:protocol.CenterClientMigrationResponse)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+const ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from.success() != 0) {

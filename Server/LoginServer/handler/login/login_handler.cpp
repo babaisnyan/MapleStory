@@ -12,15 +12,15 @@
 #include "network/login/login_session.h"
 
 void LoginHandler::HandleLogin(const PacketSessionRef& session, const protocol::LoginClientLogin& request) {
-  const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
+  const auto login_session = std::static_pointer_cast<LoginSession>(session);
   protocol::LoginServerLogin response;
   response.set_result(protocol::LOGIN_RESULT_SERVER_ERROR);
 
-  if (auto connection = DbConnectionPool::GetInstance().GetConnection()) {
+  if (const auto connection = DbConnectionPool::GetInstance().GetConnection()) {
     DbBind<2, 2> bind(*connection, L"{CALL dbo.spLogin(?, ?)}");
 
-    const String username = utils::ConvertToWide(request.username()).value_or(L"");
-    const String password = utils::ConvertToWide(request.password()).value_or(L"");
+    const auto username = utils::ConvertToWide(request.username()).value_or(L"");
+    const auto password = utils::ConvertToWide(request.password()).value_or(L"");
     bind.BindParam(0, username.c_str());
     bind.BindParam(1, password.c_str());
 
@@ -35,16 +35,13 @@ void LoginHandler::HandleLogin(const PacketSessionRef& session, const protocol::
         bind.GetResultColumnCount(&count);
 
         if (count > 0 && bind.Fetch()) {
-          switch (static_cast<protocol::LoginResult>(result + 1)) {
-            case protocol::LOGIN_RESULT_SUCCESS:
-              login_session->SetAccountId(account_id);
-              [[fallthrough]];
-            case protocol::LOGIN_RESULT_INVALID_USERNAME: [[fallthrough]];
-            case protocol::LOGIN_RESULT_INVALID_PASSWORD: [[fallthrough]];
-            case protocol::LOGIN_RESULT_ALREADY_LOGGED_IN:
-              response.set_result(static_cast<protocol::LoginResult>(result + 1));
-              break;
+          const auto login_result = static_cast<protocol::LoginResult>(result + 1);
+
+          if (login_result == protocol::LOGIN_RESULT_SUCCESS) {
+            login_session->SetAccountId(account_id);
           }
+
+          response.set_result(login_result);
         }
       } while (bind.GetMoreResult() != SQL_NO_DATA);
     }
@@ -56,10 +53,10 @@ void LoginHandler::HandleLogin(const PacketSessionRef& session, const protocol::
 }
 
 void LoginHandler::HandleCharacterList(const PacketSessionRef& session) {
-  const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
+  const auto login_session = std::static_pointer_cast<LoginSession>(session);
   protocol::LoginServerCharacterList response;
 
-  if (auto connection = DbConnectionPool::GetInstance().GetConnection()) {
+  if (const auto connection = DbConnectionPool::GetInstance().GetConnection()) {
     DbBind<1, 9> bind(*connection, L"{CALL dbo.spGetLoginCharacters(?)}");
 
     int32_t account_id = login_session->GetAccountId();
@@ -93,10 +90,10 @@ void LoginHandler::HandleCharacterList(const PacketSessionRef& session) {
         if (count <= 0) continue;
 
         while (bind.Fetch()) {
-          std::optional<std::string> name_str = utils::ConvertToUtf8(name);
+          auto name_str = utils::ConvertToUtf8(name);
           if (!name_str.has_value()) continue;
 
-          protocol::LoginCharacter* character = response.add_characters();
+          const auto character = response.add_characters();
           auto login_character = std::make_shared<LoginCharacter>(id, name, level, type, job, str, dex, luk, int_);
 
           character->set_id(id);
@@ -137,7 +134,7 @@ void LoginHandler::HandleSelectCharacter(const PacketSessionRef& session, const 
   }
 
   const auto player_ip = utils::ConvertToUtf8(session->GetNetworkAddress().GetIpAddress());
-  const auto sever_name = utils::ConvertToUtf8(L"Game01"); 
+  const auto sever_name = utils::ConvertToUtf8(L"Game01");
 
   if (!player_ip.has_value() || !sever_name.has_value()) {
     login_session->Send(LoginPacketCreator::GetSelectCharFailedResponse());
@@ -151,7 +148,7 @@ void LoginHandler::HandleSelectCharacter(const PacketSessionRef& session, const 
 }
 
 void LoginHandler::HandleDeleteCharacter(const PacketSessionRef& session, const protocol::LoginClientDeleteCharacter& request) {
-  const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
+  const auto login_session = std::static_pointer_cast<LoginSession>(session);
   protocol::LoginServerDeleteCharacter response;
   response.set_success(false);
   response.set_character_id(request.character_id());
@@ -167,7 +164,7 @@ void LoginHandler::HandleDeleteCharacter(const PacketSessionRef& session, const 
   }
 
   if (found) {
-    if (auto connection = DbConnectionPool::GetInstance().GetConnection()) {
+    if (const auto connection = DbConnectionPool::GetInstance().GetConnection()) {
       DbBind<1, 1> bind(*connection, L"{CALL dbo.spDeleteCharacter(?)}");
 
       int32_t character_id = request.character_id();
@@ -197,7 +194,7 @@ void LoginHandler::HandleDeleteCharacter(const PacketSessionRef& session, const 
 }
 
 void LoginHandler::HandleCreateCharacter(const PacketSessionRef& session, const protocol::LoginClientCreateCharacter& request) {
-  const LoginSessionRef login_session = std::static_pointer_cast<LoginSession>(session);
+  const auto login_session = std::static_pointer_cast<LoginSession>(session);
   protocol::LoginServerCreateCharacter response;
   response.set_result(protocol::CREATE_CHAR_RESULT_SERVER_ERROR);
 
@@ -234,7 +231,7 @@ void LoginHandler::HandleCreateCharacter(const PacketSessionRef& session, const 
     }
   }
 
-  if (auto connection = DbConnectionPool::GetInstance().GetConnection()) {
+  if (const auto connection = DbConnectionPool::GetInstance().GetConnection()) {
     DbBind<3, 2> bind(*connection, L"{CALL dbo.spCreateCharacter(?, ?, ?)}");
 
     int32_t account_id = login_session->GetAccountId();
@@ -259,7 +256,7 @@ void LoginHandler::HandleCreateCharacter(const PacketSessionRef& session, const 
     switch (result) {
       case 1: {
         const auto character = LoadSingleCharacter(character_id);
-        auto login_character = response.mutable_character();
+        const auto login_character = response.mutable_character();
 
         if (character.has_value()) {
           response.set_result(protocol::CREATE_CHAR_RESULT_SUCCESS);
@@ -292,7 +289,7 @@ void LoginHandler::HandleCreateCharacter(const PacketSessionRef& session, const 
 std::optional<std::shared_ptr<LoginCharacter>> LoginHandler::LoadSingleCharacter(int32_t character_id) {
   std::optional<std::shared_ptr<LoginCharacter>> ret = std::nullopt;
 
-  if (auto connection = DbConnectionPool::GetInstance().GetConnection()) {
+  if (const auto connection = DbConnectionPool::GetInstance().GetConnection()) {
     DbBind<1, 8> bind(*connection, L"{CALL dbo.spGetLoginCharacter(?)}");
 
     bind.BindParam(0, character_id);

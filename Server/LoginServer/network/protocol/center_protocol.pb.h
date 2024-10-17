@@ -1382,7 +1382,7 @@ inline void CenterServerMigrationResponse::set_character_id(::PROTOBUF_NAMESPACE
 
 // optional .protocol.ServerInfo server = 3;
 inline bool CenterServerMigrationResponse::_internal_has_server() const {
-  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  const bool value = (_has_bits_[0] & 0x00000001u) != 0;
   PROTOBUF_ASSUME(!value || server_ != nullptr);
   return value;
 }
@@ -1463,7 +1463,7 @@ inline void CenterServerMigrationResponse::set_allocated_server(::protocol::Serv
 
 // optional int32 auth_key = 4;
 inline bool CenterServerMigrationResponse::_internal_has_auth_key() const {
-  bool value = (_has_bits_[0] & 0x00000002u) != 0;
+  const bool value = (_has_bits_[0] & 0x00000002u) != 0;
   return value;
 }
 inline bool CenterServerMigrationResponse::has_auth_key() const {
@@ -1559,7 +1559,7 @@ inline void CenterClientMigrationResponse::set_character_id(::PROTOBUF_NAMESPACE
 
 // optional int32 auth_key = 3;
 inline bool CenterClientMigrationResponse::_internal_has_auth_key() const {
-  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  const bool value = (_has_bits_[0] & 0x00000001u) != 0;
   return value;
 }
 inline bool CenterClientMigrationResponse::has_auth_key() const {
