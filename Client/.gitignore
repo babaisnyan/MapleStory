@@ -78,7 +78,4 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
-**/Content/Item/
-**/Content/Mob/
-**/Content/Npc/
-**/Content/Sound/
+**/Content/

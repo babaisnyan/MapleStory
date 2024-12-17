@@ -401,7 +401,4 @@ FodyWeavers.xsd
 
 Tools/.venv/
 
-**/Content/Item/
-**/Content/Mob/
-**/Content/Npc/
-**/Content/Sound/
+**/Content/
