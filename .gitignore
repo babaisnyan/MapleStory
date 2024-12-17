@@ -400,3 +400,8 @@ FodyWeavers.xsd
 .vscode
 
 Tools/.venv/
+
+**/Content/Item/
+**/Content/Mob/
+**/Content/Npc/
+**/Content/Sound/
