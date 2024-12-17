@@ -4,7 +4,7 @@
 void DeadLockProfiler::PushLock(const char* name) {
   LockGuard guard(_lock);
 
-  int32_t lock_id = 0;
+  int32_t lock_id;
 
   const auto find_it = _name_to_id.find(name);
 

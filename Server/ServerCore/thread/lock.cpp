@@ -33,7 +33,7 @@ void Lock::WriteLock(const char* name) {
       CRASH("LOCK_TIMEOUT");
     }
 
-    std::this_thread::yield();
+    _mm_pause();
   }
 }
 

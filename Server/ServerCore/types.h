@@ -39,4 +39,4 @@ DECLARE_CONST_SHARED_PTR(Session);
 #define length16(arr) static_cast<int16_t>(sizeof(arr) / sizeof((arr)[0]))
 #define length32(arr) static_cast<int32_t>(sizeof(arr) / sizeof((arr)[0]))
 
-#define _STOMP
+// #define _STOMP
